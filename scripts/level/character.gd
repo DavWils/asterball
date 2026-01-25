@@ -13,10 +13,11 @@ class_name Character
 @export var vertical_control_rotation: bool = false
 
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
-var owning_player := -1
+var owning_player_id := -1
+
+var registry_id: int
 
 func _ready() -> void:
-	print("Spawned char")
 	pass
 
 ## Sets whether or not the camera is currently being used.
@@ -32,4 +33,10 @@ func _exit_tree() -> void:
 
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary):
-	pass
+	print(registry_id, ": ", input)
+	# Start with movement offset.
+	var move_input: Vector2 = input["mv"]
+	if not move_input.is_zero_approx():
+		var world_offset: Vector3 = Vector3.ZERO + (self.transform.basis.x*move_input.x) + (self.transform.basis.z*move_input.y)
+		print("world offset: ", world_offset)
+		self.global_position += world_offset*3

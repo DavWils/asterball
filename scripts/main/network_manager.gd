@@ -121,7 +121,7 @@ func send_p2p_packet(target: int, packet: Dictionary, send_type:=Steam.P2P_SEND_
 		if lobby_members.size()>1:
 			for member in lobby_members:
 				if member['steam_id'] != player_id:
-					print("< Sending packet '"+packet["message"]+"' to "+Steam.getFriendPersonaName(member['steam_id']))
+					print("< Sending packet '"+packet["m"]+"' to "+Steam.getFriendPersonaName(member['steam_id']))
 					Steam.sendP2PPacket(member['steam_id'], packet_data, send_type, channel)
 	else: # Send to target.
 		Steam.sendP2PPacket(target, packet_data, send_type, channel)
@@ -133,7 +133,7 @@ func _on_p2p_session_request(remote_id: int):
 
 # Send a handshake to everyone.
 func make_p2p_handshake():
-	send_p2p_packet(0, {"message": "handshake", "steam_id": player_id, "username": player_username})
+	send_p2p_packet(0, {"m": MSG_HANDSHAKE, "steam_id": player_id, "username": player_username})
 
 # Keep reading packets.
 func read_all_p2p_packets(read_count: int = 0):
@@ -150,21 +150,28 @@ func read_p2p_packet():
 	if packet_size > 0:
 		var packet := Steam.readP2PPacket(packet_size,0)
 		var sender_id: int = packet['remote_steam_id']
-		#var packet_sender: int = packet['remote_steam_id']
 		var packet_code: PackedByteArray = packet['data']
 		var readable_data: Dictionary = bytes_to_var(packet_code)
 		
-		if readable_data.has("message"):
-			print("> Recieved packet "+str(readable_data["message"])+" from "+Steam.getFriendPersonaName(sender_id))
-			match readable_data["message"]:
-				"handshake": # Handshake.
+		if readable_data.has("m"):
+			print("> Recieved packet "+str(readable_data["m"])+" from "+Steam.getFriendPersonaName(sender_id))
+			match readable_data["m"]:
+				MSG_HANDSHAKE: # Handshake.
 					get_lobby_members()
 					if is_host():
-						send_p2p_packet(0, {"message": "handshake_ack"})
-				"handshake_ack": # Handshake acknowledgement sent from the host.
-					print(Steam.getFriendPersonaName(sender_id), "has acknowledged the handshake.")
-				"input_request":
-					print("Player has requested input")
+						send_p2p_packet(0, {"m": MSG_HANDSHAKE_ACK})
+				MSG_HANDSHAKE_ACK: # Handshake acknowledgement sent from the host.
+					print(Steam.getFriendPersonaName(sender_id), "has acknowledged the handshake from ", sender_id, ".")
+				MSG_SPAWN_CHAR:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						level.spawn_character(readable_data["char_path"], readable_data["owner_id"], readable_data["position"], readable_data["registry_id"])
+				MSG_CHAR_INPUT: # A client sends their input for their character.
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level[readable_data["registry_id"]]
+						if character.owning_player_id == sender_id:
+							character.use_player_input(readable_data["in"])
 
 ## Checks to see if host is still in the session. Otherwise, elect a new host.
 func validate_host():
@@ -180,3 +187,13 @@ func validate_host():
 #	ids.sort()
 #	host_id = ids[0]
 #	print(Steam.getFriendPersonaName(host_id)+" is the new host.")
+
+
+
+
+
+# A list of constants to use 
+const MSG_HANDSHAKE := 0 # Handshake
+const MSG_HANDSHAKE_ACK := 1 # Handshake Acknowledgement
+const MSG_SPAWN_CHAR := 2 # Spawn a character.
+const MSG_CHAR_INPUT := 3 # Client to Server character input

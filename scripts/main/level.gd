@@ -15,6 +15,8 @@ class_name Level
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
 @export var intermission_wait_time := 10.0
 
+var level_registry: Dictionary[int, Node3D]
+
 func _ready() -> void:
 	print("Level has been loaded.")
 	await get_tree().create_timer(pregame_wait_time).timeout
@@ -48,9 +50,37 @@ func clean_level() -> void:
 
 ## Spawns a character for each player.
 func spawn_omnistrikers() -> void:
-	for player in $MatchState.player_states:
-		var player_char: Omnistriker = load("res://scenes/level/characters/omnistriker.tscn").instantiate()
-		player_char.position = Vector3(player%4, 0, player%6)
-		player_char.owning_player = player
-		
-		add_child(player_char)
+	var omnistriker_path := "res://scenes/level/characters/omnistriker.tscn"
+	for player_id in $MatchState.player_states:
+		spawn_character(omnistriker_path, player_id, Vector3(player_id%12, 0, player_id%10))
+
+## Spawns the given character and adds it to the character registry.
+func spawn_character(character_path: String, owner_id := -1, position := Vector3.ZERO, registry_id := get_unused_registry_id()):
+	print("Spawning a new character with id ", registry_id)
+	
+	var character: Character = load(character_path).instantiate()
+	character.registry_id = registry_id
+	character.owning_player_id = owner_id
+	character.position = position
+	character.transform = character.transform.looking_at(Vector3(0,character.position.y,0))
+	
+	add_child(character)
+	
+	# If we're the host, let clients know to spawn the character.
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, 
+		{
+			"t": network_manager.MSG_SPAWN_CHAR,
+			"char_path": character_path,
+			"registry_id": registry_id,
+			"owner_id": owner_id,
+			"position": position
+		}
+		)
+
+## Returns a registry id thats not used.
+func get_unused_registry_id() -> int:
+	var new_id := 0
+	while level_registry.has(new_id):
+		new_id += 1
+	return new_id

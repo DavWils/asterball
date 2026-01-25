@@ -32,22 +32,21 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(_delta: float) -> void:
 	# Get input and either use it or send it to host.
 	if current_character:
-		# Movement input.
-		var move_input := Vector2(
-		Input.get_action_strength("move_right") -
-		Input.get_action_strength("move_left"),
-		Input.get_action_strength("move_forward") -
-		Input.get_action_strength("move_backward")
-		)
 		# Create input dictionary
 		var input_dictionary: Dictionary
-		input_dictionary["move"] = move_input
-		input_dictionary["look"] = look_input
+		input_dictionary["mv"] = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+		input_dictionary["lk"] = look_input
 		look_input = Vector2.ZERO
 		
 		# If host, use input. Else, send it to host.
 		if network_manager.is_host():
 			current_character.use_player_input(input_dictionary)
 		else:
-			print("NOTHOST")
-			network_manager.send_p2p_packet(0, {"message": "send_player_character_input", "player_input": input_dictionary})
+			network_manager.send_p2p_packet(
+				network_manager.host_id,
+				{
+					"m": network_manager.MSG_CHAR_INPUT, # Message. Player input.
+					"id": current_character.registry_id,
+					"in": input_dictionary
+				}
+			)
