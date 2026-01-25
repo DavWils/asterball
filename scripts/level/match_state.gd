@@ -25,6 +25,8 @@ func to_dict() -> Dictionary:
 ## Converts a dictionary to the match state.
 func from_dict(data: Dictionary) -> void:
 	for key in data:
+		if key == "script": # Don't add script.
+			continue
 		set(key, data[key])
 
 func _ready() -> void:

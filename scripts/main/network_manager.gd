@@ -105,6 +105,7 @@ func get_lobby_members():
 		lobby_members.append({"steam_id": player_id, "steam_name": "Player"})
 		return
 	var lobby_count := Steam.getNumLobbyMembers(lobby_id)
+	print("Host is ", Steam.getFriendPersonaName(host_id), " or by steam standards, ", Steam.getFriendPersonaName(Steam.getLobbyOwner(lobby_id)))
 	print("Current members: ")
 	for member in range(0,lobby_count):
 		var member_id := Steam.getLobbyMemberByIndex(lobby_id, member)
@@ -121,7 +122,7 @@ func send_p2p_packet(target: int, packet: Dictionary, send_type:=Steam.P2P_SEND_
 		if lobby_members.size()>1:
 			for member in lobby_members:
 				if member['steam_id'] != player_id:
-					print("< Sending packet '"+packet["m"]+"' to "+Steam.getFriendPersonaName(member['steam_id']))
+					if send_type == Steam.P2P_SEND_RELIABLE: print("< Sending packet '",packet["m"],"' to "+Steam.getFriendPersonaName(member['steam_id']))
 					Steam.sendP2PPacket(member['steam_id'], packet_data, send_type, channel)
 	else: # Send to target.
 		Steam.sendP2PPacket(target, packet_data, send_type, channel)
