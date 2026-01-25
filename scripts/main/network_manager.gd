@@ -179,7 +179,6 @@ func read_p2p_packet():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						for id in network_registry:
 							if level.level_registry.has(id):
-								print("Retrieving state of ", level.level_registry[id].name)
 								if level.level_registry[id] is Character:
 									# If this is our local character we should rubberband more subtlely.
 									if level.level_registry[id].is_locally_possessed():

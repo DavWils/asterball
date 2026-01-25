@@ -86,7 +86,16 @@ func use_player_input(input: Dictionary, delta: float) -> void:
 		velocity.z = direction.z * walk_speed
 
 	move_and_slide()
-	print("speed: ", current_charge_speed, ". Velocity is: ", self.velocity.length())
+	
+	# If colliding a character, charge into them.
+	if network_manager.is_host():
+		for i in range(get_slide_collision_count()):
+			var collision := get_slide_collision(i)
+			var collider := collision.get_collider()
+			
+			if charging and collider is Character:
+				on_charge_collide(collider, collision)
+	
 		
 	# Look input.
 	var look_input: Vector2 = input.get("lk", Vector2.ZERO)
@@ -120,3 +129,6 @@ func to_dict() -> Dictionary:
 ## Loads character variables based on the given dictionary.
 func from_dict(data: Dictionary) -> void:
 	owning_player_id = data["owner_id"]
+
+func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
+	print(Steam.getFriendPersonaName(owning_player_id), " has charged into ", Steam.getFriendPersonaName(collider.owning_player_id))

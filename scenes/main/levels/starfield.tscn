@@ -9,7 +9,7 @@ size = Vector2(40, 100)
 size = Vector3(40, 1, 100)
 
 [node name="Level" instance=ExtResource("1_5sngl")]
-pregame_wait_time = 2.0
+pregame_wait_time = 7.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="0"]
 mesh = SubResource("PlaneMesh_5sngl")
