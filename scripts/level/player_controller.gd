@@ -34,8 +34,9 @@ func _physics_process(delta: float) -> void:
 	if current_character:
 		# Create input dictionary
 		var input_dictionary: Dictionary
-		input_dictionary["mv"] = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-		input_dictionary["lk"] = look_input
+		input_dictionary["mv"] = Input.get_vector("move_left", "move_right", "move_forward", "move_backward") # Movement input.
+		input_dictionary["lk"] = look_input # Looking input.
+		input_dictionary["ch"] = Input.is_action_pressed("charge") # Charging input.
 		look_input = Vector2.ZERO
 		
 		# Use input.

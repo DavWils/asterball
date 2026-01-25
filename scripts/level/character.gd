@@ -10,10 +10,10 @@ class_name Character
 @export var walk_speed := 1
 ## The maximum base charging speed of the character, not including any buffs.
 @export var base_charge_speed := 24.0
+## The base acceleration of the character when charging.(m/2^2)
+@export var base_charge_acceleration := 2
 ## Whether or not this character can rotate on the x axis as opposed to being applied to control rotation.
 @export var use_pitch_rotation: bool = false
-
-const gravity_acceleration := 9.8
 
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
 var owning_player_id := -1
@@ -21,6 +21,9 @@ var owning_player_id := -1
 var registry_id: int
 ## The current control rotation of the character.
 var control_pitch := 0.0
+
+## Server side current charge speed.
+var current_charge_speed := 0.0
 
 func _ready() -> void:
 	print("Spawning character owned by ", owning_player_id)
@@ -44,24 +47,46 @@ func _physics_process(delta: float):
 		velocity.y -= level.gravity_acceleration*delta
 	else:
 		velocity.y = 0
+	
+	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
+	if not network_manager.is_host():
+		current_charge_speed = self.velocity.length()
 
 # Makes the character move based on player input.
-func use_player_input(input: Dictionary, _delta: float) -> void:
+func use_player_input(input: Dictionary, delta: float) -> void:
 	# Movement input.
 	var move_input: Vector2 = input.get("mv", Vector2.ZERO)
+	var charging: bool = input.get("ch", false)
+
 	var direction := Vector3.ZERO
 
-	if not move_input.is_zero_approx():
-		direction = (
-			transform.basis.x * move_input.x +
-			transform.basis.z * move_input.y
-		).normalized()
+	if charging:
+		# Forward only (Z+ in Godot)
+		direction = transform.basis.z
 
-	velocity.x = direction.x * walk_speed
-	velocity.z = direction.z * walk_speed
+		# Ramp speed up over time
+		current_charge_speed = min(
+			current_charge_speed + delta * base_charge_acceleration,
+			base_charge_speed
+		)
 
-	# --- Move with collisions ---
+		velocity.x = direction.x * -current_charge_speed
+		velocity.z = direction.z * -current_charge_speed
+	else:
+		# Reset charge when not charging
+		current_charge_speed = walk_speed
+
+		if not move_input.is_zero_approx():
+			direction = (
+				transform.basis.x * move_input.x +
+				transform.basis.z * move_input.y
+			).normalized()
+
+		velocity.x = direction.x * walk_speed
+		velocity.z = direction.z * walk_speed
+
 	move_and_slide()
+	print("speed: ", current_charge_speed, ". Velocity is: ", self.velocity.length())
 		
 	# Look input.
 	var look_input: Vector2 = input.get("lk", Vector2.ZERO)

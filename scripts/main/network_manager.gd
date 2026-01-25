@@ -187,6 +187,7 @@ func read_p2p_packet():
 									else:
 										level.level_registry[id].position = network_registry[id]["p"]
 										level.level_registry[id].rotation = network_registry[id]["r"]
+										level.level_registry[id].velocity = network_registry[id]["vel"]
 										level.level_registry[id].control_pitch = network_registry[id]["pcr"]
 				MSG_REQUEST_GAME_INFO: # Client requesting game info from server.
 					var level: Level = get_tree().current_scene.get_node("Level")
