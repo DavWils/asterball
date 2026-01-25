@@ -1,10 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://euuuovtf2oyo"]
+[gd_scene load_steps=2 format=3 uid="uid://euuuovtf2oyo"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_ubdft"]
-[ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_gmwsl"]
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_ubdft")
-
-[node name="MatchState" type="Node" parent="."]
-script = ExtResource("2_gmwsl")

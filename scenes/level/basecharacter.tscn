@@ -1,6 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://on8wykmjn5go"]
+[gd_scene load_steps=3 format=3 uid="uid://on8wykmjn5go"]
 
 [ext_resource type="Script" uid="uid://bnbyil81cayt3" path="res://scripts/level/character.gd" id="1_hqcqr"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hqcqr"]
+
 [node name="Character" type="Node3D"]
 script = ExtResource("1_hqcqr")
+
+[node name="CameraHandle" type="Node3D" parent="."]
+
+[node name="PlayerCamera" type="Camera3D" parent="CameraHandle"]
+
+[node name="CharacterMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_hqcqr")

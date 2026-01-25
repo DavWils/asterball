@@ -4,6 +4,8 @@ extends Node
 
 class_name MatchState
 
+@onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
+
 var player_states: Dictionary[int, PlayerState]
 
 ## The current score of the home team.
@@ -24,3 +26,20 @@ func to_dict() -> Dictionary:
 func from_dict(data: Dictionary) -> void:
 	for key in data:
 		set(key, data[key])
+
+func _ready() -> void:
+	# When someone joins we want to add them.
+	Steam.lobby_chat_update.connect(_on_lobby_chat_update)
+
+	# Add a player state for each player.
+	if network_manager.is_host():
+		for member in network_manager.lobby_members:
+			add_player_state(member["steam_id"])
+
+## Adds a new player state to the player state array.
+func add_player_state(id: int) -> void:
+	player_states[id] = PlayerState.new()
+
+func _on_lobby_chat_update(_id: int, changed_id: int, _change_maker_id: int, _chat_state: int):
+	if not player_states.has(changed_id):
+		add_player_state(changed_id)

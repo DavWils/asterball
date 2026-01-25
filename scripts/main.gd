@@ -2,7 +2,8 @@ extends Node
 
 ## Opens a level with the given string name.
 func open_level(level: String):
-	load("res://scenes/main/levels/"+level+".tscn")
+	var new_level = load("res://scenes/main/levels/"+level+".tscn").instantiate()
+	add_child(new_level)
 
-func _ready():
+func _ready() -> void:
 	open_level("starfield")

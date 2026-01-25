@@ -1,5 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dolnkblhfe1c6"]
+[gd_scene load_steps=3 format=3 uid="uid://dolnkblhfe1c6"]
 
 [ext_resource type="PackedScene" uid="uid://u6kaxkr2k4w7" path="res://scenes/main/baselevel.tscn" id="1_5sngl"]
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_5sngl"]
+size = Vector2(100, 40)
+
 [node name="Level" instance=ExtResource("1_5sngl")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="0"]
+mesh = SubResource("PlaneMesh_5sngl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1.1513889, 0)
