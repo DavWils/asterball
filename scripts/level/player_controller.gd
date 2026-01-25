@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 		# If we're not the host, send the host our input as well.
 		if not network_manager.is_host():
 			network_manager.send_p2p_packet(
-				network_manager.host_id,
+				network_manager.get_host_id(),
 				{
 					"m": network_manager.MSG_CLIENT_CHAR_INPUT, # Message. Player input.
 					"id": current_character.registry_id, # Character id

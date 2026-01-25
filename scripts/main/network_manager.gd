@@ -202,8 +202,11 @@ func read_p2p_packet():
 					level.get_node("MatchState").from_dict(readable_data["ms"]) # Retrieve match state.
 					var initial_registry: Dictionary = readable_data["ri"]
 					for id in initial_registry:
-						var new_scene = load(initial_registry[id]["path"]).add_child()
+						var new_scene = load(initial_registry[id]["path"]).instantiate()
 						level.add_child(new_scene)
+
+func get_host_id() -> int:
+	return Steam.getLobbyOwner(lobby_id)
 
 
 ## Checks to see if host is still in the session. Otherwise, elect a new host.
