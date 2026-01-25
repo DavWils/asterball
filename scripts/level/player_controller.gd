@@ -8,6 +8,9 @@ class_name PlayerController
 ## The currently controlled character.
 var current_character: Character
 
+## The current look delta that is saved until a movement input is calculated.
+var look_input := Vector2.ZERO
+
 ## Possesses the given character.
 func possess_character(character: Character) -> void:
 	if current_character:
@@ -21,3 +24,30 @@ func unpossess_character() -> void:
 	current_character.set_current_camera(false)
 	current_character = null
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and current_character:
+		look_input += event.relative
+
+func _physics_process(_delta: float) -> void:
+	# Get input and either use it or send it to host.
+	if current_character:
+		# Movement input.
+		var move_input := Vector2(
+		Input.get_action_strength("move_right") -
+		Input.get_action_strength("move_left"),
+		Input.get_action_strength("move_forward") -
+		Input.get_action_strength("move_backward")
+		)
+		# Create input dictionary
+		var input_dictionary: Dictionary
+		input_dictionary["move"] = move_input
+		input_dictionary["look"] = look_input
+		look_input = Vector2.ZERO
+		
+		# If host, use input. Else, send it to host.
+		if network_manager.is_host():
+			current_character.use_player_input(input_dictionary)
+		else:
+			print("NOTHOST")
+			network_manager.send_p2p_packet(0, {"message": "send_player_character_input", "player_input": input_dictionary})

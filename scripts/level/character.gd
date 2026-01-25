@@ -12,7 +12,6 @@ class_name Character
 ## Whether or not this character rotates on the x axis when given control rotation.
 @export var vertical_control_rotation: bool = false
 
-
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
 var owning_player := -1
 
@@ -31,6 +30,6 @@ func is_locally_possessed() -> bool:
 func _exit_tree() -> void:
 	if is_locally_possessed(): player_controller.unpossess_character()
 
-func set_control_rotation():
-	var trans: Transform3D
-	trans.basis
+# Makes the character move based on player input.
+func use_player_input(input: Dictionary):
+	pass
