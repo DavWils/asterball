@@ -155,14 +155,14 @@ func read_p2p_packet():
 		var readable_data: Dictionary = bytes_to_var(packet_code)
 		
 		if readable_data.has("m"):
-			print("> Recieved packet "+str(readable_data["m"])+" from "+Steam.getFriendPersonaName(sender_id))
+			#print("> Recieved packet "+str(readable_data["m"])+" from "+Steam.getFriendPersonaName(sender_id))
 			match readable_data["m"]:
 				MSG_HANDSHAKE: # Handshake.
 					get_lobby_members()
 					if is_host():
 						send_p2p_packet(0, {"m": MSG_HANDSHAKE_ACK})
 				MSG_HANDSHAKE_ACK: # Handshake acknowledgement sent from the host.
-					print(Steam.getFriendPersonaName(sender_id), "has acknowledged the handshake from ", sender_id, ".")
+					print(Steam.getFriendPersonaName(sender_id), " has acknowledged the handshake from ", sender_id, ".")
 				MSG_SPAWN_CHAR:
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -170,7 +170,7 @@ func read_p2p_packet():
 				MSG_CLIENT_CHAR_INPUT: # A client sends their input for their character.
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
-						var character: Character = level[readable_data["registry_id"]]
+						var character: Character = level.level_registry[readable_data["id"]]
 						if character.owning_player_id == sender_id:
 							character.use_player_input(readable_data["in"], readable_data["d"])
 				MSG_REGISTRY_UPDATE: # A registry update from host, updating the state of each item.
@@ -179,7 +179,7 @@ func read_p2p_packet():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						for id in network_registry:
 							if level.level_registry.has(id):
-								print("Retrieving state of ", level[id].name)
+								print("Retrieving state of ", level.level_registry[id].name)
 								if level.level_registry[id] is Character:
 									# If this is our local character we should rubberband more subtlely.
 									if level.level_registry[id].is_locally_possessed():
@@ -187,13 +187,14 @@ func read_p2p_packet():
 									else:
 										level.level_registry[id].position = network_registry[id]["p"]
 										level.level_registry[id].rotation = network_registry[id]["r"]
-										level.level_registry[id].control_pitch = network_registry[id]["pr"]
+										level.level_registry[id].control_pitch = network_registry[id]["pcr"]
 				MSG_REQUEST_GAME_INFO: # Client requesting game info from server.
 					var level: Level = get_tree().current_scene.get_node("Level")
 					var match_state_dict: Dictionary = level.get_node("MatchState").to_dict() # Get the match state in dictionary form.
 					var registry_initial: Dictionary
 					for id in level.level_registry:
 						var registry_scene = level.level_registry[id]
+						registry_initial[id] = {}
 						registry_initial[id]["path"] = registry_scene.scene_file_path
 					send_p2p_packet(sender_id, {"m": MSG_RETRIEVE_GAME_INFO, "ri": registry_initial, "ms": match_state_dict})
 				MSG_RETRIEVE_GAME_INFO: # Client retrieves info from server.

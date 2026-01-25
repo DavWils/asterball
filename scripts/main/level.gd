@@ -9,7 +9,7 @@ class_name Level
 ## The furthest depth a character can go before they're killed.
 @export var kill_depth := -100.0
 ## The amount of timet o wait before starting the game.
-@export var pregame_wait_time := 3.0
+@export var pregame_wait_time := 4.0
 ## The amount of time to wait after a score until the next round begins.
 @export var score_wait_time := 5.0
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
@@ -28,6 +28,7 @@ func _physics_process(_delta: float) -> void:
 	if network_manager.is_host():
 		var network_registry: Dictionary
 		for id in level_registry:
+			network_registry[id] = {}
 			network_registry[id]["p"] = level_registry[id].position # Position
 			network_registry[id]["r"] = level_registry[id].rotation # Rotation
 			if level_registry[id] is Character:
@@ -62,7 +63,8 @@ func clean_level() -> void:
 ## Spawns a character for each player.
 func spawn_omnistrikers() -> void:
 	var omnistriker_path := "res://scenes/level/characters/omnistriker.tscn"
-	for player_id in $MatchState.player_states:
+	for member in network_manager.lobby_members:
+		var player_id = member["steam_id"]
 		spawn_character(omnistriker_path, player_id, Vector3(player_id%12, 0, player_id%10))
 
 ## Spawns the given character and adds it to the character registry.
@@ -75,6 +77,7 @@ func spawn_character(character_path: String, owner_id := -1, position := Vector3
 	character.position = position
 	character.transform = character.transform.looking_at(Vector3(0,character.position.y,0))
 	
+	level_registry[registry_id] = character
 	add_child(character)
 	
 	# If we're the host, let clients know to spawn the character.

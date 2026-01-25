@@ -32,6 +32,8 @@ func is_locally_possessed() -> bool:
 
 func _exit_tree() -> void:
 	if is_locally_possessed(): player_controller.unpossess_character()
+	var level: Level = get_tree().current_scene.get_node("Level")
+	level.level_registry.erase(registry_id)
 
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary, delta: float) -> void:
