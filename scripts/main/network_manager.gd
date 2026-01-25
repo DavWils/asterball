@@ -196,6 +196,7 @@ func read_p2p_packet():
 						var registry_scene = level.level_registry[id]
 						registry_initial[id] = {}
 						registry_initial[id]["path"] = registry_scene.scene_file_path
+						registry_initial[id]["data"] = registry_scene.to_dict()
 					send_p2p_packet(sender_id, {"m": MSG_RETRIEVE_GAME_INFO, "ri": registry_initial, "ms": match_state_dict})
 				MSG_RETRIEVE_GAME_INFO: # Client retrieves info from server.
 					var level: Level = get_tree().current_scene.get_node("Level")
@@ -203,6 +204,7 @@ func read_p2p_packet():
 					var initial_registry: Dictionary = readable_data["ri"]
 					for id in initial_registry:
 						var new_scene = load(initial_registry[id]["path"]).instantiate()
+						new_scene.from_dict(initial_registry[id]["data"])
 						level.add_child(new_scene)
 
 func get_host_id() -> int:

@@ -83,3 +83,15 @@ func use_player_input(input: Dictionary, _delta: float) -> void:
 				-deg_to_rad(89.0),
 				deg_to_rad(89.0)
 			)
+
+## Converts character information to a dictionary that can be loaded by players joining the game. Used for time-specific parts like held item, etc. Position isn't exactly needed as it's updated each physics process.
+func to_dict() -> Dictionary:
+	var character_data: Dictionary
+	
+	character_data["owner_id"] = owning_player_id
+	
+	return character_data
+
+## Loads character variables based on the given dictionary.
+func from_dict(data: Dictionary) -> void:
+	owning_player_id = data["owner_id"]
