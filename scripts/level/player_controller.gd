@@ -29,7 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and current_character:
 		look_input += event.relative
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	# Get input and either use it or send it to host.
 	if current_character:
 		# Create input dictionary
@@ -38,15 +38,16 @@ func _physics_process(_delta: float) -> void:
 		input_dictionary["lk"] = look_input
 		look_input = Vector2.ZERO
 		
-		# If host, use input. Else, send it to host.
-		if network_manager.is_host():
-			current_character.use_player_input(input_dictionary)
-		else:
+		# Use input.
+		current_character.use_player_input(input_dictionary, delta)
+		# If we're not the host, send the host our input as well.
+		if not network_manager.is_host():
 			network_manager.send_p2p_packet(
 				network_manager.host_id,
 				{
-					"m": network_manager.MSG_CHAR_INPUT, # Message. Player input.
-					"id": current_character.registry_id,
-					"in": input_dictionary
+					"m": network_manager.MSG_CLIENT_CHAR_INPUT, # Message. Player input.
+					"id": current_character.registry_id, # Character id
+					"d": delta,
+					"in": input_dictionary # Input
 				}
 			)

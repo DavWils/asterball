@@ -23,6 +23,17 @@ func _ready() -> void:
 	if network_manager.is_host():
 		start_game()
 
+func _physics_process(_delta: float) -> void:
+	# Send registry info to clients
+	if network_manager.is_host():
+		var network_registry: Dictionary
+		for id in level_registry:
+			network_registry[id]["p"] = level_registry[id].position # Position
+			network_registry[id]["r"] = level_registry[id].rotation # Rotation
+			if level_registry[id] is Character:
+				network_registry[id]["pcr"] = 0 # Pitch Control Rotation if its a character.
+		network_manager.send_p2p_packet(0, {"m": network_manager.MSG_REGISTRY_UPDATE, "r": network_registry}, Steam.P2P_SEND_UNRELIABLE)
+
 ## Starts the game.
 func start_game() -> void:
 	next_round()
@@ -70,7 +81,7 @@ func spawn_character(character_path: String, owner_id := -1, position := Vector3
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, 
 		{
-			"t": network_manager.MSG_SPAWN_CHAR,
+			"m": network_manager.MSG_SPAWN_CHAR,
 			"char_path": character_path,
 			"registry_id": registry_id,
 			"owner_id": owner_id,
