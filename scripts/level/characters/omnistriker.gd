@@ -3,11 +3,9 @@ extends Character
 class_name Omnistriker
 
 func _ready() -> void:
-	print("Hello")
 	super._ready()
 	Steam.lobby_chat_update.connect(_on_lobby_chat_update)
 	# When omnistriker spawns they are instantly possessed.
-	print(owning_player_id == network_manager.player_id)
 	if owning_player_id == network_manager.player_id:
 		player_controller.possess_character(self)
 

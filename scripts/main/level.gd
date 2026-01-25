@@ -9,13 +9,17 @@ class_name Level
 ## The furthest depth a character can go before they're killed.
 @export var kill_depth := -100.0
 ## The amount of timet o wait before starting the game.
-@export var pregame_wait_time := 4.0
+@export var pregame_wait_time := 10.0
 ## The amount of time to wait after a score until the next round begins.
 @export var score_wait_time := 5.0
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
 @export var intermission_wait_time := 10.0
+## The standard acceleration of gravity on this map.
+@export var gravity_acceleration := 10.0
 
 var level_registry: Dictionary[int, Node3D]
+
+
 
 func _ready() -> void:
 	print("Level has been loaded.")
