@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://on8wykmjn5go"]
+[gd_scene load_steps=4 format=3 uid="uid://on8wykmjn5go"]
 
 [ext_resource type="Script" uid="uid://bnbyil81cayt3" path="res://scripts/level/character.gd" id="1_hqcqr"]
+[ext_resource type="Script" uid="uid://755ian66gy8i" path="res://scripts/character/character_camera.gd" id="2_5faxe"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hqcqr"]
 
@@ -8,6 +9,7 @@
 script = ExtResource("1_hqcqr")
 
 [node name="CameraHandle" type="Node3D" parent="."]
+script = ExtResource("2_5faxe")
 
 [node name="PlayerCamera" type="Camera3D" parent="CameraHandle"]
 

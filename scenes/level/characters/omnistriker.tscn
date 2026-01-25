@@ -1,12 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://ybt1ggcc5aoh"]
 
 [ext_resource type="PackedScene" uid="uid://on8wykmjn5go" path="res://scenes/level/basecharacter.tscn" id="1_4276t"]
-[ext_resource type="Script" uid="uid://da62kjo61h2uj" path="res://scripts/level/characters/omnistriker.gd" id="2_tekpr"]
+[ext_resource type="Script" uid="uid://da62kjo61h2uj" path="res://scripts/characters/omnistriker.gd" id="2_tekpr"]
 
 [node name="Character" instance=ExtResource("1_4276t")]
 script = ExtResource("2_tekpr")
-walk_speed = null
-base_charge_speed = null
 
 [node name="CameraHandle" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
