@@ -50,7 +50,7 @@ func _physics_process(delta: float):
 		velocity.y -= level.gravity_acceleration*delta
 	else:
 		velocity.y = 0
-	if network_manager.is_host():
+	if network_manager.is_host() or is_locally_possessed():
 		move_and_slide()
 
 	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
@@ -138,7 +138,14 @@ func from_dict(data: Dictionary) -> void:
 func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
 	if not collider.is_tackled:
 		print(Steam.getFriendPersonaName(owning_player_id), " has charged into ", Steam.getFriendPersonaName(collider.owning_player_id))
-		collider.tackle(self, 4.0)
+		var hit_direction := (collider.global_position-global_position).normalized() # The direction from self to collider.
+		
+		var self_velocity := velocity.dot(hit_direction)
+		var collider_velocity := collider.velocity.dot(-hit_direction)
+		
+		if self_velocity > collider_velocity and self_velocity > MINIMUM_TACKLE_SPEED:
+			print("Colliding with ", self_velocity, "+", collider_velocity)
+			collider.tackle(self, self_velocity + collider_velocity)
 
 ## Called when self is tackled by another node.
 func tackle(tackler: Node3D, tackle_force: float) -> void:
