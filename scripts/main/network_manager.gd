@@ -9,11 +9,14 @@ const PACKET_READ_LIMIT := 32
 ## Maximum player count.
 const MAX_LOBBY_MEMBERS := 24
 
+## The id of the current lobby.
 var lobby_id := 0
+## List of members in this lobby.
 var lobby_members := []
 
-
+## Self's player id.
 var player_id := 0
+## Self's username.
 var player_username := ""
 
 func _init():
@@ -49,6 +52,9 @@ func connect_to_steam():
 func is_host(id := player_id):
 	return id == Steam.getLobbyOwner(lobby_id)
 
+func get_host_id() -> int:
+	return Steam.getLobbyOwner(lobby_id)
+
 ## Create a steam lobby.
 func create_lobby():
 	if lobby_id == 0:
@@ -63,11 +69,11 @@ func _on_lobby_created(success: int, id: int):
 		Steam.setLobbyData(lobby_id,"name",player_username+"'s Lobby")
 		var _set_relay := Steam.allowP2PPacketRelay(true)
 
-# Join a steam lobby.
+## Join a steam lobby.
 func join_lobby(id: int):
 	Steam.joinLobby(id)
 
-# When we join a lobby we set ourselves as a part of it.
+## When we join a lobby we set ourselves as a part of it.
 func _on_lobby_joined(id: int, _permissions: int, _locked: bool, response: int):
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		lobby_id = id
@@ -75,7 +81,7 @@ func _on_lobby_joined(id: int, _permissions: int, _locked: bool, response: int):
 		get_lobby_members() # Update lobby array.
 		make_p2p_handshake() # Announce that we are part of the lobby.
 
-# When a player's status changes we are notified.
+## When a player's status changes we are notified.
 func _on_lobby_chat_update(_id: int, changed_id: int, change_maker_id: int, chat_state: int):
 	var changed_name = Steam.getFriendPersonaName(changed_id)
 	var change_maker_name = Steam.getFriendPersonaName(change_maker_id)
@@ -92,7 +98,7 @@ func _on_lobby_chat_update(_id: int, changed_id: int, change_maker_id: int, chat
 			print(changed_name+" has been kicked banned the lobby by "+change_maker_name+".")
 	get_lobby_members() # Update lobby members.
 
-# Update lobby members array so we know what players are here.
+## Update lobby members array so we know what players are here.
 func get_lobby_members():
 	lobby_members.clear()
 	if lobby_id == 0:
@@ -107,7 +113,7 @@ func get_lobby_members():
 		print(member_name)
 		lobby_members.append({"steam_id": member_id, "steam_name": member_name})
 
-# Send a packet to another player.
+## Send a packet to another player.
 func send_p2p_packet(target: int, packet: Dictionary, send_type:=Steam.P2P_SEND_RELIABLE):
 	var channel: int = 0
 	var packet_data: PackedByteArray
@@ -121,16 +127,16 @@ func send_p2p_packet(target: int, packet: Dictionary, send_type:=Steam.P2P_SEND_
 	else: # Send to target.
 		Steam.sendP2PPacket(target, packet_data, send_type, channel)
 
-# When p2p session requested, accept.
+## When p2p session requested, accept.
 func _on_p2p_session_request(remote_id: int):
 	var _requester := Steam.getFriendPersonaName((remote_id))
 	Steam.acceptP2PSessionWithUser(remote_id)
 
-# Send a handshake to everyone.
+## Send a handshake to everyone.
 func make_p2p_handshake():
 	send_p2p_packet(0, {"m": MSG_HANDSHAKE, "steam_id": player_id, "username": player_username})
 
-# Keep reading packets.
+## Keep reading packets.
 func read_all_p2p_packets(read_count: int = 0):
 	if (read_count>=PACKET_READ_LIMIT):
 		return
@@ -139,7 +145,7 @@ func read_all_p2p_packets(read_count: int = 0):
 			read_p2p_packet()
 			read_all_p2p_packets(read_count+1)
 
-# Read a packet.
+## Read a packet.
 func read_p2p_packet():
 	var packet_size := Steam.getAvailableP2PPacketSize(0)
 	if packet_size > 0:
@@ -182,34 +188,53 @@ func read_p2p_packet():
 										level.level_registry[id].rotation = network_registry[id]["r"]
 										level.level_registry[id].velocity = network_registry[id]["vel"]
 										level.level_registry[id].control_pitch = network_registry[id]["pcr"]
-				MSG_REQUEST_GAME_INFO: # Client requesting game info from server.
-					var level: Level = get_tree().current_scene.get_node("Level")
-					var match_state_dict: Dictionary = level.get_node("MatchState").to_dict() # Get the match state in dictionary form.
-					var registry_initial: Dictionary
-					for id in level.level_registry:
-						var registry_scene = level.level_registry[id]
-						registry_initial[id] = {}
-						registry_initial[id]["path"] = registry_scene.scene_file_path
-						registry_initial[id]["data"] = registry_scene.to_dict()
-					send_p2p_packet(sender_id, {"m": MSG_RETRIEVE_GAME_INFO, "ri": registry_initial, "ms": match_state_dict})
+				MSG_CLIENT_REQUEST_GAME: # Client requesting game info from server.
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var match_state_dict: Dictionary = level.get_node("MatchState").to_dict() # Get the match state in dictionary form.
+						var registry_initial: Dictionary
+						for id in level.level_registry:
+							var registry_scene = level.level_registry[id]
+							registry_initial[id] = {}
+							registry_initial[id]["path"] = registry_scene.scene_file_path
+							registry_initial[id]["data"] = registry_scene.to_dict()
+						send_p2p_packet(sender_id, {"m": MSG_RETRIEVE_GAME_INFO, "ri": registry_initial, "ms": match_state_dict})
 				MSG_RETRIEVE_GAME_INFO: # Client retrieves info from server.
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						level.get_node("MatchState").from_dict(readable_data["ms"]) # Retrieve match state.
+						var initial_registry: Dictionary = readable_data["ri"]
+						for id in initial_registry:
+							var new_scene = load(initial_registry[id]["path"]).instantiate()
+							new_scene.from_dict(initial_registry[id]["data"])
+							level.add_child(new_scene)
+				MSG_CHARACTER_TACKLED:
 					var level: Level = get_tree().current_scene.get_node("Level")
-					level.get_node("MatchState").from_dict(readable_data["ms"]) # Retrieve match state.
-					var initial_registry: Dictionary = readable_data["ri"]
-					for id in initial_registry:
-						var new_scene = load(initial_registry[id]["path"]).instantiate()
-						new_scene.from_dict(initial_registry[id]["data"])
-						level.add_child(new_scene)
-
-func get_host_id() -> int:
-	return Steam.getLobbyOwner(lobby_id)
-	
+					var character: Character = level.level_registry[readable_data["id"]]
+					var tackler: Character = level.level_registry[readable_data["tid"]]
+					var tackle_force = readable_data["tf"]
+					character.tackle(tackler, tackle_force)
+				MSG_CHARACTER_RECOVERED:
+					var level: Level = get_tree().current_scene.get_node("Level")
+					var character: Character = level.level_registry[readable_data["id"]]
+					character.recover()
 
 # A list of constants to use 
-const MSG_HANDSHAKE := 0 # Handshake
-const MSG_HANDSHAKE_ACK := 1 # Handshake Acknowledgement
-const MSG_SPAWN_CHAR := 2 # Spawn a character.
-const MSG_CLIENT_CHAR_INPUT := 3 # Client to Server character input
-const MSG_REGISTRY_UPDATE := 4 # Server sends up to date registry info to clients.
-const MSG_REQUEST_GAME_INFO := 5 # Client requests server info when they first join the server.
-const MSG_RETRIEVE_GAME_INFO := 6 # Server sends initial game info back to client.
+## Handshake
+const MSG_HANDSHAKE := 0 
+## Handshake Acknowledgement
+const MSG_HANDSHAKE_ACK := 1 
+## Spawn a character.
+const MSG_SPAWN_CHAR := 2 
+## Client to Server character input
+const MSG_CLIENT_CHAR_INPUT := 3 
+## Server sends up to date registry info to clients.
+const MSG_REGISTRY_UPDATE := 4 
+## Client requests server info when they first join the server.
+const MSG_CLIENT_REQUEST_GAME := 5 
+## Server sends initial game info back to client.
+const MSG_RETRIEVE_GAME_INFO := 6 
+## Server tells everyone that a character has been tackled.
+const MSG_CHARACTER_TACKLED := 7 
+## Server tells everyone that a character has been tackled.
+const MSG_CHARACTER_RECOVERED := 8

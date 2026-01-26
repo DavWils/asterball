@@ -6,6 +6,9 @@ class_name Character
 @onready var player_controller: PlayerController = get_tree().current_scene.get_node("Level").get_node("PlayerController")
 @onready var level: Level = get_tree().current_scene.get_node("Level")
 
+## The minimum speed a character must be going to tackle another.
+const MINIMUM_TACKLE_SPEED := 5.0
+
 ## The non charging speed of this character. (m/s)
 @export var walk_speed := 1
 ## The maximum base charging speed of the character, not including any buffs.
@@ -21,13 +24,13 @@ var owning_player_id := -1
 var registry_id: int
 ## The current control rotation of the character.
 var control_pitch := 0.0
-
 ## Server side current charge speed.
 var current_charge_speed := 0.0
+## Whether or not the character is tackled and cannot move.
+var is_tackled := false
 
 func _ready() -> void:
-	print("Spawning character owned by ", owning_player_id)
-	pass
+	print("Spawning character owned by ", Steam.getFriendPersonaName(owning_player_id))
 
 ## Sets whether or not the camera is currently being used.
 func set_current_camera(current: bool) -> void:
@@ -47,13 +50,16 @@ func _physics_process(delta: float):
 		velocity.y -= level.gravity_acceleration*delta
 	else:
 		velocity.y = 0
-	
+	if network_manager.is_host():
+		move_and_slide()
+
 	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
 	if not network_manager.is_host():
 		current_charge_speed = self.velocity.length()
 
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary, delta: float) -> void:
+	if is_tackled: return
 	# Movement input.
 	var move_input: Vector2 = input.get("mv", Vector2.ZERO)
 	var charging: bool = input.get("ch", false)
@@ -84,8 +90,6 @@ func use_player_input(input: Dictionary, delta: float) -> void:
 
 		velocity.x = direction.x * walk_speed
 		velocity.z = direction.z * walk_speed
-
-	move_and_slide()
 	
 	# If colliding a character, charge into them.
 	if network_manager.is_host():
@@ -130,5 +134,33 @@ func to_dict() -> Dictionary:
 func from_dict(data: Dictionary) -> void:
 	owning_player_id = data["owner_id"]
 
+## Called when self collides with another character.
 func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
-	print(Steam.getFriendPersonaName(owning_player_id), " has charged into ", Steam.getFriendPersonaName(collider.owning_player_id))
+	if not collider.is_tackled:
+		print(Steam.getFriendPersonaName(owning_player_id), " has charged into ", Steam.getFriendPersonaName(collider.owning_player_id))
+		collider.tackle(self, 4.0)
+
+## Called when self is tackled by another node.
+func tackle(tackler: Node3D, tackle_force: float) -> void:
+	if not is_tackled:
+		is_tackled = true
+		print(Steam.getFriendPersonaName(owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id), " with a force of ", tackle_force)
+		if network_manager.is_host():
+			# Send packet
+			network_manager.send_p2p_packet(0, {"m": network_manager.MSG_CHARACTER_TACKLED, "id": registry_id, "tid": tackler.registry_id, "tf": tackle_force})
+			# Reset movement.
+			velocity.x = 0
+			velocity.z = 0
+			current_charge_speed = 0
+			await get_tree().create_timer(4).timeout
+			recover()
+			
+		if network_manager.player_id == owning_player_id:
+			$CameraHandle.tackle_shake(tackle_force)
+
+## Called when self recovers from being tackled.
+func recover() -> void:
+	if is_tackled:
+		is_tackled = false
+		print(Steam.getFriendPersonaName(owning_player_id), " has recovered from being tackled.")
+		network_manager.send_p2p_packet(0, {"m": network_manager.MSG_CHARACTER_RECOVERED, "id": registry_id})
