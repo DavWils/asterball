@@ -15,7 +15,6 @@ var lobby_members := []
 
 var player_id := 0
 var player_username := ""
-var host_id = 0
 
 func _init():
 	OS.set_environment("SteamAppID",str(2837470))
@@ -35,7 +34,6 @@ func connect_to_steam():
 	if steam_results["status"] == 0:
 		print("Successfully connected to Steam servers!")
 		player_id = Steam.getSteamID()
-		host_id = player_id # In case we're staying local. This probably will be redundant later.
 		player_username = Steam.getPersonaName()
 		
 		Steam.lobby_created.connect(_on_lobby_created)
@@ -49,11 +47,10 @@ func connect_to_steam():
 
 ## Returns true the given player id (or self by default) is the host of the session.
 func is_host(id := player_id):
-	return host_id==id
+	return id == Steam.getLobbyOwner(lobby_id)
 
 ## Create a steam lobby.
 func create_lobby():
-	host_id = player_id
 	if lobby_id == 0:
 		Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC,MAX_LOBBY_MEMBERS)
 
@@ -61,7 +58,6 @@ func create_lobby():
 func _on_lobby_created(success: int, id: int):
 	if success:
 		lobby_id = id
-		host_id = player_id
 		print("Created lobby with id: "+str(lobby_id))
 		Steam.setLobbyJoinable(lobby_id, true)
 		Steam.setLobbyData(lobby_id,"name",player_username+"'s Lobby")
@@ -78,7 +74,6 @@ func _on_lobby_joined(id: int, _permissions: int, _locked: bool, response: int):
 		print("Joined lobby "+str(lobby_id))
 		get_lobby_members() # Update lobby array.
 		make_p2p_handshake() # Announce that we are part of the lobby.
-		validate_host()
 
 # When a player's status changes we are notified.
 func _on_lobby_chat_update(_id: int, changed_id: int, change_maker_id: int, chat_state: int):
@@ -96,7 +91,6 @@ func _on_lobby_chat_update(_id: int, changed_id: int, change_maker_id: int, chat
 		Steam.CHAT_MEMBER_STATE_CHANGE_BANNED:
 			print(changed_name+" has been kicked banned the lobby by "+change_maker_name+".")
 	get_lobby_members() # Update lobby members.
-	validate_host() # If host left we migrate.
 
 # Update lobby members array so we know what players are here.
 func get_lobby_members():
@@ -105,7 +99,7 @@ func get_lobby_members():
 		lobby_members.append({"steam_id": player_id, "steam_name": "Player"})
 		return
 	var lobby_count := Steam.getNumLobbyMembers(lobby_id)
-	print("Host is ", Steam.getFriendPersonaName(host_id), " or by steam standards, ", Steam.getFriendPersonaName(Steam.getLobbyOwner(lobby_id)))
+	print("Host is ", Steam.getFriendPersonaName(Steam.getLobbyOwner(lobby_id)))
 	print("Current members: ")
 	for member in range(0,lobby_count):
 		var member_id := Steam.getLobbyMemberByIndex(lobby_id, member)
@@ -209,26 +203,7 @@ func read_p2p_packet():
 
 func get_host_id() -> int:
 	return Steam.getLobbyOwner(lobby_id)
-
-
-## Checks to see if host is still in the session. Otherwise, elect a new host.
-func validate_host():
-	host_id = Steam.getLobbyOwner(lobby_id)
-	return
-#	var ids := []
-#	for m in lobby_members:
-#		if m['steam_id'] == host_id: return
-#		ids.append(m['steam_id'])
-#	
-#	# Set new host to the user with the lowest id.
-#	print("Commencing host migration.")
-#	ids.sort()
-#	host_id = ids[0]
-#	print(Steam.getFriendPersonaName(host_id)+" is the new host.")
-
-
-
-
+	
 
 # A list of constants to use 
 const MSG_HANDSHAKE := 0 # Handshake
