@@ -31,6 +31,7 @@ var is_tackled := false
 
 func _ready() -> void:
 	print("Spawning character owned by ", Steam.getFriendPersonaName(owning_player_id))
+	tackle(self, 8)
 
 ## Sets whether or not the camera is currently being used.
 func set_current_camera(current: bool) -> void:
@@ -51,7 +52,11 @@ func _physics_process(delta: float):
 	else:
 		velocity.y = 0
 	if network_manager.is_host() or is_locally_possessed():
-		move_and_slide()
+		pass
+		#if not is_tackled: move_and_slide()
+	if network_manager.is_host() and is_locally_possessed():
+		pass
+		#print(current_charge_speed, "| ", velocity.length(), " m/s")
 
 	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
 	if not network_manager.is_host():
@@ -145,12 +150,14 @@ func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
 		
 		if self_velocity > collider_velocity and self_velocity > MINIMUM_TACKLE_SPEED:
 			print("Colliding with ", self_velocity, "+", collider_velocity)
+			current_charge_speed = (current_charge_speed - 8.0) if current_charge_speed > 8.0 else 0.0
 			collider.tackle(self, self_velocity + collider_velocity)
 
 ## Called when self is tackled by another node.
 func tackle(tackler: Node3D, tackle_force: float) -> void:
 	if not is_tackled:
 		is_tackled = true
+		$CollisionShape3D.disabled = true
 		print(Steam.getFriendPersonaName(owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id), " with a force of ", tackle_force)
 		if network_manager.is_host():
 			# Send packet
@@ -159,15 +166,19 @@ func tackle(tackler: Node3D, tackle_force: float) -> void:
 			velocity.x = 0
 			velocity.z = 0
 			current_charge_speed = 0
+			# Shake camera.
+			if is_locally_possessed():
+				$CameraHandle.tackle_shake(tackle_force)
 			await get_tree().create_timer(4).timeout
 			recover()
 			
-		if network_manager.player_id == owning_player_id:
-			$CameraHandle.tackle_shake(tackle_force)
 
 ## Called when self recovers from being tackled.
 func recover() -> void:
 	if is_tackled:
 		is_tackled = false
+		$CollisionShape3D.disabled = false
 		print(Steam.getFriendPersonaName(owning_player_id), " has recovered from being tackled.")
-		network_manager.send_p2p_packet(0, {"m": network_manager.MSG_CHARACTER_RECOVERED, "id": registry_id})
+		if network_manager.is_host():
+			network_manager.send_p2p_packet(0, {"m": network_manager.MSG_CHARACTER_RECOVERED, "id": registry_id})
+			
