@@ -52,8 +52,7 @@ func _physics_process(delta: float):
 	else:
 		velocity.y = 0
 	if network_manager.is_host() or is_locally_possessed():
-		pass
-		#if not is_tackled: move_and_slide()
+		if not is_tackled: move_and_slide()
 	if network_manager.is_host() and is_locally_possessed():
 		pass
 		#print(current_charge_speed, "| ", velocity.length(), " m/s")
