@@ -28,6 +28,8 @@ var control_pitch: float = 0.0
 var current_charge_speed := 0.0
 ## Whether or not the character is tackled and cannot move.
 var is_tackled := false
+## The current equipment the character is holding.
+var current_equipment: Equipment
 
 func _ready() -> void:
 	print("Spawning character owned by ", Steam.getFriendPersonaName(owning_player_id))
@@ -227,3 +229,36 @@ func recover() -> void:
 		if network_manager.is_host():
 			network_manager.send_p2p_packet(0, {"m": network_manager.MSG_CHARACTER_RECOVERED, "id": registry_id})
 			
+
+## Adds an item to the character's inventory.
+func pickup_item(item_state: ItemState):
+	print("Player has picked up ", item_state.item_resource.item_name)
+	var new_index: int = $InventoryComponent.add_item(item_state)
+	
+	if not current_equipment:
+		equip_item(new_index)
+
+## Drops an item from the inventory into the game space.
+func drop_item(index: int):
+	level.spawn_pickup($InventoryComponent.get_item_at(index), self.position + Vector3.UP)
+	$InventoryComponent.remove_item(index)
+
+## Drops the equipped item.
+func drop_equipped_item() -> void:
+	drop_item($InventoryComponent.equipment_index)
+
+## Equips the current item at the given inventory index.
+func equip_item(index: int):
+	# Unequip item if one is currently held.
+	if current_equipment: unequip_item()
+	var equipment = $InventoryComponent.get_item_at(index).item_resource.get_equipment_resource().instantiate()
+	
+	add_child(equipment)
+	
+	$InventoryComponent.equipment_index = index
+
+## Unequips the currently equipped item if it exists.
+func unequip_item():
+	current_equipment.queue_free()
+	current_equipment = null
+	$InventoryComponent.equipment_index = -1

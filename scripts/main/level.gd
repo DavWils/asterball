@@ -58,8 +58,7 @@ func score(scoring_character: Node3D) -> void:
 ## Cleans up the level, removing old stuff from registry.
 func clean_level() -> void:
 	for registry_child in level_registry:
-		level_registry[registry_child].queue_free()
-	level_registry.clear()
+		despawn_registry_object(registry_child)
 
 ## Spawns a character for each player.
 func spawn_omnistrikers() -> void:
@@ -95,28 +94,35 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 
 # Spawns the ball in the level.
 func spawn_ball():
-	spawn_pickup("res://resources/items/ball.tres", {}, Vector3.UP*5)
+	var ball_item_state = ItemState.new()
+	ball_item_state.item_resource = load("res://resources/items/ball.tres")
+	spawn_pickup(ball_item_state, Vector3.UP*5)
 
-func spawn_pickup(resource_path: String, item_data: Dictionary, item_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
+func spawn_pickup(item_state: ItemState, item_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
 	var pickup_node: Pickup = load("res://scenes/level/pickup.tscn").instantiate()
 	pickup_node.position = item_position
-	pickup_node.item_data = item_data
-	pickup_node.item_resource = load(resource_path)
+	pickup_node.item_state = item_state
 	pickup_node.registry_id = registry_id
 	
+	level_registry[registry_id] = pickup_node
 	add_child(pickup_node)
 	# If we're hte host, let clients know to spanw the pickup.
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, 
 		{
 			"m": network_manager.MSG_SPAWN_PICKUP,
-			"resource_path": resource_path,
-			"item_data": item_data,
+			"item_state": item_state,
 			"position": item_position,
 			"registry_id": registry_id
 		}
 		)
 
+## Removes a scene from the registry and deletes it for host and clients.
+func despawn_registry_object(registry_id: int):
+	level_registry[registry_id].queue_free()
+	level_registry.erase(registry_id)
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, {"m": network_manager.MSG_DESPAWN_OBJECT, "registry_id": registry_id})
 
 ## Returns a registry id thats not used.
 func get_unused_registry_id() -> int:

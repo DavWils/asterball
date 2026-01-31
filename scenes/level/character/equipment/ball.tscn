@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnf0cspauyc56"]
+
+[ext_resource type="PackedScene" uid="uid://d00rxwj1hofxg" path="res://scenes/level/character/baseequipment.tscn" id="1_mj4go"]
+[ext_resource type="Script" uid="uid://buqvutimwl0fb" path="res://scripts/level/equipment/ball.gd" id="2_78f2h"]
+
+[node name="Equipment" instance=ExtResource("1_mj4go")]
+script = ExtResource("2_78f2h")

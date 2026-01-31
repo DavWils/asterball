@@ -4,28 +4,28 @@ extends RigidBody3D
 
 class_name Pickup
 
-var item_data: Dictionary
-var item_resource: ItemResource
+@onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
+@onready var level: Level = get_tree().current_scene.get_node("Level")
+
+var item_state: ItemState
 var registry_id: int
 
 func _ready() -> void:
 	# Set values to represent item state.
-	$MeshInstance3D.mesh = item_resource.item_mesh
-	$CollisionShape3D.shape = item_resource.pickup_collision_shape
+	$MeshInstance3D.mesh = item_state.item_resource.item_mesh
+	$CollisionShape3D.shape = item_state.item_resource.pickup_collision_shape
 
 ## Converts character information to a dictionary that can be loaded by players joining the game. Used for time-specific parts like held item, etc. Position isn't exactly needed as it's updated each physics process.
 func to_init_dict() -> Dictionary:
 	var pickup_data: Dictionary
 	
-	pickup_data["item_resource"] = item_resource
-	pickup_data["item_data"] = item_data
+	pickup_data["item_state"] = item_state
 	
 	return pickup_data
 
 ## Loads character variables based on the given dictionary.
 func from_init_dict(data: Dictionary) -> void:
-	item_resource = data["item_resource"]
-	item_data = data["item_data"]
+	item_state = data["item_state"]
 
 ## Converts ongoing character values that need to be updated to players from host constantly, like position and such.
 func to_reg_dict() -> Dictionary:
@@ -47,3 +47,13 @@ func from_reg_dict(data: Dictionary) -> void:
 	position = position.lerp(new_pos, PICKUP_LERP_FACTOR)
 	rotation = rotation.lerp(new_rot, PICKUP_LERP_FACTOR)
 	linear_velocity = new_vel
+
+## Called when interacted with.
+func interact(interactor: Character) -> void:
+	print("interact")
+	level.despawn_registry_object(registry_id)
+	interactor.pickup_item(item_state)
+
+## Text to display to an interacting player.
+func get_interact_text() -> String:
+	return("Pickup " + item_state.item_resource.item_name)

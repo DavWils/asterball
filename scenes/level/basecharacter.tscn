@@ -1,12 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://on8wykmjn5go"]
+[gd_scene load_steps=9 format=3 uid="uid://on8wykmjn5go"]
 
 [ext_resource type="Script" uid="uid://bnbyil81cayt3" path="res://scripts/level/characters/character.gd" id="1_hqcqr"]
 [ext_resource type="Script" uid="uid://755ian66gy8i" path="res://scripts/level/character/character_camera.gd" id="2_5faxe"]
+[ext_resource type="Script" uid="uid://c2kpwj65kiqjv" path="res://scripts/level/character/interact_area.gd" id="3_gd8ut"]
+[ext_resource type="Script" uid="uid://dgo82706uscu8" path="res://scenes/level/character/inventory_carousel.gd" id="4_fwypb"]
+[ext_resource type="Script" uid="uid://bw3vht8dxjwy0" path="res://scenes/level/character/inventory_component.gd" id="5_7da80"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hqcqr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5faxe"]
 size = Vector3(0, 0, 0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gd8ut"]
 
 [node name="Character" type="CharacterBody3D"]
 collision_layer = 2
@@ -23,3 +28,17 @@ mesh = SubResource("CapsuleMesh_hqcqr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_5faxe")
+
+[node name="InteractArea3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("3_gd8ut")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea3D"]
+shape = SubResource("BoxShape3D_gd8ut")
+
+[node name="InventoryCarousel" type="Node3D" parent="."]
+script = ExtResource("4_fwypb")
+
+[node name="InventoryComponent" type="Node" parent="."]
+script = ExtResource("5_7da80")

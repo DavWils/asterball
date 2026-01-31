@@ -11,4 +11,4 @@ func _ready() -> void:
 
 func _on_lobby_chat_update(_id: int, changed_id: int, _change_maker_id: int, chat_state: int):
 	if chat_state == Steam.CHAT_MEMBER_STATE_CHANGE_LEFT and changed_id == owning_player_id:
-		self.queue_free()
+		level.despawn_registry_object(registry_id)
