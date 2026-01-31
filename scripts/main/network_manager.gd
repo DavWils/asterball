@@ -181,13 +181,7 @@ func read_p2p_packet():
 							if level.level_registry.has(id):
 								if level.level_registry[id] is Character:
 									# If this is our local character we should rubberband more subtlely.
-									if level.level_registry[id].is_locally_possessed():
-										pass
-									else:
-										level.level_registry[id].position = network_registry[id]["p"]
-										level.level_registry[id].rotation = network_registry[id]["r"]
-										level.level_registry[id].velocity = network_registry[id]["vel"]
-										level.level_registry[id].control_pitch = network_registry[id]["pcr"]
+									level.level_registry[id].from_reg_dict(network_registry[id])
 				MSG_CLIENT_REQUEST_GAME: # Client requesting game info from server.
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -197,7 +191,7 @@ func read_p2p_packet():
 							var registry_scene = level.level_registry[id]
 							registry_initial[id] = {}
 							registry_initial[id]["path"] = registry_scene.scene_file_path
-							registry_initial[id]["data"] = registry_scene.to_dict()
+							registry_initial[id]["data"] = registry_scene.to_init_dict()
 						send_p2p_packet(sender_id, {"m": MSG_RETRIEVE_GAME_INFO, "ri": registry_initial, "ms": match_state_dict})
 				MSG_RETRIEVE_GAME_INFO: # Client retrieves info from server.
 					if is_host(sender_id):
@@ -206,7 +200,7 @@ func read_p2p_packet():
 						var initial_registry: Dictionary = readable_data["ri"]
 						for id in initial_registry:
 							var new_scene = load(initial_registry[id]["path"]).instantiate()
-							new_scene.from_dict(initial_registry[id]["data"])
+							new_scene.from_init_dict(initial_registry[id]["data"])
 							level.add_child(new_scene)
 				MSG_CHARACTER_TACKLED:
 					var level: Level = get_tree().current_scene.get_node("Level")

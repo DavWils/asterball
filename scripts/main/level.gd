@@ -32,12 +32,7 @@ func _physics_process(_delta: float) -> void:
 	if network_manager.is_host():
 		var network_registry: Dictionary
 		for id in level_registry:
-			network_registry[id] = {}
-			network_registry[id]["p"] = level_registry[id].position # Position
-			network_registry[id]["r"] = level_registry[id].rotation # Rotation
-			network_registry[id]["vel"] = level_registry[id].velocity # Velocity
-			if level_registry[id] is Character:
-				network_registry[id]["pcr"] = 0 # Pitch Control Rotation if its a character.
+			network_registry[id] = level_registry[id].to_reg_dict()
 		network_manager.send_p2p_packet(0, {"m": network_manager.MSG_REGISTRY_UPDATE, "r": network_registry}, Steam.P2P_SEND_UNRELIABLE)
 
 ## Starts the game.

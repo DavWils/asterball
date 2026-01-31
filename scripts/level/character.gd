@@ -31,7 +31,6 @@ var is_tackled := false
 
 func _ready() -> void:
 	print("Spawning character owned by ", Steam.getFriendPersonaName(owning_player_id))
-	tackle(self, 8)
 
 ## Sets whether or not the camera is currently being used.
 func set_current_camera(current: bool) -> void:
@@ -127,7 +126,7 @@ func use_player_input(input: Dictionary, delta: float) -> void:
 			)
 
 ## Converts character information to a dictionary that can be loaded by players joining the game. Used for time-specific parts like held item, etc. Position isn't exactly needed as it's updated each physics process.
-func to_dict() -> Dictionary:
+func to_init_dict() -> Dictionary:
 	var character_data: Dictionary
 	
 	character_data["owner_id"] = owning_player_id
@@ -135,8 +134,28 @@ func to_dict() -> Dictionary:
 	return character_data
 
 ## Loads character variables based on the given dictionary.
-func from_dict(data: Dictionary) -> void:
+func from_init_dict(data: Dictionary) -> void:
 	owning_player_id = data["owner_id"]
+
+## Converts ongoing character values that need to be updated to players from host constantly, like position and such.
+func to_reg_dict() -> Dictionary:
+	var character_reg_data: Dictionary
+	character_reg_data["p"] = position # Position
+	character_reg_data["r"] = rotation # Rotation
+	character_reg_data["v"] = velocity # Velocity
+	character_reg_data["cp"] = control_pitch
+	
+	return character_reg_data
+
+## Loads character registry info from dict.
+func from_reg_dict(data: Dictionary) -> void:
+	if is_locally_possessed():
+		pass
+	else:
+		position = data["p"]
+		rotation = data["r"]
+		velocity = data["v"]
+		control_pitch = data["cp"]
 
 ## Called when self collides with another character.
 func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
