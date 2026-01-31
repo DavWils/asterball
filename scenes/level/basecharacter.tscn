@@ -9,11 +9,8 @@
 size = Vector3(0, 0, 0)
 
 [node name="Character" type="CharacterBody3D"]
+collision_layer = 2
 script = ExtResource("1_hqcqr")
-walk_speed = null
-base_charge_speed = null
-base_charge_acceleration = null
-use_pitch_rotation = null
 
 [node name="CameraHandle" type="Node3D" parent="."]
 script = ExtResource("2_5faxe")

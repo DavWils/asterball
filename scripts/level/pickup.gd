@@ -6,10 +6,12 @@ class_name Pickup
 
 var item_data: Dictionary
 var item_resource: ItemResource
+var registry_id: int
 
 func _ready() -> void:
 	# Set values to represent item state.
 	$MeshInstance3D.mesh = item_resource.item_mesh
+	$CollisionShape3D.shape = item_resource.pickup_collision_shape
 
 ## Converts character information to a dictionary that can be loaded by players joining the game. Used for time-specific parts like held item, etc. Position isn't exactly needed as it's updated each physics process.
 func to_init_dict() -> Dictionary:

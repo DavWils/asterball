@@ -43,6 +43,7 @@ func start_game() -> void:
 func next_round() -> void:
 	clean_level()
 	spawn_omnistrikers()
+	spawn_ball()
 	await get_tree().create_timer(intermission_wait_time).timeout
 	
 
@@ -91,6 +92,10 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 			"position": character_position
 		}
 		)
+
+# Spawns the ball in the level.
+func spawn_ball():
+	spawn_pickup("res://resources/items/ball.tres", {}, Vector3.UP*5)
 
 func spawn_pickup(resource_path: String, item_data: Dictionary, item_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
 	var pickup_node: Pickup = load("res://scenes/level/pickup.tscn").instantiate()
