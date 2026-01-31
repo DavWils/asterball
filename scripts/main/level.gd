@@ -68,13 +68,13 @@ func spawn_omnistrikers() -> void:
 		spawn_character(omnistriker_path, player_id, Vector3(player_id%12, 0, player_id%10))
 
 ## Spawns the given character and adds it to the character registry.
-func spawn_character(character_path: String, owner_id := -1, position := Vector3.ZERO, registry_id := get_unused_registry_id()):
+func spawn_character(character_path: String, owner_id := -1, character_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
 	print("Spawning a new character with id ", registry_id)
 	
 	var character: Character = load(character_path).instantiate()
 	character.registry_id = registry_id
 	character.owning_player_id = owner_id
-	character.position = position
+	character.position = character_position
 	character.transform = character.transform.looking_at(Vector3(0,character.position.y,0))
 	
 	level_registry[registry_id] = character
@@ -88,9 +88,30 @@ func spawn_character(character_path: String, owner_id := -1, position := Vector3
 			"char_path": character_path,
 			"registry_id": registry_id,
 			"owner_id": owner_id,
-			"position": position
+			"position": character_position
 		}
 		)
+
+func spawn_pickup(resource_path: String, item_data: Dictionary, item_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
+	var pickup_node: Pickup = load("res://scenes/level/pickup.tscn").instantiate()
+	pickup_node.position = item_position
+	pickup_node.item_data = item_data
+	pickup_node.item_resource = load(resource_path)
+	pickup_node.registry_id = registry_id
+	
+	add_child(pickup_node)
+	# If we're hte host, let clients know to spanw the pickup.
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, 
+		{
+			"m": network_manager.MSG_SPAWN_PICKUP,
+			"resource_path": resource_path,
+			"item_data": item_data,
+			"position": item_position,
+			"registry_id": registry_id
+		}
+		)
+
 
 ## Returns a registry id thats not used.
 func get_unused_registry_id() -> int:

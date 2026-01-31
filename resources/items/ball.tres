@@ -1,6 +1,17 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://0glg71bb41t6"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=5 format=3 uid="uid://0glg71bb41t6"]
 
-[ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item.gd" id="1_ws2j4"]
+[ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/itemresource.gd" id="1_ws2j4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ws2j4"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8xlw7"]
+material = SubResource("StandardMaterial3D_ws2j4")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pf5td"]
 
 [resource]
 script = ExtResource("1_ws2j4")
+item_mesh = SubResource("SphereMesh_8xlw7")
+pickup_collision_shape = SubResource("SphereShape3D_pf5td")

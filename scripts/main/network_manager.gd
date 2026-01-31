@@ -167,6 +167,10 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						level.spawn_character(readable_data["char_path"], readable_data["owner_id"], readable_data["position"], readable_data["registry_id"])
+				MSG_SPAWN_PICKUP:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						level.spawn_pickup(readable_data["resource_path"], readable_data["item_data"], readable_data["position"], readable_data["registry_id"])
 				MSG_CLIENT_CHAR_INPUT: # A client sends their input for their character.
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -217,18 +221,20 @@ func read_p2p_packet():
 ## Handshake
 const MSG_HANDSHAKE := 0 
 ## Handshake Acknowledgement
-const MSG_HANDSHAKE_ACK := 1 
+const MSG_HANDSHAKE_ACK := 1
 ## Spawn a character.
-const MSG_SPAWN_CHAR := 2 
+const MSG_SPAWN_CHAR := 2
+## Spawns a pickup
+const MSG_SPAWN_PICKUP := 3
 ## Client to Server character input
-const MSG_CLIENT_CHAR_INPUT := 3 
+const MSG_CLIENT_CHAR_INPUT := 4
 ## Server sends up to date registry info to clients.
-const MSG_REGISTRY_UPDATE := 4 
+const MSG_REGISTRY_UPDATE := 5
 ## Client requests server info when they first join the server.
-const MSG_CLIENT_REQUEST_GAME := 5 
+const MSG_CLIENT_REQUEST_GAME := 6
 ## Server sends initial game info back to client.
-const MSG_RETRIEVE_GAME_INFO := 6 
+const MSG_RETRIEVE_GAME_INFO := 7
 ## Server tells everyone that a character has been tackled.
-const MSG_CHARACTER_TACKLED := 7 
+const MSG_CHARACTER_TACKLED := 8
 ## Server tells everyone that a character has been tackled.
-const MSG_CHARACTER_RECOVERED := 8
+const MSG_CHARACTER_RECOVERED := 9
