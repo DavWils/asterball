@@ -23,7 +23,7 @@ var owning_player_id := -1
 ## The id of this character in level registry.
 var registry_id: int
 ## The current control rotation of the character.
-var control_pitch := 0.0
+var control_pitch: float = 0.0
 ## Server side current charge speed.
 var current_charge_speed := 0.0
 ## Whether or not the character is tackled and cannot move.
@@ -149,13 +149,40 @@ func to_reg_dict() -> Dictionary:
 
 ## Loads character registry info from dict.
 func from_reg_dict(data: Dictionary) -> void:
-	if is_locally_possessed():
-		pass
+	var new_pos: Vector3 = data["p"]
+	var new_rot: Vector3 = data["r"]
+	var new_vel: Vector3 = data["v"]
+	var new_con_pitch: float = data["cp"]
+	
+	if not is_locally_possessed():
+		## The percentage to lerp from local position to updated position
+		const NONLOCAL_LERP_FACTOR: float = 0.4
+		position = position.lerp(new_pos, NONLOCAL_LERP_FACTOR)
+		rotation = rotation.lerp(new_rot, NONLOCAL_LERP_FACTOR)
+		velocity = new_vel
+		control_pitch = new_con_pitch
 	else:
-		position = data["p"]
-		rotation = data["r"]
-		velocity = data["v"]
-		control_pitch = data["cp"]
+		## Lerp factor for local character.
+		const LOCAL_LERP_FACTOR: float = 0.2
+		## Minimum difference in position before the serverside position must take over.
+		const MIN_POS_DIFF: float = 1.2
+		## Same as above but for rotation.
+		const MIN_ROT_DIFF: float = 1.0
+		## The lerp factor in which client side smoothes to server side.
+		
+		var pos_diff := position.distance_to(new_pos)
+		var rot_diff := rotation.distance_to(new_rot)
+		var cp_diff := absf(control_pitch - new_con_pitch)
+		
+		# Update position if need be.
+		if pos_diff > MIN_POS_DIFF:
+			position = position.lerp(new_pos, LOCAL_LERP_FACTOR)
+		# Update rotation if need be.
+		if rot_diff > MIN_ROT_DIFF:
+			rotation = rotation.lerp(new_rot, LOCAL_LERP_FACTOR)
+		if cp_diff > MIN_ROT_DIFF:
+			control_pitch = lerp(control_pitch, new_con_pitch, LOCAL_LERP_FACTOR)
+		velocity = new_vel
 
 ## Called when self collides with another character.
 func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
