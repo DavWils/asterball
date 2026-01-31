@@ -54,11 +54,11 @@ func score(scoring_character: Node3D) -> void:
 	if network_manager.is_host():
 		next_round()
 
-## Cleans up the level, removing old items and characters.
+## Cleans up the level, removing old stuff from registry.
 func clean_level() -> void:
-	for child in get_children():
-		if child is Character:
-			child.queue_free()
+	for registry_child in level_registry:
+		level_registry[registry_child].queue_free()
+	level_registry.clear()
 
 ## Spawns a character for each player.
 func spawn_omnistrikers() -> void:
