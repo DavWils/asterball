@@ -13,7 +13,7 @@ class_name ItemResource
 ## Whether or not this item can be bought in the store.
 @export var can_purchase: bool = item_cost>0
 ## Whether or not the character can hold this item in innventory without equippint it.
-@export var can_pocket: bool = true
+@export var equip_lock: bool = true
 
 ## Returns the loaded equipment scene resource.
 func get_equipment_resource() -> PackedScene:

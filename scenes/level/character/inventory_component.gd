@@ -2,6 +2,9 @@ extends Node
 
 class_name InventoryComponent
 
+## Owning character
+var character: Character = self.get_parent()
+
 ## Array of inventory items
 var inventory_items: Array[ItemState]
 
