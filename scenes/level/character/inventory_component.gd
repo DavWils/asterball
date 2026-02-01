@@ -39,7 +39,7 @@ func remove_item(index: int):
 		pass
 	if character.network_manager.is_host():
 		character.network_manager.send_p2p_packet(0, {
-			"m": character.network_manager.MSG_CHARACTER_ADDITEM, 
+			"m": character.network_manager.MSG_CHARACTER_REMOVEITEM, 
 			"id": character.registry_id, 
 			"index": index})
 
