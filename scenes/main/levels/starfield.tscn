@@ -1,6 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dolnkblhfe1c6"]
+[gd_scene load_steps=8 format=3 uid="uid://dolnkblhfe1c6"]
 
 [ext_resource type="PackedScene" uid="uid://u6kaxkr2k4w7" path="res://scenes/main/baselevel.tscn" id="1_5sngl"]
+[ext_resource type="Script" uid="uid://cmlmvkht2rnjk" path="res://scripts/level/zones/spawn_zone.gd" id="2_htkcu"]
+[ext_resource type="Script" uid="uid://citpb5m7we5p8" path="res://scripts/level/zones/buy_zone.gd" id="3_n6wex"]
+[ext_resource type="Script" uid="uid://cxatpiq5agerl" path="res://scripts/level/zones/score_zone.gd" id="4_u3xwc"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5sngl"]
 size = Vector2(40, 100)
@@ -8,13 +11,17 @@ size = Vector2(40, 100)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5sngl"]
 size = Vector3(40, 1, 100)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_gs6xa"]
+size = Vector3(40, 10, 4)
+
 [node name="Level" instance=ExtResource("1_5sngl")]
+pregame_wait_time = 2.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="0"]
 mesh = SubResource("PlaneMesh_5sngl")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1.1513889, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -22,3 +29,63 @@ collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
 shape = SubResource("BoxShape3D_5sngl")
+
+[node name="HomeSpawnZone" type="Area3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 48)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("2_htkcu")
+owning_team = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HomeSpawnZone" index="0"]
+shape = SubResource("BoxShape3D_gs6xa")
+
+[node name="HomeBuyZone" type="Area3D" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 48)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("3_n6wex")
+owning_team = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HomeBuyZone" index="0"]
+shape = SubResource("BoxShape3D_gs6xa")
+
+[node name="HomeScoreZone" type="Area3D" parent="." index="7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 48)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("4_u3xwc")
+owning_team = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HomeScoreZone" index="0"]
+shape = SubResource("BoxShape3D_gs6xa")
+
+[node name="AwaySpawnZone" type="Area3D" parent="." index="8"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -48)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("2_htkcu")
+owning_team = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AwaySpawnZone" index="0"]
+shape = SubResource("BoxShape3D_gs6xa")
+
+[node name="AwayBuyZone" type="Area3D" parent="." index="9"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -48)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("3_n6wex")
+owning_team = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AwayBuyZone" index="0"]
+shape = SubResource("BoxShape3D_gs6xa")
+
+[node name="AwayScoreZone" type="Area3D" parent="." index="10"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -48)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("4_u3xwc")
+owning_team = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AwayScoreZone" index="0"]
+shape = SubResource("BoxShape3D_gs6xa")

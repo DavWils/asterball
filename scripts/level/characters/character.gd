@@ -241,13 +241,18 @@ func pickup_item(item_state: ItemState):
 
 ## Drops an item from the inventory into the game space.
 func drop_item(index: int):
-	# If dropping the equipped item, unequip it first
-	if index == $InventoryComponent.equipment_index:
-		unequip_item(false)
-
+	print("Getting item at ", index)
 	var item = $InventoryComponent.get_item_at(index)
+	if item == null: return
+	print("Dropping item")
+	# If dropping the equipped item, unequip it first
 	level.spawn_pickup(item, self.position + Vector3.UP)
 	$InventoryComponent.remove_item(index)
+	if index == $InventoryComponent.equipment_index:
+		print("Unequipping first.")
+		unequip_item(false)
+	
+
 
 ## Drops the equipped item.
 func drop_equipped_item() -> void:
@@ -299,3 +304,8 @@ func unequip_item(replicate: bool = true):
 ## Returns number of items held.
 func get_inventory_count() -> int:
 	return $InventoryComponent.inventory_items.size()
+
+## Returns the character owner's team.
+func get_player_team() -> int:
+	var match_state = level.match_state as MatchState
+	return match_state.player_states[owning_player_id].team

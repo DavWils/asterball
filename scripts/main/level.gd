@@ -5,6 +5,7 @@ extends Node
 class_name Level
 
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
+@onready var match_state = $MatchState
 
 ## The furthest depth a character can go before they're killed.
 @export var kill_depth := -100.0
@@ -50,13 +51,13 @@ func next_round() -> void:
 	for item in items:
 		var item_state = ItemState.new()
 		item_state.item_resource = load("res://resources/items/"+item+".tres")
-		spawn_pickup(item_state, Vector3.UP*5)
+		spawn_pickup(item_state, Vector3.UP*5 + Vector3.FORWARD*5)
 		
 	# Wait for intermission time before the round actually starts.
 	await get_tree().create_timer(intermission_wait_time).timeout
 	
 
-func score(scoring_character: Node3D) -> void:
+func score(scoring_character: Character) -> void:
 	print(scoring_character.name, " has scored!!!")
 	
 	# Wait some time, and if we're the host, then start the next game.

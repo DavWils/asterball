@@ -26,3 +26,9 @@ shape = SubResource("BoxShape3D_tekpr")
 [node name="CollisionShape3D" parent="InteractArea3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_q4ab7")
+
+[node name="OverlapArea3D" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" parent="OverlapArea3D" index="0"]
+shape = SubResource("BoxShape3D_tekpr")

@@ -195,7 +195,7 @@ func read_p2p_packet():
 				MSG_CLIENT_REQUEST_GAME: # Client requesting game info from server.
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
-						var match_state_dict: Dictionary = level.get_node("MatchState").to_dict() # Get the match state in dictionary form.
+						var match_state_dict: Dictionary = level.match_state.to_dict() # Get the match state in dictionary form.
 						var registry_initial: Dictionary
 						for id in level.level_registry:
 							var registry_scene = level.level_registry[id]
@@ -206,7 +206,7 @@ func read_p2p_packet():
 				MSG_RETRIEVE_GAME_INFO: # Client retrieves info from server.
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
-						level.get_node("MatchState").from_dict(readable_data["ms"]) # Retrieve match state.
+						level.match_state.from_dict(readable_data["ms"]) # Retrieve match state.
 						var initial_registry: Dictionary = readable_data["ri"]
 						for id in initial_registry:
 							var new_scene = load(initial_registry[id]["path"]).instantiate()
