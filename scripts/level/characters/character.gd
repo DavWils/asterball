@@ -243,8 +243,12 @@ func pickup_item(item_state: ItemState):
 func drop_item(index: int):
 	level.spawn_pickup($InventoryComponent.get_item_at(index), self.position + Vector3.UP)
 	if index == $InventoryComponent.equipment_index:
+		var old_item_resource: ItemResource = $InventoryComponent.get_equipped_item().item_resource
 		unequip_item()
-	$InventoryComponent.remove_item(index)
+		if not old_item_resource.equip_lock:
+			$InventoryComponent.remove_item(index)
+	else:
+		$InventoryComponent.remove_item(index)
 
 
 ## Drops the equipped item.

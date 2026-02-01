@@ -244,9 +244,18 @@ func read_p2p_packet():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						character.drop_equipped_item()
+				MSG_CHARACTER_ADDITEM:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["id"]]
+						character.get_node("InventoryComponent").add_item(readable_data["item"])
+				MSG_CHARACTER_REMOVEITEM:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["id"]]
+						character.get_node("InventoryComponent").remove_item(readable_data["index"])
 
-
-# A list of constants to use 
+# A list of constants to use for packets
 ## Handshake
 const MSG_HANDSHAKE := 0 
 ## Handshake Acknowledgement
@@ -279,3 +288,7 @@ const MSG_CHARACTER_UNEQUIP := 13
 const MSG_CLIENT_INTERACT := 14
 ## Called when a client requests to drop an item.
 const MSG_CLIENT_DROP := 15
+## Called when adding an item to a character's inventory.
+const MSG_CHARACTER_ADDITEM := 16
+## Called when removing an item to a character's inventory.
+const MSG_CHARACTER_REMOVEITEM := 17

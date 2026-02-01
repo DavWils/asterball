@@ -19,6 +19,9 @@ func _ready() -> void:
 func add_item(item_state: ItemState):
 	print("Added ", item_state.item_resource.item_name, " to index ", inventory_items.size())
 	inventory_items.append(item_state)
+	
+	if character.network_manager.is_host():
+		character.network_manager.send_p2p_packet(0, {"m": character.network_manager.MSG_CHARACTER_ADDITEM, "id": character.registry_id, "item": item_state})
 	return inventory_items.size()-1
 
 ## Removes an item from the inventory.
@@ -29,7 +32,10 @@ func remove_item(index: int):
 		equipment_index = -1
 	elif equipment_index > index:
 		equipment_index -= 1
-
+	if character.network_manager.is_host():
+		pass
+	if character.network_manager.is_host():
+		character.network_manager.send_p2p_packet(0, {"m": character.network_manager.MSG_CHARACTER_ADDITEM, "id": character.registry_id, "index": index})
 
 ## Returns item state at a given index.
 func get_item_at(index: int) -> ItemState:
