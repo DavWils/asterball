@@ -241,15 +241,13 @@ func pickup_item(item_state: ItemState):
 
 ## Drops an item from the inventory into the game space.
 func drop_item(index: int):
-	level.spawn_pickup($InventoryComponent.get_item_at(index), self.position + Vector3.UP)
+	# If dropping the equipped item, unequip it first
 	if index == $InventoryComponent.equipment_index:
-		var old_item_resource: ItemResource = $InventoryComponent.get_equipped_item().item_resource
-		unequip_item()
-		if not old_item_resource.equip_lock:
-			$InventoryComponent.remove_item(index)
-	else:
-		$InventoryComponent.remove_item(index)
+		unequip_item(false)
 
+	var item = $InventoryComponent.get_item_at(index)
+	level.spawn_pickup(item, self.position + Vector3.UP)
+	$InventoryComponent.remove_item(index)
 
 ## Drops the equipped item.
 func drop_equipped_item() -> void:
@@ -257,6 +255,7 @@ func drop_equipped_item() -> void:
 
 ## Equips the current item at the given inventory index.
 func equip_item(index: int):
+	if $InventoryComponent.equipment_index == index: return
 	print("Attempting to equip at index ", index)
 	# Unequip item if one is currently held.
 	unequip_item(false)
@@ -278,28 +277,23 @@ func equip_item(index: int):
 
 ## Unequips the currently equipped item if it exists.
 func unequip_item(replicate: bool = true):
-	print("Unequipping while index is ", $InventoryComponent.equipment_index)
-	# Delete equipment scene.
 	if current_equipment:
 		current_equipment.queue_free()
 		current_equipment = null
 	
-	# Update inventory component.
-	var drop_old_item = false
 	var equipped_item_state = $InventoryComponent.get_equipped_item()
-	if $InventoryComponent.get_equipped_item():
-		if equipped_item_state.item_resource.equip_lock: # If equip lock, drop the item after unequipping.
-			if network_manager.is_host():
-				drop_old_item = true
-				
-	
 	var old_index = $InventoryComponent.equipment_index
 	$InventoryComponent.equipment_index = -1
-	if drop_old_item:
-		drop_item(old_index)
+	
+	if equipped_item_state and equipped_item_state.item_resource.equip_lock:
+		if network_manager.is_host():
+			drop_item(old_index)
 	
 	if network_manager.is_host() and replicate:
-		network_manager.send_p2p_packet(0, {"m": network_manager.MSG_CHARACTER_EQUIP, "id": registry_id})
+		network_manager.send_p2p_packet(0, {
+			"m": network_manager.MSG_CHARACTER_EQUIP,
+			"id": registry_id
+		})
 
 
 ## Returns number of items held.
