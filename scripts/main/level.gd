@@ -46,11 +46,11 @@ func next_round() -> void:
 	spawn_ball()
 	
 	## Debug spawn items
-	#var items: Array[String] = ["lightning_rod", "pulse_bomb", "warp_sphere"]
-	#for item in items:
-	#	var item_state = ItemState.new()
-	#	item_state.item_resource = load("res://resources/items/"+item+".tres")
-	#	spawn_pickup(item_state, Vector3.UP*5)
+	var items: Array[String] = ["lightning_rod", "pulse_bomb", "warp_sphere"]
+	for item in items:
+		var item_state = ItemState.new()
+		item_state.item_resource = load("res://resources/items/"+item+".tres")
+		spawn_pickup(item_state, Vector3.UP*5)
 		
 	# Wait for intermission time before the round actually starts.
 	await get_tree().create_timer(intermission_wait_time).timeout
@@ -105,9 +105,9 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 func spawn_ball():
 	var ball_item_state = ItemState.new()
 	ball_item_state.item_resource = load("res://resources/items/ball.tres")
-	spawn_pickup(ball_item_state, Vector3.UP*5)
+	return spawn_pickup(ball_item_state, Vector3.UP*5)
 
-func spawn_pickup(item_state: ItemState, item_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
+func spawn_pickup(item_state: ItemState = ItemState.new(), item_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
 	var pickup_node: Pickup = load("res://scenes/level/pickup.tscn").instantiate()
 	pickup_node.position = item_position
 	pickup_node.item_state = item_state
@@ -120,11 +120,12 @@ func spawn_pickup(item_state: ItemState, item_position := Vector3.ZERO, registry
 		network_manager.send_p2p_packet(0, 
 		{
 			"m": network_manager.MSG_SPAWN_PICKUP,
-			"item_state": item_state,
+			"dict": pickup_node.to_init_dict(),
 			"position": item_position,
 			"registry_id": registry_id
 		}
 		)
+	return pickup_node
 
 ## Removes a scene from the registry and deletes it for host and clients.
 func despawn_registry_object(registry_id: int):

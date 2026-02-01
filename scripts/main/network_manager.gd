@@ -170,7 +170,8 @@ func read_p2p_packet():
 				MSG_SPAWN_PICKUP: # Spawns a pickup in local registry.
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
-						level.spawn_pickup(readable_data["item_state"], readable_data["position"], readable_data["registry_id"])
+						var pickup = level.spawn_pickup(ItemState.new(), readable_data["position"], readable_data["registry_id"])
+						pickup.from_init_dict(readable_data["dict"])
 				MSG_DESPAWN_OBJECT: # Despawns an object in local registry
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")

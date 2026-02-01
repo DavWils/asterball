@@ -19,13 +19,13 @@ func _ready() -> void:
 func to_init_dict() -> Dictionary:
 	var pickup_data: Dictionary
 	
-	pickup_data["item_state"] = item_state
+	pickup_data["item_state"] = item_state.to_dict()
 	
 	return pickup_data
 
 ## Loads character variables based on the given dictionary.
 func from_init_dict(data: Dictionary) -> void:
-	item_state = data["item_state"]
+	item_state.from_dict(data["item_state"])
 
 ## Converts ongoing character values that need to be updated to players from host constantly, like position and such.
 func to_reg_dict() -> Dictionary:
