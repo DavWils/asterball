@@ -12,7 +12,6 @@ size = Vector3(2.5, 2, 2.5)
 [node name="Character" instance=ExtResource("1_4276t")]
 script = ExtResource("2_tekpr")
 walk_speed = 6
-max_pocket_capacity = 4
 
 [node name="CameraHandle" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)

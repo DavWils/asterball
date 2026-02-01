@@ -41,6 +41,7 @@ func unpossess_character() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not current_character: return
 	# Look moevment.
 	if event is InputEventMouseMotion and current_character:
 		look_input += event.relative
@@ -50,9 +51,26 @@ func _unhandled_input(event: InputEvent) -> void:
 		if interactable:
 			if interactable.has_method("interact"):
 				print(interactable.get_interact_text())
-				interactable.interact(current_character)
+				if network_manager.is_host():
+					interactable.interact(current_character)
+				else:
+					network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.MSG_CLIENT_INTERACT, "iid": interactable.registry_id})
 	elif event.is_action_pressed("drop_equipment"):
-		current_character.drop_equipped_item()
+		if network_manager.is_host():
+			current_character.drop_equipped_item()
+		else:network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.MSG_CLIENT_DROP})
+	elif event.is_action_pressed("previous_equipment"):
+		if current_character.get_inventory_count() > 0:
+			var new_index = (current_character.get_node("InventoryComponent").equipment_index-1+current_character.get_inventory_count())%current_character.get_inventory_count()
+			equip_by_index(new_index)
+	elif event.is_action_pressed("next_equipment"):
+		if current_character.get_inventory_count() > 0:
+			var new_index = (current_character.get_node("InventoryComponent").equipment_index+1)%current_character.get_inventory_count()
+			equip_by_index(new_index)
+
+## Equips an item by index on character.
+func equip_by_index(index: int):
+	current_character.equip_item(index)
 
 func _physics_process(delta: float) -> void:
 	# Get input and either use it or send it to host.
@@ -81,8 +99,10 @@ func _physics_process(delta: float) -> void:
 func _on_interact_area_overlap(_body: Node3D):
 	var desired_interactable = current_character.get_node("InteractArea3D").get_desired_interactable()
 	if desired_interactable:
-		print("New most desired interactable is ", desired_interactable.name)
+		#print("New most desired interactable is ", desired_interactable.name)
 		if desired_interactable is Pickup:
-			print(desired_interactable, " is a pickup of item ", desired_interactable.item_state.item_resource.item_name)
+			pass
+			#print(desired_interactable, " is a pickup of item ", desired_interactable.item_state.item_resource.item_name)
 	else:
-		print("No desired interactable now.")
+		pass
+		#print("No desired interactable now.")

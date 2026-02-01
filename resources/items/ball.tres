@@ -17,4 +17,4 @@ item_name = "Asterball"
 item_mesh = SubResource("SphereMesh_8xlw7")
 pickup_collision_shape = SubResource("SphereShape3D_pf5td")
 can_purchase = null
-can_pocket = false
+equip_lock = true

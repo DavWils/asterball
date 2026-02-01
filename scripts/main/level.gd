@@ -44,6 +44,15 @@ func next_round() -> void:
 	clean_level()
 	spawn_omnistrikers()
 	spawn_ball()
+	
+	## Debug spawn items
+	#var items: Array[String] = ["lightning_rod", "pulse_bomb", "warp_sphere"]
+	#for item in items:
+	#	var item_state = ItemState.new()
+	#	item_state.item_resource = load("res://resources/items/"+item+".tres")
+	#	spawn_pickup(item_state, Vector3.UP*5)
+		
+	# Wait for intermission time before the round actually starts.
 	await get_tree().create_timer(intermission_wait_time).timeout
 	
 

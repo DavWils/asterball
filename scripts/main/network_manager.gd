@@ -226,19 +226,25 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
-						character.equip_item(readable_data["item_state"])
+						character.equip_item(readable_data["index"])
 				MSG_CHARACTER_UNEQUIP: # Character equips item.
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						character.unequip_item()
-				MSG_CHARACTER_INTERACT: # Character interacts with something.
-					if is_host(sender_id):
+				MSG_CLIENT_INTERACT: # Client wants to interact with something.
+					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						var interactable: Node3D = level.level_registry[readable_data["iid"]]
 						if interactable.has_method("interact"):
 							interactable.interact(character)
+				MSG_CLIENT_DROP: # Client wants to interact with something.
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["id"]]
+						character.drop_equipped_item()
+
 
 # A list of constants to use 
 ## Handshake
@@ -269,5 +275,7 @@ const MSG_CHARACTER_RECOVERED := 11
 const MSG_CHARACTER_EQUIP := 12
 ## Called when a character equips an item.
 const MSG_CHARACTER_UNEQUIP := 13
-## Called when a character interacts with an interactable.
-const MSG_CHARACTER_INTERACT := 14
+## Called when a client  interacts with an interactable.
+const MSG_CLIENT_INTERACT := 14
+## Called when a client requests to drop an item.
+const MSG_CLIENT_DROP := 15

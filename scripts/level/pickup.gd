@@ -50,7 +50,6 @@ func from_reg_dict(data: Dictionary) -> void:
 
 ## Called when interacted with.
 func interact(interactor: Character) -> void:
-	print("interact")
 	level.despawn_registry_object(registry_id)
 	interactor.pickup_item(item_state)
 
