@@ -107,7 +107,7 @@ func spawn_ball():
 	ball_item_state.item_resource = load("res://resources/items/ball.tres")
 	return spawn_pickup(ball_item_state, Vector3.UP*5)
 
-func spawn_pickup(item_state: ItemState = ItemState.new(), item_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
+func spawn_pickup(item_state: ItemState, item_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
 	var pickup_node: Pickup = load("res://scenes/level/pickup.tscn").instantiate()
 	pickup_node.position = item_position
 	pickup_node.item_state = item_state
@@ -120,12 +120,12 @@ func spawn_pickup(item_state: ItemState = ItemState.new(), item_position := Vect
 		network_manager.send_p2p_packet(0, 
 		{
 			"m": network_manager.MSG_SPAWN_PICKUP,
-			"dict": pickup_node.to_init_dict(),
+			"item_state": item_state.to_dict(),
 			"position": item_position,
 			"registry_id": registry_id
 		}
 		)
-	return pickup_node
+		return pickup_node
 
 ## Removes a scene from the registry and deletes it for host and clients.
 func despawn_registry_object(registry_id: int):
