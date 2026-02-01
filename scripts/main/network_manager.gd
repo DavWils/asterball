@@ -250,7 +250,9 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
-						character.get_node("InventoryComponent").add_item(readable_data["item"])
+						var item_state = ItemState.new()
+						item_state.from_dict(readable_data["item_state"])
+						character.get_node("InventoryComponent").add_item(item_state)
 				MSG_CHARACTER_REMOVEITEM:
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
