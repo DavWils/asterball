@@ -32,7 +32,7 @@ func from_dict(data: Dictionary) -> void:
 func _ready() -> void:
 	# When someone joins we want to add them.
 	Steam.lobby_chat_update.connect(_on_lobby_chat_update)
-
+	
 	# Add a player state for each player.
 	if network_manager.is_host():
 		for member in network_manager.lobby_members:

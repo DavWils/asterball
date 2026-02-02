@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://c2kpwj65kiqjv" path="res://scripts/level/character/interact_area.gd" id="3_gd8ut"]
 [ext_resource type="Script" uid="uid://dgo82706uscu8" path="res://scenes/level/character/inventory_carousel.gd" id="4_fwypb"]
 [ext_resource type="Script" uid="uid://bw3vht8dxjwy0" path="res://scenes/level/character/inventory_component.gd" id="5_7da80"]
-[ext_resource type="Script" uid="uid://c2erqjm7tqn42" path="res://scripts/level/character/ovrelap_area.gd" id="6_7da80"]
+[ext_resource type="Script" uid="uid://c2erqjm7tqn42" path="res://scripts/level/character/overlap_area.gd" id="6_7da80"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hqcqr"]
 
