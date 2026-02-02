@@ -7,10 +7,23 @@ class_name PlayerController
 
 ## The currently controlled character.
 var current_character: Character
+## Current camera player is spectating through. Unused when possessing a character.
+@onready var current_camera: Camera3D = $Camera3D
 
 ## The current look delta that is saved until a movement input is calculated.
 var look_input := Vector2.ZERO
 
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+## Sets the spectator camera. If null, disables it.
+func set_spectator_camera(cam: Camera3D = null):
+	if current_camera:
+		current_camera.current = false
+		current_camera = null
+	if cam:
+		cam.current = true
+		current_camera = cam
 
 ## Possesses the given character.
 func possess_character(character: Character) -> void:
@@ -18,7 +31,8 @@ func possess_character(character: Character) -> void:
 		unpossess_character()
 	current_character = character
 	current_character.set_current_camera(true)
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	set_spectator_camera()
 	
 	# Bind signals
 	# Interaction box signal.
@@ -36,39 +50,40 @@ func unpossess_character() -> void:
 	interact_area.body_entered.disconnect(_on_interact_area_overlap)
 	interact_area.body_exited.disconnect(_on_interact_area_overlap)
 	
+	set_spectator_camera($Camera3D)
+	
 	# Forget character.
 	current_character = null
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not current_character: return
-	# Look moevment.
-	if event is InputEventMouseMotion and current_character:
+	if current_character:
+		# Interact input.
+		if event.is_action_pressed("interact"):
+			var interactable: Node3D = current_character.get_node("InteractArea3D").get_desired_interactable()
+			if interactable:
+				if interactable.has_method("interact"):
+					print(interactable.get_interact_text())
+					if network_manager.is_host():
+						interactable.interact(current_character)
+					else:
+						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.MSG_CLIENT_INTERACT, "iid": interactable.registry_id})
+		elif event.is_action_pressed("drop_equipment"):
+			print("dr")
+			if network_manager.is_host():
+				current_character.drop_equipped_item()
+			else:
+				network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.MSG_CLIENT_DROP})
+		elif event.is_action_pressed("previous_equipment"):
+			if current_character.get_inventory_count() > 0:
+				var new_index = (current_character.get_node("InventoryComponent").equipment_index-1+current_character.get_inventory_count())%current_character.get_inventory_count()
+				equip_by_index(new_index)
+		elif event.is_action_pressed("next_equipment"):
+			if current_character.get_inventory_count() > 0:
+				var new_index = (current_character.get_node("InventoryComponent").equipment_index+1)%current_character.get_inventory_count()
+				equip_by_index(new_index)
+	
+	if event is InputEventMouseMotion:
 		look_input += event.relative
-	# Interact input.
-	if event.is_action_pressed("interact"):
-		var interactable: Node3D = current_character.get_node("InteractArea3D").get_desired_interactable()
-		if interactable:
-			if interactable.has_method("interact"):
-				print(interactable.get_interact_text())
-				if network_manager.is_host():
-					interactable.interact(current_character)
-				else:
-					network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.MSG_CLIENT_INTERACT, "iid": interactable.registry_id})
-	elif event.is_action_pressed("drop_equipment"):
-		print("dr")
-		if network_manager.is_host():
-			current_character.drop_equipped_item()
-		else:
-			network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.MSG_CLIENT_DROP})
-	elif event.is_action_pressed("previous_equipment"):
-		if current_character.get_inventory_count() > 0:
-			var new_index = (current_character.get_node("InventoryComponent").equipment_index-1+current_character.get_inventory_count())%current_character.get_inventory_count()
-			equip_by_index(new_index)
-	elif event.is_action_pressed("next_equipment"):
-		if current_character.get_inventory_count() > 0:
-			var new_index = (current_character.get_node("InventoryComponent").equipment_index+1)%current_character.get_inventory_count()
-			equip_by_index(new_index)
 
 ## Equips an item by index on character.
 func equip_by_index(index: int):
@@ -97,6 +112,16 @@ func _physics_process(delta: float) -> void:
 					"in": input_dictionary # Input
 				}
 			)
+	else:
+		# No current character. just moves the player controller around.
+		var forward_vector: Vector3 = self.transform.basis.z
+		var right_vector: Vector3 = self.transform.basis.x
+		var move_input: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+		self.position += (forward_vector*move_input.y) + (right_vector*move_input.x)
+		print(look_input)
+		self.rotation.x = clampf(self.rotation.x - look_input.y * delta * 0.3, -PI/2, PI/2)
+		self.rotation.y = self.rotation.y - (look_input.x * delta * 0.3)
+		look_input = Vector2.ZERO
 
 func _on_interact_area_overlap(_body: Node3D):
 	var desired_interactable = current_character.get_node("InteractArea3D").get_desired_interactable()

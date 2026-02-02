@@ -4,15 +4,19 @@ extends Node
 
 class_name MatchState
 
+@onready var level: Level = self.get_parent()
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 
+## Dictionary of all player states.
 var player_states: Dictionary[int, PlayerState]
-
-## The current score of the home team.
-var home_score := 0
-
-## The current score of the away team.
-var away_score := 0
+## Dictionary of team scores (Key: Team, Value: Score)
+var team_scores: Dictionary[int, int]
+## Whether or not the round is ongoing.
+var is_round_ongoing: bool = false
+## The current match time that ticks down during the game.
+var match_time: int = 0
+## The current time of intermissions, such as pregame 
+var intermission_time: int = 0
 
 ## Converts the match state to a dictionary.
 func to_dict() -> Dictionary:
