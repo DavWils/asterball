@@ -35,6 +35,7 @@ func start_game():
 func next_round():
 	level.clean_level()
 	level.spawn_omnistrikers()
+	level.spawn_ball()
 	match_state.set_intermission_time(intermission_duration)
 	match_state.set_state_of_match(match_state.StateOfMatch.PREPTIME)
 	if network_manager.is_host():
@@ -46,6 +47,7 @@ func start_round():
 
 ## Ends the current round, waiting for the score wait time until starting the next round.
 func end_round():
+	match_state.set_intermission_time(celebration_duration)
 	match_state.set_state_of_match(match_state.StateOfMatch.CELEBRATION)
 
 ## Ends the game.

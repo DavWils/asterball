@@ -6,6 +6,7 @@ class_name Level
 
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 @onready var match_state = $MatchState
+@onready var match_director = $MatchDirector
 
 ## The furthest depth a character can go before they're killed.
 @export var kill_depth := -100.0

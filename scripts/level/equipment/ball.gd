@@ -13,4 +13,4 @@ func _on_area_entered(body: Node3D):
 		if body.owning_team != wielder.get_player_team():
 			print("Score!")
 			var level = get_tree().current_scene.get_node("Level")
-			level.match_state.score(wielder)
+			level.match_director.score(wielder)
