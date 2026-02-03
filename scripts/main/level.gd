@@ -12,19 +12,19 @@ class_name Level
 ## The standard acceleration of gravity on this map.
 @export var gravity_acceleration := 10.0
 ## The amount of time to wait before starting the game.
-@export var pregame_wait_time := 10.0
+@export var pregame_duration := 10.0
 ## The amount of time in the match.
-@export var match_wait_time := 600.0
+@export var match_duration := 600.0
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
-@export var intermission_wait_time := 10.0
+@export var intermission_duration := 10.0
 ## The amount of time to wait after a score until the next round begins.
-@export var score_wait_time := 5.0
+@export var celebration_duration := 5.0
 
 var level_registry: Dictionary[int, Node3D]
 
 func _ready() -> void:
 	print("Level has been loaded.")
-	await get_tree().create_timer(pregame_wait_time).timeout
+	await get_tree().create_timer(pregame_duration).timeout
 	#if network_manager.is_host():
 		#start_game()
 
@@ -54,14 +54,14 @@ func next_round() -> void:
 		spawn_pickup(item_state, Vector3.UP*5 + Vector3.FORWARD*5)
 		
 	# Wait for intermission time before the round actually starts.
-	await get_tree().create_timer(intermission_wait_time).timeout
+	await get_tree().create_timer(intermission_duration).timeout
 	
 
 func score(scoring_character: Character) -> void:
 	print(scoring_character.name, " has scored!!!")
 	
 	# Wait some time, and if we're the host, then start the next game.
-	await get_tree().create_timer(score_wait_time).timeout
+	await get_tree().create_timer(celebration_duration).timeout
 	if network_manager.is_host():
 		next_round()
 

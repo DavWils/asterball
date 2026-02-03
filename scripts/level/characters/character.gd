@@ -66,45 +66,46 @@ func _physics_process(delta: float):
 func use_player_input(input: Dictionary, delta: float) -> void:
 	if is_tackled: return
 	# Movement input.
-	var move_input: Vector2 = input.get("mv", Vector2.ZERO)
-	var charging: bool = input.get("ch", false)
+	if can_move():
+		var move_input: Vector2 = input.get("mv", Vector2.ZERO)
+		var charging: bool = input.get("ch", false)
 
-	var direction := Vector3.ZERO
+		var direction := Vector3.ZERO
 
-	if charging:
-		# Forward only (Z+ in Godot)
-		direction = transform.basis.z
+		if charging:
+			# Forward only (Z+ in Godot)
+			direction = transform.basis.z
 
-		# Ramp speed up over time
-		current_charge_speed = min(
-			current_charge_speed + delta * base_charge_acceleration,
-			base_charge_speed
-		)
+			# Ramp speed up over time
+			current_charge_speed = min(
+				current_charge_speed + delta * base_charge_acceleration,
+				base_charge_speed
+			)
 
-		velocity.x = direction.x * -current_charge_speed
-		velocity.z = direction.z * -current_charge_speed
-	else:
-		# Reset charge when not charging
-		current_charge_speed = walk_speed
+			velocity.x = direction.x * -current_charge_speed
+			velocity.z = direction.z * -current_charge_speed
+		else:
+			# Reset charge when not charging
+			current_charge_speed = walk_speed
 
-		if not move_input.is_zero_approx():
-			direction = (
-				transform.basis.x * move_input.x +
-				transform.basis.z * move_input.y
-			).normalized()
+			if not move_input.is_zero_approx():
+				direction = (
+					transform.basis.x * move_input.x +
+					transform.basis.z * move_input.y
+				).normalized()
 
-		velocity.x = direction.x * walk_speed
-		velocity.z = direction.z * walk_speed
-	
-	# If colliding a character, charge into them.
-	if network_manager.is_host():
-		for i in range(get_slide_collision_count()):
-			var collision := get_slide_collision(i)
-			var collider := collision.get_collider()
-			
-			if charging and collider is Character:
-				on_charge_collide(collider, collision)
-	
+			velocity.x = direction.x * walk_speed
+			velocity.z = direction.z * walk_speed
+		
+		# If colliding a character, charge into them.
+		if network_manager.is_host():
+			for i in range(get_slide_collision_count()):
+				var collision := get_slide_collision(i)
+				var collider := collision.get_collider()
+				
+				if charging and collider is Character:
+					on_charge_collide(collider, collision)
+		
 		
 	# Look input.
 	var look_input: Vector2 = input.get("lk", Vector2.ZERO)
@@ -309,3 +310,7 @@ func get_inventory_count() -> int:
 func get_player_team() -> int:
 	var match_state = level.match_state as MatchState
 	return match_state.player_states[owning_player_id].team
+
+## Returns true if character can move.
+func can_move() -> bool:
+	return level.match_state.is_round_ongoing

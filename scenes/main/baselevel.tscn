@@ -20,5 +20,6 @@ current = true
 [node name="MatchDirector" type="Node" parent="."]
 script = ExtResource("4_iv6mu")
 
-[node name="Timer" type="Timer" parent="MatchDirector"]
+[node name="MatchTimer" type="Timer" parent="MatchDirector"]
 process_callback = 0
+autostart = true

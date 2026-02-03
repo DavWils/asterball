@@ -9,7 +9,11 @@ class_name PlayerState
 @export var team: int = -1
 
 func from_dict(data: Dictionary) -> void:
-	pass
+	current_score = data["current"]
+	total_score = data["total"]
+	team = data["team"]
 
 func to_dict() -> Dictionary:
-	return {}
+	var data: Dictionary = {}
+	
+	return data

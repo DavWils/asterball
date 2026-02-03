@@ -68,7 +68,6 @@ func _unhandled_input(event: InputEvent) -> void:
 					else:
 						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.MSG_CLIENT_INTERACT, "iid": interactable.registry_id})
 		elif event.is_action_pressed("drop_equipment"):
-			print("dr")
 			if network_manager.is_host():
 				current_character.drop_equipped_item()
 			else:
@@ -118,7 +117,6 @@ func _physics_process(delta: float) -> void:
 		var right_vector: Vector3 = self.transform.basis.x
 		var move_input: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 		self.position += (forward_vector*move_input.y) + (right_vector*move_input.x)
-		print(look_input)
 		self.rotation.x = clampf(self.rotation.x - look_input.y * delta * 0.3, -PI/2, PI/2)
 		self.rotation.y = self.rotation.y - (look_input.x * delta * 0.3)
 		look_input = Vector2.ZERO
