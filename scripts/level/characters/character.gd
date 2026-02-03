@@ -313,4 +313,4 @@ func get_player_team() -> int:
 
 ## Returns true if character can move.
 func can_move() -> bool:
-	return level.match_state.is_round_ongoing
+	return level.match_state.state_of_match == level.match_state.StateOfMatch.MATCH

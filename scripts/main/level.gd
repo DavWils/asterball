@@ -78,7 +78,7 @@ func spawn_omnistrikers() -> void:
 		spawn_character(omnistriker_path, player_id, Vector3(player_id%12, 0, player_id%10))
 
 ## Spawns the given character and adds it to the character registry.
-func spawn_character(character_path: String, owner_id := -1, character_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
+func spawn_character(character_path: String, owner_id := -1, character_position := Vector3.ZERO, registry_id := get_unused_registry_id()) -> Character:
 	print("Spawning a new character with id ", registry_id)
 	
 	var character: Character = load(character_path).instantiate()
@@ -101,6 +101,7 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 			"position": character_position
 		}
 		)
+	return character
 
 # Spawns the ball in the level.
 func spawn_ball():

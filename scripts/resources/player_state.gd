@@ -15,5 +15,8 @@ func from_dict(data: Dictionary) -> void:
 
 func to_dict() -> Dictionary:
 	var data: Dictionary = {}
+	data["current"] = current_score
+	data["total"] = total_score
+	data["team"] = team
 	
 	return data
