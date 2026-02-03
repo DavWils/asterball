@@ -105,8 +105,10 @@ func use_player_input(input: Dictionary, delta: float) -> void:
 				
 				if charging and collider is Character:
 					on_charge_collide(collider, collision)
-		
-		
+	else:
+		if is_on_floor(): # Slide to a stop if cant move.
+			velocity = velocity.lerp(Vector3.ZERO, 0.2)
+	
 	# Look input.
 	var look_input: Vector2 = input.get("lk", Vector2.ZERO)
 		
@@ -313,4 +315,4 @@ func get_player_team() -> int:
 
 ## Returns true if character can move.
 func can_move() -> bool:
-	return level.match_state.state_of_match == level.match_state.StateOfMatch.MATCH
+	return level.match_state.state_of_match == level.match_state.StateOfMatch.MATCH or level.match_state.state_of_match == level.match_state.StateOfMatch.CELEBRATION
