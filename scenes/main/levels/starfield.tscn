@@ -34,7 +34,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 48)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("2_htkcu")
-owning_team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeSpawnZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
@@ -44,7 +43,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 48)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("3_n6wex")
-owning_team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeBuyZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
@@ -54,7 +52,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 48)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("4_u3xwc")
-owning_team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeScoreZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
@@ -64,7 +61,7 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("2_htkcu")
-owning_team = 2
+owning_team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwaySpawnZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
@@ -74,7 +71,7 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("3_n6wex")
-owning_team = 2
+owning_team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwayBuyZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
@@ -84,7 +81,7 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("4_u3xwc")
-owning_team = 2
+owning_team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwayScoreZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")

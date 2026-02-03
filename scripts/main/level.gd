@@ -75,7 +75,7 @@ func spawn_omnistrikers() -> void:
 	var omnistriker_path := "res://scenes/level/characters/omnistriker.tscn"
 	for member in network_manager.lobby_members:
 		var player_id = member["steam_id"]
-		spawn_character(omnistriker_path, player_id, Vector3(player_id%12, 0, player_id%10))
+		spawn_character(omnistriker_path, player_id, get_spawn_zone(match_state.player_states[player_id].team).position)
 
 ## Spawns the given character and adds it to the character registry.
 func spawn_character(character_path: String, owner_id := -1, character_position := Vector3.ZERO, registry_id := get_unused_registry_id()) -> Character:
@@ -85,7 +85,13 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 	character.registry_id = registry_id
 	character.owning_player_id = owner_id
 	character.position = character_position
-	character.transform = character.transform.looking_at(Vector3(0,character.position.y,0))
+	var is_x_greater: bool = abs(character.position.x) > abs(character.position.z)
+	var look_at_vector := Vector3(0.0, character.position.y, 0.0)
+	if is_x_greater:
+		look_at_vector.z = character.position.z
+	else:
+		look_at_vector.x = character.position.x
+	character.transform = character.transform.looking_at(look_at_vector)
 	
 	level_registry[registry_id] = character
 	add_child(character)
@@ -142,3 +148,12 @@ func get_unused_registry_id() -> int:
 	while level_registry.has(new_id):
 		new_id += 1
 	return new_id
+
+## Returns a spawn zone given a team.
+func get_spawn_zone(team: int) -> SpawnZone: 
+	var spawn_zones: Array[SpawnZone]
+	for c in get_children():
+		if c is SpawnZone:
+			if c.owning_team == team:
+				spawn_zones.append(c)
+	return spawn_zones.pick_random()
