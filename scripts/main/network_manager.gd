@@ -19,6 +19,8 @@ var player_id := 0
 ## Self's username.
 var player_username := ""
 
+
+
 func _init():
 	OS.set_environment("SteamAppID",str(2837470))
 	OS.set_environment("SteamGameID",str(2837470))
@@ -134,7 +136,7 @@ func _on_p2p_session_request(remote_id: int):
 
 ## Send a handshake to everyone.
 func make_p2p_handshake():
-	send_p2p_packet(0, {"m": MSG_HANDSHAKE, "steam_id": player_id, "username": player_username})
+	send_p2p_packet(0, {"m": Message.HANDSHAKE, "steam_id": player_id, "username": player_username})
 
 ## Keep reading packets.
 func read_all_p2p_packets(read_count: int = 0):
@@ -155,35 +157,34 @@ func read_p2p_packet():
 		var readable_data: Dictionary = bytes_to_var(packet_code)
 		
 		if readable_data.has("m"):
-			#print("> Recieved packet "+str(readable_data["m"])+" from "+Steam.getFriendPersonaName(sender_id))
 			match readable_data["m"]:
-				MSG_HANDSHAKE: # Handshake.
+				Message.HANDSHAKE: 
 					get_lobby_members()
 					if is_host():
-						send_p2p_packet(0, {"m": MSG_HANDSHAKE_ACK})
-				MSG_HANDSHAKE_ACK: # Handshake acknowledgement sent from the host.
+						send_p2p_packet(0, {"m": Message.HANDSHAKE_ACK})
+				Message.HANDSHAKE_ACK: 
 					print(Steam.getFriendPersonaName(sender_id), " has acknowledged the handshake from ", sender_id, ".")
-				MSG_SPAWN_CHAR: # Spawns a character in local registry.
+				Message.SPAWN_CHAR: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						level.spawn_character(readable_data["char_path"], readable_data["owner_id"], readable_data["position"], readable_data["registry_id"])
-				MSG_SPAWN_PICKUP: # Spawns a pickup in local registry.
+				Message.SPAWN_PICKUP: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var item_state = ItemState.new()
 						item_state.from_dict(readable_data["item_state"])
 						level.spawn_pickup(item_state, readable_data["position"], readable_data["registry_id"])
-				MSG_DESPAWN_OBJECT: # Despawns an object in local registry
+				Message.DESPAWN_OBJECT: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						level.despawn_registry_object(readable_data["registry_id"])
-				MSG_CLIENT_CHAR_INPUT: # A client sends their input for their character.
+				Message.CLIENT_CHAR_INPUT: 
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						if character.owning_player_id == sender_id:
 							character.use_player_input(readable_data["in"], readable_data["d"])
-				MSG_REGISTRY_UPDATE: # A registry update from host, updating the state of each item.
+				Message.REGISTRY_UPDATE: 
 					if is_host(sender_id):
 						var network_registry = readable_data["r"]
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -192,7 +193,7 @@ func read_p2p_packet():
 								if level.level_registry[id] is Character:
 									# If this is our local character we should rubberband more subtlely.
 									level.level_registry[id].from_reg_dict(network_registry[id])
-				MSG_CLIENT_REQUEST_GAME: # Client requesting game info from server.
+				Message.CLIENT_REQUEST_GAME: 
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var match_state_dict: Dictionary = level.match_state.to_dict() # Get the match state in dictionary form.
@@ -202,8 +203,8 @@ func read_p2p_packet():
 							registry_initial[id] = {}
 							registry_initial[id]["path"] = registry_scene.scene_file_path
 							registry_initial[id]["data"] = registry_scene.to_init_dict()
-						send_p2p_packet(sender_id, {"m": MSG_RETRIEVE_GAME_INFO, "ri": registry_initial, "ms": match_state_dict})
-				MSG_RETRIEVE_GAME_INFO: # Client retrieves info from server.
+						send_p2p_packet(sender_id, {"m": Message.RETRIEVE_GAME_INFO, "ri": registry_initial, "ms": match_state_dict})
+				Message.RETRIEVE_GAME_INFO: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						level.match_state.from_dict(readable_data["ms"]) # Retrieve match state.
@@ -212,87 +213,102 @@ func read_p2p_packet():
 							var new_scene = load(initial_registry[id]["path"]).instantiate()
 							new_scene.from_init_dict(initial_registry[id]["data"])
 							level.add_child(new_scene)
-				MSG_CHARACTER_TACKLED: # Character is tackled.
+				Message.CHARACTER_TACKLED: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						var tackler: Character = level.level_registry[readable_data["tid"]]
 						var tackle_force = readable_data["tf"]
 						character.tackle(tackler, tackle_force)
-				MSG_CHARACTER_RECOVERED: # Character recovers from being tackled.
+				Message.CHARACTER_RECOVERED: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						character.recover()
-				MSG_CHARACTER_EQUIP: # Character equips item.
+				Message.CHARACTER_EQUIP: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						character.equip_item(readable_data["index"])
-				MSG_CHARACTER_UNEQUIP: # Character equips item.
+				Message.CHARACTER_UNEQUIP: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						character.unequip_item()
-				MSG_CLIENT_INTERACT: # Client wants to interact with something.
+				Message.CLIENT_INTERACT: 
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						var interactable: Node3D = level.level_registry[readable_data["iid"]]
 						if interactable.has_method("interact"):
 							interactable.interact(character)
-				MSG_CLIENT_DROP: # Client wants to interact with something.
+				Message.CLIENT_DROP: 
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						character.drop_equipped_item()
-				MSG_CHARACTER_ADDITEM:
+				Message.CHARACTER_ADDITEM: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						var item_state = ItemState.new()
 						item_state.from_dict(readable_data["item_state"])
 						character.get_node("InventoryComponent").add_item(item_state)
-				MSG_CHARACTER_REMOVEITEM:
+				Message.CHARACTER_REMOVEITEM: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
 						character.get_node("InventoryComponent").remove_item(readable_data["index"])
+				Message.SET_STATE_OF_MATCH:
+					var level: Level = get_tree().current_scene.get_node("Level")
+					var match_state: MatchState = level.match_state
+					match_state.set_state_of_match(readable_data["state_of_match"])
+				Message.SET_MATCH_TIME:
+					var level: Level = get_tree().current_scene.get_node("Level")
+					var match_state: MatchState = level.match_state
+					match_state.set_match_time(readable_data["time"])
+				Message.SET_INTERMISSION_TIME:
+					var level: Level = get_tree().current_scene.get_node("Level")
+					var match_state: MatchState = level.match_state
+					match_state.set_intermission_time(readable_data["time"])
+				Message.SET_PLAYER_TEAM:
+					var level: Level = get_tree().current_scene.get_node("Level")
+					var match_state: MatchState = level.match_state
+					match_state.assign_player_team(readable_data["player_id"], readable_data["team"])
+				Message.ADD_PLAYER_STATE:
+					var level: Level = get_tree().current_scene.get_node("Level")
+					var match_state: MatchState = level.match_state
+					match_state.add_player_state(readable_data["player_id"])
+				Message.SET_TEAM_SCORE:
+					var level: Level = get_tree().current_scene.get_node("Level")
+					var match_state: MatchState = level.match_state
+					match_state.set_team_score(readable_data["team_id"], readable_data["score"])
 
-# A list of constants to use for packets
-## Handshake
-const MSG_HANDSHAKE := 0 
-## Handshake Acknowledgement
-const MSG_HANDSHAKE_ACK := 1
-## Spawn a character.
-const MSG_SPAWN_CHAR := 2
-## Spawns a pickup.
-const MSG_SPAWN_PICKUP := 3
-## Spawns a projectile.
-const MSG_SPAWN_PROJECTILE := 4
-## Despawns a scene in the registry.
-const MSG_DESPAWN_OBJECT := 5
-## Client to Server character input
-const MSG_CLIENT_CHAR_INPUT := 6
-## Server sends up to date registry info to clients.
-const MSG_REGISTRY_UPDATE := 7
-## Client requests server info when they first join the server.
-const MSG_CLIENT_REQUEST_GAME := 8
-## Server sends initial game info back to client.
-const MSG_RETRIEVE_GAME_INFO := 9
-## Server tells everyone that a character has been tackled.
-const MSG_CHARACTER_TACKLED := 10
-## Server tells everyone that a character has been tackled.
-const MSG_CHARACTER_RECOVERED := 11
-## Called when a character equips an item.
-const MSG_CHARACTER_EQUIP := 12
-## Called when a character equips an item.
-const MSG_CHARACTER_UNEQUIP := 13
-## Called when a client  interacts with an interactable.
-const MSG_CLIENT_INTERACT := 14
-## Called when a client requests to drop an item.
-const MSG_CLIENT_DROP := 15
-## Called when adding an item to a character's inventory.
-const MSG_CHARACTER_ADDITEM := 16
-## Called when removing an item to a character's inventory.
-const MSG_CHARACTER_REMOVEITEM := 17
+
+## Enum for the message types for the network manager.
+enum Message {
+	HANDSHAKE, ## Handshake
+	HANDSHAKE_ACK, ## Handshake acknowledgement sent from the host.
+	SPAWN_CHAR, ## Spawns a character in local registry.
+	SPAWN_PICKUP, ## Spawns a pickup in local registry.
+	SPAWN_PROJECTILE, ## Spawns a projectile in local registry.
+	DESPAWN_OBJECT, ## Despawns an object in local registry
+	CLIENT_CHAR_INPUT, ## A client sends their input for their character.
+	REGISTRY_UPDATE, ## A registry update from host, updating the state of each item.
+	CLIENT_REQUEST_GAME, ## Client requesting game info from server.
+	RETRIEVE_GAME_INFO, ## Client retrieves info from server.
+	CHARACTER_TACKLED, ## Character is tackled.
+	CHARACTER_RECOVERED, ## Character recovers from being tackled.
+	CHARACTER_EQUIP, ## Character equips item.
+	CHARACTER_UNEQUIP, ## Character equips item.
+	CLIENT_INTERACT, ## Client wants to interact with something.
+	CLIENT_DROP, ## Client wants to drop item.
+	CHARACTER_ADDITEM, ## Adds an item to a character's inventory.
+	CHARACTER_REMOVEITEM, ## Removes an item from a character's inventory.
+	SET_STATE_OF_MATCH, ## Server sets the state of the match.
+	SET_MATCH_TIME, ## Server sets the match time.
+	SET_INTERMISSION_TIME, ## Server sets the intermission time.
+	SET_PLAYER_TEAM, ## Server sets a player's team.
+	ADD_PLAYER_STATE, ## Adds a player state to the match state.
+	SET_TEAM_SCORE ## Sets a team's score.
+}

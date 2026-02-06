@@ -32,4 +32,4 @@ func join_game(lobby_id: int):
 	print("Successfully joined lobby!")
 	open_level("res://scenes/main/levels/starfield.tscn")
 	await get_tree().create_timer(1).timeout
-	network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.MSG_CLIENT_REQUEST_GAME})
+	network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_GAME})

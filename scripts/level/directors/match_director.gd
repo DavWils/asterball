@@ -9,13 +9,13 @@ class_name MatchDirector
 @onready var match_state: MatchState = level.get_node("MatchState")
 
 ## The amount of time to wait before starting the game.
-@export var pregame_duration := 5
+@export var pregame_duration := 3
 ## The amount of time in the match.
 @export var match_duration := 600
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
-@export var intermission_duration := 10
+@export var intermission_duration := 3
 ## The amount of time to wait after a score until the next round begins.
-@export var celebration_duration := 5
+@export var celebration_duration := 3
 ## The number of teams.
 @export var team_count := 2
 
@@ -23,7 +23,21 @@ func _ready():
 	print("Level is ", level, " and state is ", match_state)
 	$MatchTimer.timeout.connect(_on_match_timer_timeout)
 	if network_manager.is_host():
+		# Set teams:
+		for i in range(0, team_count):
+			match_state.team_states[i] = TeamState.new()
+		# Home team
+		match_state.team_states[0].team_resource = level.get_level_resource().home_team
+		# Away Team
+		# Get a random team.
+		var valid_teams: Array[TeamResource] = [load("res://resources/teams/starstriders.tres"), load("res://resources/teams/warpions.tres"), load("res://resources/teams/accelites.tres")]
+		valid_teams.erase(level.get_level_resource().home_team)
+		match_state.team_states[1].team_resource = valid_teams.pick_random()
+		print(match_state.team_states[0].team_resource.team_name, " vs ", match_state.team_states[1].team_resource.team_name)
+		
+		# Set time
 		match_state.intermission_time = pregame_duration
+		
 
 ## Start the game from pregame.
 func start_game():
@@ -56,6 +70,7 @@ func end_game():
 
 func score(scoring_character: Character):
 	print(Steam.getFriendPersonaName(scoring_character.owning_player_id), " has scored!")
+	match_state.set_team_score(match_state.player_states[scoring_character.owning_player_id].team_id)
 	end_round()
 
 func _on_match_timer_timeout():

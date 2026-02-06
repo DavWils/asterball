@@ -1,6 +1,7 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://owssamj57xjd"]
+[gd_resource type="Resource" script_class="TeamResource" load_steps=2 format=3 uid="uid://owssamj57xjd"]
 
 [ext_resource type="Script" uid="uid://ia8108m4vmxa" path="res://scripts/resources/teams/teamresource.gd" id="1_1a4kg"]
 
 [resource]
 script = ExtResource("1_1a4kg")
+team_name = "Warpions"

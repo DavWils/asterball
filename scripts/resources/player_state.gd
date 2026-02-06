@@ -6,17 +6,17 @@ class_name PlayerState
 ## The total amount of points this player has achieved.
 @export var total_score := 0
 ## The current team of the character. Normally, -1 Spectator, 0 Home, 1 Away
-@export var team: int = -1
+@export var team_id: int = -1
 
 func from_dict(data: Dictionary) -> void:
 	current_score = data["current"]
 	total_score = data["total"]
-	team = data["team"]
+	team_id = data["team_id"]
 
 func to_dict() -> Dictionary:
 	var data: Dictionary = {}
 	data["current"] = current_score
 	data["total"] = total_score
-	data["team"] = team
+	data["team_id"] = team_id
 	
 	return data

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="LevelResource" load_steps=3 format=3 uid="uid://vkwyx8jke2oo"]
 
-[ext_resource type="Resource" uid="uid://b2jga85tfncwa" path="res://resources/teams/monstrels.tres" id="1_87nfy"]
+[ext_resource type="Resource" uid="uid://b2jga85tfncwa" path="res://resources/teams/starstriders.tres" id="1_87nfy"]
 [ext_resource type="Script" uid="uid://smuh23ywl1il" path="res://scripts/resources/levels/levelresource.gd" id="1_tqbwc"]
 
 [resource]

@@ -213,7 +213,7 @@ func tackle(tackler: Node3D, tackle_force: float) -> void:
 		print(Steam.getFriendPersonaName(owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id), " with a force of ", tackle_force)
 		if network_manager.is_host():
 			# Send packet
-			network_manager.send_p2p_packet(0, {"m": network_manager.MSG_CHARACTER_TACKLED, "id": registry_id, "tid": tackler.registry_id, "tf": tackle_force})
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": registry_id, "tid": tackler.registry_id, "tf": tackle_force})
 			# Reset movement.
 			velocity.x = 0
 			velocity.z = 0
@@ -232,7 +232,7 @@ func recover() -> void:
 		$CollisionShape3D.disabled = false
 		print(Steam.getFriendPersonaName(owning_player_id), " has recovered from being tackled.")
 		if network_manager.is_host():
-			network_manager.send_p2p_packet(0, {"m": network_manager.MSG_CHARACTER_RECOVERED, "id": registry_id})
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_RECOVERED, "id": registry_id})
 			
 
 ## Adds an item to the character's inventory.
@@ -281,7 +281,7 @@ func equip_item(index: int):
 		
 	# Clients have character equip item too.
 	if network_manager.is_host():
-		network_manager.send_p2p_packet(0, {"m": network_manager.MSG_CHARACTER_EQUIP, "id": registry_id, "index": index})
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_EQUIP, "id": registry_id, "index": index})
 
 ## Unequips the currently equipped item if it exists.
 func unequip_item(replicate: bool = true):
@@ -299,7 +299,7 @@ func unequip_item(replicate: bool = true):
 	
 	if network_manager.is_host() and replicate:
 		network_manager.send_p2p_packet(0, {
-			"m": network_manager.MSG_CHARACTER_EQUIP,
+			"m": network_manager.Message.CHARACTER_EQUIP,
 			"id": registry_id
 		})
 
@@ -311,7 +311,7 @@ func get_inventory_count() -> int:
 ## Returns the character owner's team.
 func get_player_team() -> int:
 	var match_state = level.match_state as MatchState
-	return match_state.player_states[owning_player_id].team
+	return match_state.player_states[owning_player_id].team_id
 
 ## Returns true if character can move.
 func can_move() -> bool:

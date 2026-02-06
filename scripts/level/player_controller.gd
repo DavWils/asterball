@@ -66,12 +66,12 @@ func _unhandled_input(event: InputEvent) -> void:
 					if network_manager.is_host():
 						interactable.interact(current_character)
 					else:
-						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.MSG_CLIENT_INTERACT, "iid": interactable.registry_id})
+						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_INTERACT, "iid": interactable.registry_id})
 		elif event.is_action_pressed("drop_equipment"):
 			if network_manager.is_host():
 				current_character.drop_equipped_item()
 			else:
-				network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.MSG_CLIENT_DROP})
+				network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_DROP})
 		elif event.is_action_pressed("previous_equipment"):
 			if current_character.get_inventory_count() > 0:
 				var new_index = (current_character.get_node("InventoryComponent").equipment_index-1+current_character.get_inventory_count())%current_character.get_inventory_count()
@@ -105,7 +105,7 @@ func _physics_process(delta: float) -> void:
 			network_manager.send_p2p_packet(
 				network_manager.get_host_id(),
 				{
-					"m": network_manager.MSG_CLIENT_CHAR_INPUT, # Message. Player input.
+					"m": network_manager.Message.CLIENT_CHAR_INPUT, # Message. Player input.
 					"id": current_character.registry_id, # Character id
 					"d": delta,
 					"in": input_dictionary # Input

@@ -26,8 +26,7 @@ var level_registry: Dictionary[int, Node3D]
 func _ready() -> void:
 	print("Level has been loaded.")
 	await get_tree().create_timer(pregame_duration).timeout
-	#if network_manager.is_host():
-		#start_game()
+
 
 func _physics_process(_delta: float) -> void:
 	# Send registry info to clients
@@ -35,36 +34,8 @@ func _physics_process(_delta: float) -> void:
 		var network_registry: Dictionary
 		for id in level_registry:
 			network_registry[id] = level_registry[id].to_reg_dict()
-		network_manager.send_p2p_packet(0, {"m": network_manager.MSG_REGISTRY_UPDATE, "r": network_registry}, Steam.P2P_SEND_UNRELIABLE)
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.REGISTRY_UPDATE, "r": network_registry}, Steam.P2P_SEND_UNRELIABLE)
 
-## Starts the game.
-func start_game() -> void:
-	next_round()
-
-## Transfers to the next round, allowing players to shop for a set time until the round actually starts.
-func next_round() -> void:
-	clean_level()
-	spawn_omnistrikers()
-	spawn_ball()
-	
-	## Debug spawn items
-	var items: Array[String] = ["lightning_rod", "pulse_bomb", "warp_sphere"]
-	for item in items:
-		var item_state = ItemState.new()
-		item_state.item_resource = load("res://resources/items/"+item+".tres")
-		spawn_pickup(item_state, Vector3.UP*5 + Vector3.FORWARD*5)
-		
-	# Wait for intermission time before the round actually starts.
-	await get_tree().create_timer(intermission_duration).timeout
-	
-
-func score(scoring_character: Character) -> void:
-	print(scoring_character.name, " has scored!!!")
-	
-	# Wait some time, and if we're the host, then start the next game.
-	await get_tree().create_timer(celebration_duration).timeout
-	if network_manager.is_host():
-		next_round()
 
 ## Cleans up the level, removing old stuff from registry.
 func clean_level() -> void:
@@ -76,7 +47,7 @@ func spawn_omnistrikers() -> void:
 	var omnistriker_path := "res://scenes/level/characters/omnistriker.tscn"
 	for member in network_manager.lobby_members:
 		var player_id = member["steam_id"]
-		spawn_character(omnistriker_path, player_id, get_spawn_zone(match_state.player_states[player_id].team).position)
+		spawn_character(omnistriker_path, player_id, get_spawn_zone(match_state.player_states[player_id].team_id).position)
 
 ## Spawns the given character and adds it to the character registry.
 func spawn_character(character_path: String, owner_id := -1, character_position := Vector3.ZERO, registry_id := get_unused_registry_id()) -> Character:
@@ -101,7 +72,7 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, 
 		{
-			"m": network_manager.MSG_SPAWN_CHAR,
+			"m": network_manager.Message.SPAWN_CHAR,
 			"char_path": character_path,
 			"registry_id": registry_id,
 			"owner_id": owner_id,
@@ -128,7 +99,7 @@ func spawn_pickup(item_state: ItemState, item_position := Vector3.ZERO, registry
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, 
 		{
-			"m": network_manager.MSG_SPAWN_PICKUP,
+			"m": network_manager.Message.SPAWN_PICKUP,
 			"item_state": item_state.to_dict(),
 			"position": item_position,
 			"registry_id": registry_id
@@ -141,7 +112,7 @@ func despawn_registry_object(registry_id: int):
 	level_registry[registry_id].queue_free()
 	level_registry.erase(registry_id)
 	if network_manager.is_host():
-		network_manager.send_p2p_packet(0, {"m": network_manager.MSG_DESPAWN_OBJECT, "registry_id": registry_id})
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.DESPAWN_OBJECT, "registry_id": registry_id})
 
 ## Returns a registry id thats not used.
 func get_unused_registry_id() -> int:
@@ -158,3 +129,8 @@ func get_spawn_zone(team: int) -> SpawnZone:
 			if c.owning_team == team:
 				spawn_zones.append(c)
 	return spawn_zones.pick_random()
+
+func get_level_resource() -> LevelResource:
+	var level_name: String = get_scene_file_path().get_basename().get_file()
+	var resource_filepath: String = "res://resources/levels/"
+	return load(resource_filepath + level_name + ".tres")
