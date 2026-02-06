@@ -115,23 +115,30 @@ func use_player_input(input: Dictionary, delta: float) -> void:
 	# Look input.
 	var look_input: Vector2 = input.get("lk", Vector2.ZERO)
 		
-	if not look_input.is_zero_approx():
-		# Yaw (left/right)
-		self.rotation.y -= look_input.x * 0.002
+	self.rotation.y = look_input.y
+	var rot_x = clampf(look_input.x, -deg_to_rad(89.0), deg_to_rad(89.0))
+	if use_pitch_rotation:
+		self.rotation.x = rot_x
+	else:
+		control_pitch = rot_x
 		
-		# Pitch (up/down)
-		if use_pitch_rotation:
-			self.rotation.x = clamp(
-				self.rotation.x - look_input.y * 0.002,
-				-deg_to_rad(89.0),
-				deg_to_rad(89.0)
-			)
-		else:
-			control_pitch = clamp(
-				control_pitch - look_input.y * 0.002,
-				-deg_to_rad(89.0),
-				deg_to_rad(89.0)
-			)
+#	if not look_input.is_zero_approx():
+#		# Yaw (left/right)
+#		self.rotation.y -= look_input.x * 0.002
+#		
+#		# Pitch (up/down)
+#		if use_pitch_rotation:
+#			self.rotation.x = clamp(
+#				self.rotation.x - look_input.y * 0.002,
+#				-deg_to_rad(89.0),
+#				deg_to_rad(89.0)
+#			)
+#		else:
+#			control_pitch = clamp(
+#				control_pitch - look_input.y * 0.002,
+#				-deg_to_rad(89.0),
+#				deg_to_rad(89.0)
+#			)
 
 ## Converts character information to a dictionary that can be loaded by players joining the game. Used for time-specific parts like held item, etc. Position isn't exactly needed as it's updated each physics process.
 func to_init_dict() -> Dictionary:
