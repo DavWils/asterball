@@ -10,5 +10,6 @@ func _ready() -> void:
 		player_controller.possess_character(self)
 
 func _on_lobby_chat_update(_id: int, changed_id: int, _change_maker_id: int, chat_state: int):
-	if chat_state == Steam.CHAT_MEMBER_STATE_CHANGE_LEFT and changed_id == owning_player_id:
-		level.despawn_registry_object(registry_id)
+	if network_manager.is_host():
+		if chat_state == Steam.CHAT_MEMBER_STATE_CHANGE_LEFT and changed_id == owning_player_id:
+			level.despawn_registry_object(registry_id)

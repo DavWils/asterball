@@ -32,6 +32,8 @@ enum StateOfMatch {
 ## Converts the match state to a dictionary.
 func to_dict() -> Dictionary:
 	var state_dict := {}
+	state_dict["player_states"] = {}
+	state_dict["team_states"] = {}
 	# Player states.
 	for player_id in player_states:
 		state_dict["player_states"][player_id] = player_states[player_id].to_dict()
@@ -51,12 +53,12 @@ func from_dict(data: Dictionary) -> void:
 	# Player states.
 	for player_id in data["player_states"]:
 		var new_state := PlayerState.new()
-		new_state.from_dict(data["player_states"][player_id].from_dict)
+		new_state.from_dict(data["player_states"][player_id])
 		player_states[player_id] = new_state
 	
 	for team_id in data["team_states"]:
 		var new_state := TeamState.new()
-		new_state.from_dict(data["team_states"][team_id].from_dict)
+		new_state.from_dict(data["team_states"][team_id])
 		team_states[team_id] = new_state
 	match_time = data["match_time"]
 	intermission_time = data["intermission_time"]
@@ -83,9 +85,10 @@ func add_player_state(id: int) -> void:
 		match_director.auto_assign_player_team(id)
 
 
-func _on_lobby_chat_update(_id: int, changed_id: int, _change_maker_id: int, _chat_state: int):
+func _on_lobby_chat_update(_id: int, changed_id: int, _change_maker_id: int, chat_state: int):
 	if network_manager.is_host():
-		add_player_state(changed_id)
+		if chat_state & Steam.CHAT_MEMBER_STATE_CHANGE_ENTERED:
+			add_player_state(changed_id)
 
 ## Sets the round number to a set value. Increases it by default.
 func set_current_round(num: int = current_round + 1):
@@ -97,7 +100,7 @@ func set_current_round(num: int = current_round + 1):
 func set_state_of_match(state: StateOfMatch):
 	state_of_match = state
 	if network_manager.is_host():
-		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_STATE_OF_MATCH, "state": state_of_match})
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_STATE_OF_MATCH, "state_of_match": state_of_match})
 
 ## Sets the match time. Defaults to decrementing one.
 func set_match_time(time: int = match_time-1):

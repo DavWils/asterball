@@ -37,17 +37,6 @@ func _physics_process(_delta: float) -> void:
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.REGISTRY_UPDATE, "r": network_registry}, Steam.P2P_SEND_UNRELIABLE)
 
 
-## Cleans up the level, removing old stuff from registry.
-func clean_level() -> void:
-	for registry_child in level_registry:
-		despawn_registry_object(registry_child)
-
-## Spawns a character for each player.
-func spawn_omnistrikers() -> void:
-	var omnistriker_path := "res://scenes/level/characters/omnistriker.tscn"
-	for member in network_manager.lobby_members:
-		var player_id = member["steam_id"]
-		spawn_character(omnistriker_path, player_id, get_spawn_zone(match_state.player_states[player_id].team_id).position)
 
 ## Spawns the given character and adds it to the character registry.
 func spawn_character(character_path: String, owner_id := -1, character_position := Vector3.ZERO, registry_id := get_unused_registry_id()) -> Character:
@@ -81,12 +70,6 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 		)
 	return character
 
-# Spawns the ball in the level.
-func spawn_ball():
-	var ball_item_state = ItemState.new()
-	ball_item_state.item_resource = load("res://resources/items/ball.tres")
-	return spawn_pickup(ball_item_state, Vector3.UP*5)
-
 func spawn_pickup(item_state: ItemState, item_position := Vector3.ZERO, registry_id := get_unused_registry_id()):
 	var pickup_node: Pickup = load("res://scenes/level/pickup.tscn").instantiate()
 	pickup_node.position = item_position
@@ -109,6 +92,7 @@ func spawn_pickup(item_state: ItemState, item_position := Vector3.ZERO, registry
 
 ## Removes a scene from the registry and deletes it for host and clients.
 func despawn_registry_object(registry_id: int):
+	print("Despawning registry object at id ", registry_id)
 	level_registry[registry_id].queue_free()
 	level_registry.erase(registry_id)
 	if network_manager.is_host():

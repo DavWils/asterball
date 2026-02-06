@@ -9,7 +9,7 @@ class_name MatchDirector
 @onready var match_state: MatchState = level.get_node("MatchState")
 
 ## The amount of time to wait before starting the game.
-@export var pregame_duration := 3
+@export var pregame_duration := 15
 ## The amount of time in the match.
 @export var match_duration := 600
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
@@ -47,9 +47,9 @@ func start_game():
 
 ## Moves onto the next round
 func next_round():
-	level.clean_level()
-	level.spawn_omnistrikers()
-	level.spawn_ball()
+	clean_level()
+	spawn_omnistrikers()
+	spawn_ball()
 	match_state.set_intermission_time(intermission_duration)
 	match_state.set_state_of_match(match_state.StateOfMatch.PREPTIME)
 	if network_manager.is_host():
@@ -119,3 +119,26 @@ func auto_assign_player_team(player_id: int):
 	
 	print("Auto assigning ", Steam.getFriendPersonaName(player_id), " to team ", lowest_team)
 	match_state.assign_player_team(player_id, lowest_team)
+
+
+## Spawns the ball in the level.
+func spawn_ball():
+	var ball_item_state = ItemState.new()
+	ball_item_state.item_resource = load("res://resources/items/ball.tres")
+	return level.spawn_pickup(ball_item_state, Vector3.UP*5)
+
+## Spawns a character for each player.
+func spawn_omnistrikers() -> void:
+	var omnistriker_path := "res://scenes/level/characters/omnistriker.tscn"
+	for member in network_manager.lobby_members:
+		var player_id = member["steam_id"]
+		level.spawn_character(omnistriker_path, player_id, level.get_spawn_zone(match_state.player_states[player_id].team_id).position)
+
+## Cleans up the level, removing old stuff from registry.
+func clean_level() -> void:
+	var registry_ids: Array[int]
+	for registry_child in level.level_registry:
+		registry_ids.append(registry_child)
+		
+	for id in registry_ids:
+		level.despawn_registry_object(id)

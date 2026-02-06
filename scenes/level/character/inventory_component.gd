@@ -53,13 +53,20 @@ func get_equipped_item() -> ItemState:
 
 ## Sets inventory values from dictionary.
 func from_dict(data: Dictionary) -> void:
-	inventory_items = data["items"]
+	# Items from dictionary
+	for item in data["items"]:
+		inventory_items.append(item)
+	
 	equipment_index = data["index"]
-	pass
 
 ## Converts inventory to dictionary
 func to_dict() -> Dictionary:
 	var data: Dictionary = {}
-	data["items"] = inventory_items
+	
+	# Items converted to dictionaries.
+	data["items"] = []
+	for item in inventory_items:
+		data["items"].append(item.to_dict())
+	
 	data["index"] = equipment_index
 	return data

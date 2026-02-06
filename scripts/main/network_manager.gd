@@ -124,7 +124,6 @@ func send_p2p_packet(target: int, packet: Dictionary, send_type:=Steam.P2P_SEND_
 		if lobby_members.size()>1:
 			for member in lobby_members:
 				if member['steam_id'] != player_id:
-					if send_type == Steam.P2P_SEND_RELIABLE: print("< Sending packet '",packet["m"],"' to "+Steam.getFriendPersonaName(member['steam_id']))
 					Steam.sendP2PPacket(member['steam_id'], packet_data, send_type, channel)
 	else: # Send to target.
 		Steam.sendP2PPacket(target, packet_data, send_type, channel)
@@ -181,6 +180,7 @@ func read_p2p_packet():
 				Message.CLIENT_CHAR_INPUT: 
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
+						if not level.level_registry.has(readable_data["id"]): return
 						var character: Character = level.level_registry[readable_data["id"]]
 						if character.owning_player_id == sender_id:
 							character.use_player_input(readable_data["in"], readable_data["d"])
@@ -260,29 +260,35 @@ func read_p2p_packet():
 						var character: Character = level.level_registry[readable_data["id"]]
 						character.get_node("InventoryComponent").remove_item(readable_data["index"])
 				Message.SET_STATE_OF_MATCH:
-					var level: Level = get_tree().current_scene.get_node("Level")
-					var match_state: MatchState = level.match_state
-					match_state.set_state_of_match(readable_data["state_of_match"])
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var match_state: MatchState = level.match_state
+						match_state.set_state_of_match(readable_data["state_of_match"])
 				Message.SET_MATCH_TIME:
-					var level: Level = get_tree().current_scene.get_node("Level")
-					var match_state: MatchState = level.match_state
-					match_state.set_match_time(readable_data["time"])
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var match_state: MatchState = level.match_state
+						match_state.set_match_time(readable_data["time"])
 				Message.SET_INTERMISSION_TIME:
-					var level: Level = get_tree().current_scene.get_node("Level")
-					var match_state: MatchState = level.match_state
-					match_state.set_intermission_time(readable_data["time"])
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var match_state: MatchState = level.match_state
+						match_state.set_intermission_time(readable_data["time"])
 				Message.SET_PLAYER_TEAM:
-					var level: Level = get_tree().current_scene.get_node("Level")
-					var match_state: MatchState = level.match_state
-					match_state.assign_player_team(readable_data["player_id"], readable_data["team"])
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var match_state: MatchState = level.match_state
+						match_state.assign_player_team(readable_data["player_id"], readable_data["team"])
 				Message.ADD_PLAYER_STATE:
-					var level: Level = get_tree().current_scene.get_node("Level")
-					var match_state: MatchState = level.match_state
-					match_state.add_player_state(readable_data["player_id"])
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var match_state: MatchState = level.match_state
+						match_state.add_player_state(readable_data["player_id"])
 				Message.SET_TEAM_SCORE:
-					var level: Level = get_tree().current_scene.get_node("Level")
-					var match_state: MatchState = level.match_state
-					match_state.set_team_score(readable_data["team_id"], readable_data["score"])
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var match_state: MatchState = level.match_state
+						match_state.set_team_score(readable_data["team_id"], readable_data["score"])
 
 
 ## Enum for the message types for the network manager.
