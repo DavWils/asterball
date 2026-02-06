@@ -121,24 +121,6 @@ func use_player_input(input: Dictionary, delta: float) -> void:
 		self.rotation.x = rot_x
 	else:
 		control_pitch = rot_x
-		
-#	if not look_input.is_zero_approx():
-#		# Yaw (left/right)
-#		self.rotation.y -= look_input.x * 0.002
-#		
-#		# Pitch (up/down)
-#		if use_pitch_rotation:
-#			self.rotation.x = clamp(
-#				self.rotation.x - look_input.y * 0.002,
-#				-deg_to_rad(89.0),
-#				deg_to_rad(89.0)
-#			)
-#		else:
-#			control_pitch = clamp(
-#				control_pitch - look_input.y * 0.002,
-#				-deg_to_rad(89.0),
-#				deg_to_rad(89.0)
-#			)
 
 ## Converts character information to a dictionary that can be loaded by players joining the game. Used for time-specific parts like held item, etc. Position isn't exactly needed as it's updated each physics process.
 func to_init_dict() -> Dictionary:
@@ -170,7 +152,7 @@ func from_reg_dict(data: Dictionary) -> void:
 	var new_rot: Vector3 = data["r"]
 	var new_vel: Vector3 = data["v"]
 	var new_con_pitch: float = data["cp"]
-	
+	#print("Client ROT: ", self.rotation, "   |   SERVER ROT: ", new_rot, "   |   DIFF: ", self.rotation-new_rot)
 	if not is_locally_possessed():
 		## The percentage to lerp from local position to updated position
 		const NONLOCAL_LERP_FACTOR: float = 0.4
@@ -184,11 +166,12 @@ func from_reg_dict(data: Dictionary) -> void:
 		## Minimum difference in position before the serverside position must take over.
 		const MIN_POS_DIFF: float = 1.2
 		## Same as above but for rotation.
-		const MIN_ROT_DIFF: float = 1.0
+		const MIN_ROT_DIFF: float = PI
 		## The lerp factor in which client side smoothes to server side.
 		
 		var pos_diff := position.distance_to(new_pos)
-		var rot_diff := rotation.distance_to(new_rot)
+		#var rot_diff := rotation.distance_to(new_rot)
+		var rot_diff := absf(wrapf(rotation.y - new_rot.y, -PI, PI))
 		var cp_diff := absf(control_pitch - new_con_pitch)
 		
 		# Update position if need be.
@@ -196,7 +179,8 @@ func from_reg_dict(data: Dictionary) -> void:
 			position = position.lerp(new_pos, LOCAL_LERP_FACTOR)
 		# Update rotation if need be.
 		if rot_diff > MIN_ROT_DIFF:
-			rotation = rotation.lerp(new_rot, LOCAL_LERP_FACTOR)
+			#rotation = rotation.lerp(new_rot, LOCAL_LERP_FACTOR)
+			rotation.y = lerp_angle(rotation.y, new_rot.y, LOCAL_LERP_FACTOR)
 		if cp_diff > MIN_ROT_DIFF:
 			control_pitch = lerp(control_pitch, new_con_pitch, LOCAL_LERP_FACTOR)
 		velocity = new_vel

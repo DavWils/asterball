@@ -99,7 +99,6 @@ func _physics_process(delta: float) -> void:
 		var look_y = (current_character.rotation.y - (look_input.x*0.002))
 		var look_x = (current_character.rotation.x if current_character.use_pitch_rotation else current_character.control_pitch) - (look_input.y*0.002)
 		input_dictionary["lk"] = Vector2(look_x,look_y)
-		print(Vector2(look_x,look_y))
 		# Charge input.
 		input_dictionary["ch"] = Input.is_action_pressed("charge") # Charging input.
 		look_input = Vector2.ZERO
