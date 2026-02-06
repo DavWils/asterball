@@ -40,7 +40,10 @@ func set_current_camera(current: bool) -> void:
 
 ## Returns true if this character is locally controlled.
 func is_locally_possessed() -> bool:
-	return player_controller.current_character == self
+	if player_controller:
+		if player_controller.current_character:
+			return player_controller.current_character == self
+	return false
 
 func _exit_tree() -> void:
 	if is_locally_possessed(): player_controller.unpossess_character()
@@ -315,4 +318,8 @@ func get_player_team() -> int:
 
 ## Returns true if character can move.
 func can_move() -> bool:
-	return level.match_state.state_of_match == level.match_state.StateOfMatch.MATCH or level.match_state.state_of_match == level.match_state.StateOfMatch.CELEBRATION
+	# Check state of match to see if its one we can move in..
+	var state_of_match = level.match_state.state_of_match
+	var state_enum = level.match_state.StateOfMatch
+	var is_movable_state_of_match: bool = (state_of_match == state_enum.MATCH or state_of_match == state_enum.CELEBRATION)
+	return is_movable_state_of_match and (not is_tackled) 

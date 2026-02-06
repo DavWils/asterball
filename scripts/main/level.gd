@@ -21,7 +21,7 @@ class_name Level
 ## The amount of time to wait after a score until the next round begins.
 @export var celebration_duration := 5.0
 
-var level_registry: Dictionary[int, Node3D]
+var level_registry: Dictionary[int, Node3D] = {}
 
 func _ready() -> void:
 	print("Level has been loaded.")
@@ -41,7 +41,6 @@ func _physics_process(_delta: float) -> void:
 ## Spawns the given character and adds it to the character registry.
 func spawn_character(character_path: String, owner_id := -1, character_position := Vector3.ZERO, registry_id := get_unused_registry_id()) -> Character:
 	print("Spawning a new character with id ", registry_id)
-	
 	var character: Character = load(character_path).instantiate()
 	character.registry_id = registry_id
 	character.owning_player_id = owner_id
@@ -54,9 +53,8 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 		look_at_vector.x = character.position.x
 	character.transform = character.transform.looking_at(look_at_vector)
 	
-	level_registry[registry_id] = character
 	add_child(character)
-	
+	level_registry[registry_id] = character
 	# If we're the host, let clients know to spawn the character.
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, 

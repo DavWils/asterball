@@ -48,6 +48,7 @@ func start_game():
 ## Moves onto the next round
 func next_round():
 	clean_level()
+	await get_tree().process_frame
 	spawn_omnistrikers()
 	spawn_ball()
 	match_state.set_intermission_time(intermission_duration)
@@ -136,9 +137,5 @@ func spawn_omnistrikers() -> void:
 
 ## Cleans up the level, removing old stuff from registry.
 func clean_level() -> void:
-	var registry_ids: Array[int]
-	for registry_child in level.level_registry:
-		registry_ids.append(registry_child)
-		
-	for id in registry_ids:
+	for id in level.level_registry.keys():
 		level.despawn_registry_object(id)
