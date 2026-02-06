@@ -25,6 +25,7 @@ func to_init_dict() -> Dictionary:
 
 ## Loads character variables based on the given dictionary.
 func from_init_dict(data: Dictionary) -> void:
+	item_state = ItemState.new()
 	item_state.from_dict(data["item_state"])
 
 ## Converts ongoing character values that need to be updated to players from host constantly, like position and such.

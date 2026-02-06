@@ -203,6 +203,7 @@ func read_p2p_packet():
 							registry_initial[id] = {}
 							registry_initial[id]["path"] = registry_scene.scene_file_path
 							registry_initial[id]["data"] = registry_scene.to_init_dict()
+							registry_initial[id]["reg_dict"] = registry_scene.to_reg_dict()
 						send_p2p_packet(sender_id, {"m": Message.RETRIEVE_GAME_INFO, "ri": registry_initial, "ms": match_state_dict})
 				Message.RETRIEVE_GAME_INFO: 
 					if is_host(sender_id):
@@ -212,6 +213,7 @@ func read_p2p_packet():
 						for id in initial_registry:
 							var new_scene = load(initial_registry[id]["path"]).instantiate()
 							new_scene.from_init_dict(initial_registry[id]["data"])
+							new_scene.from_reg_dict(initial_registry[id]["reg_dict"])
 							level.add_child(new_scene)
 				Message.CHARACTER_TACKLED: 
 					if is_host(sender_id):
