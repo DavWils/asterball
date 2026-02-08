@@ -128,8 +128,26 @@ func get_team_players(team_id: int):
 			players.append(player)
 	return players
 
+## Sets a score of the team of the given team id.
 func set_team_score(team_id: int, new_score: int = team_states[team_id].score + 1):
 	team_states[team_id].score = new_score
 	print(team_states[team_id].team_resource.team_name, "'s new score is ", new_score)
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_TEAM_SCORE, "team_id": team_id, "score": new_score})
+
+## Returns the highest scoring team(s), returning multiple if there is a tie.
+func get_winning_team_ids() -> Array[int]:
+	var highest_teams: Array[int] = []
+	for team_id in team_states.keys():
+		if highest_teams.is_empty():
+			highest_teams.append(team_id)
+		else:
+			var high_score: int = team_states[highest_teams[0]].score
+			var current_score = team_states[team_id].score
+			if current_score > high_score:
+				highest_teams.clear()
+				highest_teams.append(team_id)
+			elif current_score == high_score:
+				highest_teams.append(team_id)
+	
+	return highest_teams

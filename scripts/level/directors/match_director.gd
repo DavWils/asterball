@@ -16,8 +16,12 @@ class_name MatchDirector
 @export var intermission_duration := 3
 ## The amount of time to wait after a score until the next round begins.
 @export var celebration_duration := 3
+## The amount of time spent in the endgame before loading to the next level.
+@export var endgame_duration := 30
 ## The number of teams.
 @export var team_count := 2
+## The final amount of points a team must get to win the game.
+@export var point_quota := 2
 
 func _ready():
 	print("Level is ", level, " and state is ", match_state)
@@ -66,13 +70,18 @@ func end_round():
 	match_state.set_state_of_match(match_state.StateOfMatch.CELEBRATION)
 
 ## Ends the game.
-func end_game():
+func end_game(scoring_team: int):
+	print(match_state.team_states[scoring_team].team_resource.team_name, " wins the game.")
+	match_state.set_intermission_time(endgame_duration)
 	match_state.set_state_of_match(match_state.StateOfMatch.ENDGAME)
 
 func score(scoring_character: Character):
 	print(Steam.getFriendPersonaName(scoring_character.owning_player_id), " has scored!")
 	match_state.set_team_score(match_state.player_states[scoring_character.owning_player_id].team_id)
-	end_round()
+	if scoring_character.get_player_team_state().score >= point_quota:
+		end_game(scoring_character.get_player_team_id())
+	else:
+		end_round()
 
 func _on_match_timer_timeout():
 	if not network_manager.is_host(): return
@@ -91,7 +100,10 @@ func _on_match_timer_timeout():
 			match_state.set_match_time()
 			print("Match time tick: ", match_state.match_time)
 			if match_state.match_time <= 0:
-				end_game()
+				# Find team with highest score.
+				var winning_teams := match_state.get_winning_team_ids()
+				if winning_teams.size() == 1:
+					end_game(winning_teams[0])
 		match_state.StateOfMatch.CELEBRATION: # Celebration time after the end of a round. Starts next round after.
 			match_state.set_intermission_time()
 			print("Celebration time tick: ", match_state.intermission_time)

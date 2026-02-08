@@ -303,9 +303,14 @@ func get_inventory_count() -> int:
 	return $InventoryComponent.inventory_items.size()
 
 ## Returns the character owner's team.
-func get_player_team() -> int:
+func get_player_team_id() -> int:
 	var match_state = level.match_state as MatchState
 	return match_state.player_states[owning_player_id].team_id
+
+## Returns the character owner's team state.
+func get_player_team_state() -> TeamState:
+	var match_state = level.match_state as MatchState
+	return match_state.team_states[get_player_team_id()]
 
 ## Returns true if character can move.
 func can_move() -> bool:
