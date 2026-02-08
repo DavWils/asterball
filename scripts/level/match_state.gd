@@ -82,7 +82,8 @@ func add_player_state(id: int) -> void:
 	if not player_states.has(id):
 		var new_player_state := PlayerState.new()
 		player_states[id] = new_player_state
-		match_director.auto_assign_player_team(id)
+		if network_manager.is_host():
+			match_director.auto_assign_player_team(id)
 
 
 func _on_lobby_chat_update(_id: int, changed_id: int, _change_maker_id: int, chat_state: int):
@@ -116,9 +117,11 @@ func set_intermission_time(time: int = intermission_time - 1):
 
 ## Assigns a player to a given team.
 func assign_player_team(player_id: int, team_id: int):
-	player_states[player_id].team_id = team_id
-	if network_manager.is_host():
-		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_PLAYER_TEAM, "player_id": player_id, "team": team_id})
+	if player_states.has(player_id) and team_states.has(team_id):
+		player_states[player_id].team_id = team_id
+		print(Steam.getFriendPersonaName(player_id), " has been assigned to the ", team_states[team_id].team_resource.team_name)
+		if network_manager.is_host():
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_PLAYER_TEAM, "player_id": player_id, "team_id": team_id})
 
 ## Returns the players in a team.
 func get_team_players(team_id: int):

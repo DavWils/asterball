@@ -197,6 +197,7 @@ func read_p2p_packet():
 									level.level_registry[id].from_reg_dict(network_registry[id])
 				Message.CLIENT_REQUEST_GAME: 
 					if is_host():
+						print("Sending game info to ", Steam.getFriendPersonaName(sender_id))
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var match_state_dict: Dictionary = level.match_state.to_dict() # Get the match state in dictionary form.
 						var registry_initial: Dictionary
@@ -283,7 +284,7 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var match_state: MatchState = level.match_state
-						match_state.assign_player_team(readable_data["player_id"], readable_data["team"])
+						match_state.assign_player_team(readable_data["player_id"], readable_data["team_id"])
 				Message.ADD_PLAYER_STATE:
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")

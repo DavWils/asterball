@@ -130,7 +130,7 @@ func auto_assign_player_team(player_id: int):
 			lowest_team = i
 			current_count = team_sizes[i]
 	
-	print("Auto assigning ", Steam.getFriendPersonaName(player_id), " to team ", lowest_team)
+	print("Auto assigning ", Steam.getFriendPersonaName(player_id))
 	match_state.assign_player_team(player_id, lowest_team)
 
 
