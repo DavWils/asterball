@@ -9,26 +9,26 @@ class_name MatchDirector
 @onready var match_state: MatchState = level.get_node("MatchState")
 
 ## The amount of time to wait before starting the game.
-@export var pregame_duration := 15
+const PREGAME_DURATION := 15
 ## The amount of time in the match.
-@export var match_duration := 600
+const MATCH_DURATION := 600
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
-@export var intermission_duration := 3
+const INTERMISSION_DURATION := 3
 ## The amount of time to wait after a score until the next round begins.
-@export var celebration_duration := 3
+const CELEBRATION_DURATION := 3
 ## The amount of time spent in the endgame before loading to the next level.
-@export var endgame_duration := 30
+const ENDGAME_DURATION := 30
 ## The number of teams.
-@export var team_count := 2
+const TEAM_COUNT := 2
 ## The final amount of points a team must get to win the game.
-@export var point_quota := 2
+const WINNING_SCORE := 2
 
 func _ready():
 	print("Level is ", level, " and state is ", match_state)
 	$MatchTimer.timeout.connect(_on_match_timer_timeout)
 	if network_manager.is_host():
 		# Set teams:
-		for i in range(0, team_count):
+		for i in range(0, TEAM_COUNT):
 			match_state.team_states[i] = TeamState.new()
 		# Home team
 		match_state.team_states[0].team_resource = level.get_level_resource().home_team
@@ -40,13 +40,13 @@ func _ready():
 		print(match_state.team_states[0].team_resource.team_name, " vs ", match_state.team_states[1].team_resource.team_name)
 		
 		# Set time
-		match_state.intermission_time = pregame_duration
+		match_state.intermission_time = PREGAME_DURATION
 		
 
 ## Start the game from pregame.
 func start_game():
 	print("Starting game.")
-	match_state.set_match_time(match_duration)
+	match_state.set_match_time(MATCH_DURATION)
 	next_round()
 
 ## Moves onto the next round
@@ -55,7 +55,7 @@ func next_round():
 	await get_tree().process_frame
 	spawn_omnistrikers()
 	spawn_ball()
-	match_state.set_intermission_time(intermission_duration)
+	match_state.set_intermission_time(INTERMISSION_DURATION)
 	match_state.set_state_of_match(match_state.StateOfMatch.PREPTIME)
 	if network_manager.is_host():
 		match_state.set_current_round()
@@ -66,19 +66,19 @@ func start_round():
 
 ## Ends the current round, waiting for the score wait time until starting the next round.
 func end_round():
-	match_state.set_intermission_time(celebration_duration)
+	match_state.set_intermission_time(CELEBRATION_DURATION)
 	match_state.set_state_of_match(match_state.StateOfMatch.CELEBRATION)
 
 ## Ends the game.
 func end_game(scoring_team: int):
 	print(match_state.team_states[scoring_team].team_resource.team_name, " wins the game.")
-	match_state.set_intermission_time(endgame_duration)
+	match_state.set_intermission_time(ENDGAME_DURATION)
 	match_state.set_state_of_match(match_state.StateOfMatch.ENDGAME)
 
 func score(scoring_character: Character):
 	print(Steam.getFriendPersonaName(scoring_character.owning_player_id), " has scored!")
 	match_state.set_team_score(match_state.player_states[scoring_character.owning_player_id].team_id)
-	if scoring_character.get_player_team_state().score >= point_quota:
+	if scoring_character.get_player_team_state().score >= WINNING_SCORE:
 		end_game(scoring_character.get_player_team_id())
 	else:
 		end_round()
@@ -119,13 +119,13 @@ func _on_match_timer_timeout():
 func auto_assign_player_team(player_id: int):
 	# Initialize.
 	var team_sizes: Dictionary
-	for i in range(0, team_count):
+	for i in range(0, TEAM_COUNT):
 		team_sizes[i] = match_state.get_team_players(i).size()
 
 	# Find the team with the lowest count.
 	var current_count: int = 1 << 60
 	var lowest_team: int
-	for i in range(0, team_count):
+	for i in range(0, TEAM_COUNT):
 		if team_sizes[i] < current_count:
 			lowest_team = i
 			current_count = team_sizes[i]

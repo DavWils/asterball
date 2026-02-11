@@ -12,20 +12,12 @@ class_name Level
 @export var kill_depth := -100.0
 ## The standard acceleration of gravity on this map.
 @export var gravity_acceleration := 10.0
-## The amount of time to wait before starting the game.
-@export var pregame_duration := 10.0
-## The amount of time in the match.
-@export var match_duration := 600.0
-## The amount of time before the round actually starts, allowing players some time to shop and buy items.
-@export var intermission_duration := 10.0
-## The amount of time to wait after a score until the next round begins.
-@export var celebration_duration := 5.0
+
 
 var level_registry: Dictionary[int, Node3D] = {}
 
 func _ready() -> void:
 	print("Level has been loaded.")
-	await get_tree().create_timer(pregame_duration).timeout
 
 
 func _physics_process(_delta: float) -> void:
