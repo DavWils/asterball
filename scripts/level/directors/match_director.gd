@@ -22,6 +22,12 @@ const ENDGAME_DURATION := 30
 const TEAM_COUNT := 2
 ## The final amount of points a team must get to win the game.
 const WINNING_SCORE := 2
+## The amount of points given to all players when a new round begins.
+const NEW_ROUND_POINTS := 600
+## The amount of points given to a player when their team wins a score.
+const WIN_SUPPORT_POINTS := 500
+## The extra amount of points given to the player who actually scores.
+const WIN_SCORER_POINTS := 350
 
 func _ready():
 	print("Level is ", level, " and state is ", match_state)
@@ -77,7 +83,25 @@ func end_game(scoring_team: int):
 
 func score(scoring_character: Character):
 	print(Steam.getFriendPersonaName(scoring_character.owning_player_id), " has scored!")
+	# Add a point to the player's team.
 	match_state.set_team_score(match_state.player_states[scoring_character.owning_player_id].team_id)
+	# Give points to the winning players as well.
+	for player_id in match_state.player_states.keys():
+		var added_points: int = 0
+		var scorer_state: PlayerState = match_state.get_player_state(scoring_character.owning_player_id)
+		var current_state: PlayerState = match_state.get_player_state(player_id)
+		# If on winning team, add points.
+		if current_state.team_id == scorer_state.team_id:
+			added_points += WIN_SUPPORT_POINTS
+			# If scoring player, add more points.
+			if player_id == scoring_character.owning_player_id:
+				added_points += WIN_SCORER_POINTS
+		
+		# If non zero points, add them.
+		if added_points != 0:
+			add_player_points(player_id, added_points)
+		
+	# If team has reached winning score, end the game. Else just end round.
 	if scoring_character.get_player_team_state().score >= WINNING_SCORE:
 		end_game(scoring_character.get_player_team_id())
 	else:
@@ -151,3 +175,17 @@ func spawn_omnistrikers() -> void:
 func clean_level() -> void:
 	for id in level.level_registry.keys():
 		level.despawn_registry_object(id)
+
+## Adds points to the given player.
+func add_player_points(player_id: int, points: int) -> void:
+	var player_state: PlayerState = match_state.get_player_state(player_id)
+	var player_current: int = player_state.current_score
+	var player_total: int = player_state.total_score
+	match_state.set_player_score(player_id, player_current + points, player_total + points)
+
+## Spends (removes) points from the given player.
+func spend_player_points(player_id: int, points: int) -> void:
+	var player_state: PlayerState = match_state.get_player_state(player_id)
+	var player_current: int = player_state.current_score
+	var player_total: int = player_state.total_score
+	match_state.set_player_score(player_id, player_current - points, player_total)

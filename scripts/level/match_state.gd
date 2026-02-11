@@ -154,3 +154,14 @@ func get_winning_team_ids() -> Array[int]:
 				highest_teams.append(team_id)
 	
 	return highest_teams
+
+## Returns the player state of the given player via id.
+func get_player_state(player_id: int) -> PlayerState:
+	return player_states[player_id]
+
+## Sets the score of the player with the given player id. Sets current score, as well as total score.
+func set_player_score(player_id: int, current: int, total: int) -> void:
+	player_states[player_id].set_scores(current, total)
+	print("Set ", Steam.getFriendPersonaName(player_id), "'s new scores to ", str(current), "/", str(total))
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_PLAYER_SCORE, "player_id": player_id, "current": current, "total": total})

@@ -20,3 +20,12 @@ func to_dict() -> Dictionary:
 	data["team_id"] = team_id
 	
 	return data
+
+## Sets total and current score of the player.
+func set_scores(current: int, total: int) -> void:
+	current_score = current
+	total_score = total
+
+## Returns true if player can afford a cost.
+func can_afford(cost: int) -> bool:
+	return current_score >= cost

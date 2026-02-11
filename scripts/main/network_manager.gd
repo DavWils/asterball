@@ -295,7 +295,11 @@ func read_p2p_packet():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var match_state: MatchState = level.match_state
 						match_state.set_team_score(readable_data["team_id"], readable_data["score"])
-
+				Message.SET_PLAYER_SCORE:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var match_state: MatchState = level.match_state
+						match_state.set_player_score(readable_data["player_id"], readable_data["current"], readable_data["total"])
 
 ## Enum for the message types for the network manager.
 enum Message {
@@ -322,5 +326,6 @@ enum Message {
 	SET_INTERMISSION_TIME, ## Server sets the intermission time.
 	SET_PLAYER_TEAM, ## Server sets a player's team.
 	ADD_PLAYER_STATE, ## Adds a player state to the match state.
-	SET_TEAM_SCORE ## Sets a team's score.
+	SET_TEAM_SCORE, ## Sets a team's score.
+	SET_PLAYER_SCORE ## Sets a player's scores.
 }
