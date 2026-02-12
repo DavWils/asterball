@@ -205,6 +205,9 @@ func tackle(tackler: Node3D, tackle_force: float) -> void:
 		is_tackled = true
 		$CollisionShape3D.disabled = true
 		print(Steam.getFriendPersonaName(owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id), " with a force of ", tackle_force)
+		# Shake camera.
+		if is_locally_possessed():
+			$CameraHandle.tackle_shake(tackle_force)
 		if network_manager.is_host():
 			# Send packet
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": registry_id, "tid": tackler.registry_id, "tf": tackle_force})
@@ -212,9 +215,6 @@ func tackle(tackler: Node3D, tackle_force: float) -> void:
 			velocity.x = 0
 			velocity.z = 0
 			current_charge_speed = 0
-			# Shake camera.
-			if is_locally_possessed():
-				$CameraHandle.tackle_shake(tackle_force)
 			await get_tree().create_timer(4).timeout
 			recover()
 			
