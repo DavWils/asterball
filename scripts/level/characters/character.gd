@@ -211,6 +211,10 @@ func tackle(tackler: Node3D, tackle_force: float) -> void:
 		if network_manager.is_host():
 			# Send packet
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": registry_id, "tid": tackler.registry_id, "tf": tackle_force})
+			# Drop all items.
+			while $InventoryComponent.get_item_at(0):
+				drop_item(0)
+			
 			# Reset movement.
 			velocity.x = 0
 			velocity.z = 0
