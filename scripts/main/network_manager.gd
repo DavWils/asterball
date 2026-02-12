@@ -57,6 +57,11 @@ func is_host(id := player_id):
 func get_host_id() -> int:
 	return Steam.getLobbyOwner(lobby_id)
 
+## Returns true if member is currently in lobby.
+func has_lobby_member(id: int):
+	return lobby_members.has(id)
+
+
 ## Create a steam lobby.
 func create_lobby():
 	if lobby_id == 0:
@@ -104,7 +109,7 @@ func _on_lobby_chat_update(_id: int, changed_id: int, change_maker_id: int, chat
 func get_lobby_members():
 	lobby_members.clear()
 	if lobby_id == 0:
-		lobby_members.append({"steam_id": player_id, "steam_name": "Player"})
+		lobby_members.append(player_id)
 		return
 	var lobby_count := Steam.getNumLobbyMembers(lobby_id)
 	print("Host is ", Steam.getFriendPersonaName(Steam.getLobbyOwner(lobby_id)))
@@ -113,7 +118,9 @@ func get_lobby_members():
 		var member_id := Steam.getLobbyMemberByIndex(lobby_id, member)
 		var member_name := Steam.getFriendPersonaName(member_id)
 		print(member_name)
-		lobby_members.append({"steam_id": member_id, "steam_name": member_name})
+		lobby_members.append(member_id)
+	#for simulated_member_id in [76561198053693271, 76561198036161282, 76561198207763132, 76561198106468984]:
+	#	lobby_members.append(simulated_member_id)
 
 ## Send a packet to another player.
 func send_p2p_packet(target: int, packet: Dictionary, send_type:=Steam.P2P_SEND_RELIABLE):
