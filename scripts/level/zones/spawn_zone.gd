@@ -28,5 +28,4 @@ func get_spawn_position(index: int, quantity: int) -> Vector3:
 		direction * (side_space * (index - (quantity / 2))) +
 		direction * (side_space / 2.0 if quantity % 2 == 0 else 0.0)
 	)
-	print("Spawn position for ", index, "/", quantity, " for team ", owning_team, " is ", spawn_position)
 	return spawn_position
