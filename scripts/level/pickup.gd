@@ -7,7 +7,7 @@ class_name Pickup
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 @onready var level: Level = get_tree().current_scene.get_node("Level")
 
-var item_state: ItemState
+@export var item_state: ItemState
 var registry_id: int
 
 func _ready() -> void:
