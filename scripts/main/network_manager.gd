@@ -119,8 +119,8 @@ func get_lobby_members():
 		var member_name := Steam.getFriendPersonaName(member_id)
 		print(member_name)
 		lobby_members.append(member_id)
-	#for simulated_member_id in [76561198053693271, 76561198036161282, 76561198207763132, 76561198106468984]:
-	#	lobby_members.append(simulated_member_id)
+	for simulated_member_id in [76561198053693271, 76561198036161282, 76561198207763132, 76561198106468984]:
+		lobby_members.append(simulated_member_id)
 
 ## Send a packet to another player.
 func send_p2p_packet(target: int, packet: Dictionary, send_type:=Steam.P2P_SEND_RELIABLE):
@@ -130,8 +130,8 @@ func send_p2p_packet(target: int, packet: Dictionary, send_type:=Steam.P2P_SEND_
 	if target == 0: # Multicast to everyone else.
 		if lobby_members.size()>1:
 			for member in lobby_members:
-				if member['steam_id'] != player_id:
-					Steam.sendP2PPacket(member['steam_id'], packet_data, send_type, channel)
+				if member != player_id:
+					Steam.sendP2PPacket(member, packet_data, send_type, channel)
 	else: # Send to target.
 		Steam.sendP2PPacket(target, packet_data, send_type, channel)
 
