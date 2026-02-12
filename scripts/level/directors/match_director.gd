@@ -9,7 +9,7 @@ class_name MatchDirector
 @onready var match_state: MatchState = level.get_node("MatchState")
 
 ## The amount of time to wait before starting the game.
-const PREGAME_DURATION := 15
+const PREGAME_DURATION := 5
 ## The amount of time in the match.
 const MATCH_DURATION := 600
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
@@ -167,9 +167,21 @@ func spawn_ball():
 ## Spawns a character for each player.
 func spawn_omnistrikers() -> void:
 	var omnistriker_path := "res://scenes/level/characters/omnistriker.tscn"
-	for member in network_manager.lobby_members:
-		var player_id = member["steam_id"]
-		level.spawn_character(omnistriker_path, player_id, level.get_spawn_zone(match_state.player_states[player_id].team_id).position)
+	# An array of each team and their respective players. After getting this, we'll use the number of team players to place them in an even line.
+	var teams_and_players: Dictionary[int, Array]
+	for team_id in match_state.team_states:
+		teams_and_players[team_id] = match_state.get_team_players(team_id)
+	
+	for team_id in teams_and_players:
+		# Spawn zone of the team.
+		var spawn_zone: SpawnZone = level.get_spawn_zone(team_id)
+		
+		# Iterate over all players in this team and spawn them in a line.
+		for player_id in teams_and_players[team_id]:
+			# Make sure they're actually in the game when spawning them.
+			if network_manager.has_lobby_member(player_id):
+				var spawn_position: Vector3 = spawn_zone.get_spawn_position(teams_and_players[team_id].find(player_id), teams_and_players[team_id].size())
+				level.spawn_character(omnistriker_path, player_id, spawn_position)
 
 ## Cleans up the level, removing old stuff from registry.
 func clean_level() -> void:

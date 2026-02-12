@@ -73,7 +73,7 @@ func _ready() -> void:
 	await get_tree().process_frame # Need to wait until match director recognizes us.
 	if network_manager.is_host():
 		for member in network_manager.lobby_members:
-			add_player_state(member["steam_id"])
+			add_player_state(member)
 
 ## Adds a new player state to the player state array.
 func add_player_state(id: int) -> void:
