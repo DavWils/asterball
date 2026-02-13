@@ -261,9 +261,10 @@ func read_p2p_packet():
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
-						var interactable: Node3D = level.level_registry[readable_data["iid"]]
-						if interactable.has_method("interact"):
-							interactable.interact(character)
+						if character.owning_player_id == sender_id:
+							var interactable: Node3D = level.level_registry[readable_data["iid"]]
+							if interactable.has_method("interact"):
+								interactable.interact(character)
 				Message.CLIENT_DROP: 
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
