@@ -10,10 +10,11 @@ class_name MainScene
 
 var found_lobbies: Array
 
-## Loads into session's level.
-func load_level(level_path: String):
+## Loads session into a new level..
+func load_level(level_name: String = Steam.getLobbyData(network_manager.lobby_id, "level")):
 	if $MainMenu:
 		$MainMenu.queue_free()
+	var level_path: String = "res://scenes/main/levels/"+ level_name + ".tscn"
 	var new_level = load(level_path).instantiate()
 	add_child(new_level)
 
@@ -25,19 +26,23 @@ func _on_lobby_match_list(lobbies):
 	found_lobbies = lobbies
 
 ## Hosts a game.
-func host_game():
+func host_game(level_name: String):
+	# Create the lobby.
 	print("Hosting lobby")
 	network_manager.create_lobby()
 	await Steam.lobby_joined
-	load_level("res://scenes/main/levels/starfield.tscn")
+	# Set metadata for the current level
+	Steam.setLobbyData(network_manager.lobby_id, "level", level_name)
+	# Load into session's level
+	load_level(level_name)
 
 ## Joins a game with the given lobby id.
 func join_game(lobby_id: int):
-	print("Joining lobby ", lobby_id, "...")
+	print("Joining lobby ", lobby_id, "that's in map ", Steam.getLobbyData(lobby_id, "level"))
 	network_manager.join_lobby(lobby_id)
 	await Steam.lobby_joined
 	print("Successfully joined lobby! Loading now.")
-	load_level("res://scenes/main/levels/starfield.tscn")
+	load_level()
 	await get_tree().create_timer(1).timeout
 	network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_GAME})
 
@@ -55,7 +60,6 @@ func quick_find_game():
 	await Steam.lobby_match_list
 	var best_lobby = find_most_optimal_lobby()
 	if best_lobby:
-		print("Joining lobby ", best_lobby)
 		join_game(best_lobby)
 	else:
 		print("No lobby found.")
