@@ -83,6 +83,12 @@ func _on_lobby_created(success: int, id: int):
 func join_lobby(id: int):
 	Steam.joinLobby(id)
 
+## Leaves the steam lobby.
+func leave_lobby() -> void:
+	Steam.leaveLobby(lobby_id)
+	lobby_id = 0
+	get_lobby_members()
+
 ## When we join a lobby we set ourselves as a part of it.
 func _on_lobby_joined(id: int, _permissions: int, _locked: bool, response: int):
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
