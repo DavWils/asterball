@@ -10,10 +10,17 @@ class_name MainScene
 
 var found_lobbies: Array
 
-## Loads session into a new level..
+## Loads session into a new level.
 func load_level(level_name: String = Steam.getLobbyData(network_manager.lobby_id, "level")):
+	# Remove old main menu and level.
 	if $MainMenu:
 		$MainMenu.queue_free()
+	if $Level:
+		$Level.queue_free()
+	# If host, update metadata and tell clients to load new level..
+	if network_manager.is_host():
+		Steam.setLobbyData(network_manager.lobby_id, "level", level_name)
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.LOAD_LEVEL, "level_name": level_name})
 	var level_path: String = "res://scenes/main/levels/"+ level_name + ".tscn"
 	var new_level = load(level_path).instantiate()
 	add_child(new_level)
@@ -22,8 +29,10 @@ func _ready() -> void:
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
 	Steam.requestLobbyList()
 
+## Update known lobby list.
 func _on_lobby_match_list(lobbies):
 	found_lobbies = lobbies
+
 
 ## Hosts a game.
 func host_game(level_name: String):
@@ -32,7 +41,6 @@ func host_game(level_name: String):
 	network_manager.create_lobby()
 	await Steam.lobby_joined
 	# Set metadata for the current level
-	Steam.setLobbyData(network_manager.lobby_id, "level", level_name)
 	# Load into session's level
 	load_level(level_name)
 
