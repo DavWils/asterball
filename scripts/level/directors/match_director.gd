@@ -7,6 +7,8 @@ class_name MatchDirector
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 @onready var level: Level = self.get_parent()
 @onready var match_state: MatchState = level.get_node("MatchState")
+@onready var match_timer: Timer = $MatchTimer
+
 
 ## The amount of time to wait before starting the game.
 const PREGAME_DURATION := 5
@@ -31,7 +33,7 @@ const WIN_SCORER_POINTS := 350
 
 func _ready():
 	print("Level is ", level, " and state is ", match_state)
-	$MatchTimer.timeout.connect(_on_match_timer_timeout)
+	match_timer.timeout.connect(_on_match_timer_timeout)
 	if network_manager.is_host():
 		# Set teams:
 		for i in range(0, TEAM_COUNT):

@@ -108,12 +108,16 @@ func set_match_time(time: int = match_time-1):
 	match_time = time
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_MATCH_TIME, "time": match_time})
+	else:
+		match_director.match_timer.start()
 
 ## Sets the intermission time. Defaults to decrementing one.
 func set_intermission_time(time: int = intermission_time - 1):
 	intermission_time = time
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_INTERMISSION_TIME, "time": intermission_time})
+	else:
+		match_director.match_timer.start()
 
 ## Assigns a player to a given team.
 func assign_player_team(player_id: int, team_id: int):
