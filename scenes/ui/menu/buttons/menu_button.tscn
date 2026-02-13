@@ -1,0 +1,24 @@
+[gd_scene load_steps=7 format=3 uid="uid://clnvfmymfgg5r"]
+
+[ext_resource type="Script" uid="uid://7k7cftjryriv" path="res://scripts/ui/menu/buttons/menu_button.gd" id="1_1ky74"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ky74"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rc5av"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3prsw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlk75"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5gys6"]
+
+[node name="MenuButton" type="Button"]
+theme_override_styles/normal = SubResource("StyleBoxFlat_1ky74")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rc5av")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3prsw")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_tlk75")
+theme_override_styles/focus = SubResource("StyleBoxFlat_5gys6")
+text = "
+"
+alignment = 0
+script = ExtResource("1_1ky74")
