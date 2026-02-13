@@ -12,6 +12,8 @@ var current_character: Character
 
 ## The current look delta that is saved until a movement input is calculated.
 var look_input := Vector2.ZERO
+## Whether or not player is currently paused. (in pause menu).
+var paused: bool = false
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

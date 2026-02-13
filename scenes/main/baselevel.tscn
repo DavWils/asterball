@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=6 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
 [ext_resource type="Script" uid="uid://budf6d2cxdeye" path="res://scripts/level/player_controller.gd" id="3_iv6mu"]
 [ext_resource type="Script" uid="uid://bvtcywgx6648c" path="res://scripts/level/directors/gridiron.gd" id="4_iv6mu"]
+[ext_resource type="Script" uid="uid://dt0qd8g844ixh" path="res://scripts/ui/player/player_ui.gd" id="5_lw4hh"]
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_lwlui")
@@ -23,3 +24,34 @@ script = ExtResource("4_iv6mu")
 [node name="MatchTimer" type="Timer" parent="MatchDirector"]
 process_callback = 0
 autostart = true
+
+[node name="PlayerUI" type="CanvasLayer" parent="."]
+script = ExtResource("5_lw4hh")
+
+[node name="PauseMenu" type="Control" parent="PlayerUI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BuyMenu" type="Control" parent="PlayerUI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MatchMenu" type="Control" parent="PlayerUI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1

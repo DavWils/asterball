@@ -322,4 +322,4 @@ func can_move() -> bool:
 	var state_of_match = level.match_state.state_of_match
 	var state_enum = level.match_state.StateOfMatch
 	var is_movable_state_of_match: bool = (state_of_match == state_enum.MATCH or state_of_match == state_enum.CELEBRATION)
-	return is_movable_state_of_match and (not is_tackled) 
+	return is_movable_state_of_match and (not is_tackled) and (not (is_locally_possessed() and player_controller.paused))
