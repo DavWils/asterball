@@ -13,9 +13,9 @@ var found_lobbies: Array
 ## Loads session into a new level.
 func load_level(level_name: String = Steam.getLobbyData(network_manager.lobby_id, "level")):
 	# Remove old main menu and level.
-	if $MainMenu:
+	if has_node("MainMenu"):
 		$MainMenu.queue_free()
-	if $Level:
+	if has_node("Level"):
 		$Level.queue_free()
 	# If host, update metadata and tell clients to load new level..
 	if network_manager.is_host():
