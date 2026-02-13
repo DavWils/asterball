@@ -30,7 +30,7 @@ func _ready():
 
 func _process(_delta):
 	Steam.run_callbacks()
-	if lobby_id > 0:
+	if is_in_lobby():
 		read_all_p2p_packets()
 
 ## Connects to the steam servers.
@@ -61,6 +61,9 @@ func get_host_id() -> int:
 func has_lobby_member(id: int):
 	return lobby_members.has(id)
 
+## Returns true if currently in multiplayer lobby.
+func is_in_lobby() -> bool:
+	return lobby_id > 0
 
 ## Create a steam lobby.
 func create_lobby():
