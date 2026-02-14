@@ -23,6 +23,8 @@ var current_round: int = 0
 
 ## Signal emitted when player state is added.
 signal player_state_added(player_id: int)
+## Signal emitted when player team is assigned.
+signal player_team_assigned(player_id: int, team_id: int)
 
 enum StateOfMatch {
 	PREGAME,
@@ -128,6 +130,7 @@ func assign_player_team(player_id: int, team_id: int):
 	if player_states.has(player_id) and team_states.has(team_id):
 		player_states[player_id].team_id = team_id
 		print(Steam.getFriendPersonaName(player_id), " has been assigned to the ", team_states[team_id].team_resource.team_name)
+		player_team_assigned.emit(player_id, team_id)
 		if network_manager.is_host():
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_PLAYER_TEAM, "player_id": player_id, "team_id": team_id})
 
