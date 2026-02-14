@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=9 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
 [ext_resource type="Script" uid="uid://budf6d2cxdeye" path="res://scripts/level/player_controller.gd" id="3_iv6mu"]
 [ext_resource type="Script" uid="uid://bvtcywgx6648c" path="res://scripts/level/directors/gridiron.gd" id="4_iv6mu"]
 [ext_resource type="Script" uid="uid://dt0qd8g844ixh" path="res://scripts/ui/player/player_ui.gd" id="5_lw4hh"]
+[ext_resource type="Script" uid="uid://bubjmu6ys67a8" path="res://scripts/ui/player/match_menu.gd" id="6_dtma0"]
+[ext_resource type="Script" uid="uid://cis1m2nwwovjw" path="res://scripts/ui/player/pause_menu.gd" id="6_h058a"]
+[ext_resource type="Script" uid="uid://d153tfj16xmce" path="res://scripts/ui/player/buy_menu.gd" id="7_x0hxo"]
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_lwlui")
@@ -36,6 +39,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("6_h058a")
 
 [node name="BuyMenu" type="Control" parent="PlayerUI"]
 visible = false
@@ -45,6 +49,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("7_x0hxo")
 
 [node name="MatchMenu" type="Control" parent="PlayerUI"]
 visible = false
@@ -55,8 +60,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+script = ExtResource("6_dtma0")
 
 [node name="TeamContainer" type="HBoxContainer" parent="PlayerUI/MatchMenu"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.15
+anchor_top = 0.2
+anchor_right = 0.85
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
