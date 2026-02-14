@@ -233,72 +233,118 @@ func recover() -> void:
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_RECOVERED, "id": registry_id})
 			
 
-## Adds an item to the character's inventory.
+## Adds an item to the character's inventory with validation.
 func pickup_item(item_state: ItemState):
-	print("Player has picked up ", item_state.item_resource.item_name)
-	var new_index: int = $InventoryComponent.add_item(item_state)
-	if not current_equipment or item_state.item_resource.equip_lock:
-		equip_item(new_index)
-
-## Drops an item from the inventory into the game space.
-func drop_item(index: int):
-	var item = $InventoryComponent.get_item_at(index)
-	if item == null: return
-	print("Dropping item ", index)
-	level.spawn_pickup(item, self.position + Vector3.UP)
-	# If dropping the equipped item, unequip it
-	if index == $InventoryComponent.equipment_index:
-		print("Unequipping current equipment.")
-		if current_equipment:
-			current_equipment.queue_free()
-			current_equipment = null
-	$InventoryComponent.remove_item(index)
-
-
-## Drops the equipped item.
-func drop_equipped_item() -> void:
-	drop_item($InventoryComponent.equipment_index)
-
-## Equips the current item at the given inventory index.
-func equip_item(index: int):
-	if $InventoryComponent.equipment_index == index: return
-	print("Attempting to equip at index ", index)
-	# Unequip item if one is currently held.
-	unequip_item(false)
-	if index < 0:
+	if not item_state or not item_state.item_resource:
+		print("Attempted to pick up invalid item")
+		return
+		
+	if $InventoryComponent.is_full():
+		print("Inventory is full, cannot pick up ", item_state.item_resource.item_name)
+		# Optionally drop the item back on the ground
 		return
 	
+	print("Player has picked up ", item_state.item_resource.item_name)
+	var new_index: int = $InventoryComponent.add_item(item_state)
+	if new_index >= 0 and (not current_equipment or item_state.item_resource.equip_lock):
+		equip_item(new_index)
+
+## Drops an item from the inventory with validation.
+func drop_item(index: int):
+	var item = $InventoryComponent.get_item_at(index)
+	if item == null: 
+		print("Attempted to drop null item at index ", index)
+		return
+		
+	print("Dropping item ", index)
+	
+	# Check if this is the equipped item
+	var was_equipped = (index == $InventoryComponent.equipment_index)
+	
+	# Spawn the pickup in the world
+	level.spawn_pickup(item, self.position + Vector3.UP)
+	
+	# Remove from inventory first to prevent reference issues
+	$InventoryComponent.remove_item(index)
+	
+	# Handle equipment after removal
+	if was_equipped:
+		print("Unequipping current equipment.")
+		unequip_item()
+
+
+## Drops the equipped item with validation.
+func drop_equipped_item() -> void:
+	var equip_idx = $InventoryComponent.equipment_index
+	if equip_idx >= 0:
+		drop_item(equip_idx)
+
+## Equips the current item at the given inventory index with validation.
+func equip_item(index: int):
+	# Validate index
+	if index < 0 or index >= $InventoryComponent.inventory_items.size():
+		print("Invalid equip index: ", index)
+		return
+		
+	if $InventoryComponent.equipment_index == index: 
+		return
+		
+	print("Attempting to equip at index ", index)
+	
+	# Get the item state first
 	var item_state = $InventoryComponent.get_item_at(index)
-	if item_state:
-		print("Index was ", $InventoryComponent.equipment_index)
-		$InventoryComponent.equipment_index = index
-		print("Index is now ", $InventoryComponent.equipment_index)
+	if not item_state:
+		print("No item found at index ", index)
+		return
+	
+	# Unequip current item
+	unequip_item(false)
+	
+	# Set new equipment
+	$InventoryComponent.equipment_index = index
+	print("Index is now ", $InventoryComponent.equipment_index)
+	
+	# Instantiate equipment if it has a resource
+	if item_state.item_resource and item_state.item_resource.get_equipment_resource():
 		var equipment = item_state.item_resource.get_equipment_resource().instantiate()
 		current_equipment = equipment
 		add_child(equipment)
-		
-	# Clients have character equip item too.
+	else:
+		print("Item has no equipment resource: ", item_state.item_resource.item_name if item_state.item_resource else "Unknown")
+	
+	# Replicate to network
 	if network_manager.is_host():
-		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_EQUIP, "id": registry_id, "index": index})
+		network_manager.send_p2p_packet(0, {
+			"m": network_manager.Message.CHARACTER_EQUIP, 
+			"id": registry_id, 
+			"index": index
+		})
 
-## Unequips the currently equipped item if it exists.
+
+## Unequips the currently equipped item with validation.
 func unequip_item(replicate: bool = true):
+	var old_index = $InventoryComponent.equipment_index
+	
+	# Clear current equipment
 	if current_equipment:
 		current_equipment.queue_free()
 		current_equipment = null
 	
-	var equipped_item_state = $InventoryComponent.get_equipped_item()
-	var old_index = $InventoryComponent.equipment_index
 	$InventoryComponent.equipment_index = -1
 	
-	if equipped_item_state and equipped_item_state.item_resource.equip_lock:
-		if network_manager.is_host():
-			drop_item(old_index)
+	# Handle equip lock items
+	if old_index >= 0:
+		var equipped_item_state = $InventoryComponent.get_item_at(old_index)
+		if equipped_item_state and equipped_item_state.item_resource and equipped_item_state.item_resource.equip_lock:
+			if network_manager.is_host():
+				# Drop the item since it can't be unequipped normally
+				drop_item(old_index)
 	
+	# Replicate to network
 	if network_manager.is_host() and replicate:
 		network_manager.send_p2p_packet(0, {
-			"m": network_manager.Message.CHARACTER_EQUIP,
-			"id": registry_id
+			"m": network_manager.Message.CHARACTER_UNEQUIP,
+			"id": registry_id,
 		})
 
 

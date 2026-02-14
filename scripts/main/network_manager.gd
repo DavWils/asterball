@@ -276,15 +276,36 @@ func read_p2p_packet():
 				Message.CHARACTER_ADDITEM: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
+						if not level.level_registry.has(readable_data["id"]): 
+							return
 						var character: Character = level.level_registry[readable_data["id"]]
 						var item_state = ItemState.new()
 						item_state.from_dict(readable_data["item_state"])
-						character.get_node("InventoryComponent").add_item(item_state)
+						
+						# Validate item before adding
+						if item_state and item_state.item_resource:
+							# Check if we're adding at a specific index (to prevent duplicates)
+							if readable_data.has("index") and readable_data["index"] < character.get_node("InventoryComponent").inventory_items.size():
+								# Index already exists, this might be a duplicate
+								print("Warning: Attempted to add item at existing index")
+								return
+							character.get_node("InventoryComponent").add_item(item_state)
+						else:
+							print("Warning: Received invalid item state")
+
 				Message.CHARACTER_REMOVEITEM: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
+						if not level.level_registry.has(readable_data["id"]): 
+							return
 						var character: Character = level.level_registry[readable_data["id"]]
-						character.get_node("InventoryComponent").remove_item(readable_data["index"])
+						var index = readable_data["index"]
+						
+						# Validate index before removal
+						if index >= 0 and index < character.get_node("InventoryComponent").inventory_items.size():
+							character.get_node("InventoryComponent").remove_item(index)
+						else:
+							print("Warning: Attempted to remove invalid index ", index)
 				Message.SET_STATE_OF_MATCH:
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -348,7 +369,7 @@ enum Message {
 	CHARACTER_TACKLED, ## Character is tackled.
 	CHARACTER_RECOVERED, ## Character recovers from being tackled.
 	CHARACTER_EQUIP, ## Character equips item.
-	CHARACTER_UNEQUIP, ## Character equips item.
+	CHARACTER_UNEQUIP, ## Character unequips item.
 	CLIENT_INTERACT, ## Client wants to interact with something.
 	CLIENT_DROP, ## Client wants to drop item.
 	CHARACTER_ADDITEM, ## Adds an item to a character's inventory.
