@@ -25,6 +25,8 @@ var current_round: int = 0
 signal player_state_added(player_id: int)
 ## Signal emitted when player team is assigned.
 signal player_team_assigned(player_id: int, team_id: int)
+## Signal when time is set.
+signal time_set(time: int)
 
 enum StateOfMatch {
 	PREGAME,
@@ -116,6 +118,7 @@ func set_match_time(time: int = match_time-1):
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_MATCH_TIME, "time": match_time})
 	else:
 		match_director.match_timer.start()
+	time_set.emit(time)
 
 ## Sets the intermission time. Defaults to decrementing one.
 func set_intermission_time(time: int = intermission_time - 1):
@@ -124,6 +127,7 @@ func set_intermission_time(time: int = intermission_time - 1):
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_INTERMISSION_TIME, "time": intermission_time})
 	else:
 		match_director.match_timer.start()
+	time_set.emit(time)
 
 ## Assigns a player to a given team.
 func assign_player_team(player_id: int, team_id: int):
