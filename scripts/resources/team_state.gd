@@ -6,6 +6,8 @@ class_name TeamState
 ## The resource of this team.
 @export var team_resource: TeamResource
 
+signal score_changed(new_score: int)
+
 ## Build team state from dictionary.
 func from_dict(data: Dictionary) -> void:
 	score = data["score"]
@@ -20,3 +22,4 @@ func to_dict() -> Dictionary:
 
 func set_score(new_score: int):
 	score = new_score
+	score_changed.emit(new_score)
