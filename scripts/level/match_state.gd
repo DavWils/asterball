@@ -187,3 +187,18 @@ func set_player_score(player_id: int, current: int, total: int) -> void:
 	print("Set ", Steam.getFriendPersonaName(player_id), "'s new scores to ", str(current), "/", str(total))
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_PLAYER_SCORE, "player_id": player_id, "current": current, "total": total})
+
+## Returns time as a string
+func get_time_text() -> String:
+	var time: int = match_time if state_of_match == StateOfMatch.MATCH else intermission_time
+	@warning_ignore("integer_division")
+	var time_hr: int = time/3600
+	@warning_ignore("integer_division")
+	var time_min: int = time/60
+	var time_sec: int = time%60
+	if time_hr > 0:
+		return str(time_hr).pad_zeros(2)+":"+str(time_min).pad_zeros(2)+":"+str(time_sec).pad_zeros(2)
+	elif time_min > 0:
+		return str(time_min).pad_zeros(2)+":"+str(time_sec).pad_zeros(2)
+	else:
+		return str(time_sec).pad_zeros(2)

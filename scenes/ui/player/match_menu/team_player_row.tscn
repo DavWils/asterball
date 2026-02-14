@@ -1,16 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://bidiwfdpkugrs"]
+[gd_scene load_steps=3 format=3 uid="uid://bidiwfdpkugrs"]
 
-[ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/player/no_player_icon.png" id="1_t1ey3"]
+[ext_resource type="Script" uid="uid://dod5kgx1kq761" path="res://scripts/ui/player/match_menu/team_player_row.gd" id="1_42o18"]
+[ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/no_icon.png" id="1_t1ey3"]
 
-[node name="TeamList" type="HBoxContainer"]
-offset_right = 5.0
-offset_bottom = 23.0
+[node name="TeamPlayerRow" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_42o18")
 
 [node name="PlayerIcon" type="TextureRect" parent="."]
 layout_mode = 2
 texture = ExtResource("1_t1ey3")
-expand_mode = 4
+expand_mode = 2
 
-[node name="Label" type="Label" parent="."]
+[node name="NameLabel" type="Label" parent="."]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
 text = "Player"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="ScoreLabel" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "0/0"

@@ -1,8 +1,37 @@
-[gd_scene format=3 uid="uid://dfka48sk4ftq8"]
+[gd_scene load_steps=3 format=3 uid="uid://dfka48sk4ftq8"]
 
-[node name="TeamList" type="VBoxContainer"]
+[ext_resource type="Script" uid="uid://bbu6umwnrauxw" path="res://scripts/ui/player/match_menu/team_column.gd" id="1_lt70e"]
+[ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/no_icon.png" id="2_egkmp"]
+
+[node name="TeamColumn" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_lt70e")
+
+[node name="HeaderRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TeamIcon" type="TextureRect" parent="HeaderRow"]
+layout_mode = 2
+texture = ExtResource("2_egkmp")
+expand_mode = 2
+
+[node name="TeamNameText" type="Label" parent="HeaderRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Team"
+
+[node name="Spacer" type="Control" parent="HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TeamScoreText" type="Label" parent="HeaderRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Team"
+
+[node name="PlayerColumn" type="VBoxContainer" parent="."]
+layout_mode = 2
