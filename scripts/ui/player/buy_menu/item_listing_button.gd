@@ -1,5 +1,3 @@
-@tool
-
 ## Script for an item listing box, a button that shows item details.
 
 extends Button
