@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bidiwfdpkugrs"]
+
+[ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/player/no_player_icon.png" id="1_t1ey3"]
+
+[node name="TeamList" type="HBoxContainer"]
+offset_right = 5.0
+offset_bottom = 23.0
+
+[node name="PlayerIcon" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_t1ey3")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Player"

@@ -55,3 +55,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+
+[node name="TeamContainer" type="HBoxContainer" parent="PlayerUI/MatchMenu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
