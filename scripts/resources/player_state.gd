@@ -7,6 +7,8 @@ class_name PlayerState
 @export var total_score := 0
 ## The current team of the character. Normally, -1 Spectator, 0 Home, 1 Away
 @export var team_id: int = -1
+## Signal emitted when scores change
+signal scores_changed(new_current: int, new_total: int)
 
 func from_dict(data: Dictionary) -> void:
 	current_score = data["current"]
@@ -25,6 +27,7 @@ func to_dict() -> Dictionary:
 func set_scores(current: int, total: int) -> void:
 	current_score = current
 	total_score = total
+	scores_changed.emit(current, total)
 
 ## Returns true if player can afford a cost.
 func can_afford(cost: int) -> bool:
