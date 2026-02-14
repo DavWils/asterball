@@ -38,6 +38,10 @@ func _ready() -> void:
 	
 	# Listen to signal of player team being assigned to know which areas to recognize.
 	match_state.player_team_assigned.connect(_on_player_team_assigned)
+	network_manager.game_info_retrieved.connect(_on_game_info_retrieved)
+
+func _on_game_info_retrieved() -> void:
+	_on_player_team_assigned(network_manager.player_id, match_state.get_player_state(network_manager.player_id).team_id)
 
 func _on_player_team_assigned(player_id: int, team_id: int):
 	if player_id == network_manager.player_id:

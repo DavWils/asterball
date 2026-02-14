@@ -73,7 +73,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if network_manager.is_host():
 				current_character.drop_equipped_item()
 			else:
-				network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_DROP})
+				network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_DROP, "char_id": current_character.registry_id})
 		elif event.is_action_pressed("previous_equipment"):
 			if current_character.get_inventory_count() > 0:
 				var new_index = (current_character.get_node("InventoryComponent").equipment_index-1+current_character.get_inventory_count())%current_character.get_inventory_count()

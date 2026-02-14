@@ -19,7 +19,8 @@ var player_id := 0
 ## Self's username.
 var player_username := ""
 
-
+## Signal emitted when game info is retrieved from host.
+signal game_info_retrieved
 
 func _init():
 	OS.set_environment("SteamAppID",str(2837470))
@@ -235,6 +236,7 @@ func read_p2p_packet():
 							new_scene.from_reg_dict(initial_registry[id]["reg_dict"])
 							level.add_child(new_scene)
 							level.level_registry[id] = new_scene
+						game_info_retrieved.emit()
 				Message.CHARACTER_TACKLED: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -268,7 +270,7 @@ func read_p2p_packet():
 				Message.CLIENT_DROP: 
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
-						var character: Character = level.level_registry[readable_data["id"]]
+						var character: Character = level.level_registry[readable_data["char_id"]]
 						if character.owning_player_id == sender_id:
 							character.drop_equipped_item()
 				Message.CHARACTER_ADDITEM: 
@@ -322,6 +324,14 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var main: MainScene = get_tree().current_scene
 						main.load_level(readable_data["level_name"])
+				Message.CLIENT_PURCHASE_ITEM:
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							var match_director: MatchDirector = level.match_director
+							var queried_item: ItemResource = load(readable_data["item_path"])
+							match_director.purchase_item(character, queried_item)
 
 ## Enum for the message types for the network manager.
 enum Message {
@@ -350,5 +360,6 @@ enum Message {
 	ADD_PLAYER_STATE, ## Adds a player state to the match state.
 	SET_TEAM_SCORE, ## Sets a team's score.
 	SET_PLAYER_SCORE, ## Sets a player's scores.
-	LOAD_LEVEL
+	LOAD_LEVEL, ## Server telling clients to load into a new level.
+	CLIENT_PURCHASE_ITEM ## Client requests an item purchase.
 }

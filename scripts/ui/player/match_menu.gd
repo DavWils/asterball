@@ -9,8 +9,15 @@ extends Control
 
 
 func _ready() -> void:
-	load_team_columns()
+	if network_manager.is_host():
+		load_team_columns()
+	else:
+		network_manager.game_info_retrieved.connect(_on_game_info_retrieved)
 	match_state.time_set.connect(_on_time_set)
+
+func _on_game_info_retrieved() -> void:
+	print("Match menu retrieved game info, now loading team columns")
+	load_team_columns()
 
 func load_team_columns() -> void:
 	for child in $TeamContainer.get_children():
