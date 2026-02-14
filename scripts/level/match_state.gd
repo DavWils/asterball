@@ -167,7 +167,7 @@ func get_player_state(player_id: int) -> PlayerState:
 func get_team_state(team_id: int) -> TeamState:
 	return team_states[team_id]
 
-func get_team_ids() -> Array[TeamState]:
+func get_team_ids() -> Array[int]:
 	return team_states.keys()
 
 ## Sets the score of the player with the given player id. Sets current score, as well as total score.
