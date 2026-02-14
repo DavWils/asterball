@@ -242,17 +242,17 @@ func pickup_item(item_state: ItemState):
 
 ## Drops an item from the inventory into the game space.
 func drop_item(index: int):
-	print("Getting item at ", index)
 	var item = $InventoryComponent.get_item_at(index)
 	if item == null: return
-	print("Dropping item")
-	# If dropping the equipped item, unequip it first
+	print("Dropping item ", index)
 	level.spawn_pickup(item, self.position + Vector3.UP)
-	$InventoryComponent.remove_item(index)
+	# If dropping the equipped item, unequip it
 	if index == $InventoryComponent.equipment_index:
-		print("Unequipping first.")
-		unequip_item(false)
-	
+		print("Unequipping current equipment.")
+		if current_equipment:
+			current_equipment.queue_free()
+			current_equipment = null
+	$InventoryComponent.remove_item(index)
 
 
 ## Drops the equipped item.

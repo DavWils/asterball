@@ -37,6 +37,7 @@ func remove_item(index: int):
 		equipment_index -= 1
 	if character.network_manager.is_host():
 		pass
+	print("New equipment index is ", equipment_index, " after removal.")
 	if character.network_manager.is_host():
 		character.network_manager.send_p2p_packet(0, {
 			"m": character.network_manager.Message.CHARACTER_REMOVEITEM, 
