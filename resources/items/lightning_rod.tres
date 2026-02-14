@@ -12,5 +12,4 @@ item_name = "Lightning Rod"
 item_cost = 650
 item_mesh = SubResource("CylinderMesh_ejk0u")
 pickup_collision_shape = SubResource("CylinderShape3D_pncnk")
-can_purchase = null
-equip_lock = false
+can_purchase = true

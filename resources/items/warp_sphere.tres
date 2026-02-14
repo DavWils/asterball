@@ -12,5 +12,4 @@ item_name = "Warp Sphere"
 item_cost = 400
 item_mesh = SubResource("SphereMesh_7x21j")
 pickup_collision_shape = SubResource("SphereShape3D_2a30v")
-can_purchase = null
-equip_lock = false
+can_purchase = true

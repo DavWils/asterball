@@ -15,6 +15,25 @@ class_name ItemResource
 ## Whether or not the character can hold this item in innventory without equippint it.
 @export var equip_lock: bool = false
 
+## Enum for item tiers.
+enum ItemTier {
+	ONE,
+	TWO,
+	THREE,
+	FOUR
+}
+
 ## Returns the loaded equipment scene resource.
 func get_equipment_resource() -> PackedScene:
 	return load("res://scenes/level/character/equipment/%s.tscn" % resource_path.get_file().get_basename())
+
+## Automatically calculates item tier based on set values.
+func get_item_tier() -> ItemTier:
+	if item_cost <= 450:
+		return ItemTier.ONE
+	elif item_cost <= 2500:
+		return ItemTier.TWO
+	elif item_cost <= 9000:
+		return ItemTier.THREE
+	else:
+		return ItemTier.FOUR

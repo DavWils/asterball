@@ -46,7 +46,7 @@ script = ExtResource("4_fwypb")
 script = ExtResource("5_7da80")
 
 [node name="OverlapArea3D" type="Area3D" parent="."]
-collision_layer = 0
+collision_layer = 8
 collision_mask = 8
 script = ExtResource("6_7da80")
 

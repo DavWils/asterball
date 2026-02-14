@@ -12,5 +12,4 @@ item_name = "Pulse Bomb"
 item_cost = 125
 item_mesh = SubResource("BoxMesh_d818p")
 pickup_collision_shape = SubResource("BoxShape3D_slaxc")
-can_purchase = null
-equip_lock = false
+can_purchase = true

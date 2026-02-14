@@ -14,7 +14,9 @@ material = SubResource("StandardMaterial3D_ws2j4")
 [resource]
 script = ExtResource("1_ws2j4")
 item_name = "Asterball"
+item_cost = null
 item_mesh = SubResource("SphereMesh_8xlw7")
 pickup_collision_shape = SubResource("SphereShape3D_pf5td")
 can_purchase = null
 equip_lock = true
+item_tier = null
