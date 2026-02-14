@@ -21,6 +21,9 @@ var state_of_match: StateOfMatch = StateOfMatch.PREGAME
 ## The current round the match is on.
 var current_round: int = 0
 
+## Signal emitted when player state is added.
+signal player_state_added(player_id: int)
+
 enum StateOfMatch {
 	PREGAME,
 	PREPTIME,
@@ -82,6 +85,7 @@ func add_player_state(id: int) -> void:
 	if not player_states.has(id):
 		var new_player_state := PlayerState.new()
 		player_states[id] = new_player_state
+		player_state_added.emit(id)
 		if network_manager.is_host():
 			match_director.auto_assign_player_team(id)
 
