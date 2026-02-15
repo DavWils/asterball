@@ -7,6 +7,11 @@ class_name Character
 @onready var level: Level = get_tree().current_scene.get_node("Level")
 @onready var inventory_component: InventoryComponent = $InventoryComponent
 
+## Animation player if we one.
+@onready var animation_player: AnimationPlayer = $CharacterMesh.get_node_or_null("AnimationPlayer")
+## Animation tree if we have a mesh.
+@onready var animation_tree: AnimationTree = $CharacterMesh.get_node_or_null("AnimationTree")
+
 ## The minimum speed a character must be going to tackle another.
 const MINIMUM_TACKLE_SPEED := 5.0
 
@@ -69,6 +74,37 @@ func _physics_process(delta: float):
 	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
 	if not network_manager.is_host():
 		current_charge_speed = self.velocity.length()
+	
+	if animation_player:
+		update_animation()
+
+func update_animation():
+	if is_tackled: return
+	
+	if not is_on_floor():
+		animation_player.play("falling")
+		return
+	
+	var horizontal_velocity: Vector3 = velocity * (Vector3(1,0,1))
+	if horizontal_velocity.length() < 0.1:
+		animation_tree.set("parameters/AnimationNodeBlendSpace2D/blend_position", Vector2.ZERO)
+	else:
+		var local_velocity = transform.basis.inverse() * horizontal_velocity
+		var dir = Vector2(local_velocity.x, -local_velocity.z)
+		
+		if dir.length() > 0.01:
+			dir = dir.normalized()
+			animation_tree.set("parameters/AnimationNodeBlendSpace2D/blend_position", dir)
+		else:
+			animation_tree.set("parameters/AnimationNodeBlendSpace2D/blend_position", Vector2.ZERO)
+		
+		var speed_scale: float
+		if horizontal_velocity.length() > walk_speed:
+			speed_scale = horizontal_velocity.length()/walk_speed
+		else:
+			speed_scale = 1.0
+		animation_tree.set("parameters/TimeScale/scale", speed_scale)
+		
 
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary, delta: float) -> void:

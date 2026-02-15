@@ -1,0 +1,50 @@
+[gd_resource type="AnimationNodeBlendSpace2D" load_steps=10 format=3 uid="uid://byocccca1q5f1"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tekpr"]
+animation = &"forward_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q4ab7"]
+animation = &"backward_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ubvka"]
+animation = &"left_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_w5ea2"]
+animation = &"right_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1r7lb"]
+animation = &"forwardleft_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lkij0"]
+animation = &"forwardright_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vbcxm"]
+animation = &"backwardleft_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_elrvn"]
+animation = &"backwardright_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2xv4u"]
+animation = &"idle"
+
+[resource]
+blend_point_0/node = SubResource("AnimationNodeAnimation_tekpr")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_q4ab7")
+blend_point_1/pos = Vector2(0, -1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_ubvka")
+blend_point_2/pos = Vector2(-1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_w5ea2")
+blend_point_3/pos = Vector2(1, 0)
+blend_point_4/node = SubResource("AnimationNodeAnimation_1r7lb")
+blend_point_4/pos = Vector2(-0.72, 0.72)
+blend_point_5/node = SubResource("AnimationNodeAnimation_lkij0")
+blend_point_5/pos = Vector2(0.72, 0.72)
+blend_point_6/node = SubResource("AnimationNodeAnimation_vbcxm")
+blend_point_6/pos = Vector2(-0.72, -0.72)
+blend_point_7/node = SubResource("AnimationNodeAnimation_elrvn")
+blend_point_7/pos = Vector2(0.72, -0.72)
+blend_point_8/node = SubResource("AnimationNodeAnimation_2xv4u")
+blend_point_8/pos = Vector2(0, 0)
+min_space = Vector2(-5, -5)
+max_space = Vector2(5, 5)
