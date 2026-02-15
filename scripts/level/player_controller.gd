@@ -76,19 +76,20 @@ func _unhandled_input(event: InputEvent) -> void:
 				network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_DROP, "char_id": current_character.registry_id})
 		elif event.is_action_pressed("previous_equipment"):
 			if current_character.get_inventory_count() > 0:
-				var new_index = (current_character.get_node("InventoryComponent").equipment_index-1+current_character.get_inventory_count())%current_character.get_inventory_count()
-				equip_by_index(new_index)
+				equip_by_key(current_character.inventory_component.get_prev_key())
 		elif event.is_action_pressed("next_equipment"):
 			if current_character.get_inventory_count() > 0:
-				var new_index = (current_character.get_node("InventoryComponent").equipment_index+1)%current_character.get_inventory_count()
-				equip_by_index(new_index)
+				equip_by_key(current_character.inventory_component.get_next_key())
 	
 	if event is InputEventMouseMotion:
 		look_input += event.relative
 
-## Equips an item by index on character.
-func equip_by_index(index: int):
-	current_character.equip_item(index)
+## Has the character equip an inventory item by given key.
+func equip_by_key(key: int) -> void:
+	if network_manager.is_host():
+		current_character.equip_item(key)
+	else:
+		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_EQUIP, "char_id": current_character.registry_id, "inventory_key": key})
 
 func _physics_process(delta: float) -> void:
 	# Get input and either use it or send it to host.

@@ -252,13 +252,8 @@ func read_p2p_packet():
 				Message.CHARACTER_EQUIP: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
-						var character: Character = level.level_registry[readable_data["id"]]
-						character.equip_item(readable_data["index"])
-				Message.CHARACTER_UNEQUIP: 
-					if is_host(sender_id):
-						var level: Level = get_tree().current_scene.get_node("Level")
-						var character: Character = level.level_registry[readable_data["id"]]
-						character.unequip_item()
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						character.equip_item(readable_data["key"], true)
 				Message.CLIENT_INTERACT: 
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -276,36 +271,21 @@ func read_p2p_packet():
 				Message.CHARACTER_ADDITEM: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
-						if not level.level_registry.has(readable_data["id"]): 
+						if not level.level_registry.has(readable_data["char_id"]): 
 							return
-						var character: Character = level.level_registry[readable_data["id"]]
-						var item_state = ItemState.new()
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						var key: int = readable_data["key"]
+						var item_state := ItemState.new()
 						item_state.from_dict(readable_data["item_state"])
-						
-						# Validate item before adding
-						if item_state and item_state.item_resource:
-							# Check if we're adding at a specific index (to prevent duplicates)
-							if readable_data.has("index") and readable_data["index"] < character.get_node("InventoryComponent").inventory_items.size():
-								# Index already exists, this might be a duplicate
-								print("Warning: Attempted to add item at existing index")
-								return
-							character.get_node("InventoryComponent").add_item(item_state)
-						else:
-							print("Warning: Received invalid item state")
-
+						character.inventory_component.add_item(item_state, key)
 				Message.CHARACTER_REMOVEITEM: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
-						if not level.level_registry.has(readable_data["id"]): 
+						if not level.level_registry.has(readable_data["char_id"]): 
 							return
-						var character: Character = level.level_registry[readable_data["id"]]
-						var index = readable_data["index"]
-						
-						# Validate index before removal
-						if index >= 0 and index < character.get_node("InventoryComponent").inventory_items.size():
-							character.get_node("InventoryComponent").remove_item(index)
-						else:
-							print("Warning: Attempted to remove invalid index ", index)
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						var key: int = readable_data["key"]
+						character.inventory_component.remove_item(key)
 				Message.SET_STATE_OF_MATCH:
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -353,6 +333,12 @@ func read_p2p_packet():
 							var match_director: MatchDirector = level.match_director
 							var queried_item: ItemResource = load(readable_data["item_path"])
 							match_director.purchase_item(character, queried_item)
+				Message.CLIENT_REQUEST_EQUIP:
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							character.equip_item(readable_data["inventory_key"])
 
 ## Enum for the message types for the network manager.
 enum Message {
@@ -369,7 +355,6 @@ enum Message {
 	CHARACTER_TACKLED, ## Character is tackled.
 	CHARACTER_RECOVERED, ## Character recovers from being tackled.
 	CHARACTER_EQUIP, ## Character equips item.
-	CHARACTER_UNEQUIP, ## Character unequips item.
 	CLIENT_INTERACT, ## Client wants to interact with something.
 	CLIENT_DROP, ## Client wants to drop item.
 	CHARACTER_ADDITEM, ## Adds an item to a character's inventory.
@@ -382,5 +367,6 @@ enum Message {
 	SET_TEAM_SCORE, ## Sets a team's score.
 	SET_PLAYER_SCORE, ## Sets a player's scores.
 	LOAD_LEVEL, ## Server telling clients to load into a new level.
-	CLIENT_PURCHASE_ITEM ## Client requests an item purchase.
+	CLIENT_PURCHASE_ITEM, ## Client requests an item purchase.
+	CLIENT_REQUEST_EQUIP ## Client requests to equip an item at given key.
 }
