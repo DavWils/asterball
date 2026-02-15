@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://on8wykmjn5go"]
+[gd_scene load_steps=9 format=3 uid="uid://on8wykmjn5go"]
 
 [ext_resource type="Script" uid="uid://bnbyil81cayt3" path="res://scripts/level/characters/character.gd" id="1_hqcqr"]
 [ext_resource type="Script" uid="uid://755ian66gy8i" path="res://scripts/level/character/character_camera.gd" id="2_5faxe"]
@@ -6,8 +6,6 @@
 [ext_resource type="Script" uid="uid://dgo82706uscu8" path="res://scenes/level/character/inventory_carousel.gd" id="4_fwypb"]
 [ext_resource type="Script" uid="uid://bw3vht8dxjwy0" path="res://scenes/level/character/inventory_component.gd" id="5_7da80"]
 [ext_resource type="Script" uid="uid://c2erqjm7tqn42" path="res://scripts/level/character/overlap_area.gd" id="6_7da80"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_hqcqr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5faxe"]
 size = Vector3(0, 0, 0)
@@ -23,10 +21,6 @@ script = ExtResource("1_hqcqr")
 script = ExtResource("2_5faxe")
 
 [node name="PlayerCamera" type="Camera3D" parent="CameraHandle"]
-
-[node name="CharacterMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_hqcqr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_5faxe")
