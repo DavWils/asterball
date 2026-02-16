@@ -113,10 +113,10 @@ func use_player_input(input: Dictionary, delta: float) -> void:
 	if can_move():
 		var move_input: Vector2 = input.get("mv", Vector2.ZERO)
 		var charging: bool = input.get("ch", false)
-
+		
 		var direction := Vector3.ZERO
-
-		if charging:
+		
+		if charging and move_input.y < 0:
 			# Forward only (Z+ in Godot)
 			direction = transform.basis.z
 
