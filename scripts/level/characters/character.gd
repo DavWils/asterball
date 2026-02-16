@@ -425,12 +425,16 @@ func end_aim() -> void:
 	if is_aiming:
 		print("Stopping aim.")
 		is_aiming = false
+		if is_throwing:
+			throw_force = 0.0
+			stop_throwing()
 
 func start_throwing() -> void:
 	if not is_throwing and is_aiming:
 		print("Charging throw.")
 		throw_force = 0.0
 		is_throwing = true
+		
 		
 
 func stop_throwing() -> void:
