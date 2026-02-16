@@ -14,6 +14,8 @@ class_name ItemResource
 @export var can_purchase: bool = item_cost>0
 ## Whether or not the character can hold this item in innventory without equippint it.
 @export var equip_lock: bool = false
+## Mass of the item, higher mass being harder to throw and more heavy on the players.
+@export var item_mass: float = 1.0
 
 ## Enum for item tiers.
 enum ItemTier {
@@ -24,8 +26,16 @@ enum ItemTier {
 }
 
 ## Returns the loaded equipment scene resource.
-func get_equipment_resource() -> PackedScene:
+func get_equipment_scene() -> PackedScene:
 	return load("res://scenes/level/character/equipment/%s.tscn" % resource_path.get_file().get_basename())
+
+## Returns projectile scene if one exists. If not, a pickup should be used instead.
+func get_projectile_scene() -> PackedScene:
+	var filepath: String = "res://scenes/level/projectiles/%s.tscn" % resource_path.get_file().get_basename()
+	if FileAccess.file_exists(filepath):
+		return load(filepath)
+	else:
+		return null
 
 ## Automatically calculates item tier based on set values.
 func get_item_tier() -> ItemTier:

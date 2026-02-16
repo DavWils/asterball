@@ -359,6 +359,10 @@ enum Message {
 	CHARACTER_TACKLED, ## Character is tackled.
 	CHARACTER_RECOVERED, ## Character recovers from being tackled.
 	CHARACTER_EQUIP, ## Character equips item.
+	CHARACTER_AIM_START, ## Character starts throwing.
+	CHARACTER_AIM_END, ## Character stops aiming.
+	CHARACTER_THROW_START, ## Character starts charging throw.
+	CHARACTER_THROW_FINISH, ## Character finishes throw
 	CLIENT_INTERACT, ## Client wants to interact with something.
 	CLIENT_DROP, ## Client wants to drop item.
 	CHARACTER_ADDITEM, ## Adds an item to a character's inventory.

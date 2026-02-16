@@ -80,7 +80,18 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.is_action_pressed("next_equipment"):
 			if current_character.get_inventory_count() > 0:
 				equip_by_key(current_character.inventory_component.get_next_key())
-	
+		elif event.is_action_pressed("aim_throw"):
+			current_character.start_aim()
+		elif event.is_action_released("aim_throw") or event.is_action_pressed("pause_menu"):
+			if current_character.is_aiming:
+				current_character.end_aim()
+		elif event.is_action_pressed("use_item"):
+			if current_character.is_aiming:
+				current_character.start_throwing()
+		elif event.is_action_released("use_item"):
+			if current_character.is_aiming:
+				current_character.stop_throwing()
+
 	if event is InputEventMouseMotion:
 		look_input += event.relative
 

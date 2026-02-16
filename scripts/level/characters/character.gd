@@ -14,6 +14,8 @@ class_name Character
 
 ## The minimum speed a character must be going to tackle another.
 const MINIMUM_TACKLE_SPEED := 5.0
+## The max percentage of throw force that is too small to actually throw.
+const MINIMUM_THROW_FORCE := 0.05
 
 ## The non charging speed of this character. (m/s)
 @export var walk_speed := 1
@@ -25,6 +27,10 @@ const MINIMUM_TACKLE_SPEED := 5.0
 @export var use_pitch_rotation: bool = false
 ## The base carry capacity of the character.
 @export var base_inventory_capacity: int = 3
+## The base maximum throw force the character can throw items with.
+@export var base_max_throw_force: float = 60.0
+## The amount of throw force to be accumulated in a second.
+@export var base_throw_speed: float = 5.0
 
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
 var owning_player_id := -1
@@ -40,6 +46,13 @@ var is_tackled := false
 var current_equipment: Equipment
 ## The key of the currently equipped inventory item. -1 if nothing equipped.
 var equipped_key: int = -1
+## Whether or not character is currently aiming.
+var is_aiming := false
+## Whether or not the character is currently charging a throw.
+var is_throwing := false
+## The current amount of force charged to throw.
+var throw_force := 0.0
+
 
 func _ready() -> void:
 	print("Spawning character owned by ", Steam.getFriendPersonaName(owning_player_id))
@@ -60,6 +73,10 @@ func _exit_tree() -> void:
 	level.level_registry.erase(registry_id)
 
 func _physics_process(delta: float):
+	# If throwing, accumulate force.
+	if is_throwing:
+		throw_force += clampf(get_throw_speed() * delta, 0, get_max_throw_force())
+	
 	# Gravity affects downward velocity.
 	if not is_on_floor():
 		velocity.y -= level.gravity_acceleration*delta
@@ -207,6 +224,7 @@ func to_reg_dict() -> Dictionary:
 	character_reg_data["r"] = rotation # Rotation
 	character_reg_data["v"] = velocity # Velocity
 	character_reg_data["cp"] = control_pitch
+	character_reg_data["tf"] = throw_force
 	
 	return character_reg_data
 
@@ -216,6 +234,7 @@ func from_reg_dict(data: Dictionary) -> void:
 	var new_rot: Vector3 = data["r"]
 	var new_vel: Vector3 = data["v"]
 	var new_con_pitch: float = data["cp"]
+	throw_force = data["tf"]
 	#print("Client ROT: ", self.rotation, "   |   SERVER ROT: ", new_rot, "   |   DIFF: ", self.rotation-new_rot)
 	if not is_locally_possessed():
 		## The percentage to lerp from local position to updated position
@@ -351,7 +370,7 @@ func equip_item(key: int, automatic: bool = false):
 		
 		# If this is an equip locked item, drop it.
 		if network_manager.is_host():
-			if inventory_component.get_item_state(equipped_key).item_resource.equip_lock and not automatic:
+			if  not automatic and inventory_component.get_item_state(equipped_key).item_resource.equip_lock:
 				drop_item(equipped_key, true)
 	
 	# Set new equipped value.
@@ -361,7 +380,7 @@ func equip_item(key: int, automatic: bool = false):
 	# If there's an item at this key load it's equipment.
 	var new_item_state: ItemState = inventory_component.get_item_state(key)
 	if new_item_state:
-		current_equipment = new_item_state.item_resource.get_equipment_resource().instantiate()
+		current_equipment = new_item_state.item_resource.get_equipment_scene().instantiate()
 		add_child(current_equipment)
 	
 	if network_manager.is_host():
@@ -392,3 +411,60 @@ func can_move() -> bool:
 	var state_enum = level.match_state.StateOfMatch
 	var is_movable_state_of_match: bool = (state_of_match == state_enum.MATCH or state_of_match == state_enum.CELEBRATION)
 	return is_movable_state_of_match and (not is_tackled) and (not (is_locally_possessed() and player_controller.paused))
+
+
+
+## Starts aiming with the given item.
+func start_aim() -> void:
+	if current_equipment:
+		print("Starting aim.")
+		is_aiming = true
+
+## Ends aiming.
+func end_aim() -> void:
+	if is_aiming:
+		print("Stopping aim.")
+		is_aiming = false
+
+func start_throwing() -> void:
+	if not is_throwing and is_aiming:
+		print("Charging throw.")
+		throw_force = 0.0
+		is_throwing = true
+		
+
+func stop_throwing() -> void:
+	if is_throwing:
+		is_throwing = false
+		end_aim()
+		
+		# If enough throw force, throw the item.
+		if throw_force > get_max_throw_force() * MINIMUM_THROW_FORCE:
+			print("Throwing with ", throw_force, " force.")
+			var projectile: RigidBody3D
+			# Spawn a projectile, if a projectile scene exists spawn it, otherwise spawn pickup.
+			var projectile_item_state: ItemState = current_equipment.get_item_state()
+			var projectile_scene: PackedScene = projectile_item_state.item_resource.get_projectile_scene()
+			var projectile_spawn_pos: Vector3 = self.position+Vector3.UP*1.5
+			if projectile_scene:
+				projectile = projectile_scene.instantiate()
+				projectile.position = projectile_spawn_pos
+				add_child(projectile)
+			else:
+				projectile = level.spawn_pickup(projectile_item_state, projectile_spawn_pos)
+			# Set item's velocity.
+			projectile.linear_velocity = get_look_forward_vector() * (throw_force/projectile_item_state.item_resource.item_mass)
+			
+			# Lastly, unequip the item and remove it from the inventory.
+			inventory_component.remove_item(equipped_key)
+			equip_item(-1, true)
+		else:
+			print("Not throwing.")
+			
+
+
+func get_throw_speed() -> float:
+	return base_throw_speed
+
+func get_max_throw_force() -> float:
+	return base_max_throw_force
