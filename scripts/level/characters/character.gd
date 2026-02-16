@@ -290,10 +290,31 @@ func pickup_item(item_state: ItemState):
 func drop_equipped_item() -> void:
 	drop_item(equipped_key)
 
+## Returns forward vector taking into account control pitch
+func get_look_forward_vector() -> Vector3:
+	var look_basis: Basis
+	
+	if use_pitch_rotation:
+		# Character actually rotates on X, so just use full transform
+		look_basis = global_transform.basis
+	else:
+		# Build a basis using yaw + control_pitch
+		var yaw_basis = Basis(Vector3.UP, rotation.y)
+		var pitch_basis = Basis(Vector3.RIGHT, control_pitch)
+		look_basis = yaw_basis * pitch_basis
+	
+	var direction = -look_basis.z.normalized()
+	return direction
+
+
 ## Drops an item from the inventory with validation. Automatic flag means item was dropped automatically (i.e. equip locked item was unequipped).
 func drop_item(key: int, automatic: bool = false):
 	if inventory_component.get_item_state(key) != null:
-		level.spawn_pickup(inventory_component.get_item_state(key), self.position+Vector3.UP)
+		var pickup: RigidBody3D = level.spawn_pickup(inventory_component.get_item_state(key), self.position+Vector3.UP*1.5)
+		pickup.linear_velocity = (get_look_forward_vector() * 3) + velocity
+		
+		
+		
 		if key == equipped_key and not automatic:
 			equip_item(-1, true)
 		inventory_component.remove_item(key)
