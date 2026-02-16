@@ -110,7 +110,8 @@ func update_animation():
 			var local_velocity = transform.basis.inverse() * horizontal_velocity
 			var dir = Vector2(local_velocity.x, -local_velocity.z)
 			dir = dir.normalized()
-			animation_tree.set("parameters/RunBlendSpace2D/blend_position", dir)
+			var current_dir: Vector2 = animation_tree.get("parameters/RunBlendSpace2D/blend_position")
+			animation_tree.set("parameters/RunBlendSpace2D/blend_position", current_dir.lerp(dir, 0.25))
 			animation_tree.set("parameters/MovementTransition/transition_request", "Run")
 			
 			# Set speed scale. When running faster, animation plays faster.
