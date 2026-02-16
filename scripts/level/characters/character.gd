@@ -118,10 +118,13 @@ func update_animation():
 	spine_pose.basis = spine_basis
 	
 	skeleton.set_bone_global_pose_override(spine_idx, spine_pose, 1.0, true)
-	
-	
-	
-	
+
+func get_max_charge_speed() -> float:
+	return base_charge_speed
+
+func get_charge_acceleration() -> float:
+	return base_charge_acceleration
+
 
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary, delta: float) -> void:
@@ -139,8 +142,8 @@ func use_player_input(input: Dictionary, delta: float) -> void:
 
 			# Ramp speed up over time
 			current_charge_speed = min(
-				current_charge_speed + delta * base_charge_acceleration,
-				base_charge_speed
+				current_charge_speed + delta * get_charge_acceleration(),
+				get_max_charge_speed()
 			)
 
 			velocity.x = direction.x * -current_charge_speed
