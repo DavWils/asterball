@@ -75,6 +75,7 @@ func _exit_tree() -> void:
 func _physics_process(delta: float):
 	# If throwing, accumulate force.
 	if is_throwing:
+		print("T: ", throw_force)
 		throw_force += clampf(get_throw_speed() * delta, 0, get_max_throw_force())
 	
 	# Gravity affects downward velocity.
