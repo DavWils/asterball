@@ -14,7 +14,7 @@ size = Vector3(2.5, 2, 2.5)
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ubvka"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_w5ea2"]
-graph_offset = Vector2(-315.33398, 8.928848)
+graph_offset = Vector2(-274.76416, 115.03392)
 nodes/AnimationNodeBlendSpace2D/node = ExtResource("3_q4ab7")
 nodes/AnimationNodeBlendSpace2D/position = Vector2(-260, 200)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_ubvka")

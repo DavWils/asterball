@@ -83,20 +83,19 @@ func update_animation():
 	
 	if not is_on_floor():
 		animation_player.play("falling")
-		return
-	
-	var horizontal_velocity: Vector3 = velocity * (Vector3(1,0,1))
-	if horizontal_velocity.length() < 0.1:
-		animation_tree.set("parameters/AnimationNodeBlendSpace2D/blend_position", Vector2.ZERO)
 	else:
-		var local_velocity = transform.basis.inverse() * horizontal_velocity
-		var dir = Vector2(local_velocity.x, -local_velocity.z)
-		
-		if dir.length() > 0.01:
-			dir = dir.normalized()
-			animation_tree.set("parameters/AnimationNodeBlendSpace2D/blend_position", dir)
-		else:
+		var horizontal_velocity: Vector3 = velocity * (Vector3(1,0,1))
+		if horizontal_velocity.length() < 0.1:
 			animation_tree.set("parameters/AnimationNodeBlendSpace2D/blend_position", Vector2.ZERO)
+		else:
+			var local_velocity = transform.basis.inverse() * horizontal_velocity
+			var dir = Vector2(local_velocity.x, -local_velocity.z)
+			
+			if dir.length() > 0.01:
+				dir = dir.normalized()
+				animation_tree.set("parameters/AnimationNodeBlendSpace2D/blend_position", dir)
+			else:
+				animation_tree.set("parameters/AnimationNodeBlendSpace2D/blend_position", Vector2.ZERO)
 		
 		var speed_scale: float
 		if horizontal_velocity.length() > walk_speed:
@@ -105,6 +104,24 @@ func update_animation():
 			speed_scale = 1.0
 		animation_tree.set("parameters/TimeScale/scale", speed_scale)
 		
+	var skeleton: Skeleton3D = $CharacterMesh/Armature/Skeleton3D
+	skeleton.clear_bones_global_pose_override()
+	var spine_idx: int = skeleton.find_bone("spine")
+	var spine_pose: Transform3D = skeleton.get_bone_global_pose(spine_idx)
+	var spine_basis: Basis = spine_pose.basis
+	var spine_euler: Vector3 = spine_basis.get_euler()
+	
+	var added_pitch = clampf(control_pitch - clampf(abs(velocity.length() - walk_speed)/10, 0, 0.8), -PI/2, PI/2)
+	
+	spine_euler.x += added_pitch
+	spine_basis = Basis.from_euler(spine_euler)
+	spine_pose.basis = spine_basis
+	
+	skeleton.set_bone_global_pose_override(spine_idx, spine_pose, 1.0, true)
+	
+	
+	
+	
 
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary, delta: float) -> void:
