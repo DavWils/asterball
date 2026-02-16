@@ -46,5 +46,3 @@ script = ExtResource("6_7da80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="OverlapArea3D"]
 shape = SubResource("BoxShape3D_5faxe")
-
-[node name="CharacterMesh" type="Node3D" parent="."]
