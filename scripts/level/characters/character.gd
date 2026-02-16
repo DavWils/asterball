@@ -151,7 +151,7 @@ func use_player_input(input: Dictionary, delta: float) -> void:
 	# Movement input.
 	if can_move():
 		var move_input: Vector2 = input.get("mv", Vector2.ZERO)
-		var charging: bool = input.get("ch", false)
+		var charging: bool = input.get("ch", false) and (not is_aiming)
 		
 		var direction := Vector3.ZERO
 		
