@@ -321,6 +321,10 @@ func read_p2p_packet():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var match_state: MatchState = level.match_state
 						match_state.set_player_score(readable_data["player_id"], readable_data["current"], readable_data["total"])
+				Message.SCORE_EFFECT:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						level.score_effect(level.level_registry[readable_data["char_id"]])
 				Message.LOAD_LEVEL:
 					if is_host(sender_id):
 						var main: MainScene = get_tree().current_scene
@@ -366,6 +370,7 @@ enum Message {
 	ADD_PLAYER_STATE, ## Adds a player state to the match state.
 	SET_TEAM_SCORE, ## Sets a team's score.
 	SET_PLAYER_SCORE, ## Sets a player's scores.
+	SCORE_EFFECT, ## Extra score effect from host which is received when someone scores.
 	LOAD_LEVEL, ## Server telling clients to load into a new level.
 	CLIENT_PURCHASE_ITEM, ## Client requests an item purchase.
 	CLIENT_REQUEST_EQUIP ## Client requests to equip an item at given key.

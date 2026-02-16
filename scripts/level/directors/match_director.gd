@@ -17,7 +17,7 @@ const MATCH_DURATION := 600
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
 const INTERMISSION_DURATION := 3
 ## The amount of time to wait after a score until the next round begins.
-const CELEBRATION_DURATION := 3
+const CELEBRATION_DURATION := 10
 ## The amount of time spent in the endgame before loading to the next level.
 const ENDGAME_DURATION := 30
 ## The number of teams.
@@ -87,6 +87,7 @@ func score(scoring_character: Character):
 	print(Steam.getFriendPersonaName(scoring_character.owning_player_id), " has scored!")
 	# Add a point to the player's team.
 	match_state.set_team_score(match_state.player_states[scoring_character.owning_player_id].team_id)
+	level.score_effect(scoring_character)
 	# Give points to the winning players as well.
 	for player_id in match_state.player_states.keys():
 		var added_points: int = 0

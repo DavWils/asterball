@@ -108,3 +108,13 @@ func get_level_resource() -> LevelResource:
 	var level_name: String = get_scene_file_path().get_basename().get_file()
 	var resource_filepath: String = "res://resources/levels/"
 	return load(resource_filepath + level_name + ".tres")
+
+## Effect that's played when character scores.
+func score_effect(scorer: Character) -> void:
+	play_global_sound("res://sounds/level/touchdown_horn.wav")
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SCORE_EFFECT, "char_id": scorer.registry_id})
+
+func play_global_sound(sound: String) -> void:
+	$AudioStreamPlayer.stream = load(sound)
+	$AudioStreamPlayer.play()
