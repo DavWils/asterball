@@ -7,11 +7,11 @@ extends Node3D
 ## Reference to the actual mesh root node.
 @onready var mesh_root: Node3D = self.get_child(0)
 ## And animation tree
-@onready var animation_tree: AnimationTree = mesh_root.get_node("AnimationTree")
+@onready var animation_tree: AnimationTree = get_node("AnimationTree")
 ## And animatio player
-@onready var animation_player: AnimationPlayer = mesh_root.get_node("AnimationPlayer")
+@onready var animation_player: AnimationPlayer = get_node("AnimationPlayer")
 ## Skeleton
-@onready var skeleton: Skeleton3D = mesh_root.get_node("Armature").get_node("Skeleton3D")
+@onready var skeleton: Skeleton3D = get_node("Armature").get_node("Skeleton3D")
 
 func _physics_process(_delta: float) -> void:
 	if animation_player:

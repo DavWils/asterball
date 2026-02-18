@@ -1,53 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://ybt1ggcc5aoh"]
+[gd_scene load_steps=6 format=3 uid="uid://ybt1ggcc5aoh"]
 
 [ext_resource type="PackedScene" uid="uid://on8wykmjn5go" path="res://scenes/level/basecharacter.tscn" id="1_4276t"]
 [ext_resource type="Script" uid="uid://da62kjo61h2uj" path="res://scripts/level/characters/omnistriker.gd" id="2_tekpr"]
-[ext_resource type="AnimationNodeBlendSpace2D" uid="uid://byocccca1q5f1" path="res://meshes/characters/omnistriker/run_blend_space.tres" id="3_q4ab7"]
-[ext_resource type="PackedScene" uid="uid://dtburs7dpxgxy" path="res://meshes/characters/omnistriker/omnistriker.glb" id="3_ubvka"]
+[ext_resource type="PackedScene" uid="uid://dum6laalon7cq" path="res://scenes/level/characters/omnistriker/omnistriker_mesh.tscn" id="3_ubvka"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tekpr"]
 size = Vector3(1, 2, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q4ab7"]
 size = Vector3(2.5, 2, 2.5)
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ubvka"]
-animation = &"falling"
-
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_w5ea2"]
-xfade_time = 0.15
-input_0/name = "Idle"
-input_0/auto_advance = false
-input_0/break_loop_at_end = false
-input_0/reset = true
-input_1/name = "Run"
-input_1/auto_advance = false
-input_1/break_loop_at_end = false
-input_1/reset = true
-input_2/name = "Fall"
-input_2/auto_advance = false
-input_2/break_loop_at_end = false
-input_2/reset = true
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ubvka"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1r7lb"]
-animation = &"idle"
-
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_w5ea2"]
-graph_offset = Vector2(-431.8736, 64.14406)
-nodes/output/position = Vector2(320, 120)
-nodes/RunBlendSpace2D/node = ExtResource("3_q4ab7")
-nodes/RunBlendSpace2D/position = Vector2(-640, 360)
-nodes/RunTimeScale/node = SubResource("AnimationNodeTimeScale_ubvka")
-nodes/RunTimeScale/position = Vector2(-420, 380)
-nodes/idle/node = SubResource("AnimationNodeAnimation_1r7lb")
-nodes/idle/position = Vector2(-680, 180)
-nodes/MovementTransition/node = SubResource("AnimationNodeTransition_w5ea2")
-nodes/MovementTransition/position = Vector2(-60, 200)
-nodes/Fall/node = SubResource("AnimationNodeAnimation_ubvka")
-nodes/Fall/position = Vector2(-174.81671, 518.1105)
-node_connections = [&"output", 0, &"MovementTransition", &"RunTimeScale", 0, &"RunBlendSpace2D", &"MovementTransition", 0, &"idle", &"MovementTransition", 1, &"RunTimeScale", &"MovementTransition", 2, &"Fall"]
 
 [node name="Character" instance=ExtResource("1_4276t")]
 script = ExtResource("2_tekpr")
@@ -73,13 +34,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="CollisionShape3D" parent="OverlapArea3D" index="0"]
 shape = SubResource("BoxShape3D_tekpr")
 
-[node name="Mesh" parent="CharacterMesh" index="0" instance=ExtResource("3_ubvka")]
-
-[node name="AnimationTree" type="AnimationTree" parent="CharacterMesh/Mesh" index="2"]
-tree_root = SubResource("AnimationNodeBlendTree_w5ea2")
-anim_player = NodePath("../AnimationPlayer")
-parameters/RunBlendSpace2D/blend_position = Vector2(0, 0)
-parameters/RunTimeScale/scale = 1.0
-parameters/MovementTransition/current_state = "Idle"
-parameters/MovementTransition/transition_request = ""
-parameters/MovementTransition/current_index = 0
+[node name="CharacterMesh" parent="." index="6" instance=ExtResource("3_ubvka")]

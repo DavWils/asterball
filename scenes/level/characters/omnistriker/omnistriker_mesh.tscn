@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=3 uid="uid://dum6laalon7cq"]
+
+[ext_resource type="PackedScene" uid="uid://dtburs7dpxgxy" path="res://meshes/characters/omnistriker/omnistriker.glb" id="1_yfdhx"]
+[ext_resource type="AnimationNodeBlendSpace2D" uid="uid://byocccca1q5f1" path="res://meshes/characters/omnistriker/run_blend_space.tres" id="2_325jj"]
+[ext_resource type="Script" uid="uid://cql7lecmsjdeq" path="res://scenes/level/character/character_mesh.gd" id="2_owm0j"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ubvka"]
+animation = &"falling"
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_w5ea2"]
+xfade_time = 0.15
+input_0/name = "Idle"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "Run"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+input_2/name = "Fall"
+input_2/auto_advance = false
+input_2/break_loop_at_end = false
+input_2/reset = true
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ubvka"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1r7lb"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_owm0j"]
+graph_offset = Vector2(-431.8736, 64.14406)
+nodes/output/position = Vector2(320, 120)
+nodes/RunBlendSpace2D/node = ExtResource("2_325jj")
+nodes/RunBlendSpace2D/position = Vector2(-640, 360)
+nodes/RunTimeScale/node = SubResource("AnimationNodeTimeScale_ubvka")
+nodes/RunTimeScale/position = Vector2(-420, 380)
+nodes/idle/node = SubResource("AnimationNodeAnimation_1r7lb")
+nodes/idle/position = Vector2(-680, 180)
+nodes/MovementTransition/node = SubResource("AnimationNodeTransition_w5ea2")
+nodes/MovementTransition/position = Vector2(-60, 200)
+nodes/Fall/node = SubResource("AnimationNodeAnimation_ubvka")
+nodes/Fall/position = Vector2(-174.81671, 518.1105)
+node_connections = [&"output", 0, &"MovementTransition", &"RunTimeScale", 0, &"RunBlendSpace2D", &"MovementTransition", 0, &"idle", &"MovementTransition", 1, &"RunTimeScale", &"MovementTransition", 2, &"Fall"]
+
+[node name="CharacterMesh" instance=ExtResource("1_yfdhx")]
+script = ExtResource("2_owm0j")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/position = Vector3(0, 0.9869286, 0.036972128)
+bones/0/rotation = Quaternion(-0.07293757, 0, 0, 0.9973365)
+bones/1/rotation = Quaternion(0.99710953, -3.3161976e-07, -3.3936104e-07, -0.07597861)
+bones/2/rotation = Quaternion(-0.05447222, 3.77485e-07, -3.3877214e-07, 0.9985153)
+bones/3/rotation = Quaternion(0.049856327, 0, 0, 0.99875647)
+bones/4/rotation = Quaternion(-0.015390793, 1.1919519e-07, 1.8347273e-09, 0.9998816)
+bones/5/rotation = Quaternion(0.910939, -0.1761901, -0.3719003, 0.028939605)
+bones/6/rotation = Quaternion(0.032494664, -0.024443645, -0.24438728, 0.96882486)
+bones/8/rotation = Quaternion(2.0145299e-25, -1.1920929e-07, -1.6899101e-18, 1)
+bones/10/rotation = Quaternion(0.91093475, 0.17621121, 0.37190104, 0.02893098)
+bones/11/rotation = Quaternion(0.03882958, 0.027129184, 0.25094995, 0.96684045)
+bones/13/position = Vector3(0.08852749, 0.011829209, 0.00173949)
+bones/13/rotation = Quaternion(0.99710953, -1.8440852e-08, 1.2991279e-07, -0.07597855)
+bones/14/rotation = Quaternion(-0.054471966, 1.4679803e-07, -1.6617733e-07, 0.9985153)
+bones/15/rotation = Quaternion(-0.7071068, 0, 0, 0.7071068)
+bones/16/rotation = Quaternion(0.7071068, -2.219725e-07, -2.219725e-07, 0.7071068)
+bones/17/position = Vector3(8.433409e-09, -1.7264515e-08, -1.3368992e-07)
+bones/17/rotation = Quaternion(0.9712025, 7.479234e-08, -3.048765e-07, 0.23825555)
+bones/19/rotation = Quaternion(-0.7071068, 0, 0, 0.7071068)
+bones/20/rotation = Quaternion(0.7071068, -2.219725e-07, -2.219725e-07, 0.7071068)
+bones/21/position = Vector3(9.828369e-10, -3.1720333e-09, -1.3380057e-07)
+bones/21/rotation = Quaternion(0.9712025, 7.479237e-08, -3.0487644e-07, 0.23825555)
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
+transform = Transform3D(0.6723634, 0.04004816, 0.7391368, -0.10666553, -0.9828716, 0.15028377, 0.73249525, -0.1798858, -0.6565754, 0.29371342, 1.1827426, 0.09247962)
+bone_name = "r_hand"
+bone_idx = 12
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
+tree_root = SubResource("AnimationNodeBlendTree_owm0j")
+anim_player = NodePath("../AnimationPlayer")
+parameters/RunBlendSpace2D/blend_position = Vector2(0, 0)
+parameters/RunTimeScale/scale = 1.0
+parameters/MovementTransition/current_state = "Idle"
+parameters/MovementTransition/transition_request = ""
+parameters/MovementTransition/current_index = 0
