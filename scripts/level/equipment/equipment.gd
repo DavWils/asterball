@@ -3,7 +3,8 @@ extends Node3D
 class_name Equipment
 
 ## The character holding the item.
-@onready var wielder: Character = self.get_parent()
+var wielder: Character
+#@onready var wielder: Character = self.get_parent().get_parent().get_parent().get_parent()
 ## Reference to the item resource of this item.
 @onready var item_resource: ItemResource = get_item_state().item_resource
 ## Reference to level

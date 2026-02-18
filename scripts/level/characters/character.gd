@@ -333,7 +333,9 @@ func equip_item(key: int, automatic: bool = false):
 	var new_item_state: ItemState = inventory_component.get_item_state(key)
 	if new_item_state:
 		current_equipment = new_item_state.item_resource.get_equipment_scene().instantiate()
-		add_child(current_equipment)
+		current_equipment.wielder = self
+		var bone_attachment = $CharacterMesh/Armature/Skeleton3D/EquipmentAttachment
+		bone_attachment.add_child(current_equipment)
 	
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_EQUIP, "char_id": registry_id, "key": key})
