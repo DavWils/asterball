@@ -343,6 +343,17 @@ func read_p2p_packet():
 						var character: Character = level.level_registry[readable_data["char_id"]]
 						if character.owning_player_id == sender_id:
 							character.equip_item(readable_data["inventory_key"])
+				Message.CHARACTER_USE_START:
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							character.use_equipment_start()
+				Message.CHARACTER_USE_FINISH:
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							character.use_equipment_finish()
+
 
 ## Enum for the message types for the network manager.
 enum Message {
@@ -367,6 +378,8 @@ enum Message {
 	CLIENT_DROP, ## Client wants to drop item.
 	CHARACTER_ADDITEM, ## Adds an item to a character's inventory.
 	CHARACTER_REMOVEITEM, ## Removes an item from a character's inventory.
+	CHARACTER_USE_START, ## Character uses equipment
+	CHARACTER_USE_FINISH, ## Character finishes using equipment.
 	SET_STATE_OF_MATCH, ## Server sets the state of the match.
 	SET_MATCH_TIME, ## Server sets the match time.
 	SET_INTERMISSION_TIME, ## Server sets the intermission time.

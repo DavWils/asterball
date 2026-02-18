@@ -20,3 +20,11 @@ func _exit_tree() -> void:
 
 func get_item_state():
 	return wielder.get_equipped_item()
+
+## Starts the equipment's use function, simulating a user press
+func use_start() -> void:
+	pass
+
+## Finish the equipment use function if exists, simulating user release.
+func use_finish() -> void:
+	pass

@@ -426,3 +426,15 @@ func get_throw_speed() -> float:
 
 func get_max_throw_force() -> float:
 	return base_max_throw_force
+
+## Uses the equipment, simulating a press.
+func use_equipment_start() -> void:
+	current_equipment.use_start()
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_USE_START, "char_id": registry_id})
+
+## Use the equipment, simulating a release.
+func use_equipment_finish() -> void:
+	current_equipment.use_finish()
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_USE_FINISH, "char_id": registry_id})
