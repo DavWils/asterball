@@ -12,6 +12,8 @@ extends Node3D
 @onready var animation_player: AnimationPlayer = get_node("AnimationPlayer")
 ## Skeleton
 @onready var skeleton: Skeleton3D = get_node("Armature").get_node("Skeleton3D")
+## Node to attach equipment to.
+@export var equipment_attachment: BoneAttachment3D
 
 func _physics_process(_delta: float) -> void:
 	if animation_player:

@@ -24,9 +24,9 @@ const MINIMUM_THROW_FORCE := 0.05
 ## The base carry capacity of the character.
 @export var base_inventory_capacity: int = 3
 ## The base maximum throw force the character can throw items with.
-@export var base_max_throw_force: float = 60.0
+@export var base_max_throw_force: float = 30.0
 ## The amount of throw force to be accumulated in a second.
-@export var base_throw_speed: float = 5.0
+@export var base_throw_speed: float = 12.0
 
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
 var owning_player_id := -1
@@ -72,7 +72,7 @@ func _physics_process(delta: float):
 	# If throwing, accumulate force.
 	if is_throwing:
 		print("T: ", throw_force)
-		throw_force += clampf(get_throw_speed() * delta, 0, get_max_throw_force())
+		throw_force = clampf(throw_force + (get_throw_speed() * delta), 0, get_max_throw_force())
 	
 	# Gravity affects downward velocity.
 	if not is_on_floor():
@@ -334,7 +334,7 @@ func equip_item(key: int, automatic: bool = false):
 	if new_item_state:
 		current_equipment = new_item_state.item_resource.get_equipment_scene().instantiate()
 		current_equipment.wielder = self
-		var bone_attachment = $CharacterMesh/Armature/Skeleton3D/EquipmentAttachment
+		var bone_attachment = character_mesh.equipment_attachment
 		bone_attachment.add_child(current_equipment)
 	
 	if network_manager.is_host():
