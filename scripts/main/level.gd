@@ -60,11 +60,12 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 		)
 	return character
 
-func spawn_pickup(item_state: ItemState, item_position := Vector3.ZERO, registry_id := get_unused_registry_id()) -> Pickup:
+func spawn_pickup(item_state: ItemState, item_position := Vector3.ZERO, thrower_id: int = -1, registry_id := get_unused_registry_id()) -> Pickup:
 	var pickup_node: Pickup = load("res://scenes/level/pickup.tscn").instantiate()
 	pickup_node.position = item_position
 	pickup_node.item_state = item_state
 	pickup_node.registry_id = registry_id
+	pickup_node.thrower_id = thrower_id
 	
 	level_registry[registry_id] = pickup_node
 	add_child(pickup_node)
@@ -75,10 +76,36 @@ func spawn_pickup(item_state: ItemState, item_position := Vector3.ZERO, registry
 			"m": network_manager.Message.SPAWN_PICKUP,
 			"item_state": item_state.to_dict(),
 			"position": item_position,
-			"registry_id": registry_id
+			"registry_id": registry_id,
+			"thrower_id": thrower_id
 		}
 		)
 	return pickup_node
+
+func spawn_projectile(item_state: ItemState, start_position: Vector3, thrower_id: int, registry_id := get_unused_registry_id()):
+	var projectile_node: Projectile = item_state.item_resource.get_projectile_scene().instantiate()
+	projectile_node.position = start_position
+	projectile_node.item_state = item_state
+	projectile_node.registry_id = registry_id
+	projectile_node.thrower_id = thrower_id
+	
+	level_registry[registry_id] = projectile_node
+	add_child(projectile_node)
+	
+	# If we're the host, let clients know to spanw the projectile.
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, 
+		{
+			"m": network_manager.Message.SPAWN_PROJECTILE,
+			"item_state": item_state.to_dict(),
+			"position": start_position,
+			"registry_id": registry_id,
+			"thrower_id": thrower_id
+		}
+		)
+	return projectile_node
+
+
 
 ## Removes a scene from the registry and deletes it for host and clients.
 func despawn_registry_object(registry_id: int):

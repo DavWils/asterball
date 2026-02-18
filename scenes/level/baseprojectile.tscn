@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbk0tx3ba7v5"]
+
+[ext_resource type="Script" uid="uid://cweuveduxjef" path="res://scripts/level/projectiles/projectile.gd" id="1_mlevr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mlevr"]
+
+[node name="Projectile" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_mlevr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_mlevr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_mlevr")
