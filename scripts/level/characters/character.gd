@@ -6,11 +6,7 @@ class_name Character
 @onready var player_controller: PlayerController = get_tree().current_scene.get_node("Level").get_node("PlayerController")
 @onready var level: Level = get_tree().current_scene.get_node("Level")
 @onready var inventory_component: InventoryComponent = $InventoryComponent
-
-## Animation player if we one.
-@onready var animation_player: AnimationPlayer = $CharacterMesh.get_node_or_null("AnimationPlayer")
-## Animation tree if we have a mesh.
-@onready var animation_tree: AnimationTree = $CharacterMesh.get_node_or_null("AnimationTree")
+@onready var character_mesh: Node3D = $CharacterMesh
 
 ## The minimum speed a character must be going to tackle another.
 const MINIMUM_TACKLE_SPEED := 5.0
@@ -92,52 +88,6 @@ func _physics_process(delta: float):
 	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
 	if not network_manager.is_host():
 		current_charge_speed = self.velocity.length()
-	
-	if animation_player:
-		update_animation()
-
-func update_animation():
-	if is_tackled: return
-	
-	if not is_on_floor():
-		animation_tree.set("parameters/MovementTransition/transition_request", "Fall")
-	else:
-		var horizontal_velocity: Vector3 = velocity * (Vector3(1,0,1))
-		if horizontal_velocity.length() < 0.1:
-			animation_tree.set("parameters/MovementTransition/transition_request", "Idle")
-		else:
-			# Running, calculate direction and run.
-			var local_velocity = transform.basis.inverse() * horizontal_velocity
-			var dir = Vector2(local_velocity.x, -local_velocity.z)
-			dir = dir.normalized()
-			var current_dir: Vector2 = animation_tree.get("parameters/RunBlendSpace2D/blend_position")
-			animation_tree.set("parameters/RunBlendSpace2D/blend_position", current_dir.lerp(dir, 0.25))
-			animation_tree.set("parameters/MovementTransition/transition_request", "Run")
-			
-			# Set speed scale. When running faster, animation plays faster.
-			var speed_scale: float
-			if horizontal_velocity.length() > walk_speed:
-				speed_scale = horizontal_velocity.length()/walk_speed
-			else:
-				speed_scale = 1.0
-			animation_tree.set("parameters/RunTimeScale/scale", speed_scale)
-		
-		# Rotate spine based on control pitch.
-		var skeleton: Skeleton3D = $CharacterMesh/Armature/Skeleton3D
-		skeleton.clear_bones_global_pose_override()
-		var spine_idx: int = skeleton.find_bone("spine")
-		var spine_pose: Transform3D = skeleton.get_bone_global_pose(spine_idx)
-		var spine_basis: Basis = spine_pose.basis
-		var spine_euler: Vector3 = spine_basis.get_euler()
-		
-		var current_velocity = absf(velocity.length() - walk_speed) if velocity.length()>0.1 else 0.0
-		var added_pitch = clampf(control_pitch - clampf(current_velocity/10, 0, 0.8), -PI/2, PI/2)
-		
-		spine_euler.x += added_pitch
-		spine_basis = Basis.from_euler(spine_euler)
-		spine_pose.basis = spine_basis
-		
-		skeleton.set_bone_global_pose_override(spine_idx, spine_pose, 1.0, true)
 
 func get_max_charge_speed() -> float:
 	return base_charge_speed
