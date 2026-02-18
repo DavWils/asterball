@@ -35,6 +35,7 @@ input_2/reset = true
 animation = &"idle"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_w5ea2"]
+graph_offset = Vector2(-431.8736, 64.14406)
 nodes/output/position = Vector2(320, 120)
 nodes/RunBlendSpace2D/node = ExtResource("3_q4ab7")
 nodes/RunBlendSpace2D/position = Vector2(-640, 360)

@@ -28,7 +28,7 @@ func update_animation():
 			animation_tree.set("parameters/MovementTransition/transition_request", "Idle")
 		else:
 			# Running, calculate direction and run.
-			var local_velocity = transform.basis.inverse() * horizontal_velocity
+			var local_velocity = character.transform.basis.inverse() * horizontal_velocity
 			var dir = Vector2(local_velocity.x, -local_velocity.z)
 			dir = dir.normalized()
 			var current_dir: Vector2 = animation_tree.get("parameters/RunBlendSpace2D/blend_position")
