@@ -10,10 +10,10 @@ extends Node3D
 @onready var animation_tree: AnimationTree = mesh_root.get_node("AnimationTree")
 ## And animatio player
 @onready var animation_player: AnimationPlayer = mesh_root.get_node("AnimationPlayer")
+## Skeleton
+@onready var skeleton: Skeleton3D = mesh_root.get_node("Armature").get_node("Skeleton3D")
 
 func _physics_process(_delta: float) -> void:
-	update_animation()
-
 	if animation_player:
 		update_animation()
 
@@ -44,7 +44,6 @@ func update_animation():
 			animation_tree.set("parameters/RunTimeScale/scale", speed_scale)
 		
 		# Rotate spine based on control pitch.
-		var skeleton: Skeleton3D = mesh_root.get_node("Armature").get_node("Skeleton3D")
 		skeleton.clear_bones_global_pose_override()
 		var spine_idx: int = skeleton.find_bone("spine")
 		var spine_pose: Transform3D = skeleton.get_bone_global_pose(spine_idx)
