@@ -1,5 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bv1nec5keppyt"]
+[gd_scene load_steps=3 format=3 uid="uid://bv1nec5keppyt"]
 
 [ext_resource type="PackedScene" uid="uid://cbk0tx3ba7v5" path="res://scenes/level/baseprojectile.tscn" id="1_0jndu"]
+[ext_resource type="Script" uid="uid://4jvxhkqsvq4u" path="res://scripts/level/projectiles/warp_sphere.gd" id="2_07qh5"]
 
 [node name="Projectile" instance=ExtResource("1_0jndu")]
+script = ExtResource("2_07qh5")
