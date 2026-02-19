@@ -10,6 +10,8 @@ class_name Pickup
 @export var item_state: ItemState
 var registry_id: int
 var thrower_id: int
+## The character who threw the item.
+var throwing_character: Character
 
 func _ready() -> void:
 	# Set values to represent item state.

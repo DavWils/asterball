@@ -165,7 +165,7 @@ func auto_assign_player_team(player_id: int):
 func spawn_ball():
 	var ball_item_state = ItemState.new()
 	ball_item_state.item_resource = load("res://resources/items/ball.tres")
-	return level.spawn_pickup(ball_item_state, Vector3.UP*5)
+	return level.spawn_pickup(ball_item_state, Vector3.UP*5, null)
 
 ## Spawns a character for each player.
 func spawn_omnistrikers() -> void:

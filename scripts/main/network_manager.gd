@@ -189,13 +189,23 @@ func read_p2p_packet():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var item_state = ItemState.new()
 						item_state.from_dict(readable_data["item_state"])
-						level.spawn_pickup(item_state, readable_data["position"], readable_data["thrower_id"], readable_data["registry_id"])
+						var thrower: Character
+						if level.level_registry.has(readable_data["thrower_char_id"]):
+							thrower = level.level_registry[readable_data["thrower_char_id"]]
+						else:
+							thrower = null
+						level.spawn_pickup(item_state, readable_data["position"], thrower, readable_data["registry_id"])
 				Message.SPAWN_PROJECTILE: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var item_state = ItemState.new()
 						item_state.from_dict(readable_data["item_state"])
-						level.spawn_projectile(item_state, readable_data["position"], readable_data["thrower_id"], readable_data["registry_id"])
+						var thrower: Character
+						if level.level_registry.has(readable_data["thrower_char_id"]):
+							thrower = level.level_registry[readable_data["thrower_char_id"]]
+						else:
+							thrower = null
+						level.spawn_projectile(item_state, readable_data["position"], thrower, readable_data["registry_id"])
 				Message.DESPAWN_OBJECT: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")

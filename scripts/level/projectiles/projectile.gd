@@ -5,24 +5,28 @@ class_name Projectile
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 @onready var level: Level = get_tree().current_scene.get_node("Level")
 
-@export var item_state: ItemState
+## Item state
+var item_state: ItemState
+## Registry id
 var registry_id: int
+## Player id of the thrower.
 var thrower_id: int
+## The character who threw the item.
+var throwing_character: Character
 
 func _ready() -> void:
 	# Set values to represent item state.
 	$MeshInstance3D.mesh = item_state.item_resource.item_mesh
 	$CollisionShape3D.shape = item_state.item_resource.pickup_collision_shape
-	$Area3D/CollisionShape3D.shape = $CollisionShape3D.shape
-	
-	$Area3D.area_entered.connect(_on_area_entered)
+	body_entered.connect(_on_body_entered)
 
-func _on_area_entered(body: Node3D):
-	projectile_area_entered(body)
+func _on_body_entered(body: Node3D) -> void:
+	projectile_collide(body)
 
-func projectile_area_entered(body: Node3D):
+## Called when projectile collides with another object.
+func projectile_collide(body: Node3D):
 	if network_manager.is_host():
-		print(item_state.item_resource.resource_name, " projectile has overlapped with ", body.get_parent().name)
+		print(item_state.item_resource.item_name, " projectile has overlapped with ", body.get_parent().name)
 
 func despawn_projectile():
 	level.despawn_registry_object(registry_id)
