@@ -1,10 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://dolnkblhfe1c6"]
+[gd_scene load_steps=10 format=3 uid="uid://dolnkblhfe1c6"]
 
 [ext_resource type="PackedScene" uid="uid://u6kaxkr2k4w7" path="res://scenes/main/baselevel.tscn" id="1_5sngl"]
 [ext_resource type="Script" uid="uid://cmlmvkht2rnjk" path="res://scripts/level/zones/spawn_zone.gd" id="2_htkcu"]
 [ext_resource type="Script" uid="uid://citpb5m7we5p8" path="res://scripts/level/zones/buy_zone.gd" id="3_n6wex"]
 [ext_resource type="Script" uid="uid://cxatpiq5agerl" path="res://scripts/level/zones/score_zone.gd" id="4_u3xwc"]
-[ext_resource type="Texture2D" uid="uid://cc6jioqd3rl3t" path="res://textures/skybox/starfield.png" id="5_n6wex"]
+[ext_resource type="PackedScene" uid="uid://c03unke567evk" path="res://meshes/levels/starfield/starfield_crater.glb" id="6_u3xwc"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5sngl"]
 size = Vector2(100, 250)
@@ -15,15 +15,9 @@ size = Vector3(100, 1, 250)
 [sub_resource type="BoxShape3D" id="BoxShape3D_gs6xa"]
 size = Vector3(100, 10, 15)
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_u3xwc"]
-panorama = ExtResource("5_n6wex")
-
-[sub_resource type="Sky" id="Sky_pgjeu"]
-sky_material = SubResource("PanoramaSkyMaterial_u3xwc")
-
-[sub_resource type="Environment" id="Environment_t2d5p"]
-background_mode = 2
-sky = SubResource("Sky_pgjeu")
+[sub_resource type="Environment" id="Environment_n6wex"]
+background_mode = 1
+background_color = Color(0.019550411, 0.0034108006, 0.0685281, 1)
 
 [node name="Level" instance=ExtResource("1_5sngl")]
 
@@ -98,5 +92,8 @@ owning_team = 1
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwayScoreZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="12"]
-environment = SubResource("Environment_t2d5p")
+[node name="Crater" parent="." index="14" instance=ExtResource("6_u3xwc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.461, 80, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="15"]
+environment = SubResource("Environment_n6wex")
