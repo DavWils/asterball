@@ -93,7 +93,7 @@ owning_team = 1
 shape = SubResource("BoxShape3D_gs6xa")
 
 [node name="Crater" parent="." index="14" instance=ExtResource("6_u3xwc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.461, 80, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.461, 95.71424, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." index="15"]
 environment = SubResource("Environment_n6wex")

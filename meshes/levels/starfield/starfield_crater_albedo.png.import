@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxv7cxjsyor3i"
-path.s3tc="res://.godot/imported/starfield_crater_starfield_crater_albedo.png-43e2f1ece2a3127963cd723ba2d6a790.s3tc.ctex"
+path.s3tc="res://.godot/imported/starfield_crater_albedo.png-f15e8b2b617a53c800791f0170917fd7.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://meshes/levels/starfield/starfield_crater_starfield_crater_albedo.png"
-dest_files=["res://.godot/imported/starfield_crater_starfield_crater_albedo.png-43e2f1ece2a3127963cd723ba2d6a790.s3tc.ctex"]
+source_file="res://meshes/levels/starfield/starfield_crater_albedo.png"
+dest_files=["res://.godot/imported/starfield_crater_albedo.png-f15e8b2b617a53c800791f0170917fd7.s3tc.ctex"]
 
 [params]
 
