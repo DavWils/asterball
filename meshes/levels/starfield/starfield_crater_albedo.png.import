@@ -2,14 +2,14 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxv7cxjsyor3i"
+uid="uid://ddsv2cip7htvv"
 path.s3tc="res://.godot/imported/starfield_crater_albedo.png-f15e8b2b617a53c800791f0170917fd7.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "28d5a6f89869ed5810f64a1e6ee71818"
+"md5": "cd61dd173eb894069cb2e76b0f0a8035"
 }
 
 [deps]

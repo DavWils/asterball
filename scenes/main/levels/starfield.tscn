@@ -6,14 +6,14 @@
 [ext_resource type="Script" uid="uid://cxatpiq5agerl" path="res://scripts/level/zones/score_zone.gd" id="4_u3xwc"]
 [ext_resource type="PackedScene" uid="uid://c03unke567evk" path="res://meshes/levels/starfield/starfield_crater.glb" id="6_u3xwc"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_5sngl"]
-size = Vector2(100, 250)
+[sub_resource type="BoxMesh" id="BoxMesh_htkcu"]
+size = Vector3(120, 50, 250)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5sngl"]
-size = Vector3(100, 1, 250)
+size = Vector3(120, 1, 250)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gs6xa"]
-size = Vector3(100, 10, 15)
+size = Vector3(120, 10, 15)
 
 [sub_resource type="Environment" id="Environment_n6wex"]
 background_mode = 1
@@ -22,7 +22,8 @@ background_color = Color(0.019550411, 0.0034108006, 0.0685281, 1)
 [node name="Level" instance=ExtResource("1_5sngl")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="0"]
-mesh = SubResource("PlaneMesh_5sngl")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 0)
+mesh = SubResource("BoxMesh_htkcu")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
@@ -92,8 +93,8 @@ owning_team = 1
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwayScoreZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
 
-[node name="Crater" parent="." index="14" instance=ExtResource("6_u3xwc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.461, 95.71424, 0)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="15"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="14"]
 environment = SubResource("Environment_n6wex")
+
+[node name="Crater" parent="." index="15" instance=ExtResource("6_u3xwc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 97.24361, 0)
