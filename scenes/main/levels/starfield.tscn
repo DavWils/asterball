@@ -10,7 +10,7 @@
 size = Vector3(120, 50, 250)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5sngl"]
-size = Vector3(120, 1, 250)
+size = Vector3(120, 20, 250)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gs6xa"]
 size = Vector3(120, 10, 15)
@@ -28,18 +28,18 @@ data = PackedVector3Array(-60.2627, -116.975395, 124.8564, -60.2627, -103.4975, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 0)
 mesh = SubResource("BoxMesh_htkcu")
 
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
+collision_mask = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_5sngl")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 light_color = Color(0.90199995, 0.86, 1, 1)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-collision_mask = 7
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
-shape = SubResource("BoxShape3D_5sngl")
-
-[node name="HomeSpawnZone" type="Area3D" parent="." index="5"]
+[node name="HomeSpawnZone" type="Area3D" parent="." index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 117.5)
 collision_layer = 8
 collision_mask = 8
@@ -48,7 +48,7 @@ script = ExtResource("2_htkcu")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeSpawnZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
 
-[node name="HomeBuyZone" type="Area3D" parent="." index="6"]
+[node name="HomeBuyZone" type="Area3D" parent="." index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 117.5)
 collision_layer = 8
 collision_mask = 8
@@ -57,7 +57,7 @@ script = ExtResource("3_n6wex")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeBuyZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
 
-[node name="HomeScoreZone" type="Area3D" parent="." index="7"]
+[node name="HomeScoreZone" type="Area3D" parent="." index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 117.5)
 collision_layer = 8
 collision_mask = 8
@@ -66,7 +66,7 @@ script = ExtResource("4_u3xwc")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeScoreZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
 
-[node name="AwaySpawnZone" type="Area3D" parent="." index="8"]
+[node name="AwaySpawnZone" type="Area3D" parent="." index="7"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -117.5)
 collision_layer = 8
 collision_mask = 8
@@ -76,7 +76,7 @@ owning_team = 1
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwaySpawnZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
 
-[node name="AwayBuyZone" type="Area3D" parent="." index="9"]
+[node name="AwayBuyZone" type="Area3D" parent="." index="8"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -117.5)
 collision_layer = 8
 collision_mask = 8
@@ -86,7 +86,7 @@ owning_team = 1
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwayBuyZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
 
-[node name="AwayScoreZone" type="Area3D" parent="." index="10"]
+[node name="AwayScoreZone" type="Area3D" parent="." index="9"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -117.5)
 collision_layer = 8
 collision_mask = 8
@@ -96,10 +96,10 @@ owning_team = 1
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwayScoreZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="14"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="13"]
 environment = SubResource("Environment_n6wex")
 
-[node name="Crater" parent="." index="15" instance=ExtResource("6_u3xwc")]
+[node name="Crater" parent="." index="14" instance=ExtResource("6_u3xwc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 89.20299, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Crater" index="1"]
