@@ -207,7 +207,7 @@ func read_p2p_packet():
 						if not level.level_registry.has(readable_data["id"]): return
 						var character: Character = level.level_registry[readable_data["id"]]
 						if character.owning_player_id == sender_id:
-							character.use_player_input(readable_data["in"], readable_data["d"])
+							character.use_player_input(readable_data["in"])
 				Message.REGISTRY_UPDATE: 
 					if is_host(sender_id):
 						var network_registry = readable_data["r"]

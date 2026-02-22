@@ -133,7 +133,7 @@ func _physics_process(delta: float) -> void:
 		look_input = Vector2.ZERO
 		
 		# Use input.
-		current_character.use_player_input(input_dictionary, delta)
+		current_character.use_player_input(input_dictionary)
 		# If we're not the host, send the host our input as well.
 		if not network_manager.is_host():
 			network_manager.send_p2p_packet(
@@ -141,7 +141,6 @@ func _physics_process(delta: float) -> void:
 				{
 					"m": network_manager.Message.CLIENT_CHAR_INPUT, # Message. Player input.
 					"id": current_character.registry_id, # Character id
-					"d": delta,
 					"in": input_dictionary # Input
 				}
 			)

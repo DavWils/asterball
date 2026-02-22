@@ -96,7 +96,8 @@ func get_charge_acceleration() -> float:
 
 
 # Makes the character move based on player input.
-func use_player_input(input: Dictionary, delta: float) -> void:
+func use_player_input(input: Dictionary) -> void:
+	var delta: float = 1.0/60.0
 	# Movement input.
 	if can_move():
 		var move_input: Vector2 = input.get("mv", Vector2.ZERO)
