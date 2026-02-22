@@ -38,8 +38,6 @@ func tackle(tackler: Node3D, tackle_force: float) -> void:
 		character.get_node("CollisionShape3D").disabled = true
 		print(Steam.getFriendPersonaName(character.owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id), " with a force of ", tackle_force)
 		# Shake camera.
-		if character.is_locally_possessed():
-			character.get_node("CameraHandle").tackle_shake(tackle_force)
 		if network_manager.is_host():
 			# Send packet
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": character.registry_id, "tid": tackler.registry_id, "tf": tackle_force})

@@ -221,6 +221,8 @@ func from_reg_dict(data: Dictionary) -> void:
 ## Called when self is tackled. Reroutes to tacklecomponent
 func tackle(tackler: Node3D, tackle_force: float):
 	tackle_component.tackle(tackler, tackle_force)
+	if is_locally_possessed():
+			get_node("CameraHandle").tackle_shake(tackle_force)
 
 ## Returns character carry capacity.
 func get_inventory_capacity() -> int:
