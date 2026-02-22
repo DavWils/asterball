@@ -89,7 +89,7 @@ func enter_recovery_key(key: int) -> bool:
 ## Offsets the recovery code by given value
 func set_recovery_code_progress(offset: int) -> void:
 	recovery_progress = recovery_progress+offset if recovery_progress+offset >= 0 else 0
-	print("Recovery progress: ", recovery_progress)
+	print("Recovery progress for "+ Steam.getFriendPersonaName(character.owning_player_id) +": ", recovery_progress)
 	for key in recovery_code.size():
 		var key_str: String
 		match recovery_code[key]:
@@ -107,3 +107,7 @@ func set_recovery_code_progress(offset: int) -> void:
 			print(key_str, "<-")
 		else:
 			print(key_str)
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CHARACTER_RECOVERY_PROGRESS, "char_id": character.registry_id, "progress": recovery_progress})
+	elif character.is_locally_possessed():
+		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_RECOVERY_PROGRESS, "char_id": character.registry_id, "progress": recovery_progress})

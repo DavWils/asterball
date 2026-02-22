@@ -358,7 +358,21 @@ func read_p2p_packet():
 						var character: Character = level.level_registry[readable_data["char_id"]]
 						if character.owning_player_id == sender_id:
 							character.use_equipment_finish()
-
+				Message.CLIENT_RECOVERY_PROGRESS:
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							character.tackle_component.set_recovery_code_progress(readable_data["progress"]) 
+				Message.CHARACTER_RECOVERY_PROGRESS:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							if character.is_locally_possessed():
+								pass
+							else:
+								character.tackle_component.set_recovery_code_progress(readable_data["progress"]) 
 
 ## Enum for the message types for the network manager.
 enum Message {
@@ -384,6 +398,7 @@ enum Message {
 	CHARACTER_REMOVEITEM, ## Removes an item from a character's inventory.
 	CHARACTER_USE_START, ## Character uses equipment
 	CHARACTER_USE_FINISH, ## Character finishes using equipment.
+	CHARACTER_UPDATE_RECOVERY, ## Character updates their recovery progress while tackled.
 	SET_STATE_OF_MATCH, ## Server sets the state of the match.
 	SET_MATCH_TIME, ## Server sets the match time.
 	SET_INTERMISSION_TIME, ## Server sets the intermission time.
@@ -394,5 +409,7 @@ enum Message {
 	SCORE_EFFECT, ## Extra score effect from host which is received when someone scores.
 	LOAD_LEVEL, ## Server telling clients to load into a new level.
 	CLIENT_PURCHASE_ITEM, ## Client requests an item purchase.
-	CLIENT_REQUEST_EQUIP ## Client requests to equip an item at given key.
+	CLIENT_REQUEST_EQUIP, ## Client requests to equip an item at given key.
+	CLIENT_RECOVERY_PROGRESS, ## Client updates their progress on recovery.
+	CHARACTER_RECOVERY_PROGRESS, ## Character updates their progress from host, character owner also receives but acts differently.
 }
