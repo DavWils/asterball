@@ -9,8 +9,6 @@ class_name Character
 @onready var character_mesh: Node3D = $CharacterMesh
 @onready var tackle_component: TackleComponent = $TackleComponent
 
-## The minimum speed a character must be going to tackle another.
-const MINIMUM_TACKLE_SPEED := 5.0
 ## The max percentage of throw force that is too small to actually throw.
 const MINIMUM_THROW_FORCE := 0.05
 
