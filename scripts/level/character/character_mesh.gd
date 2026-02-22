@@ -16,11 +16,11 @@ extends Node3D
 @export var equipment_attachment: BoneAttachment3D
 
 func _physics_process(_delta: float) -> void:
-	if animation_player:
+	if is_node_ready() and animation_player:
 		update_animation()
 
 func update_animation():
-	if character.is_tackled: return
+	if character.tackle_component.is_tackled: return
 	
 	if not character.is_on_floor():
 		animation_tree.set("parameters/MovementTransition/transition_request", "Fall")

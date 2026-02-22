@@ -7,6 +7,7 @@ class_name Character
 @onready var level: Level = get_tree().current_scene.get_node("Level")
 @onready var inventory_component: InventoryComponent = $InventoryComponent
 @onready var character_mesh: Node3D = $CharacterMesh
+@onready var tackle_component: TackleComponent = $TackleComponent
 
 ## The minimum speed a character must be going to tackle another.
 const MINIMUM_TACKLE_SPEED := 5.0
@@ -36,8 +37,6 @@ var registry_id: int
 var control_pitch: float = 0.0
 ## Server side current charge speed.
 var current_charge_speed := 0.0
-## Whether or not the character is tackled and cannot move.
-var is_tackled := false
 ## The current equipment the character is holding.
 var current_equipment: Equipment
 ## The key of the currently equipped inventory item. -1 if nothing equipped.
@@ -52,6 +51,8 @@ var throw_force := 0.0
 
 func _ready() -> void:
 	print("Spawning character owned by ", Steam.getFriendPersonaName(owning_player_id))
+	await get_tree().create_timer(20).timeout
+	tackle(self, 5)
 
 ## Sets whether or not the camera is currently being used.
 func set_current_camera(current: bool) -> void:
@@ -80,7 +81,7 @@ func _physics_process(delta: float):
 	else:
 		velocity.y = 0
 	if network_manager.is_host() or is_locally_possessed():
-		if not is_tackled: move_and_slide()
+		if can_move(): move_and_slide()
 	if network_manager.is_host() and is_locally_possessed():
 		pass
 		#print(current_charge_speed, "| ", velocity.length(), " m/s")
@@ -98,7 +99,6 @@ func get_charge_acceleration() -> float:
 
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary, delta: float) -> void:
-	if is_tackled: return
 	# Movement input.
 	if can_move():
 		var move_input: Vector2 = input.get("mv", Vector2.ZERO)
@@ -138,7 +138,7 @@ func use_player_input(input: Dictionary, delta: float) -> void:
 				var collider := collision.get_collider()
 				
 				if charging and collider is Character:
-					on_charge_collide(collider, collision)
+					tackle_component.on_charge_collide(collider, collision)
 	else:
 		if is_on_floor(): # Slide to a stop if cant move.
 			velocity = velocity.lerp(Vector3.ZERO, 0.2)
@@ -220,53 +220,9 @@ func from_reg_dict(data: Dictionary) -> void:
 			control_pitch = lerp(control_pitch, new_con_pitch, LOCAL_LERP_FACTOR)
 		velocity = new_vel
 
-## Called when self collides with another character.
-func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
-	if not collider.is_tackled:
-		print(Steam.getFriendPersonaName(owning_player_id), " has charged into ", Steam.getFriendPersonaName(collider.owning_player_id))
-		var hit_direction := (collider.global_position-global_position).normalized() # The direction from self to collider.
-		
-		var self_velocity := velocity.dot(hit_direction)
-		var collider_velocity := collider.velocity.dot(-hit_direction)
-		
-		if self_velocity > collider_velocity and self_velocity > MINIMUM_TACKLE_SPEED:
-			print("Colliding with ", self_velocity, "+", collider_velocity)
-			current_charge_speed = (current_charge_speed - 8.0) if current_charge_speed > 8.0 else 0.0
-			collider.tackle(self, self_velocity + collider_velocity)
-
-## Called when self is tackled by another node.
-func tackle(tackler: Node3D, tackle_force: float) -> void:
-	if not is_tackled:
-		is_tackled = true
-		$CollisionShape3D.disabled = true
-		print(Steam.getFriendPersonaName(owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id), " with a force of ", tackle_force)
-		# Shake camera.
-		if is_locally_possessed():
-			$CameraHandle.tackle_shake(tackle_force)
-		if network_manager.is_host():
-			# Send packet
-			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": registry_id, "tid": tackler.registry_id, "tf": tackle_force})
-			# Drop all items.
-			while $InventoryComponent.get_item_at(0):
-				drop_item(0)
-			
-			# Reset movement.
-			velocity.x = 0
-			velocity.z = 0
-			current_charge_speed = 0
-			await get_tree().create_timer(4).timeout
-			recover()
-			
-
-## Called when self recovers from being tackled.
-func recover() -> void:
-	if is_tackled:
-		is_tackled = false
-		$CollisionShape3D.disabled = false
-		print(Steam.getFriendPersonaName(owning_player_id), " has recovered from being tackled.")
-		if network_manager.is_host():
-			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_RECOVERED, "id": registry_id})
-			
+## Called when self is tackled. Reroutes to tacklecomponent
+func tackle(tackler: Node3D, tackle_force: float):
+	tackle_component.tackle(tackler, tackle_force)
 
 ## Returns character carry capacity.
 func get_inventory_capacity() -> int:
@@ -364,7 +320,7 @@ func can_move() -> bool:
 	var state_of_match = level.match_state.state_of_match
 	var state_enum = level.match_state.StateOfMatch
 	var is_movable_state_of_match: bool = (state_of_match == state_enum.MATCH or state_of_match == state_enum.CELEBRATION)
-	return is_movable_state_of_match and (not is_tackled) and (not (is_locally_possessed() and player_controller.paused))
+	return is_movable_state_of_match and (not tackle_component.is_tackled) and (not (is_locally_possessed() and player_controller.paused))
 
 
 
@@ -432,3 +388,8 @@ func use_equipment_finish() -> void:
 	current_equipment.use_finish()
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_USE_FINISH, "char_id": registry_id})
+
+## Drops all character items.
+func drop_all_items() -> void:
+	while $InventoryComponent.get_item_at(0):
+		drop_item(0)
