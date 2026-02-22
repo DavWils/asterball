@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dtburs7dpxgxy" path="res://meshes/characters/omnistriker/omnistriker.glb" id="1_yfdhx"]
 [ext_resource type="AnimationNodeBlendSpace2D" uid="uid://byocccca1q5f1" path="res://meshes/characters/omnistriker/run_blend_space.tres" id="2_325jj"]
-[ext_resource type="Script" uid="uid://cql7lecmsjdeq" path="res://scenes/level/character/character_mesh.gd" id="2_owm0j"]
+[ext_resource type="Script" uid="uid://cql7lecmsjdeq" path="res://scripts/level/character/character_mesh.gd" id="2_owm0j"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ubvka"]
 animation = &"falling"
