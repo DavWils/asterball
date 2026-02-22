@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c03unke567evk" path="res://meshes/levels/starfield/starfield_crater.glb" id="6_u3xwc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gs6xa"]
-size = Vector3(120, 10, 15)
+size = Vector3(120, 10, 23.5)
 
 [sub_resource type="Environment" id="Environment_n6wex"]
 background_mode = 1
@@ -29,7 +29,7 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0
 light_color = Color(0.90199995, 0.86, 1, 1)
 
 [node name="HomeSpawnZone" type="Area3D" parent="." index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 117.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 113.25)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("2_htkcu")
@@ -38,7 +38,7 @@ script = ExtResource("2_htkcu")
 shape = SubResource("BoxShape3D_gs6xa")
 
 [node name="HomeBuyZone" type="Area3D" parent="." index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 117.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 113.25)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("3_n6wex")
@@ -47,7 +47,7 @@ script = ExtResource("3_n6wex")
 shape = SubResource("BoxShape3D_gs6xa")
 
 [node name="HomeScoreZone" type="Area3D" parent="." index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 117.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 113.25)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("4_u3xwc")
@@ -56,7 +56,7 @@ script = ExtResource("4_u3xwc")
 shape = SubResource("BoxShape3D_gs6xa")
 
 [node name="AwaySpawnZone" type="Area3D" parent="." index="6"]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -117.5)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -113.25)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("2_htkcu")
@@ -66,7 +66,7 @@ owning_team = 1
 shape = SubResource("BoxShape3D_gs6xa")
 
 [node name="AwayBuyZone" type="Area3D" parent="." index="7"]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -117.5)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -113.25)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("3_n6wex")
@@ -76,7 +76,7 @@ owning_team = 1
 shape = SubResource("BoxShape3D_gs6xa")
 
 [node name="AwayScoreZone" type="Area3D" parent="." index="8"]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -117.5)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -113.25)
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("4_u3xwc")
