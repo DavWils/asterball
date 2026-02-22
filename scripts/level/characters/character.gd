@@ -49,7 +49,7 @@ var throw_force := 0.0
 
 func _ready() -> void:
 	print("Spawning character owned by ", Steam.getFriendPersonaName(owning_player_id))
-	await get_tree().create_timer(20).timeout
+	await get_tree().create_timer(5).timeout
 	tackle(self, 5)
 
 ## Sets whether or not the camera is currently being used.
@@ -219,8 +219,8 @@ func from_reg_dict(data: Dictionary) -> void:
 		velocity = new_vel
 
 ## Called when self is tackled. Reroutes to tacklecomponent
-func tackle(tackler: Node3D, tackle_force: float):
-	tackle_component.tackle(tackler, tackle_force)
+func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGenerator = RandomNumberGenerator.new()):
+	tackle_component.tackle(tackler, tackle_force, tackle_seed)
 	if is_locally_possessed():
 			get_node("CameraHandle").tackle_shake(tackle_force)
 
@@ -393,3 +393,11 @@ func use_equipment_finish() -> void:
 func drop_all_items() -> void:
 	while $InventoryComponent.get_item_at(0):
 		drop_item(0)
+
+## Returns true if tackled.
+func is_tackled() -> bool:
+	return tackle_component.is_tackled
+
+## Enters recovery key to recover from being tackled.
+func enter_recovery_key(key: int) -> void:
+	tackle_component.enter_recovery_key(key)

@@ -28,7 +28,6 @@ func _process(_delta: float) -> void:
 
 ## Shakes the camera based on the given force.
 func tackle_shake(force: float):
-	print("SHAKE")
 	var initial_transform = self.transform 
 	var elapsed_time = 0.0
 	var period = log(force)/3 # The length of the shake

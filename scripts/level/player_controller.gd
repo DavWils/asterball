@@ -57,8 +57,23 @@ func unpossess_character() -> void:
 	# Forget character.
 	current_character = null
 
+## Enters input for a recovery key.
+func enter_recovery_key_input(key: int) -> void:
+	current_character.enter_recovery_key(key)
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if current_character:
+		# Tackle recovery input.
+		if current_character.is_tackled():
+			if event.is_action_pressed("move_forward"):
+				enter_recovery_key_input(0)
+			elif event.is_action_pressed("move_left"):
+				enter_recovery_key_input(1)
+			elif event.is_action_pressed("move_backward"):
+				enter_recovery_key_input(2)
+			elif event.is_action_pressed("move_right"):
+				enter_recovery_key_input(3)
 		# Interact input.
 		if event.is_action_pressed("interact"):
 			var interactable: Node3D = current_character.get_node("InteractArea3D").get_desired_interactable()
