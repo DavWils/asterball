@@ -49,8 +49,6 @@ var throw_force := 0.0
 
 func _ready() -> void:
 	print("Spawning character owned by ", Steam.getFriendPersonaName(owning_player_id))
-	await get_tree().create_timer(5).timeout
-	tackle(self, 5)
 
 ## Sets whether or not the camera is currently being used.
 func set_current_camera(current: bool) -> void:
