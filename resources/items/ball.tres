@@ -14,3 +14,4 @@ item_mesh = ExtResource("1_8xlw7")
 pickup_collision_shape = SubResource("SphereShape3D_pf5td")
 can_purchase = null
 equip_lock = true
+is_essential = true

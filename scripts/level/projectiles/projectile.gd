@@ -20,6 +20,15 @@ func _ready() -> void:
 	$CollisionShape3D.shape = item_state.item_resource.pickup_collision_shape
 	body_entered.connect(_on_body_entered)
 
+func _physics_process(_delta: float) -> void:
+	if position.y <= level.kill_depth:
+		if item_state.item_resource.is_essential:
+			linear_velocity = Vector3.ZERO
+			position = Vector3.UP * 5
+		else:
+			despawn_projectile()
+
+
 func _on_body_entered(body: Node3D) -> void:
 	projectile_collide(body)
 
@@ -30,7 +39,6 @@ func projectile_collide(body: Node3D):
 
 func despawn_projectile():
 	level.despawn_registry_object(registry_id)
-
 
 ## Converts character information to a dictionary that can be loaded by players joining the game. Used for time-specific parts like held item, etc. Position isn't exactly needed as it's updated each physics process.
 func to_init_dict() -> Dictionary:

@@ -16,6 +16,8 @@ class_name ItemResource
 @export var equip_lock: bool = false
 ## Mass of the item, higher mass being harder to throw and more heavy on the players.
 @export var item_mass: float = 1.0
+## Whether or not the item is essential, meaning it cannot be destroyed/killed.
+@export var is_essential: bool = false
 
 ## Enum for item tiers.
 enum ItemTier {
