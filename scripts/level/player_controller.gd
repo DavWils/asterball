@@ -143,10 +143,6 @@ func _physics_process(delta: float) -> void:
 func _on_interact_area_overlap(_body: Node3D):
 	var desired_interactable = current_character.get_node("InteractArea3D").get_desired_interactable()
 	if desired_interactable:
-		#print("New most desired interactable is ", desired_interactable.name)
-		if desired_interactable is Pickup:
-			pass
-			#print(desired_interactable, " is a pickup of item ", desired_interactable.item_state.item_resource.item_name)
+		print("Current desired interactable is ", desired_interactable.name)
 	else:
-		pass
-		#print("No desired interactable now.")
+		print("No pickup")

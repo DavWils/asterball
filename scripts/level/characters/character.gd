@@ -302,7 +302,7 @@ func get_look_forward_vector() -> Vector3:
 ## Drops an item from the inventory with validation. Automatic flag means item was dropped automatically (i.e. equip locked item was unequipped).
 func drop_item(key: int, automatic: bool = false):
 	if inventory_component.get_item_state(key) != null:
-		var pickup: RigidBody3D = level.spawn_pickup(inventory_component.get_item_state(key), self.position+Vector3.UP*1.5, self)
+		var pickup: RigidBody3D = level.spawn_projectile(inventory_component.get_item_state(key), self.position+Vector3.UP*1.5, self)
 		pickup.linear_velocity = (get_look_forward_vector() * 3) + velocity
 		
 		
@@ -402,12 +402,8 @@ func stop_throwing() -> void:
 			var projectile: RigidBody3D
 			# Spawn a projectile, if a projectile scene exists spawn it, otherwise spawn pickup.
 			var projectile_item_state: ItemState = current_equipment.get_item_state()
-			var projectile_scene: PackedScene = projectile_item_state.item_resource.get_projectile_scene()
 			var projectile_spawn_pos: Vector3 = self.position + Vector3.UP*1.5 + get_look_forward_vector()
-			if projectile_scene:
-				projectile = level.spawn_projectile(projectile_item_state, projectile_spawn_pos, self)
-			else:
-				projectile = level.spawn_pickup(projectile_item_state, projectile_spawn_pos, self)
+			projectile = level.spawn_projectile(projectile_item_state, projectile_spawn_pos, self)
 			# Set item's velocity.
 			projectile.linear_velocity = get_look_forward_vector() * (throw_force/projectile_item_state.item_resource.item_mass) + self.velocity
 			

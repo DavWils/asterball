@@ -184,17 +184,6 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						level.spawn_character(readable_data["char_path"], readable_data["owner_id"], readable_data["position"], readable_data["registry_id"])
-				Message.SPAWN_PICKUP: 
-					if is_host(sender_id):
-						var level: Level = get_tree().current_scene.get_node("Level")
-						var item_state = ItemState.new()
-						item_state.from_dict(readable_data["item_state"])
-						var thrower: Character
-						if level.level_registry.has(readable_data["thrower_char_id"]):
-							thrower = level.level_registry[readable_data["thrower_char_id"]]
-						else:
-							thrower = null
-						level.spawn_pickup(item_state, readable_data["position"], thrower, readable_data["registry_id"])
 				Message.SPAWN_PROJECTILE: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -376,7 +365,6 @@ enum Message {
 	HANDSHAKE, ## Handshake
 	HANDSHAKE_ACK, ## Handshake acknowledgement sent from the host.
 	SPAWN_CHAR, ## Spawns a character in local registry.
-	SPAWN_PICKUP, ## Spawns a pickup in local registry.
 	SPAWN_PROJECTILE, ## Spawns a projectile in local registry.
 	DESPAWN_OBJECT, ## Despawns an object in local registry
 	CLIENT_CHAR_INPUT, ## A client sends their input for their character.

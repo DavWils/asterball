@@ -35,7 +35,7 @@ func get_projectile_scene() -> PackedScene:
 	if FileAccess.file_exists(filepath):
 		return load(filepath)
 	else:
-		return null
+		return load("res://scenes/level/baseprojectile.tscn")
 
 ## Automatically calculates item tier based on set values.
 func get_item_tier() -> ItemTier:

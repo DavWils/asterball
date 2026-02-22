@@ -66,3 +66,12 @@ func from_reg_dict(data: Dictionary) -> void:
 	position = position.lerp(new_pos, PROJECTILE_LERP_FACTOR)
 	rotation = rotation.lerp(new_rot, PROJECTILE_LERP_FACTOR)
 	linear_velocity = new_vel
+
+## Called when interacted with.
+func interact(interactor: Character) -> void:
+	level.despawn_registry_object(registry_id)
+	interactor.pickup_item(item_state)
+
+## Text to display to an interacting player.
+func get_interact_text() -> String:
+	return("Pickup " + item_state.item_resource.item_name)
