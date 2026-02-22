@@ -12,7 +12,8 @@ class_name Level
 @export var kill_depth := -100.0
 ## The standard acceleration of gravity on this map.
 @export var gravity_acceleration := 10.0
-
+## The default spawning location for items without a set position. Also the ball spawning position.
+@export var default_item_spawn: Vector3
 
 var level_registry: Dictionary[int, Node3D] = {}
 

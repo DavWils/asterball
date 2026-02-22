@@ -24,7 +24,7 @@ func _physics_process(_delta: float) -> void:
 	if position.y <= level.kill_depth:
 		if item_state.item_resource.is_essential:
 			linear_velocity = Vector3.ZERO
-			position = Vector3.UP * 5
+			position = level.default_item_spawn
 		else:
 			despawn_projectile()
 
