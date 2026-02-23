@@ -15,7 +15,11 @@ class_name Level
 ## The default spawning location for items without a set position. Also the ball spawning position.
 @export var default_item_spawn: Vector3
 
+## Level registry of all spawned objects that need to be replicated
 var level_registry: Dictionary[int, Node3D] = {}
+## The latest number in the registry to count off of.
+var latest_registry_key: int = 0
+
 
 func _ready() -> void:
 	print("Level has been loaded.")
@@ -24,7 +28,7 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	# Send registry info to clients
 	if network_manager.is_host():
-		var network_registry: Dictionary
+		var network_registry: Dictionary = {}
 		for id in level_registry:
 			network_registry[id] = level_registry[id].to_reg_dict()
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.REGISTRY_UPDATE, "r": network_registry}, Steam.P2P_SEND_UNRELIABLE)
@@ -59,9 +63,12 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 			"position": character_position
 		}
 		)
+	latest_registry_key = registry_id
+	
 	return character
 
 func spawn_projectile(item_state: ItemState, start_position: Vector3, thrower: Character = null, registry_id := get_unused_registry_id()):
+	print("Spawning a new projectile with id ", registry_id)
 	var projectile_node: Projectile = item_state.item_resource.get_projectile_scene().instantiate()
 	projectile_node.position = start_position
 	projectile_node.item_state = item_state
@@ -83,6 +90,8 @@ func spawn_projectile(item_state: ItemState, start_position: Vector3, thrower: C
 			"thrower_char_id": thrower.registry_id if thrower else -1
 		}
 		)
+	
+	latest_registry_key = registry_id
 	return projectile_node
 
 ## Removes a scene from the registry and deletes it for host and clients.
@@ -95,7 +104,7 @@ func despawn_registry_object(registry_id: int):
 
 ## Returns a registry id thats not used.
 func get_unused_registry_id() -> int:
-	var new_id := 0
+	var new_id := latest_registry_key + 1
 	while level_registry.has(new_id):
 		new_id += 1
 	return new_id

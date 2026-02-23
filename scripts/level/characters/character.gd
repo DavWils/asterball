@@ -49,7 +49,7 @@ var throw_force := 0.0
 
 
 func _ready() -> void:
-	print("Spawning character owned by ", Steam.getFriendPersonaName(owning_player_id))
+	print("Spawned character ", registry_id, " owned by ", Steam.getFriendPersonaName(owning_player_id))
 
 ## Sets whether or not the camera is currently being used.
 func set_current_camera(current: bool) -> void:
@@ -73,12 +73,13 @@ func _physics_process(delta: float):
 		throw_force = clampf(throw_force + (get_throw_speed() * delta), 0, get_max_throw_force())
 	
 	# Increase in downward velocity due to gravity.
-	if not is_on_floor():
-		velocity.y -= level.gravity_acceleration*delta
-	else:
-		velocity.y = 0
-	if network_manager.is_host() or is_locally_possessed():
-		move_and_slide()
+	if network_manager.is_host():
+		if not is_on_floor():
+			velocity.y -= level.gravity_acceleration*delta
+		else:
+			velocity.y = 0
+	
+	move_and_slide()
 	
 	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
 	if not network_manager.is_host():

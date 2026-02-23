@@ -15,6 +15,7 @@ var thrower_id: int
 var throwing_character: Character
 
 func _ready() -> void:
+	print("Spawned projectile ", registry_id)
 	# Set values to represent item state.
 	$MeshInstance3D.mesh = item_state.item_resource.item_mesh
 	$CollisionShape3D.shape = item_state.item_resource.pickup_collision_shape

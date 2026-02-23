@@ -214,9 +214,7 @@ func read_p2p_packet():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						for id in network_registry:
 							if level.level_registry.has(id):
-								if level.level_registry[id] is Character:
-									# If this is our local character we should rubberband more subtlely.
-									level.level_registry[id].from_reg_dict(network_registry[id])
+								level.level_registry[id].from_reg_dict(network_registry[id])
 				Message.CLIENT_REQUEST_GAME: 
 					if is_host():
 						print("Sending game info to ", Steam.getFriendPersonaName(sender_id))
@@ -239,8 +237,9 @@ func read_p2p_packet():
 							var new_scene = load(initial_registry[id]["path"]).instantiate()
 							new_scene.from_init_dict(initial_registry[id]["data"])
 							new_scene.from_reg_dict(initial_registry[id]["reg_dict"])
-							level.add_child(new_scene)
 							level.level_registry[id] = new_scene
+							new_scene.registry_id = id
+							level.add_child(new_scene)
 						game_info_retrieved.emit()
 				Message.CHARACTER_TACKLED: 
 					if is_host(sender_id):
