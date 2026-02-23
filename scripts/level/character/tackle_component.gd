@@ -21,6 +21,17 @@ var recovery_code: Array[int]
 ## Completion marker for recovery, marking the index the player is currently at.
 var recovery_progress: int
 
+## Check for collisions
+func _physics_process(_delta: float) -> void:
+	if network_manager.is_host():
+		for i in range(character.get_slide_collision_count()):
+			var collision := character.get_slide_collision(i)
+			var collider := collision.get_collider()
+			
+			if character.is_charging() and collider is Character:
+				on_charge_collide(collider, collision)
+
+
 ## Called when self collides with another character.
 func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
 	if not collider.is_tackled:
