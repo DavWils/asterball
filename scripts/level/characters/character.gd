@@ -364,4 +364,4 @@ func enter_recovery_key(key: int) -> void:
 	tackle_component.enter_recovery_key(key)
 
 func is_charging() -> bool:
-	return velocity > movement_component.get_walk_speed()
+	return movement_component.is_charging
