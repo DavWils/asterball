@@ -142,6 +142,7 @@ func to_reg_dict() -> Dictionary:
 
 ## Loads character registry info from dict.
 func from_reg_dict(data: Dictionary) -> void:
+	if not is_node_ready(): return
 	var new_pos: Vector3 = data["p"]
 	var new_rot: Vector3 = data["r"]
 	var new_vel: Vector3 = data["v"]

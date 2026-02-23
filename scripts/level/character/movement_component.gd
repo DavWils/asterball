@@ -88,7 +88,7 @@ func to_reg_dict() -> Dictionary:
 	data["c"] = is_charging
 	data["s"] = is_skidding
 	
-	return {}
+	return data
 
 func from_reg_dict(data: Dictionary) -> void:
 	is_charging = data["c"]
