@@ -8,6 +8,7 @@ class_name Character
 @onready var inventory_component: InventoryComponent = $InventoryComponent
 @onready var character_mesh: Node3D = $CharacterMesh
 @onready var tackle_component: TackleComponent = $TackleComponent
+@onready var movement_component: MovementComponent = $MovementComponent
 
 ## The max percentage of throw force that is too small to actually throw.
 const MINIMUM_THROW_FORCE := 0.05
@@ -71,17 +72,14 @@ func _physics_process(delta: float):
 		print("T: ", throw_force)
 		throw_force = clampf(throw_force + (get_throw_speed() * delta), 0, get_max_throw_force())
 	
-	# Gravity affects downward velocity.
+	# Increase in downward velocity due to gravity.
 	if not is_on_floor():
 		velocity.y -= level.gravity_acceleration*delta
 	else:
 		velocity.y = 0
 	if network_manager.is_host() or is_locally_possessed():
 		if can_move(): move_and_slide()
-	if network_manager.is_host() and is_locally_possessed():
-		pass
-		#print(current_charge_speed, "| ", velocity.length(), " m/s")
-
+	
 	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
 	if not network_manager.is_host():
 		current_charge_speed = self.velocity.length()
@@ -95,50 +93,14 @@ func get_charge_acceleration() -> float:
 
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary) -> void:
-	var delta: float = 1.0/60.0
 	# Movement input.
 	if can_move():
 		var move_input: Vector2 = input.get("mv", Vector2.ZERO)
 		var charging: bool = input.get("ch", false) and (not is_aiming)
 		
-		var direction := Vector3.ZERO
+		movement_component.movement_input = move_input
+		movement_component.charging_input = charging
 		
-		if charging and move_input.y < 0:
-			# Forward only (Z+ in Godot)
-			direction = transform.basis.z
-
-			# Ramp speed up over time
-			current_charge_speed = min(
-				current_charge_speed + delta * get_charge_acceleration(),
-				get_max_charge_speed()
-			)
-
-			velocity.x = direction.x * -current_charge_speed
-			velocity.z = direction.z * -current_charge_speed
-		else:
-			# Reset charge when not charging
-			current_charge_speed = walk_speed
-
-			if not move_input.is_zero_approx():
-				direction = (
-					transform.basis.x * move_input.x +
-					transform.basis.z * move_input.y
-				).normalized()
-
-			velocity.x = direction.x * walk_speed
-			velocity.z = direction.z * walk_speed
-		
-		# If colliding a character, charge into them.
-		if network_manager.is_host():
-			for i in range(get_slide_collision_count()):
-				var collision := get_slide_collision(i)
-				var collider := collision.get_collider()
-				
-				if charging and collider is Character:
-					tackle_component.on_charge_collide(collider, collision)
-	else:
-		if is_on_floor(): # Slide to a stop if cant move.
-			velocity = velocity.lerp(Vector3.ZERO, 0.2)
 	
 	# Look input.
 	var look_input: Vector2 = input.get("lk", Vector2.ZERO)
