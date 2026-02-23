@@ -23,7 +23,7 @@ const ENDGAME_DURATION := 30
 ## The number of teams.
 const TEAM_COUNT := 2
 ## The final amount of points a team must get to win the game.
-const WINNING_SCORE := 2
+const WINNING_SCORE := 7
 ## The amount of points given to all players when a new round begins.
 const NEW_ROUND_POINTS := 600
 ## The amount of points given to a player when their team wins a score.
