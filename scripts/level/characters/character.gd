@@ -78,7 +78,7 @@ func _physics_process(delta: float):
 	else:
 		velocity.y = 0
 	if network_manager.is_host() or is_locally_possessed():
-		if can_move(): move_and_slide()
+		move_and_slide()
 	
 	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
 	if not network_manager.is_host():
