@@ -81,3 +81,15 @@ func get_charge_acceleration():
 ## Returns the deceleration to apply to the character when skidding after a charge.
 func get_charge_deceleration():
 	return base_charge_decel
+
+## Converts this component's information to reg dict
+func to_reg_dict() -> Dictionary:
+	var data: Dictionary
+	data["c"] = is_charging
+	data["s"] = is_skidding
+	
+	return {}
+
+func from_reg_dict(data: Dictionary) -> void:
+	is_charging = data["c"]
+	is_skidding = data["s"]

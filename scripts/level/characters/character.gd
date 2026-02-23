@@ -136,6 +136,7 @@ func to_reg_dict() -> Dictionary:
 	character_reg_data["v"] = velocity # Velocity
 	character_reg_data["cp"] = control_pitch
 	character_reg_data["tf"] = throw_force
+	character_reg_data["mv"] = movement_component.to_reg_dict()
 	
 	return character_reg_data
 
@@ -178,6 +179,8 @@ func from_reg_dict(data: Dictionary) -> void:
 		if cp_diff > MIN_ROT_DIFF:
 			control_pitch = lerp(control_pitch, new_con_pitch, LOCAL_LERP_FACTOR)
 		velocity = new_vel
+	# Lastly update movement component
+	movement_component.from_reg_dict(data["mv"])
 
 ## Called when self is tackled. Reroutes to tacklecomponent
 func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGenerator = RandomNumberGenerator.new()):
