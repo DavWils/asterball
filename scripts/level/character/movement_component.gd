@@ -19,6 +19,8 @@ var charging_input: bool
 var is_charging: bool = false
 ## Whether or not character is currently skidding.
 var is_skidding: bool = false
+## The peak velocity reached while moving. Reset on end charge. 
+var peak_velocity: Vector3 = Vector3.ZERO
 
 ## Base walk speed of the character. (m/s)
 @export var base_walk_speed: float = 6.0

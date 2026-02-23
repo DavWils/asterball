@@ -57,3 +57,7 @@ func open_match_menu() -> void:
 func close_match_menu() -> void:
 	match_menu.visible = false
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _physics_process(_delta: float) -> void:
+	if player_controller.current_character:
+		$SpeedLabel.text = "%.2f" % player_controller.current_character.get_real_velocity().length()

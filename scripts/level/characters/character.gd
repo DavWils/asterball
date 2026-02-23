@@ -46,6 +46,8 @@ var is_aiming := false
 var is_throwing := false
 ## The current amount of force charged to throw.
 var throw_force := 0.0
+## The velocity of the character in the previous frame
+var previous_velocity: Vector3
 
 
 func _ready() -> void:
@@ -78,8 +80,10 @@ func _physics_process(delta: float):
 			velocity.y -= level.gravity_acceleration*delta
 		else:
 			velocity.y = 0
+	previous_velocity = velocity
 	
-	move_and_slide()
+	if not is_tackled():
+		move_and_slide()
 	
 	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
 	if not network_manager.is_host():
@@ -190,6 +194,10 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 	if is_locally_possessed():
 			get_node("CameraHandle").tackle_shake(tackle_force)
 
+## Called when self recovers from a tackle.
+func recover() -> void:
+	tackle_component.recover()
+
 ## Returns character carry capacity.
 func get_inventory_capacity() -> int:
 	return base_inventory_capacity
@@ -286,7 +294,7 @@ func can_move() -> bool:
 	var state_of_match = level.match_state.state_of_match
 	var state_enum = level.match_state.StateOfMatch
 	var is_movable_state_of_match: bool = (state_of_match == state_enum.MATCH or state_of_match == state_enum.CELEBRATION)
-	return is_movable_state_of_match and (not tackle_component.is_tackled) and (not (is_locally_possessed() and player_controller.paused))
+	return is_movable_state_of_match and (not is_tackled()) and (not (is_locally_possessed() and player_controller.paused))
 
 
 
@@ -368,5 +376,6 @@ func is_tackled() -> bool:
 func enter_recovery_key(key: int) -> void:
 	tackle_component.enter_recovery_key(key)
 
+## Returns true if currently charging.
 func is_charging() -> bool:
 	return movement_component.is_charging

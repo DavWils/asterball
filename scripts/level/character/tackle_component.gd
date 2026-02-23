@@ -10,7 +10,7 @@ class_name TackleComponent
 @onready var network_manager: NetworkManager = get_tree().current_scene.network_manager
 
 ## The minimum speed a character must be going to tackle another.
-const MINIMUM_TACKLE_SPEED := 5.0
+const MINIMUM_TACKLE_SPEED := 8.0
 
 ## Whether or not the character is tackled and cannot move.
 var is_tackled := false
@@ -27,21 +27,20 @@ func _physics_process(_delta: float) -> void:
 		for i in range(character.get_slide_collision_count()):
 			var collision := character.get_slide_collision(i)
 			var collider := collision.get_collider()
-			
 			if character.is_charging() and collider is Character:
 				on_charge_collide(collider, collision)
 
 
 ## Called when self collides with another character.
 func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
-	if not collider.is_tackled:
+	if not collider.is_tackled():
 		print(Steam.getFriendPersonaName(character.owning_player_id), " has charged into ", Steam.getFriendPersonaName(collider.owning_player_id))
 		var hit_direction := (collider.global_position-character.global_position).normalized() # The direction from self to collider.
-		
-		var self_velocity := character.velocity.dot(hit_direction)
-		var collider_velocity := collider.velocity.dot(-hit_direction)
-		
-		if self_velocity > collider_velocity and self_velocity > MINIMUM_TACKLE_SPEED:
+		var self_velocity := character.previous_velocity.dot(hit_direction)
+		var collider_velocity := collider.previous_velocity.dot(-hit_direction)
+		print(self_velocity, " vs ", collider_velocity)
+		print(character.previous_velocity.length())
+		if self_velocity > collider_velocity and character.previous_velocity.length() >= MINIMUM_TACKLE_SPEED:
 			print("Colliding with ", self_velocity, "+", collider_velocity)
 			current_charge_speed = (current_charge_speed - 8.0) if current_charge_speed > 8.0 else 0.0
 			collider.tackle(character, self_velocity + collider_velocity)
@@ -65,7 +64,7 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 		# Shake camera.
 		if network_manager.is_host():
 			# Send packet
-			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": character.registry_id, "tid": tackler.registry_id, "tf": tackle_force})
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": character.registry_id, "tid": tackler.registry_id, "tf": tackle_force, "seed": tackle_seed.seed})
 			# Drop all items.
 			character.drop_all_items()
 			
@@ -88,18 +87,17 @@ func recover() -> void:
 ## Enters a recovery key in hopes of reducing the code. Returns true if successful, and false if wrong key.
 func enter_recovery_key(key: int) -> bool:
 	if recovery_code[recovery_progress+1] == key:
-		set_recovery_code_progress(1)
-		if recovery_code.size() <= recovery_progress+1:
-			recover()
+		set_recovery_code_progress(recovery_progress+1)
 		return true
 	else:
 		if recovery_progress >= 0:
-			set_recovery_code_progress(-1)
+			set_recovery_code_progress(recovery_progress-1)
 		return false
 
 ## Offsets the recovery code by given value
-func set_recovery_code_progress(offset: int) -> void:
-	recovery_progress = recovery_progress+offset if recovery_progress+offset >= 0 else 0
+func set_recovery_code_progress(progress: int) -> void:
+	if progress == recovery_progress: return
+	recovery_progress = progress if progress >= 0 else 0
 	print("Recovery progress for "+ Steam.getFriendPersonaName(character.owning_player_id) +": ", recovery_progress)
 	for key in recovery_code.size():
 		var key_str: String
@@ -119,6 +117,8 @@ func set_recovery_code_progress(offset: int) -> void:
 		else:
 			print(key_str)
 	if network_manager.is_host():
-		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CHARACTER_RECOVERY_PROGRESS, "char_id": character.registry_id, "progress": recovery_progress})
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_RECOVERY_PROGRESS, "char_id": character.registry_id, "progress": recovery_progress})
+		if recovery_code.size() <= recovery_progress+1:
+			character.recover()
 	elif character.is_locally_possessed():
 		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_RECOVERY_PROGRESS, "char_id": character.registry_id, "progress": recovery_progress})

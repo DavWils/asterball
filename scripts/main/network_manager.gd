@@ -247,7 +247,9 @@ func read_p2p_packet():
 						var character: Character = level.level_registry[readable_data["id"]]
 						var tackler: Character = level.level_registry[readable_data["tid"]]
 						var tackle_force = readable_data["tf"]
-						character.tackle(tackler, tackle_force)
+						var tackle_seed := RandomNumberGenerator.new()
+						tackle_seed.seed = readable_data["seed"]
+						character.tackle(tackler, tackle_force, tackle_seed)
 				Message.CHARACTER_RECOVERED: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -367,11 +369,10 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["char_id"]]
-						if character.owning_player_id == sender_id:
-							if character.is_locally_possessed():
-								pass
-							else:
-								character.tackle_component.set_recovery_code_progress(readable_data["progress"]) 
+						if character.is_locally_possessed():
+							pass
+						else:
+							character.tackle_component.set_recovery_code_progress(readable_data["progress"]) 
 
 ## Enum for the message types for the network manager.
 enum Message {
