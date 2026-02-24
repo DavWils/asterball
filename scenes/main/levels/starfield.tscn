@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://dolnkblhfe1c6"]
+[gd_scene load_steps=16 format=4 uid="uid://dolnkblhfe1c6"]
 
 [ext_resource type="PackedScene" uid="uid://u6kaxkr2k4w7" path="res://scenes/main/baselevel.tscn" id="1_5sngl"]
 [ext_resource type="Script" uid="uid://cmlmvkht2rnjk" path="res://scripts/level/zones/spawn_zone.gd" id="2_htkcu"]
@@ -40,7 +40,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_e7y16"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_pgjeu"]
 resource_name = "starfield_goalpost_Circle"
 _surfaces = [{
 "aabb": AABB(-31.093086, 0, -1.9999999, 62.26039, 87.519356, 4.002654),
@@ -57,6 +57,9 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_vrki1")
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_t2d5p"]
+data = PackedVector3Array(-2, 0, 2, 2, 0, -2, -2, 0, -2, -2, 0, 2, 2, 0, 2, 2, 0, -2, 2, 0, 2, 2, 39, -2, 2, 0, -2, 2, 0, 2, 2, 39, 2, 2, 39, -2, -2, 0, -2, -2, 39, 2, -2, 0, 2, -2, 0, -2, -2, 39, -2, -2, 39, 2, 2, 0, -2, -2, 39, -2, -2, 0, -2, 2, 0, -2, 2, 39, -2, -2, 39, -2, -2, 0, 2, 2, 39, 2, 2, 0, 2, -2, 0, 2, -2, 39, 2, 2, 39, 2, 2, 39, 2, 30, 39, -2, 2, 39, -2, 2, 39, 2, 30, 39, 2, 30, 39, -2, -2, 39, -2, -30, 39, 2, -2, 39, 2, -2, 39, -2, -30, 39, -2, -30, 39, 2, -30, 39, -2, -30, 87, 2, -30, 39, 2, -30, 39, -2, -30, 87, -2, -30, 87, 2, 30, 39, 2, 30, 87, -2, 30, 39, -2, 30, 39, 2, 30, 87, 2, 30, 87, -2, 30, 87, 2, 27, 87, -2, 30, 87, -2, 30, 87, 2, 27, 87, 2, 27, 87, -2, -30, 87, -2, -27, 87, 2, -30, 87, 2, -30, 87, -2, -27, 87, -2, -27, 87, 2, -27, 87, -2, -27, 42, 2, -27, 87, 2, -27, 87, -2, -27, 42, -2, -27, 42, 2, 27, 87, 2, 27, 42, -2, 27, 87, -2, 27, 87, 2, 27, 42, 2, 27, 42, -2, 27, 42, 2, -27, 42, -2, 27, 42, -2, 27, 42, 2, -27, 42, 2, -27, 42, -2, 30, 39, -2, 27, 87, -2, 27, 42, -2, 30, 39, -2, 30, 87, -2, 27, 87, -2, 30, 39, -2, 27, 42, -2, 2, 39, -2, -2, 39, -2, 27, 42, -2, -27, 42, -2, -2, 39, -2, 2, 39, -2, 27, 42, -2, -2, 39, -2, -27, 42, -2, -30, 39, -2, -30, 87, -2, -27, 42, -2, -27, 87, -2, -30, 87, -2, -30, 39, -2, -27, 42, -2, -30, 39, 2, -27, 87, 2, -27, 42, 2, -30, 39, 2, -30, 87, 2, -27, 87, 2, -30, 39, 2, -27, 42, 2, -2, 39, 2, -2, 39, 2, 27, 42, 2, 2, 39, 2, -2, 39, 2, -27, 42, 2, 27, 42, 2, 2, 39, 2, 27, 42, 2, 30, 39, 2, 30, 87, 2, 27, 42, 2, 27, 87, 2, 30, 87, 2, 30, 39, 2, 27, 42, 2)
 
 [node name="Level" instance=ExtResource("1_5sngl")]
 kill_horizontal = Vector2(100, 200)
@@ -144,10 +147,20 @@ shape = SubResource("ConcavePolygonShape3D_u3xwc")
 
 [node name="Goalpost" type="MeshInstance3D" parent="." index="15"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.102, -150)
-mesh = SubResource("ArrayMesh_e7y16")
+mesh = SubResource("ArrayMesh_pgjeu")
 skeleton = NodePath("")
+
+[node name="collision" type="StaticBody3D" parent="Goalpost" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Goalpost/collision" index="0"]
+shape = SubResource("ConcavePolygonShape3D_t2d5p")
 
 [node name="Goalpost2" type="MeshInstance3D" parent="." index="16"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -19.102, 150)
-mesh = SubResource("ArrayMesh_e7y16")
+mesh = SubResource("ArrayMesh_pgjeu")
 skeleton = NodePath("")
+
+[node name="collision" type="StaticBody3D" parent="Goalpost2" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Goalpost2/collision" index="0"]
+shape = SubResource("ConcavePolygonShape3D_t2d5p")
