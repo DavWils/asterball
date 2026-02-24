@@ -37,35 +37,38 @@ func _physics_process(delta: float) -> void:
 	if network_manager.is_host() or character.is_locally_possessed():
 		# Set character movement values based on input.
 		if character.is_on_floor():
-			# The character's movement input in global space.
-			var global_movement_input: Vector3 = ((character.global_transform.basis.z * movement_input.y)+(character.global_transform.basis.x * movement_input.x))
-			# Current velocity
-			var current_velocity := character.velocity
-			
-			# First check if character is skidding, if so, decelerate
-			if is_skidding:
-				character.velocity = current_velocity.normalized() * max(current_velocity.length() - (delta*get_charge_deceleration()), 0.0)
-				if current_velocity.length() <= get_walk_speed():
-					is_skidding = false
-			else: # Not skidding, basic movement.
-				if is_charging:
-					if charging_input and movement_input.y < 0:
-						# Have player increase in velocity only forward
-						var velocity_addition: float = -movement_input.y * delta * get_charge_acceleration()
-						var new_velocity_length: float = min(current_velocity.length() + velocity_addition, get_max_charge_speed())
-						
-						var charging_velocity: Vector3 = -character.global_transform.basis.z * new_velocity_length
-						character.velocity = charging_velocity
+			if character.is_unlocked():
+				# The character's movement input in global space.
+				var global_movement_input: Vector3 = ((character.global_transform.basis.z * movement_input.y)+(character.global_transform.basis.x * movement_input.x))
+				# Current velocity
+				var current_velocity := character.velocity
+				
+				# First check if character is skidding, if so, decelerate
+				if is_skidding:
+					character.velocity = current_velocity.normalized() * max(current_velocity.length() - (delta*get_charge_deceleration()), 0.0)
+					if current_velocity.length() <= get_walk_speed():
+						is_skidding = false
+				else: # Not skidding, basic movement.
+					if is_charging:
+						if charging_input and movement_input.y < 0:
+							# Have player increase in velocity only forward
+							var velocity_addition: float = -movement_input.y * delta * get_charge_acceleration()
+							var new_velocity_length: float = min(current_velocity.length() + velocity_addition, get_max_charge_speed())
+							
+							var charging_velocity: Vector3 = -character.global_transform.basis.z * new_velocity_length
+							character.velocity = charging_velocity
+						else:
+							# If character is moving too fast, start skidding.
+							if current_velocity.length() > get_walk_speed()*2:
+								is_skidding = true
+							is_charging = false
 					else:
-						# If character is moving too fast, start skidding.
-						if current_velocity.length() > get_walk_speed()*2:
-							is_skidding = true
-						is_charging = false
-				else:
-					if charging_input:
-						is_charging = true
-					else:
-						character.velocity = current_velocity.lerp(global_movement_input * get_walk_speed(), 0.4)
+						if charging_input:
+							is_charging = true
+						else:
+							character.velocity = current_velocity.lerp(global_movement_input * get_walk_speed(), 0.4)
+		else:
+			character.velocity = character.velocity.lerp(Vector3(0,character.velocity.y,0), 0.4)
 
 
 ## Returns the character's walk speed.

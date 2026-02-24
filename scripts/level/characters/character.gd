@@ -99,7 +99,7 @@ func get_charge_acceleration() -> float:
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary) -> void:
 	# Movement input.
-	if can_move():
+	if is_unlocked():
 		var move_input: Vector2 = input.get("mv", Vector2.ZERO)
 		var charging: bool = input.get("ch", false) and (not is_aiming)
 		
@@ -288,8 +288,8 @@ func get_player_team_state() -> TeamState:
 	var match_state = level.match_state as MatchState
 	return match_state.team_states[get_player_team_id()]
 
-## Returns true if character can move.
-func can_move() -> bool:
+## Returns true if character is not locked (i.e. in preparation or any other stage where they cannot move).
+func is_unlocked() -> bool:
 	# Check state of match to see if its one we can move in..
 	var state_of_match = level.match_state.state_of_match
 	var state_enum = level.match_state.StateOfMatch
@@ -298,8 +298,11 @@ func can_move() -> bool:
 
 
 
+
+
 ## Starts aiming with the given item.
 func start_aim() -> void:
+	if not is_unlocked(): return
 	if current_equipment:
 		print("Starting aim.")
 		is_aiming = true
