@@ -14,6 +14,9 @@ var thrower_id: int
 ## The character who threw the item.
 var throwing_character: Character
 
+## The time in which the projectile was first thrown.
+var start_time: float
+
 func _ready() -> void:
 	# Spawn item mesh, take the item mesh's collision shape and copy it to our own, disabling the original
 	var item_mesh: Node3D = item_state.item_resource.mesh_file.instantiate()
@@ -22,7 +25,14 @@ func _ready() -> void:
 	$CollisionShape3D.shape = mesh_shape.shape
 	mesh_shape.disabled = true
 	$CollisionShape3D.disabled = false
+	$Area3D/CollisionShape3D.shape = $CollisionShape3D.shape
+	$Area3D/CollisionShape3D.disabled = false
 	
+	$Area3D.body_entered.connect(_on_area_body_entered)
+	
+	mass = item_state.get_item_mass()
+	
+	start_time = Time.get_ticks_msec()
 	
 	print("Spawned projectile ", registry_id)
 	# Set values to represent item state.
@@ -42,10 +52,16 @@ func _physics_process(_delta: float) -> void:
 func _on_body_entered(body: Node3D) -> void:
 	projectile_collide(body)
 
+func _on_area_body_entered(body: Node3D) -> void:
+	if Time.get_ticks_msec() - start_time <= 1000: return
+	projectile_collide(body)
+
 ## Called when projectile collides with another object.
 func projectile_collide(body: Node3D):
 	if network_manager.is_host():
-		print(item_state.item_resource.item_name, " projectile has overlapped with ", body.get_parent().name)
+		if body is Character:
+			print(item_state.item_resource.item_name, " has collided with player ", Steam.getFriendPersonaName(body.owning_player_id))
+		print(item_state.item_resource.item_name, " projectile has overlapped with ", body.name)
 
 func despawn_projectile():
 	level.despawn_registry_object(registry_id)

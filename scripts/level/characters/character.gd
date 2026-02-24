@@ -24,9 +24,9 @@ const MINIMUM_THROW_FORCE := 0.05
 ## The base carry capacity of the character.
 @export var base_inventory_capacity: int = 3
 ## The base maximum throw force the character can throw items with.
-@export var base_max_throw_force: float = 30.0
+@export var base_max_throw_force: float = 100.0
 ## The amount of throw force to be accumulated in a second.
-@export var base_throw_speed: float = 12.0
+@export var base_throw_speed: float = 35.0
 
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
 var owning_player_id := -1
