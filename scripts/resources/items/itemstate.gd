@@ -13,3 +13,7 @@ func to_dict() -> Dictionary:
 	item_data["item_resource"] = item_resource.resource_path
 	
 	return item_data
+
+## Returns total mass of the item.
+func get_item_mass() -> float:
+	return item_resource.item_mass

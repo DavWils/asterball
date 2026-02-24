@@ -74,11 +74,13 @@ func get_walk_speed() -> float:
 
 ## Returns the maximum charge speed character can attain.
 func get_max_charge_speed() -> float:
-	return base_max_charge_speed
+	var max_speed := base_max_charge_speed - (character.get_carry_mass() * 0.8)
+	return max(max_speed, get_walk_speed())
 
 ## Returns the acceleration to apply to the character when charging.
 func get_charge_acceleration():
-	return base_charge_accel
+	var max_accel = base_charge_accel - (character.get_carry_mass() * 0.08)
+	return max(max_accel, 0.2)
 
 ## Returns the deceleration to apply to the character when skidding after a charge.
 func get_charge_deceleration():

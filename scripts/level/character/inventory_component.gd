@@ -68,9 +68,10 @@ func to_dict() -> Dictionary:
 		data[key] = inventory_items[key].to_dict()
 	return data
 
-## Returns item state at given index.
-func get_item_at(index: int) -> ItemState:
-	if inventory_items.has(index):
-		return inventory_items[index]
-	else:
-		return null
+## Returns an array of all inventory items
+func get_all_items() -> Array:
+	var item_array: Array
+	for item_key in inventory_items.keys():
+		item_array.append(inventory_items[item_key])
+	
+	return item_array

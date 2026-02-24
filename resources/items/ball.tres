@@ -10,4 +10,5 @@ item_cost = null
 mesh_file = ExtResource("2_pf5td")
 can_purchase = null
 equip_lock = true
+item_mass = 10.0
 is_essential = true

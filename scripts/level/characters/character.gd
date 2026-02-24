@@ -365,7 +365,7 @@ func use_equipment_finish() -> void:
 
 ## Drops all character items.
 func drop_all_items() -> void:
-	while $InventoryComponent.get_item_at(0):
+	while $InventoryComponent.get_item_state(0):
 		drop_item(0)
 
 ## Returns true if tackled.
@@ -379,3 +379,10 @@ func enter_recovery_key(key: int) -> void:
 ## Returns true if currently charging.
 func is_charging() -> bool:
 	return movement_component.is_charging
+
+## Returns the combined mass of all carried items.
+func get_carry_mass() -> float:
+	var total_mass: float = 0.0
+	for item in inventory_component.get_all_items():
+		total_mass += item.get_item_mass()
+	return total_mass
