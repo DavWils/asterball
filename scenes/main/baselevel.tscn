@@ -143,3 +143,5 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="TouchdownStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
