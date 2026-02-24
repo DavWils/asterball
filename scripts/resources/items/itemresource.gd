@@ -17,6 +17,7 @@ class_name ItemResource
 ## Whether or not the item is essential, meaning it cannot be destroyed/killed.
 @export var is_essential: bool = false
 
+
 ## Enum for item tiers.
 enum ItemTier {
 	ONE,

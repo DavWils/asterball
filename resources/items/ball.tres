@@ -1,18 +1,12 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=5 format=3 uid="uid://0glg71bb41t6"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://0glg71bb41t6"]
 
-[ext_resource type="ArrayMesh" uid="uid://cj8we4w6mwwn5" path="res://meshes/items/ball/ball.obj" id="1_8xlw7"]
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/itemresource.gd" id="1_ws2j4"]
 [ext_resource type="PackedScene" uid="uid://cumihpl5vh2ta" path="res://meshes/items/ball/ball.glb" id="2_pf5td"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_pf5td"]
-radius = 0.307
 
 [resource]
 script = ExtResource("1_ws2j4")
 item_name = "Asterball"
 item_cost = null
-item_mesh = ExtResource("1_8xlw7")
-pickup_collision_shape = SubResource("SphereShape3D_pf5td")
 mesh_file = ExtResource("2_pf5td")
 can_purchase = null
 equip_lock = true
