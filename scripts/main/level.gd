@@ -132,8 +132,8 @@ func score_effect(scorer: Character) -> void:
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SCORE_EFFECT, "char_id": scorer.registry_id})
 
 func play_global_sound(sound: String) -> void:
-	$AudioStreamPlayer.stream = load(sound)
-	$AudioStreamPlayer.play()
+	$TouchdownStreamPlayer.stream = load(sound)
+	$TouchdownStreamPlayer.play()
 
 ## Returns true if character is in map bounds.
 func is_in_bounds(position: Vector3) -> bool:
