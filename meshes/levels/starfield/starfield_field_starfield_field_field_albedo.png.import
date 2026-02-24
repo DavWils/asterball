@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ftxqblkthf2e"
-path.s3tc="res://.godot/imported/starfield_field_shell_albedo.jpg-7dad100effbbaeef5d2d09ae242157dc.s3tc.ctex"
+uid="uid://bmpfca3oy6gwx"
+path.s3tc="res://.godot/imported/starfield_field_starfield_field_field_albedo.png-58926451d99a5fece52ed4774e867e3d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "464037f56bdcbea52df8d880e80a6d50"
+"md5": "9a0c2842a32913328727ec437cb21c6d"
 }
 
 [deps]
 
-source_file="res://meshes/levels/starfield/starfield_field_shell_albedo.jpg"
-dest_files=["res://.godot/imported/starfield_field_shell_albedo.jpg-7dad100effbbaeef5d2d09ae242157dc.s3tc.ctex"]
+source_file="res://meshes/levels/starfield/starfield_field_starfield_field_field_albedo.png"
+dest_files=["res://.godot/imported/starfield_field_starfield_field_field_albedo.png-58926451d99a5fece52ed4774e867e3d.s3tc.ctex"]
 
 [params]
 

@@ -21,6 +21,7 @@ func _ready() -> void:
 	var mesh_shape: CollisionShape3D = item_mesh.find_child("CollisionShape3D")
 	$CollisionShape3D.shape = mesh_shape.shape
 	mesh_shape.disabled = true
+	$CollisionShape3D.disabled = false
 	
 	
 	print("Spawned projectile ", registry_id)

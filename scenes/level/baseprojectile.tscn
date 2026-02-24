@@ -13,3 +13,4 @@ script = ExtResource("1_mlevr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_mlevr")
+disabled = true
