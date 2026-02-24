@@ -31,8 +31,6 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	# If out of bounds, kill or respawn.
 	if network_manager.is_host():
-		if item_state.item_resource.item_name == "Asterball":
-			print("Ball is at ", global_position)
 		if not level.is_in_bounds(position):
 			if item_state.item_resource.is_essential:
 				linear_velocity = Vector3.ZERO
