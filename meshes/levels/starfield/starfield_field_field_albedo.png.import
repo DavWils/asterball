@@ -2,14 +2,14 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cclc3u8p6k0pk"
+uid="uid://vdo2r71fno0y"
 path.s3tc="res://.godot/imported/starfield_field_field_albedo.png-6b6d189bd70864ff8c6a42d94f1b1987.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "bf486edf148ac822240db9482e3a8767"
+"md5": "9a0c2842a32913328727ec437cb21c6d"
 }
 
 [deps]
