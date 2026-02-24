@@ -36,7 +36,7 @@ default_item_spawn = Vector3(0, 20, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
-light_color = Color(0.8222673, 0.73557186, 1, 1)
+light_color = Color(0.7295897, 0.5741453, 0.9999984, 1)
 
 [node name="HomeSpawnZone" type="Area3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 113.25)
