@@ -22,12 +22,14 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 
 func _physics_process(_delta: float) -> void:
-	if position.y <= level.kill_depth:
-		if item_state.item_resource.is_essential:
-			linear_velocity = Vector3.ZERO
-			position = level.default_item_spawn
-		else:
-			despawn_projectile()
+	# If out of bounds, kill or respawn.
+	if network_manager.is_host():
+		if not level.is_in_bounds(position):
+			if item_state.item_resource.is_essential:
+				linear_velocity = Vector3.ZERO
+				position = level.default_item_spawn
+			else:
+				despawn_projectile()
 
 
 func _on_body_entered(body: Node3D) -> void:

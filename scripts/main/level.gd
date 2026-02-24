@@ -8,6 +8,8 @@ class_name Level
 @onready var match_state = $MatchState
 @onready var match_director = $MatchDirector
 
+## The horizontal (x,z) area from center map that is considered in bounds. 
+@export var kill_horizontal := Vector2.ZERO
 ## The furthest depth a character can go before they're killed.
 @export var kill_depth := -100.0
 ## The standard acceleration of gravity on this map.
@@ -132,3 +134,7 @@ func score_effect(scorer: Character) -> void:
 func play_global_sound(sound: String) -> void:
 	$AudioStreamPlayer.stream = load(sound)
 	$AudioStreamPlayer.play()
+
+## Returns true if character is in map bounds.
+func is_in_bounds(position: Vector3) -> bool:
+	return position.y > kill_depth and abs(position.x) <= abs(kill_horizontal.x) and abs(position.z) <= abs(kill_horizontal.y)
