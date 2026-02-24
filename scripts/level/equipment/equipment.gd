@@ -13,6 +13,13 @@ var wielder: Character
 @onready var network_manager = get_tree().current_scene.get_node("NetworkManager")
 
 func _ready() -> void:
+	# Spawn the item mesh and disable it's collision
+	var item_mesh: Node3D = item_resource.mesh_file.instantiate()
+	add_child(item_mesh)
+	var mesh_shape: CollisionShape3D = item_mesh.find_child("CollisionShape3D")
+	mesh_shape.disabled = true
+	
+	
 	print(item_resource.item_name, " has been equipped by ", Steam.getFriendPersonaName(wielder.owning_player_id))
 
 func _exit_tree() -> void:

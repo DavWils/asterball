@@ -1,11 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnf0cspauyc56"]
+[gd_scene load_steps=3 format=3 uid="uid://cnf0cspauyc56"]
 
 [ext_resource type="PackedScene" uid="uid://d00rxwj1hofxg" path="res://scenes/level/character/baseequipment.tscn" id="1_mj4go"]
 [ext_resource type="Script" uid="uid://buqvutimwl0fb" path="res://scripts/level/equipment/ball.gd" id="2_78f2h"]
-[ext_resource type="ArrayMesh" uid="uid://cj8we4w6mwwn5" path="res://meshes/items/ball/ball.obj" id="3_mo28u"]
 
 [node name="Equipment" instance=ExtResource("1_mj4go")]
 script = ExtResource("2_78f2h")
-
-[node name="MeshInstance3D" parent="." index="0"]
-mesh = ExtResource("3_mo28u")

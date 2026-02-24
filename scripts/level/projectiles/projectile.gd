@@ -15,15 +15,23 @@ var thrower_id: int
 var throwing_character: Character
 
 func _ready() -> void:
+	# Spawn item mesh, take the item mesh's collision shape and copy it to our own, disabling the original
+	var item_mesh: Node3D = item_state.item_resource.mesh_file.instantiate()
+	add_child(item_mesh)
+	var mesh_shape: CollisionShape3D = item_mesh.find_child("CollisionShape3D")
+	$CollisionShape3D.shape = mesh_shape.shape
+	mesh_shape.disabled = true
+	
+	
 	print("Spawned projectile ", registry_id)
 	# Set values to represent item state.
-	$MeshInstance3D.mesh = item_state.item_resource.item_mesh
-	$CollisionShape3D.shape = item_state.item_resource.pickup_collision_shape
 	body_entered.connect(_on_body_entered)
 
 func _physics_process(_delta: float) -> void:
 	# If out of bounds, kill or respawn.
 	if network_manager.is_host():
+		if item_state.item_resource.item_name == "Asterball":
+			print("Ball is at ", global_position)
 		if not level.is_in_bounds(position):
 			if item_state.item_resource.is_essential:
 				linear_velocity = Vector3.ZERO
