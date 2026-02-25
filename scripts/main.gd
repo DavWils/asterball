@@ -27,7 +27,6 @@ func load_level(level_name: String = Steam.getLobbyData(network_manager.lobby_id
 
 func _ready() -> void:
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
-	Steam.requestLobbyList()
 
 ## Update known lobby list.
 func _on_lobby_match_list(lobbies):

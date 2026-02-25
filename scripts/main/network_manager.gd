@@ -19,6 +19,9 @@ var player_id := 0
 ## Self's username.
 var player_username := ""
 
+## Whether or not we are successfully connected to the steam servers.
+var is_steam_initialized: bool = false
+
 ## Signal emitted when game info is retrieved from host.
 signal game_info_retrieved
 
@@ -38,7 +41,7 @@ func _process(_delta):
 func connect_to_steam():
 	var steam_results := Steam.steamInitEx()
 	if steam_results["status"] == 0:
-		print("Successfully connected to Steam servers!")
+		print("Successfully initialized Steam SDK!")
 		player_id = Steam.getSteamID()
 		player_username = Steam.getPersonaName()
 		
@@ -46,10 +49,16 @@ func connect_to_steam():
 		Steam.lobby_joined.connect(_on_lobby_joined)
 		Steam.p2p_session_request.connect(_on_p2p_session_request)
 		Steam.lobby_chat_update.connect(_on_lobby_chat_update)
+		is_steam_initialized = true
 		get_lobby_members()
 	else:
-		print("Error ", steam_results["status"]," when connecting to steam: ", steam_results["verbal"])
+		print("Error ", steam_results["status"]," when initializing steam: ", steam_results["verbal"])
+		is_steam_initialized = false
 		get_lobby_members()
+
+## Returns true if the client is successfully connected to steam and can host/join lobbies.
+func is_on_steam() -> bool:
+	return is_steam_initialized and Steam.loggedOn()
 
 ## Returns true the given player id (or self by default) is the host of the session.
 func is_host(id := player_id):
