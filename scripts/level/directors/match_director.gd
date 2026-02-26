@@ -170,14 +170,14 @@ func add_player_points(player_id: int, points: int) -> void:
 	var player_state: PlayerState = match_state.get_player_state(player_id)
 	var player_current: int = player_state.current_score
 	var player_total: int = player_state.total_score
-	match_state.set_player_score(player_id, player_current + points, player_total + points)
+	match_state.set_player_scores(player_id, player_current + points, player_total + points)
 
 ## Spends (removes) points from the given player.
 func spend_player_points(player_id: int, points: int) -> void:
 	var player_state: PlayerState = match_state.get_player_state(player_id)
 	var player_current: int = player_state.current_score
 	var player_total: int = player_state.total_score
-	match_state.set_player_score(player_id, player_current - points, player_total)
+	match_state.set_player_scores(player_id, player_current - points, player_total)
 
 ## Has a player purchase a givne item.
 func purchase_item(character: Character, item_resource: ItemResource) -> void:
