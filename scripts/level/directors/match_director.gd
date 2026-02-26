@@ -57,17 +57,16 @@ func start_game():
 	match_state.set_match_time(MATCH_DURATION)
 	next_round()
 
-## Moves onto the next round
+## Moves onto the next round starting in the preptime phase.
 func next_round():
 	clean_level()
 	await get_tree().process_frame
-	spawn_omnistrikers()
-	spawn_ball()
 	match_state.set_intermission_time(INTERMISSION_DURATION)
 	match_state.set_state_of_match(match_state.StateOfMatch.PREPTIME)
 	if network_manager.is_host():
 		match_state.set_current_round()
 
+## Starts after preptime, actually, continuing into the match.
 func start_round():
 	print("Starting round.")
 	match_state.set_state_of_match(match_state.StateOfMatch.MATCH)
@@ -88,27 +87,7 @@ func score(scoring_character: Character):
 	# Add a point to the player's team.
 	match_state.set_team_score(match_state.player_states[scoring_character.owning_player_id].team_id)
 	level.score_effect(scoring_character)
-	# Give points to the winning players as well.
-	for player_id in match_state.player_states.keys():
-		var added_points: int = 0
-		var scorer_state: PlayerState = match_state.get_player_state(scoring_character.owning_player_id)
-		var current_state: PlayerState = match_state.get_player_state(player_id)
-		# If on winning team, add points.
-		if current_state.team_id == scorer_state.team_id:
-			added_points += WIN_SUPPORT_POINTS
-			# If scoring player, add more points.
-			if player_id == scoring_character.owning_player_id:
-				added_points += WIN_SCORER_POINTS
-		
-		# If non zero points, add them.
-		if added_points != 0:
-			add_player_points(player_id, added_points)
-		
-	# If team has reached winning score, end the game. Else just end round.
-	if scoring_character.get_player_team_state().score >= WINNING_SCORE:
-		end_game(scoring_character.get_player_team_id())
-	else:
-		end_round()
+
 
 func _on_match_timer_timeout():
 	if not network_manager.is_host(): return
@@ -127,19 +106,23 @@ func end_timer() -> void:
 			start_game()
 		match_state.StateOfMatch.PREPTIME: # Prep time pre round, starts the round after this.
 			start_round()
-		match_state.StateOfMatch.MATCH: # Main match timer. When this runs out, game ends.
-			var winning_teams := match_state.get_winning_team_ids()
-			if winning_teams.size() == 1:
-				end_game(winning_teams[0])
+		match_state.StateOfMatch.MATCH: # Main match timer. When this runs out, game ends. This logic should be done in sub gamemodes
+			pass
 		match_state.StateOfMatch.CELEBRATION: # Celebration time after the end of a round. Starts next round after.
 			next_round()
 		match_state.StateOfMatch.ENDGAME: # End of the game. Players will vote and the most voted map will be transitioned to. This is also the same per gamemode
 			pass
 
+## If there is a team that wins here, return their team id. else, return -1
+func get_winning_team() -> int:
+	return -1
 
-
-## Automatically assigns the player a team. By default, assigns to the lowest count team.
+## Automatically assigns the player a team. By default, assigns to team with least players.
 func auto_assign_player_team(player_id: int):
+	print("Auto assigning ", Steam.getFriendPersonaName(player_id))
+	if match_state.get_team_ids().size() == 1:
+		match_state.assign_player_team(player_id, 0)
+		return
 	# Initialize.
 	var team_sizes: Dictionary
 	for i in range(0, TEAM_COUNT):
@@ -153,15 +136,10 @@ func auto_assign_player_team(player_id: int):
 			lowest_team = i
 			current_count = team_sizes[i]
 	
-	print("Auto assigning ", Steam.getFriendPersonaName(player_id))
 	match_state.assign_player_team(player_id, lowest_team)
 
 
-## Spawns the ball in the level.
-func spawn_ball():
-	var ball_item_state = ItemState.new()
-	ball_item_state.item_resource = load("res://resources/items/ball.tres")
-	return level.spawn_projectile(ball_item_state, level.default_item_spawn, null)
+
 
 ## Spawns a character for each player.
 func spawn_omnistrikers() -> void:
