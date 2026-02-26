@@ -202,3 +202,7 @@ func get_time_text() -> String:
 		return str(time_min).pad_zeros(2)+":"+str(time_sec).pad_zeros(2)
 	else:
 		return str(time_sec).pad_zeros(2)
+
+## Returns true if match is active (i.e. if match timer should tick instead of intermission).
+func is_match() -> bool:
+	return state_of_match == StateOfMatch.MATCH

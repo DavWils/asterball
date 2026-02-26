@@ -112,35 +112,31 @@ func score(scoring_character: Character):
 
 func _on_match_timer_timeout():
 	if not network_manager.is_host(): return
+	if match_state.is_match():
+		match_state.set_match_time()
+		if match_state.match_time <= 0: end_timer()
+	else:
+		match_state.set_intermission_time()
+		if match_state.intermission_time <= 0: end_timer()
+
+
+## Called when the timer counts down to 0.
+func end_timer() -> void:
 	match match_state.state_of_match:
-		match_state.StateOfMatch.PREGAME: # Pregame timer. Start the game when this runs out.
-			match_state.set_intermission_time()
-			print("Pregame tick: ", match_state.intermission_time)
-			if match_state.intermission_time <= 0:
-				start_game()
+		match_state.StateOfMatch.PREGAME: # Pregame timer. ran out, start game. This is the same for all gamemodes.
+			start_game()
 		match_state.StateOfMatch.PREPTIME: # Prep time pre round, starts the round after this.
-			match_state.set_intermission_time()
-			print("Prep time tick: ", match_state.intermission_time)
-			if match_state.intermission_time <= 0:
-				start_round()
+			start_round()
 		match_state.StateOfMatch.MATCH: # Main match timer. When this runs out, game ends.
-			match_state.set_match_time()
-			print("Match time tick: ", match_state.match_time)
-			if match_state.match_time <= 0:
-				# Find team with highest score.
-				var winning_teams := match_state.get_winning_team_ids()
-				if winning_teams.size() == 1:
-					end_game(winning_teams[0])
+			var winning_teams := match_state.get_winning_team_ids()
+			if winning_teams.size() == 1:
+				end_game(winning_teams[0])
 		match_state.StateOfMatch.CELEBRATION: # Celebration time after the end of a round. Starts next round after.
-			match_state.set_intermission_time()
-			print("Celebration time tick: ", match_state.intermission_time)
-			if match_state.intermission_time <= 0:
-				next_round()
-		match_state.StateOfMatch.ENDGAME: # End of the game. Players will vote and the most voted map will be transitioned to.
-			match_state.set_intermission_time()
-			print("Endgame time tick: ", match_state.intermission_time)
-			if match_state.intermission_time <= 0:
-				pass
+			next_round()
+		match_state.StateOfMatch.ENDGAME: # End of the game. Players will vote and the most voted map will be transitioned to. This is also the same per gamemode
+			pass
+
+
 
 ## Automatically assigns the player a team. By default, assigns to the lowest count team.
 func auto_assign_player_team(player_id: int):
