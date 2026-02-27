@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=15 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
@@ -10,6 +10,25 @@
 [ext_resource type="Script" uid="uid://d153tfj16xmce" path="res://scripts/ui/player/buy_menu.gd" id="7_x0hxo"]
 [ext_resource type="Material" uid="uid://buotaxuok3bnc" path="res://materials/shaders/blur.tres" id="8_x0hxo"]
 [ext_resource type="PackedScene" uid="uid://cmna4204bqss8" path="res://scenes/ui/player/buy_menu/buy_tier_box.tscn" id="9_6vvpm"]
+[ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://scripts/shaders/sky/astral_sky.gdshader" id="11_oyp4u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e7y16"]
+resource_local_to_scene = true
+shader = ExtResource("11_oyp4u")
+shader_parameter/skyColor = Color(0, 0, 0, 1)
+shader_parameter/horizonColor = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_oyp4u"]
+resource_local_to_scene = true
+sky_material = SubResource("ShaderMaterial_e7y16")
+
+[sub_resource type="Environment" id="Environment_8k0du"]
+resource_local_to_scene = true
+background_mode = 2
+background_color = Color(0.019550411, 0.0034108006, 0.0685281, 1)
+sky = SubResource("Sky_oyp4u")
+ambient_light_source = 3
+reflected_light_source = 2
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_lwlui")
@@ -145,3 +164,4 @@ offset_bottom = 23.0
 [node name="TouchdownStreamPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_8k0du")
