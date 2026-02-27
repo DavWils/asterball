@@ -189,3 +189,7 @@ func purchase_item(character: Character, item_resource: ItemResource) -> void:
 		var new_item := ItemState.new()
 		new_item.item_resource = item_resource
 		character.pickup_item(new_item)
+
+## Returns true if this is a state of match where players can move.
+func is_unlocked_state() -> bool:
+	return match_state.state_of_match == match_state.StateOfMatch.MATCH

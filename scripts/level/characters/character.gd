@@ -290,11 +290,7 @@ func get_player_team_state() -> TeamState:
 
 ## Returns true if character is not locked (i.e. in preparation or any other stage where they cannot move).
 func is_unlocked() -> bool:
-	# Check state of match to see if its one we can move in..
-	var state_of_match = level.match_state.state_of_match
-	var state_enum = level.match_state.StateOfMatch
-	var is_movable_state_of_match: bool = (state_of_match == state_enum.MATCH or state_of_match == state_enum.CELEBRATION)
-	return is_movable_state_of_match and (not is_tackled()) and (not (is_locally_possessed() and player_controller.paused))
+	return level.match_director.is_unlocked_state() and (not is_tackled()) and (not (is_locally_possessed() and player_controller.paused))
 
 
 

@@ -63,3 +63,6 @@ func score(scoring_character: Character):
 		end_game(scoring_character.get_player_team_id())
 	else:
 		end_round()
+
+func is_unlocked_state() -> bool:
+	return match_state.state_of_match == match_state.StateOfMatch.MATCH or match_state.state_of_match == match_state.StateOfMatch.CELEBRATION
