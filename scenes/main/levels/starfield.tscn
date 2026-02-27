@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dolnkblhfe1c6"]
+[gd_scene load_steps=18 format=3 uid="uid://dolnkblhfe1c6"]
 
 [ext_resource type="PackedScene" uid="uid://u6kaxkr2k4w7" path="res://scenes/main/baselevel.tscn" id="1_5sngl"]
 [ext_resource type="Script" uid="uid://cmlmvkht2rnjk" path="res://scripts/level/zones/spawn_zone.gd" id="2_htkcu"]
@@ -30,6 +30,29 @@ background_color = Color(0.019550411, 0.0034108006, 0.0685281, 1)
 sky = SubResource("Sky_p4c5w")
 ambient_light_source = 3
 reflected_light_source = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t2d5p"]
+render_priority = 1
+depth_draw_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0.58000004, 0.58000004, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_e7y16"]
+material = SubResource("StandardMaterial3D_t2d5p")
+radius = 1250.0
+height = 2500.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p4c5w"]
+depth_draw_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0.95, 0.85, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_cmnbt"]
+material = SubResource("StandardMaterial3D_p4c5w")
+inner_radius = 1500.0
+outer_radius = 2250.0
+rings = 32
+ring_segments = 16
 
 [node name="Level" instance=ExtResource("1_5sngl")]
 kill_horizontal = Vector2(100, 200)
@@ -97,6 +120,7 @@ shape = SubResource("BoxShape3D_gs6xa")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 89.20299, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Crater" index="1"]
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Crater/StaticBody3D" index="0"]
 shape = SubResource("ConcavePolygonShape3D_n6wex")
@@ -113,5 +137,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.102, -150)
 environment = SubResource("Environment_cmnbt")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" index="0"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(0.71135646, 0.6431652, -0.28339177, 0.62259465, -0.3895607, 0.67868894, 0.32611072, -0.6592277, -0.6775475, 0, 0, 0)
 light_color = Color(0.7295897, 0.5741453, 0.9999984, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1337.6498, 903.13184, -3024.6145)
+mesh = SubResource("SphereMesh_e7y16")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="17"]
+transform = Transform3D(0.9245194, -0.038113493, 0, 0.35124847, 0.08520238, -0.38817516, 0.14794712, 0.035887547, 0.9215856, 1337.6498, 903.13184, -3024.6145)
+mesh = SubResource("TorusMesh_cmnbt")
+
+[node name="RedDirectionalLight" type="DirectionalLight3D" parent="." index="18"]
+transform = Transform3D(0.08750626, -0.9437894, 0.31875417, -0.96432215, 4.215186e-08, 0.2647315, -0.2498508, -0.3305473, -0.91011703, 0, 44.795856, 0)
+light_color = Color(1, 0.64918756, 0.4954893, 1)
+light_energy = 0.6
