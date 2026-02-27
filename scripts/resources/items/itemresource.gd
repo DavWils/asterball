@@ -25,9 +25,13 @@ enum ItemTier {
 	FOUR
 }
 
-## Returns the loaded equipment scene resource.
+## Returns the loaded equipment scene resource if one exists, otherwise returning the basic equipment scene.
 func get_equipment_scene() -> PackedScene:
-	return load("res://scenes/level/character/equipment/%s.tscn" % resource_path.get_file().get_basename())
+	var filepath: String = "res://scenes/level/character/equipment/%s.tscn" % resource_path.get_file().get_basename()
+	if FileAccess.file_exists(filepath):
+		return load(filepath)
+	else:
+		return load("res://scenes/level/character/baseequipment.tscn")
 
 ## Returns projectile scene if one exists. If not, a pickup should be used instead.
 func get_projectile_scene() -> PackedScene:
