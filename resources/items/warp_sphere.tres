@@ -9,4 +9,4 @@ item_name = "Warp Sphere"
 item_cost = 400
 mesh_file = ExtResource("2_opcwm")
 can_purchase = true
-item_mass = 0.6
+item_mass = 1.2
