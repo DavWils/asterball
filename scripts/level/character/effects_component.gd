@@ -29,7 +29,7 @@ func add_effect(effect: EffectState) -> void:
 		current_effects[effect.effect_resource] = effect
 	
 	if character.network_manager.is_host():
-		character.network_manager.send_p2p_packet(0, {"m": character.network_manager.Message.CHARACTER_ADD_EFFECT, "effect_state": current_effects[effect.effect_resource].to_dict()})
+		character.network_manager.send_p2p_packet(0, {"m": character.network_manager.Message.CHARACTER_ADD_EFFECT, "char_id": character.registry_id, "effect_state": current_effects[effect.effect_resource].to_dict()})
 
 ## Removes the effect with the given resource.
 func remove_effect(effect: EffectResource) -> void:
@@ -38,7 +38,7 @@ func remove_effect(effect: EffectResource) -> void:
 			current_effects.erase(effect_resource)
 			break
 	if character.network_manager.is_host():
-		character.network_manager.send_p2p_packet(0, {"m": character.network_manager.Message.CHARACTER_REMOVE_EFFECT, "effect_name": effect.resource_path.get_file().get_basename()})
+		character.network_manager.send_p2p_packet(0, {"m": character.network_manager.Message.CHARACTER_REMOVE_EFFECT, "char_id": character.registry_id, "effect_name": effect.resource_path.get_file().get_basename()})
 
 func has_effect(effect: EffectResource) -> bool:
 	return current_effects.has(effect)
