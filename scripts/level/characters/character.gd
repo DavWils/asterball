@@ -19,8 +19,11 @@ class_name Character
 ## The base carry capacity of the character.
 @export var base_inventory_capacity: int = 3
 
+## Signal called when throwing starts.
 signal throw_start
+## Signal called when throwing ends.
 signal throw_end
+
 
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
 var owning_player_id := -1
