@@ -10,24 +10,14 @@ class_name Character
 @onready var tackle_component: TackleComponent = $TackleComponent
 @onready var movement_component: MovementComponent = $MovementComponent
 @onready var effects_component: EffectsComponent = $EffectsComponent
-
-## The max percentage of throw force that is too small to actually throw.
-const MINIMUM_THROW_FORCE := 0.05
+@onready var throw_component: ThrowComponent = $ThrowComponent
 
 ## The non charging speed of this character. (m/s)
 @export var walk_speed := 1
-## The maximum base charging speed of the character, not including any buffs.
-@export var base_charge_speed := 24.0
-## The base acceleration of the character when charging.(m/2^2)
-@export var base_charge_acceleration := 2
 ## Whether or not this character can rotate on the x axis as opposed to being applied to control rotation.
 @export var use_pitch_rotation: bool = false
 ## The base carry capacity of the character.
 @export var base_inventory_capacity: int = 3
-## The base maximum throw force the character can throw items with.
-@export var base_max_throw_force: float = 100.0
-## The amount of throw force to be accumulated in a second.
-@export var base_throw_speed: float = 35.0
 
 signal throw_start
 signal throw_end
@@ -38,18 +28,10 @@ var owning_player_id := -1
 var registry_id: int
 ## The current control rotation of the character.
 var control_pitch: float = 0.0
-## Server side current charge speed.
-var current_charge_speed := 0.0
 ## The current equipment the character is holding.
 var current_equipment: Equipment
 ## The key of the currently equipped inventory item. -1 if nothing equipped.
 var equipped_key: int = -1
-## Whether or not character is currently aiming.
-var is_aiming := false
-## Whether or not the character is currently charging a throw.
-var is_throwing := false
-## The current amount of force charged to throw.
-var throw_force := 0.0
 ## The velocity of the character in the previous frame
 var previous_velocity: Vector3
 
@@ -73,11 +55,6 @@ func _exit_tree() -> void:
 	level.level_registry.erase(registry_id)
 
 func _physics_process(delta: float):
-	# If throwing, accumulate force.
-	if is_throwing:
-		print("T: ", throw_force)
-		throw_force = clampf(throw_force + (get_throw_speed() * delta), 0, get_max_throw_force())
-	
 	# Increase in downward velocity due to gravity.
 	if network_manager.is_host():
 		if not is_on_floor():
@@ -89,15 +66,6 @@ func _physics_process(delta: float):
 	if not is_tackled():
 		move_and_slide()
 	
-	# If we're not the host, calculate our charge speed here so if the host leaves we can still keep going.
-	if not network_manager.is_host():
-		current_charge_speed = self.velocity.length()
-
-func get_max_charge_speed() -> float:
-	return base_charge_speed
-
-func get_charge_acceleration() -> float:
-	return base_charge_acceleration
 
 
 # Makes the character move based on player input.
@@ -105,7 +73,7 @@ func use_player_input(input: Dictionary) -> void:
 	# Movement input.
 	if is_unlocked():
 		var move_input: Vector2 = input.get("mv", Vector2.ZERO)
-		var charging: bool = input.get("ch", false) and (not is_aiming)
+		var charging: bool = input.get("ch", false) and (not is_aiming())
 		
 		movement_component.movement_input = move_input
 		movement_component.charging_input = charging
@@ -144,8 +112,8 @@ func to_reg_dict() -> Dictionary:
 	character_reg_data["r"] = rotation # Rotation
 	character_reg_data["v"] = velocity # Velocity
 	character_reg_data["cp"] = control_pitch
-	character_reg_data["tf"] = throw_force
 	character_reg_data["mv"] = movement_component.to_reg_dict()
+	character_reg_data["tc"] = throw_component.to_reg_dict()
 	
 	return character_reg_data
 
@@ -156,7 +124,7 @@ func from_reg_dict(data: Dictionary) -> void:
 	var new_rot: Vector3 = data["r"]
 	var new_vel: Vector3 = data["v"]
 	var new_con_pitch: float = data["cp"]
-	throw_force = data["tf"]
+	throw_component.from_reg_dict(data["tc"])
 	#print("Client ROT: ", self.rotation, "   |   SERVER ROT: ", new_rot, "   |   DIFF: ", self.rotation-new_rot)
 	if not is_locally_possessed():
 		## The percentage to lerp from local position to updated position
@@ -299,50 +267,26 @@ func is_unlocked() -> bool:
 
 ## Starts aiming with the given item.
 func start_aim() -> void:
-	if not is_unlocked(): return
-	if current_equipment:
-		print("Starting aim.")
-		is_aiming = true
+	throw_component.start_aim()
 
 ## Ends aiming.
 func end_aim() -> void:
-	if is_aiming:
-		print("Stopping aim.")
-		is_aiming = false
-		if is_throwing:
-			throw_force = 0.0
-			stop_throwing()
+	throw_component.end_aim()
 
 func start_throwing() -> void:
-	if not is_throwing and is_aiming:
-		print("Charging throw.")
-		throw_force = 0.0
-		is_throwing = true
-		throw_start.emit()
+	throw_start.emit()
+	throw_component.start_throwing()
 
 func stop_throwing() -> void:
-	if is_throwing:
-		is_throwing = false
-		throw_end.emit()
-		end_aim()
-		
-		# If enough throw force, throw the item.
-		if throw_force > get_max_throw_force() * MINIMUM_THROW_FORCE:
-			print("Throwing with ", throw_force, " force.")
-			var projectile: RigidBody3D
-			# Spawn a projectile, if a projectile scene exists spawn it, otherwise spawn pickup.
-			var projectile_item_state: ItemState = current_equipment.get_item_state()
-			var projectile_spawn_pos: Vector3 = get_throw_start()
-			projectile = level.spawn_projectile(projectile_item_state, projectile_spawn_pos, self)
-			# Set item's velocity.
-			projectile.linear_velocity = get_throw_velocity()
-			
-			# Lastly, unequip the item and remove it from the inventory.
-			inventory_component.remove_item(equipped_key)
-			equip_item(-1, true)
-		else:
-			print("Not throwing.")
-			
+	throw_end.emit()
+	throw_component.stop_throwing()
+
+func is_aiming() -> bool:
+	return throw_component.is_aiming
+
+## Returns true if character is currently throwing.
+func is_throwing() -> bool:
+	return throw_component.is_throwing
 
 ## Returns starting position of a thrown item.
 func get_throw_start() -> Vector3:
@@ -350,13 +294,7 @@ func get_throw_start() -> Vector3:
 
 ## Returns the initial velocity of the thrown item 
 func get_throw_velocity() -> Vector3:
-	return get_look_forward_vector() * (throw_force/current_equipment.get_item_state().item_resource.item_mass) + self.velocity
-
-func get_throw_speed() -> float:
-	return base_throw_speed
-
-func get_max_throw_force() -> float:
-	return base_max_throw_force
+	return get_look_forward_vector() * (throw_component.throw_force/current_equipment.get_item_state().item_resource.item_mass) + self.velocity
 
 ## Uses the equipment, simulating a press.
 func use_equipment_start() -> void:
@@ -394,9 +332,6 @@ func get_carry_mass() -> float:
 		total_mass += item.get_item_mass()
 	return total_mass
 
-## Returns current throw force.
-func get_throw_force() -> float:
-	return throw_force
 
 func add_effect(effect: EffectState) -> void:
 	print("Adding effect ", effect.effect_resource.effect_name, " to ", Steam.getFriendPersonaName(owning_player_id))

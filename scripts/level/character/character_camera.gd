@@ -19,7 +19,7 @@ const AIM_OFFSET := 1.0
 
 func _process(_delta: float) -> void:
 	self.rotation.x = lerp(self.rotation.x, character.control_pitch, .6)
-	if character.is_aiming:
+	if character.is_aiming():
 		self.position = self.position.lerp(Vector3(0, AIM_HEIGHT, 0), 0.2)
 		camera.position = camera.position.lerp(Vector3(AIM_OFFSET, 0, AIM_LENGTH), 0.2)
 	else:

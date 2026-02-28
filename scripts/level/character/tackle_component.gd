@@ -14,8 +14,6 @@ const MINIMUM_TACKLE_SPEED := 8.0
 
 ## Whether or not the character is tackled and cannot move.
 var is_tackled := false
-## The current charge move speed of the character.
-var current_charge_speed: float
 ## The code that the player must use to untackle themself
 var recovery_code: Array[int]
 ## Completion marker for recovery, marking the index the player is currently at.
@@ -29,6 +27,7 @@ func _physics_process(_delta: float) -> void:
 			var collider := collision.get_collider()
 			if character.is_charging() and collider is Character:
 				on_charge_collide(collider, collision)
+				
 
 
 ## Called when self collides with another character.
@@ -42,7 +41,6 @@ func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
 		print(character.previous_velocity.length())
 		if self_velocity > collider_velocity and character.previous_velocity.length() >= MINIMUM_TACKLE_SPEED:
 			print("Colliding with ", self_velocity, "+", collider_velocity)
-			current_charge_speed = (current_charge_speed - 8.0) if current_charge_speed > 8.0 else 0.0
 			collider.tackle(character, self_velocity + collider_velocity)
 
 ## Called when self is tackled by another node.
@@ -71,8 +69,6 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 			# Reset movement.
 			character.velocity.x = 0
 			character.velocity.z = 0
-			current_charge_speed = 0
-
 
 ## Called when self recovers from being tackled.
 func recover() -> void:

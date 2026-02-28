@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://on8wykmjn5go"]
+[gd_scene load_steps=17 format=3 uid="uid://on8wykmjn5go"]
 
 [ext_resource type="Script" uid="uid://bnbyil81cayt3" path="res://scripts/level/characters/character.gd" id="1_hqcqr"]
 [ext_resource type="Script" uid="uid://755ian66gy8i" path="res://scripts/level/character/character_camera.gd" id="2_5faxe"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://yo4pcil8pwg0" path="res://scripts/level/character/movement_component.gd" id="8_ikaoe"]
 [ext_resource type="Script" uid="uid://b7h7scddkfgqr" path="res://scripts/level/character/trajectory_visual.gd" id="9_gx15w"]
 [ext_resource type="Script" uid="uid://dnqoeteq07upg" path="res://scripts/level/character/effects_component.gd" id="10_cmg63"]
+[ext_resource type="Script" uid="uid://cxhnyeuq2l8yn" path="res://scripts/level/character/throw_component.gd" id="11_3xhtn"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5faxe"]
 size = Vector3(0, 0, 0)
@@ -38,6 +39,9 @@ buffer = PackedFloat32Array(0, 2.9999998, 0.24936, 0.26783997, 0.29863998, 1, 0,
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_hqcqr")
+walk_speed = null
+use_pitch_rotation = null
+base_inventory_capacity = null
 
 [node name="CameraHandle" type="Node3D" parent="."]
 script = ExtResource("2_5faxe")
@@ -81,3 +85,6 @@ script = ExtResource("9_gx15w")
 
 [node name="EffectsComponent" type="Node" parent="."]
 script = ExtResource("10_cmg63")
+
+[node name="ThrowComponent" type="Node" parent="."]
+script = ExtResource("11_3xhtn")
