@@ -405,3 +405,6 @@ func add_effect(effect: EffectState) -> void:
 func remove_effect(effect: EffectResource) -> void:
 	print("Removing effect ", effect.effect_name, " from ", Steam.getFriendPersonaName(owning_player_id))
 	effects_component.remove_effect(effect)
+
+func has_effect(effect: EffectResource) -> bool:
+	return effects_component.has_effect(effect)

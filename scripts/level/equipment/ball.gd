@@ -13,6 +13,10 @@ func _ready() -> void:
 	add_slowdown()
 	$SlowdownTimer.timeout.connect(_on_timeout)
 
+func _exit_tree() -> void:
+	super._exit_tree()
+	wielder.remove_effect(load("res://resources/effects/ball_slow.tres"))
+
 func _on_timeout() -> void:
 	add_slowdown()
 

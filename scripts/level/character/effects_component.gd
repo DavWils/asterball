@@ -39,3 +39,6 @@ func remove_effect(effect: EffectResource) -> void:
 			break
 	if character.network_manager.is_host():
 		character.network_manager.send_p2p_packet(0, {"m": character.network_manager.Message.CHARACTER_REMOVE_EFFECT, "effect_name": effect.resource_path.get_file().get_basename()})
+
+func has_effect(effect: EffectResource) -> bool:
+	return current_effects.has(effect)

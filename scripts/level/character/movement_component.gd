@@ -77,7 +77,7 @@ func get_walk_speed() -> float:
 
 ## Returns the maximum charge speed character can attain.
 func get_max_charge_speed() -> float:
-	var max_speed := base_max_charge_speed
+	var max_speed := base_max_charge_speed - (base_max_charge_speed/2 if character.has_effect(load("res://resources/effects/ball_slow.tres")) else 0.0)
 	return max(max_speed, get_walk_speed())
 
 ## Returns the acceleration to apply to the character when charging.
