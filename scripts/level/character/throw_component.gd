@@ -59,17 +59,9 @@ func stop_throwing() -> void:
 		# If enough throw force, throw the item.
 		if throw_force > get_max_throw_force() * MINIMUM_THROW_FORCE:
 			print("Throwing with ", throw_force, " force.")
-			var projectile: RigidBody3D
-			# Spawn a projectile, if a projectile scene exists spawn it, otherwise spawn pickup.
-			var projectile_item_state: ItemState = character.current_equipment.get_item_state()
-			var projectile_spawn_pos: Vector3 = character.get_throw_start()
-			projectile = character.level.spawn_projectile(projectile_item_state, projectile_spawn_pos, character)
-			# Set item's velocity.
-			projectile.linear_velocity = character.get_throw_velocity()
-			
-			# Lastly, unequip the item and remove it from the inventory.
-			character.inventory_component.remove_item(character.equipped_key)
-			character.equip_item(-1, true)
+			var throw_velocity = character.get_throw_velocity()
+			var projectile: Projectile = character.drop_equipped_item()
+			projectile.linear_velocity = throw_velocity
 		else:
 			print("Not throwing.")
 
