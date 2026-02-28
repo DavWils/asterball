@@ -65,9 +65,12 @@ func _exit_tree() -> void:
 
 func _physics_process(delta: float):
 	# Increase in downward velocity due to gravity.
+	if not is_on_floor():
+		velocity.y -= level.gravity_acceleration*delta
 	if network_manager.is_host():
 		if not is_on_floor():
-			velocity.y -= level.gravity_acceleration*delta
+			pass
+			#velocity.y -= level.gravity_acceleration*delta
 		else:
 			# Also, if tackled, apply friction
 			if is_tackled():
