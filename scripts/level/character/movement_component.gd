@@ -68,7 +68,8 @@ func _physics_process(delta: float) -> void:
 						else:
 							character.velocity = current_velocity.lerp(global_movement_input * get_walk_speed(), 0.4)
 		else:
-			character.velocity = character.velocity.lerp(Vector3(0,character.velocity.y,0), 0.4)
+			if not character.is_tackled():
+				character.velocity = character.velocity.lerp(Vector3(0,character.velocity.y,0), 0.4)
 
 
 ## Returns the character's walk speed.

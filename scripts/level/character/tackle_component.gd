@@ -47,7 +47,6 @@ func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
 func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGenerator) -> void:
 	if not is_tackled:
 		is_tackled = true
-		character.get_node("CollisionShape3D").disabled = true
 		print(Steam.getFriendPersonaName(character.owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id), " with a force of ", tackle_force)
 		
 		# Generate the recovery code.
@@ -74,7 +73,6 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 func recover() -> void:
 	if is_tackled:
 		is_tackled = false
-		character.get_node("CollisionShape3D").disabled = false
 		print(Steam.getFriendPersonaName(character.owning_player_id), " has recovered from being tackled.")
 		if network_manager.is_host():
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_RECOVERED, "id": character.registry_id})

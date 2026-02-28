@@ -42,6 +42,8 @@ var equipped_key: int = -1
 ## The velocity of the character in the previous frame
 var previous_velocity: Vector3
 
+## Amount of friction force to apply to the ragdoll if it's sliding.
+const RAGDOLL_FRICTION_MULTIPLIER: float = 0.9
 
 func _ready() -> void:
 	print("Spawned character ", registry_id, " owned by ", Steam.getFriendPersonaName(owning_player_id))
@@ -67,11 +69,14 @@ func _physics_process(delta: float):
 		if not is_on_floor():
 			velocity.y -= level.gravity_acceleration*delta
 		else:
-			velocity.y = 0
+			# Also, if tackled, apply friction
+			if is_tackled():
+				velocity.x -= velocity.x * RAGDOLL_FRICTION_MULTIPLIER * delta
+				velocity.z -= velocity.z * RAGDOLL_FRICTION_MULTIPLIER * delta
+		
 	previous_velocity = velocity
 	
-	if not is_tackled():
-		move_and_slide()
+	move_and_slide()
 	
 
 
@@ -172,6 +177,9 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 	tackle_component.tackle(tackler, tackle_force, tackle_seed)
 	if is_locally_possessed():
 			get_node("CameraHandle").tackle_shake(tackle_force)
+	if network_manager.is_host():
+		var hit_direction := (position-tackler.position).normalized()
+		velocity = velocity + (hit_direction * tackle_force) + (Vector3.UP * tackle_force * 0.4)
 
 ## Called when self recovers from a tackle.
 func recover() -> void:
