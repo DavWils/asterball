@@ -294,7 +294,10 @@ func get_throw_start() -> Vector3:
 
 ## Returns the initial velocity of the thrown item 
 func get_throw_velocity() -> Vector3:
-	return get_look_forward_vector() * (throw_component.throw_force/current_equipment.get_item_state().item_resource.item_mass) + self.velocity
+	if current_equipment:
+		return get_look_forward_vector() * (throw_component.throw_force/current_equipment.get_item_state().item_resource.item_mass) + self.velocity
+	else:
+		return Vector3.ZERO
 
 ## Uses the equipment, simulating a press.
 func use_equipment_start() -> void:

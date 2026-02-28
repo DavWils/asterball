@@ -86,7 +86,8 @@ func _unhandled_input(event: InputEvent) -> void:
 						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_INTERACT, "id": current_character.registry_id, "iid": interactable.registry_id})
 		elif event.is_action_pressed("drop_equipment"):
 			if network_manager.is_host():
-				current_character.drop_equipped_item()
+				if not current_character.is_aiming():
+					current_character.drop_equipped_item()
 			else:
 				network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_DROP, "char_id": current_character.registry_id})
 		elif event.is_action_pressed("previous_equipment"):
