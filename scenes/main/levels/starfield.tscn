@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dolnkblhfe1c6"]
+[gd_scene load_steps=19 format=3 uid="uid://dolnkblhfe1c6"]
 
 [ext_resource type="PackedScene" uid="uid://u6kaxkr2k4w7" path="res://scenes/main/baselevel.tscn" id="1_5sngl"]
 [ext_resource type="Script" uid="uid://cmlmvkht2rnjk" path="res://scripts/level/zones/spawn_zone.gd" id="2_htkcu"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c03unke567evk" path="res://meshes/levels/starfield/starfield_crater.glb" id="6_u3xwc"]
 [ext_resource type="PackedScene" uid="uid://d3tl7r41kdwl5" path="res://meshes/levels/starfield/starfield_goalpost.glb" id="7_pgjeu"]
 [ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://scripts/shaders/sky/astral_sky.gdshader" id="8_t2d5p"]
+[ext_resource type="AudioStream" uid="uid://btxmjdxc4svu" path="res://sounds/music/ambience/starfield_ambience.wav" id="9_e7y16"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gs6xa"]
 size = Vector3(120, 10, 23.5)
@@ -156,3 +157,6 @@ mesh = SubResource("TorusMesh_cmnbt")
 transform = Transform3D(0.08750626, -0.9437894, 0.31875417, -0.96432215, 4.215186e-08, 0.2647315, -0.2498508, -0.3305473, -0.91011703, 0, 44.795856, 0)
 light_color = Color(1, 0.64918756, 0.4954893, 1)
 light_energy = 0.6
+
+[node name="AmbienceStreamPlayer" parent="." index="19"]
+stream = ExtResource("9_e7y16")

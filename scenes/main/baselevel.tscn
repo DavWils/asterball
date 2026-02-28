@@ -165,3 +165,6 @@ offset_bottom = 23.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_8k0du")
+
+[node name="AmbienceStreamPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = true
