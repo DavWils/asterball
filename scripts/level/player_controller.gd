@@ -9,6 +9,8 @@ class_name PlayerController
 var current_character: Character
 ## Current camera player is spectating through. Unused when possessing a character.
 @onready var current_camera: Camera3D = $Camera3D
+## Reference to player ui
+@onready var player_ui = self.get_parent().get_node("PlayerUI")
 
 ## The current look delta that is saved until a movement input is calculated.
 var look_input := Vector2.ZERO
@@ -64,6 +66,7 @@ func enter_recovery_key_input(key: int) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if current_character:
+		if player_ui.is_in_menu(): return
 		# Tackle recovery input.
 		if current_character.is_tackled():
 			if event.is_action_pressed("move_forward"):
@@ -75,38 +78,39 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif event.is_action_pressed("move_right"):
 				enter_recovery_key_input(3)
 		# Interact input.
-		if event.is_action_pressed("interact"):
-			var interactable: Node3D = current_character.get_node("InteractArea3D").get_desired_interactable()
-			if interactable:
-				if interactable.has_method("interact"):
-					print(interactable.get_interact_text())
-					if network_manager.is_host():
-						interactable.interact(current_character)
-					else:
-						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_INTERACT, "id": current_character.registry_id, "iid": interactable.registry_id})
-		elif event.is_action_pressed("drop_equipment"):
-			if network_manager.is_host():
-				if not current_character.is_aiming():
-					current_character.drop_equipped_item()
-			else:
-				network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_DROP, "char_id": current_character.registry_id})
-		elif event.is_action_pressed("previous_equipment"):
-			if current_character.get_inventory_count() > 0:
-				equip_by_key(current_character.inventory_component.get_prev_key())
-		elif event.is_action_pressed("next_equipment"):
-			if current_character.get_inventory_count() > 0:
-				equip_by_key(current_character.inventory_component.get_next_key())
-		elif event.is_action_pressed("aim_throw"):
-			current_character.start_aim()
-		elif event.is_action_released("aim_throw") or event.is_action_pressed("pause_menu"):
-			if current_character.is_aiming():
-				current_character.end_aim()
-		elif event.is_action_pressed("use_item"):
-			if current_character.is_aiming():
-				current_character.start_throwing()
-		elif event.is_action_released("use_item"):
-			if current_character.is_aiming():
-				current_character.stop_throwing()
+		if current_character.is_unlocked():
+			if event.is_action_pressed("interact"):
+				var interactable: Node3D = current_character.get_node("InteractArea3D").get_desired_interactable()
+				if interactable:
+					if interactable.has_method("interact"):
+						print(interactable.get_interact_text())
+						if network_manager.is_host():
+							interactable.interact(current_character)
+						else:
+							network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_INTERACT, "id": current_character.registry_id, "iid": interactable.registry_id})
+			elif event.is_action_pressed("drop_equipment"):
+				if network_manager.is_host():
+					if not current_character.is_aiming():
+						current_character.drop_equipped_item()
+				else:
+					network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_DROP, "char_id": current_character.registry_id})
+			elif event.is_action_pressed("previous_equipment"):
+				if current_character.get_inventory_count() > 0:
+					equip_by_key(current_character.inventory_component.get_prev_key())
+			elif event.is_action_pressed("next_equipment"):
+				if current_character.get_inventory_count() > 0:
+					equip_by_key(current_character.inventory_component.get_next_key())
+			elif event.is_action_pressed("aim_throw"):
+				current_character.start_aim()
+			elif event.is_action_released("aim_throw") or event.is_action_pressed("pause_menu"):
+				if current_character.is_aiming():
+					current_character.end_aim()
+			elif event.is_action_pressed("use_item"):
+				if current_character.is_aiming():
+					current_character.start_throwing()
+			elif event.is_action_released("use_item"):
+				if current_character.is_aiming():
+					current_character.stop_throwing()
 
 	if event is InputEventMouseMotion:
 		look_input += event.relative

@@ -2,6 +2,8 @@
 
 extends CanvasLayer
 
+class_name PlayerUI
+
 @onready var pause_menu: Control = $PauseMenu
 @onready var buy_menu: Control = $BuyMenu
 @onready var match_menu: Control = $MatchMenu
@@ -24,8 +26,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_released("match_menu"): # Close match menu on release
 		close_match_menu()
 
+## Returns true if paused.
 func is_paused() -> bool:
 	return player_controller.paused
+
+## Returns true if in any menu.
+func is_in_menu() -> bool:
+	for ui in [pause_menu, buy_menu, match_menu]:
+		if ui.visible: return true
+	return false
 
 func open_pause_menu() -> void:
 	close_buy_menu()
