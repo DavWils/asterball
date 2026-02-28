@@ -382,6 +382,19 @@ func read_p2p_packet():
 							pass
 						else:
 							character.tackle_component.set_recovery_code_progress(readable_data["progress"]) 
+				Message.CHARACTER_ADD_EFFECT:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						var effect_state := EffectState.new()
+						effect_state.from_dict(readable_data["effect_state"])
+						character.add_effect(effect_state)
+				Message.CHARACTER_REMOVE_EFFECT:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						var effect_resource: EffectResource = load("res://resources/effects/" + readable_data["effect_name"] + ".tres")
+						character.remove_effect(effect_resource)
 
 ## Enum for the message types for the network manager.
 enum Message {
@@ -421,4 +434,6 @@ enum Message {
 	CLIENT_REQUEST_EQUIP, ## Client requests to equip an item at given key.
 	CLIENT_RECOVERY_PROGRESS, ## Client updates their progress on recovery.
 	CHARACTER_RECOVERY_PROGRESS, ## Character updates their progress from host, character owner also receives but acts differently.
+	CHARACTER_ADD_EFFECT, ## Adds effect to character
+	CHARACTER_REMOVE_EFFECT, ## Removes effect from character.
 }

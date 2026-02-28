@@ -9,6 +9,7 @@ class_name Character
 @onready var character_mesh: Node3D = $CharacterMesh
 @onready var tackle_component: TackleComponent = $TackleComponent
 @onready var movement_component: MovementComponent = $MovementComponent
+@onready var effects_component: EffectsComponent = $EffectsComponent
 
 ## The max percentage of throw force that is too small to actually throw.
 const MINIMUM_THROW_FORCE := 0.05
@@ -396,3 +397,11 @@ func get_carry_mass() -> float:
 ## Returns current throw force.
 func get_throw_force() -> float:
 	return throw_force
+
+func add_effect(effect: EffectState) -> void:
+	print("Adding effect ", effect.effect_resource.effect_name, " to ", Steam.getFriendPersonaName(owning_player_id))
+	effects_component.add_effect(effect)
+
+func remove_effect(effect: EffectResource) -> void:
+	print("Removing effect ", effect.effect_name, " from ", Steam.getFriendPersonaName(owning_player_id))
+	effects_component.remove_effect(effect)

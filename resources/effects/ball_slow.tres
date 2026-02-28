@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EffectResource" load_steps=2 format=3 uid="uid://8gp0gt7r7tit"]
+
+[ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="1_blrtw"]
+
+[resource]
+script = ExtResource("1_blrtw")
+effect_name = "Slowdown"
+effect_description = "Slows down the character's maximum charging speed."
+max_stacks = 1
+metadata/_custom_type_script = "uid://cgdj7e0yvscrf"

@@ -9,6 +9,16 @@ func _ready() -> void:
 	for body in wielder_overlap_area.get_overlapping_areas():
 		if body is ScoreZone:
 			overlap_score_zone(body)
+	
+	add_slowdown()
+	$SlowdownTimer.timeout.connect(_on_timeout)
+
+func _on_timeout() -> void:
+	add_slowdown()
+
+func add_slowdown() -> void:
+	if network_manager.is_host():
+		wielder.add_effect(EffectState.new(load("res://resources/effects/ball_slow.tres"), 15))
 
 func _on_area_entered(body: Node3D):
 	if network_manager.is_host():
