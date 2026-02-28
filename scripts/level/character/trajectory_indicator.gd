@@ -35,9 +35,9 @@ func _on_throw_start() -> void:
 	projectile_mass = character.get_equipped_item().get_item_mass()
 	self.multimesh.visible_instance_count = -1
 	is_throwing = true
+	print("Trajectory start")
 	
 func _on_aim_end() -> void:
 	if not character.is_locally_possessed(): return
 	self.multimesh.visible_instance_count = 0
 	is_throwing = false
-	

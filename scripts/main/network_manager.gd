@@ -395,6 +395,26 @@ func read_p2p_packet():
 						var character: Character = level.level_registry[readable_data["char_id"]]
 						var effect_resource: EffectResource = load("res://resources/effects/" + readable_data["effect_name"] + ".tres")
 						character.remove_effect(effect_resource)
+				Message.CHARACTER_AIM_START:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						character.start_aim()
+				Message.CHARACTER_AIM_END:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						character.end_aim()
+				Message.CHARACTER_THROW_START:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						character.start_throwing()
+				Message.CHARACTER_THROW_END:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						character.stop_throwing()
 
 ## Enum for the message types for the network manager.
 enum Message {
@@ -413,7 +433,7 @@ enum Message {
 	CHARACTER_AIM_START, ## Character starts throwing.
 	CHARACTER_AIM_END, ## Character stops aiming.
 	CHARACTER_THROW_START, ## Character starts charging throw.
-	CHARACTER_THROW_FINISH, ## Character finishes throw
+	CHARACTER_THROW_END, ## Character finishes throw
 	CLIENT_INTERACT, ## Client wants to interact with something.
 	CLIENT_DROP, ## Client wants to drop item.
 	CHARACTER_ADDITEM, ## Adds an item to a character's inventory.

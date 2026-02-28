@@ -4,8 +4,12 @@ extends Node
 
 class_name ThrowComponent
 
+
+
 ## Owning character.
 @onready var character: Character = self.get_parent()
+## Network manager.
+@onready var network_manager: NetworkManager = get_tree().current_scene.network_manager
 
 ## The base maximum throw force the character can throw items with.
 @export var base_max_throw_force: float = 100.0
@@ -35,6 +39,8 @@ func start_aim() -> void:
 	if character.current_equipment:
 		print("Starting aim.")
 		is_aiming = true
+		if network_manager.is_host():
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_AIM_START, "char_id": character.registry_id})
 
 ## Ends aiming.
 func end_aim() -> void:
@@ -43,27 +49,35 @@ func end_aim() -> void:
 		is_aiming = false
 		if is_throwing:
 			throw_force = 0.0
+		if network_manager.is_host():
 			stop_throwing()
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_AIM_END, "char_id": character.registry_id})
 
 func start_throwing() -> void:
 	if not is_throwing and is_aiming:
 		print("Charging throw.")
 		throw_force = 0.0
 		is_throwing = true
+		if network_manager.is_host():
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_THROW_START, "char_id": character.registry_id})
 
 func stop_throwing() -> void:
 	if is_throwing:
 		is_throwing = false
 		end_aim()
 		
-		# If enough throw force, throw the item.
-		if throw_force > get_max_throw_force() * MINIMUM_THROW_FORCE:
-			print("Throwing with ", throw_force, " force.")
-			var throw_velocity = character.get_throw_velocity()
-			var projectile: Projectile = character.drop_equipped_item()
-			projectile.linear_velocity = throw_velocity
-		else:
-			print("Not throwing.")
+		if network_manager.is_host():
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_THROW_END, "char_id": character.registry_id})
+			
+			# If enough throw force, throw the item.
+			if throw_force > get_max_throw_force() * MINIMUM_THROW_FORCE:
+				print("Throwing with ", throw_force, " force.")
+				
+				var throw_velocity = character.get_throw_velocity()
+				var projectile: Projectile = character.drop_equipped_item()
+				projectile.linear_velocity = throw_velocity
+			else:
+				print("Not throwing.")
 
 func get_max_throw_force() -> float:
 	return base_max_throw_force

@@ -19,6 +19,10 @@ class_name Character
 ## The base carry capacity of the character.
 @export var base_inventory_capacity: int = 3
 
+## Signal called when aiming starts.
+signal aim_start
+## Signal called when aiming ends.
+signal aim_end
 ## Signal called when throwing starts.
 signal throw_start
 ## Signal called when throwing ends.
@@ -272,18 +276,21 @@ func is_unlocked() -> bool:
 ## Starts aiming with the given item.
 func start_aim() -> void:
 	throw_component.start_aim()
+	if is_aiming(): aim_start.emit()
 
 ## Ends aiming.
 func end_aim() -> void:
 	throw_component.end_aim()
+	if not is_aiming(): aim_end.emit()
 
 func start_throwing() -> void:
-	throw_start.emit()
 	throw_component.start_throwing()
+	if is_throwing(): throw_start.emit()
 
 func stop_throwing() -> void:
-	throw_end.emit()
 	throw_component.stop_throwing()
+	if not is_throwing(): throw_end.emit()
+	if not is_aiming(): aim_end.emit()
 
 func is_aiming() -> bool:
 	return throw_component.is_aiming

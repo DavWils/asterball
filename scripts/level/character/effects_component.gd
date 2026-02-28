@@ -11,6 +11,7 @@ var current_effects: Dictionary[EffectResource, EffectState]
 
 # Tick down all effects.
 func _physics_process(delta: float) -> void:
+	if not character.is_locally_possessed(): return
 	for effect in current_effects.keys():
 		if current_effects[effect].update_tick(delta):
 			character.remove_effect(effect)
