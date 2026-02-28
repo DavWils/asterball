@@ -28,6 +28,9 @@ const MINIMUM_THROW_FORCE := 0.05
 ## The amount of throw force to be accumulated in a second.
 @export var base_throw_speed: float = 35.0
 
+signal throw_start
+signal throw_end
+
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
 var owning_player_id := -1
 ## The id of this character in level registry.
@@ -293,9 +296,6 @@ func is_unlocked() -> bool:
 	return level.match_director.is_unlocked_state() and (not is_tackled()) and (not (is_locally_possessed() and player_controller.paused))
 
 
-
-
-
 ## Starts aiming with the given item.
 func start_aim() -> void:
 	if not is_unlocked(): return
@@ -317,12 +317,12 @@ func start_throwing() -> void:
 		print("Charging throw.")
 		throw_force = 0.0
 		is_throwing = true
-		
-		
+		throw_start.emit()
 
 func stop_throwing() -> void:
 	if is_throwing:
 		is_throwing = false
+		throw_end.emit()
 		end_aim()
 		
 		# If enough throw force, throw the item.
@@ -331,10 +331,10 @@ func stop_throwing() -> void:
 			var projectile: RigidBody3D
 			# Spawn a projectile, if a projectile scene exists spawn it, otherwise spawn pickup.
 			var projectile_item_state: ItemState = current_equipment.get_item_state()
-			var projectile_spawn_pos: Vector3 = self.position + Vector3.UP*1.5 + get_look_forward_vector()
+			var projectile_spawn_pos: Vector3 = get_throw_start()
 			projectile = level.spawn_projectile(projectile_item_state, projectile_spawn_pos, self)
 			# Set item's velocity.
-			projectile.linear_velocity = get_look_forward_vector() * (throw_force/projectile_item_state.item_resource.item_mass) + self.velocity
+			projectile.linear_velocity = get_throw_velocity()
 			
 			# Lastly, unequip the item and remove it from the inventory.
 			inventory_component.remove_item(equipped_key)
@@ -343,6 +343,13 @@ func stop_throwing() -> void:
 			print("Not throwing.")
 			
 
+## Returns starting position of a thrown item.
+func get_throw_start() -> Vector3:
+	return self.position + Vector3.UP*1.5 + get_look_forward_vector()
+
+## Returns the initial velocity of the thrown item 
+func get_throw_velocity() -> Vector3:
+	return get_look_forward_vector() * (throw_force/current_equipment.get_item_state().item_resource.item_mass) + self.velocity
 
 func get_throw_speed() -> float:
 	return base_throw_speed
@@ -385,3 +392,7 @@ func get_carry_mass() -> float:
 	for item in inventory_component.get_all_items():
 		total_mass += item.get_item_mass()
 	return total_mass
+
+## Returns current throw force.
+func get_throw_force() -> float:
+	return throw_force
