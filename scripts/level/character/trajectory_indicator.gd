@@ -15,7 +15,7 @@ const TIME_INTERVAL: float = 0.05
 func _ready() -> void:
 	position = character.get_throw_start()
 	character.throw_start.connect(_on_throw_start)
-	character.throw_end.connect(_on_throw_end)
+	character.aim_end.connect(_on_aim_end)
 	
 
 func _process(_delta: float) -> void:
@@ -31,11 +31,13 @@ func _process(_delta: float) -> void:
 			multimesh.set_instance_transform(i, mesh_transform)
 
 func _on_throw_start() -> void:
+	if not character.is_locally_possessed(): return
 	projectile_mass = character.get_equipped_item().get_item_mass()
 	self.multimesh.visible_instance_count = -1
 	is_throwing = true
 	
-func _on_throw_end() -> void:
+func _on_aim_end() -> void:
+	if not character.is_locally_possessed(): return
 	self.multimesh.visible_instance_count = 0
 	is_throwing = false
 	

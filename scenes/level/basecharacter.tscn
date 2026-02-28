@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://c2erqjm7tqn42" path="res://scripts/level/character/overlap_area.gd" id="6_7da80"]
 [ext_resource type="Script" uid="uid://d2ggd5dlv4ylb" path="res://scripts/level/character/tackle_component.gd" id="7_tu7bk"]
 [ext_resource type="Script" uid="uid://yo4pcil8pwg0" path="res://scripts/level/character/movement_component.gd" id="8_ikaoe"]
-[ext_resource type="Script" uid="uid://b7h7scddkfgqr" path="res://scripts/level/character/trajectory_visual.gd" id="9_gx15w"]
+[ext_resource type="Script" uid="uid://b7h7scddkfgqr" path="res://scripts/level/character/trajectory_indicator.gd" id="9_gx15w"]
 [ext_resource type="Script" uid="uid://dnqoeteq07upg" path="res://scripts/level/character/effects_component.gd" id="10_cmg63"]
 [ext_resource type="Script" uid="uid://cxhnyeuq2l8yn" path="res://scripts/level/character/throw_component.gd" id="11_3xhtn"]
 
@@ -39,9 +39,6 @@ buffer = PackedFloat32Array(0, 2.9999998, 0.24936, 0.26783997, 0.29863998, 1, 0,
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_hqcqr")
-walk_speed = null
-use_pitch_rotation = null
-base_inventory_capacity = null
 
 [node name="CameraHandle" type="Node3D" parent="."]
 script = ExtResource("2_5faxe")
@@ -79,7 +76,7 @@ script = ExtResource("7_tu7bk")
 [node name="MovementComponent" type="Node" parent="."]
 script = ExtResource("8_ikaoe")
 
-[node name="TrajectoryVisual" type="MultiMeshInstance3D" parent="."]
+[node name="TrajectoryIndicator" type="MultiMeshInstance3D" parent="."]
 multimesh = SubResource("MultiMesh_3xhtn")
 script = ExtResource("9_gx15w")
 
