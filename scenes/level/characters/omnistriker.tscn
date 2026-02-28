@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://on8wykmjn5go" path="res://scenes/level/basecharacter.tscn" id="1_4276t"]
 [ext_resource type="Script" uid="uid://da62kjo61h2uj" path="res://scripts/level/characters/omnistriker.gd" id="2_tekpr"]
-[ext_resource type="PackedScene" uid="uid://dum6laalon7cq" path="res://scenes/level/characters/omnistriker/omnistriker_mesh.tscn" id="3_ubvka"]
+[ext_resource type="PackedScene" uid="uid://dum6laalon7cq" path="res://scenes/level/characters/omnistriker/mesh.tscn" id="3_ubvka"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tekpr"]
 size = Vector3(1, 2, 1)

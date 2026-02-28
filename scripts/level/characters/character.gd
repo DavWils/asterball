@@ -41,12 +41,22 @@ var current_equipment: Equipment
 var equipped_key: int = -1
 ## The velocity of the character in the previous frame
 var previous_velocity: Vector3
+## The ragdoll of this character.
+var ragdoll: Ragdoll
 
 ## Amount of friction force to apply to the ragdoll if it's sliding.
 const RAGDOLL_FRICTION_MULTIPLIER: float = 0.9
 
 func _ready() -> void:
 	print("Spawned character ", registry_id, " owned by ", Steam.getFriendPersonaName(owning_player_id))
+	# Spawn ragdoll hidden from game.
+	ragdoll = load("res://scenes/level/characters/" + scene_file_path.get_file().get_basename() + "/ragdoll.tscn").instantiate()
+	ragdoll.character = self
+	level.add_child(ragdoll)
+	
+	#await get_tree().create_timer(5).timeout
+	#tackle(self, 20)
+	
 
 ## Sets whether or not the camera is currently being used.
 func set_current_camera(current: bool) -> void:
@@ -62,6 +72,10 @@ func is_locally_possessed() -> bool:
 func _exit_tree() -> void:
 	if is_locally_possessed(): player_controller.unpossess_character()
 	level.level_registry.erase(registry_id)
+	
+	# Remove ragdoll.
+	ragdoll.queue_free()
+	
 
 func _physics_process(delta: float):
 	# Increase in downward velocity due to gravity.
@@ -79,7 +93,7 @@ func _physics_process(delta: float):
 		
 	previous_velocity = velocity
 	
-	move_and_slide()
+	if not is_tackled(): move_and_slide()
 	
 
 
@@ -180,13 +194,21 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 	tackle_component.tackle(tackler, tackle_force, tackle_seed)
 	if is_locally_possessed():
 			get_node("CameraHandle").tackle_shake(tackle_force)
-	if network_manager.is_host():
-		var hit_direction := (position-tackler.position).normalized()
-		velocity = velocity + (hit_direction * tackle_force) + (Vector3.UP * tackle_force * 0.4)
+	# Spawn ragdoll and hide self.
+	visible = false
+	$CollisionShape3D.disabled = true
+	var hit_direction := (position-tackler.position).normalized()
+	var ragdoll_velocity = velocity + (hit_direction * tackle_force) + (Vector3.UP * tackle_force * 0.4)
+	ragdoll.start_ragdoll(ragdoll_velocity)
 
 ## Called when self recovers from a tackle.
 func recover() -> void:
+	visible = true
+	$CollisionShape3D.disabled = false
+	position = ragdoll.get_ragdoll_position()
+	ragdoll.stop_ragdoll()
 	tackle_component.recover()
+	
 
 ## Returns character carry capacity.
 func get_inventory_capacity() -> int:

@@ -28,7 +28,7 @@ input_2/reset = true
 animation = &"idle"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_owm0j"]
-graph_offset = Vector2(-431.8736, 64.14406)
+graph_offset = Vector2(-481.80994, 229.15701)
 nodes/output/position = Vector2(320, 120)
 nodes/RunBlendSpace2D/node = ExtResource("2_325jj")
 nodes/RunBlendSpace2D/position = Vector2(-640, 360)
@@ -51,12 +51,12 @@ bones/0/position = Vector3(0, 0.9869286, 0.036972128)
 bones/0/rotation = Quaternion(-0.07293757, 0, 0, 0.9973365)
 bones/1/rotation = Quaternion(0.99710953, -3.3161976e-07, -3.3936104e-07, -0.07597861)
 bones/2/rotation = Quaternion(-0.05447222, 3.77485e-07, -3.3877214e-07, 0.9985153)
-bones/3/rotation = Quaternion(0.050495982, 4.239639e-19, -5.7972114e-18, 0.99872434)
-bones/4/rotation = Quaternion(-0.014987343, 1.1919591e-07, -2.3744235e-09, 0.99988776)
-bones/5/rotation = Quaternion(0.91082865, -0.17675987, -0.37191826, 0.028706986)
+bones/3/rotation = Quaternion(0.051669206, 4.2396827e-19, -5.797271e-18, 0.9986643)
+bones/4/rotation = Quaternion(-0.014198529, 1.1919729e-07, -2.4684772e-09, 0.99989927)
+bones/5/rotation = Quaternion(0.9106196, -0.17783324, -0.37195185, 0.028268576)
 bones/6/rotation = Quaternion(0.032494664, -0.024443645, -0.24438728, 0.96882486)
 bones/8/rotation = Quaternion(2.0145299e-25, -1.1920929e-07, -1.6899101e-18, 1)
-bones/10/rotation = Quaternion(0.91082853, 0.17675984, 0.3719184, 0.028706998)
+bones/10/rotation = Quaternion(0.9106203, 0.17782968, 0.37195188, 0.028270055)
 bones/11/rotation = Quaternion(0.03882958, 0.027129184, 0.25094995, 0.96684045)
 bones/13/position = Vector3(0.08852749, 0.011829209, 0.00173949)
 bones/13/rotation = Quaternion(0.99710953, -1.8440852e-08, 1.2991279e-07, -0.07597855)
@@ -71,7 +71,7 @@ bones/21/position = Vector3(9.828369e-10, -3.1720333e-09, -1.3380057e-07)
 bones/21/rotation = Quaternion(0.9712025, 7.479237e-08, -3.0487644e-07, 0.23825555)
 
 [node name="EquipmentAttachment" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.6725589, 0.0412119, 0.738895, -0.10738701, -0.98244524, 0.152542, 0.7322103, -0.18194124, -0.6563269, 0.29441792, 1.1826589, 0.09213269)
+transform = Transform3D(0.6729374, 0.043481518, 0.73842, -0.10868507, -0.98162365, 0.15684947, 0.73167056, -0.18580523, -0.6558459, 0.29579163, 1.1825147, 0.091463044)
 bone_name = "r_hand"
 bone_idx = 12
 
