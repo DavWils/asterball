@@ -153,7 +153,7 @@ mesh = SubResource("SphereMesh_e7y16")
 transform = Transform3D(0.9245194, -0.038113493, 0, 0.35124847, 0.08520238, -0.38817516, 0.14794712, 0.035887547, 0.9215856, 1337.6498, 903.13184, -3024.6145)
 mesh = SubResource("TorusMesh_cmnbt")
 
-[node name="RedDirectionalLight" type="DirectionalLight3D" parent="." index="18"]
+[node name="PlanetDirectionalLight" type="DirectionalLight3D" parent="." index="18"]
 transform = Transform3D(0.08750626, -0.9437894, 0.31875417, -0.96432215, 4.215186e-08, 0.2647315, -0.2498508, -0.3305473, -0.91011703, 0, 44.795856, 0)
 light_color = Color(1, 0.64918756, 0.4954893, 1)
 light_energy = 0.6
