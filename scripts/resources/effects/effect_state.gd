@@ -42,8 +42,8 @@ func from_dict(data: Dictionary) -> void:
 
 ## Converts effect state to dictionary.
 func to_dict() -> Dictionary:
-	var data: Dictionary
-	data["effect_name"] = resource_path.get_file().get_basename()
+	var data: Dictionary = {}
+	data["effect_name"] = effect_resource.resource_path.get_file().get_basename()
 	data["duration"] = effect_duration
 	
 	return data
