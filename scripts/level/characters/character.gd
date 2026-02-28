@@ -54,9 +54,6 @@ func _ready() -> void:
 	ragdoll.character = self
 	level.add_child(ragdoll)
 	
-	#await get_tree().create_timer(5).timeout
-	#tackle(self, 20)
-	
 
 ## Sets whether or not the camera is currently being used.
 func set_current_camera(current: bool) -> void:
@@ -109,14 +106,19 @@ func use_player_input(input: Dictionary) -> void:
 		
 	
 	# Look input.
-	var look_input: Vector2 = input.get("lk", Vector2.ZERO)
-		
-	self.rotation.y = look_input.y
-	var rot_x = clampf(look_input.x, -deg_to_rad(89.0), deg_to_rad(89.0))
-	if use_pitch_rotation:
-		self.rotation.x = rot_x
-	else:
-		control_pitch = rot_x
+	if is_camera_unlocked():
+		var look_input: Vector2 = input.get("lk", Vector2.ZERO)
+			
+		self.rotation.y = look_input.y
+		var rot_x = clampf(look_input.x, -deg_to_rad(89.0), deg_to_rad(89.0))
+		if use_pitch_rotation:
+			self.rotation.x = rot_x
+		else:
+			control_pitch = rot_x
+
+## Returns true if player can move camera.
+func is_camera_unlocked() -> bool:
+	return not is_tackled()
 
 ## Converts character information to a dictionary that can be loaded by players joining the game. Used for time-specific parts like held item, etc. Position isn't exactly needed as it's updated each physics process.
 func to_init_dict() -> Dictionary:
