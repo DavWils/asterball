@@ -30,6 +30,10 @@ background_color = Color(0.019550411, 0.0034108006, 0.0685281, 1)
 sky = SubResource("Sky_p4c5w")
 ambient_light_source = 3
 reflected_light_source = 2
+fog_enabled = true
+fog_light_color = Color(0.2826666, 0.23319998, 0.53, 1)
+fog_density = 0.0001
+fog_sky_affect = 0.02
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t2d5p"]
 render_priority = 1
@@ -128,10 +132,10 @@ shape = SubResource("ConcavePolygonShape3D_n6wex")
 [node name="Field" parent="." index="12" instance=ExtResource("6_pgjeu")]
 
 [node name="Goalpost" parent="." index="13" instance=ExtResource("7_pgjeu")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -19.102, 150)
+transform = Transform3D(-0.8, 0, -1.2079664e-07, 0, 0.8, 0, 1.2079664e-07, 0, -0.8, 0, -19.102, 130)
 
 [node name="Goalpost2" parent="." index="14" instance=ExtResource("7_pgjeu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.102, -150)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, -19.102, -130)
 
 [node name="WorldEnvironment" parent="." index="15"]
 environment = SubResource("Environment_cmnbt")
