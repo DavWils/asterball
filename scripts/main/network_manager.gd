@@ -392,9 +392,10 @@ func read_p2p_packet():
 				Message.CHARACTER_REMOVE_EFFECT:
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
-						var character: Character = level.level_registry[readable_data["char_id"]]
-						var effect_resource: EffectResource = load("res://resources/effects/" + readable_data["effect_name"] + ".tres")
-						character.remove_effect(effect_resource)
+						if level.level_registry.has(readable_data["char_id"]):
+							var character: Character = level.level_registry[readable_data["char_id"]]
+							var effect_resource: EffectResource = load("res://resources/effects/" + readable_data["effect_name"] + ".tres")
+							character.remove_effect(effect_resource)
 				Message.CHARACTER_AIM_START:
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
