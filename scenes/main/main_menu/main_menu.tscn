@@ -91,6 +91,7 @@ layout_mode = 2
 theme_override_styles/hover = SubResource("StyleBoxFlat_5fid0")
 text = "Quit Game
 "
+alt_press = true
 
 [node name="LogoRect" type="TextureRect" parent="MainMenuUI"]
 layout_mode = 1
