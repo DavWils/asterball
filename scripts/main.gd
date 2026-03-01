@@ -37,21 +37,32 @@ func _on_lobby_match_list(lobbies):
 func host_game(level_name: String):
 	# Create the lobby.
 	print("Hosting lobby")
+	show_load_screen(load("res://resources/levels/" + level_name + ".tres"))
+	set_load_state(0)
 	network_manager.create_lobby()
 	await Steam.lobby_joined
 	# Set metadata for the current level
 	# Load into session's level
+	set_load_state(2)
 	load_level(level_name)
+	hide_load_scren()
 
 ## Joins a game with the given lobby id.
 func join_game(lobby_id: int):
 	print("Joining lobby ", lobby_id, "that's in map ", Steam.getLobbyData(lobby_id, "level"))
+	show_load_screen(load("res://resources/levels/" + Steam.getLobbyData(lobby_id, "level") + ".tres"))
+	set_load_state(1)
 	network_manager.join_lobby(lobby_id)
 	await Steam.lobby_joined
 	print("Successfully joined lobby! Loading now.")
+	set_load_state(2)
 	load_level()
+	set_load_state(3)
 	await get_tree().create_timer(1).timeout
+	
 	network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_GAME})
+	await network_manager.game_info_retrieved
+	hide_load_scren()
 
 ## Leave game and return to menu.
 func return_to_menu():
@@ -78,3 +89,14 @@ func find_most_optimal_lobby():
 		return null
 	
 	return found_lobbies[0]
+
+## Shows the loading screen with the given level resource.
+func show_load_screen(loading_level: LevelResource) -> void:
+	$LoadingUI.set_loading_level(loading_level)
+	$LoadingUI.visible = true
+
+func hide_load_scren() -> void:
+	$LoadingUI.visible = false
+
+func set_load_state(state: int) -> void:
+	$LoadingUI.set_load_state(state)

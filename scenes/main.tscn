@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c1pcvwr3t2r47"]
+[gd_scene load_steps=13 format=3 uid="uid://c1pcvwr3t2r47"]
 
 [ext_resource type="Script" uid="uid://ddltssi0smi1x" path="res://scripts/main.gd" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://dh0mq14ojnjin" path="res://scripts/main/network_manager.gd" id="1_o5qli"]
@@ -7,6 +7,34 @@
 [ext_resource type="AudioStream" uid="uid://cho2ltbhpwbou" path="res://sounds/ui/button_hover.wav" id="5_tbgi4"]
 [ext_resource type="AudioStream" uid="uid://ckyy83axx7wta" path="res://sounds/ui/button_pressed.wav" id="6_tefeu"]
 [ext_resource type="AudioStream" uid="uid://duibyl40cyont" path="res://sounds/ui/button_pressed_alt.wav" id="7_o6xl0"]
+[ext_resource type="Script" uid="uid://c8p0tbe1a0f0p" path="res://scripts/ui/loading.gd" id="8_85g3d"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="8_tipki"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tipki"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.1, 0.1, 0.1, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85g3d"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 1)
+corner_detail = 6
+
+[sub_resource type="FontVariation" id="FontVariation_85g3d"]
+base_font = ExtResource("8_tipki")
+variation_opentype = {
+2003265652: 400
+}
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_0wfyh")
@@ -22,3 +50,69 @@ script = ExtResource("4_jyhfs")
 hover_sound = ExtResource("5_tbgi4")
 pressed_sound = ExtResource("6_tefeu")
 pressed_sound_alt = ExtResource("7_o6xl0")
+
+[node name="LoadingUI" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_85g3d")
+
+[node name="ColorRect" type="ColorRect" parent="LoadingUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ProgressBar" type="ProgressBar" parent="LoadingUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.38
+anchor_top = 0.597
+anchor_right = 0.62
+anchor_bottom = 0.608
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_tipki")
+theme_override_styles/fill = SubResource("StyleBoxFlat_85g3d")
+show_percentage = false
+indeterminate = true
+editor_preview_indeterminate = true
+
+[node name="LevelNameLabel" type="Label" parent="LoadingUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.5
+anchor_right = 0.7
+anchor_bottom = 0.575
+offset_top = -9.399994
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = SubResource("FontVariation_85g3d")
+theme_override_font_sizes/font_size = 48
+text = "LEVEL NAME"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="LoadStatusLabel" type="Label" parent="LoadingUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.65
+anchor_right = 0.7
+anchor_bottom = 0.7
+offset_top = -9.399994
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = SubResource("FontVariation_85g3d")
+theme_override_font_sizes/font_size = 20
+text = "..."
+horizontal_alignment = 1
+clip_text = true
