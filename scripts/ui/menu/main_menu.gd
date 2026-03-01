@@ -13,3 +13,7 @@ func to_options() -> void:
 ## Transitions to credits.
 func to_credits() -> void:
 	tab_container.current_tab = 2
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause_menu") and tab_container.current_tab != 0:
+		to_title_screen()
