@@ -166,23 +166,3 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="MainMenuUI/TabContainer/CreditsUI/ScrollContainer"]
 layout_mode = 2
-text = "Credits"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuUI/TabContainer/CreditsUI"]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.85
-anchor_right = 1.0
-anchor_bottom = 0.9
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="ReturnButton" parent="MainMenuUI/TabContainer/CreditsUI/VBoxContainer" instance=ExtResource("2_y8u07")]
-layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_svxau")
-text = "Return to Title Screen"
-alignment = 1
-alt_press = true
