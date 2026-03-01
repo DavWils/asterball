@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bidiwfdpkugrs"]
+[gd_scene load_steps=5 format=3 uid="uid://bidiwfdpkugrs"]
 
 [ext_resource type="Script" uid="uid://dod5kgx1kq761" path="res://scripts/ui/player/match_menu/team_player_row.gd" id="1_42o18"]
 [ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/no_icon.png" id="1_t1ey3"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="3_p576g"]
+
+[sub_resource type="FontVariation" id="FontVariation_b8gla"]
+base_font = ExtResource("3_p576g")
 
 [node name="TeamPlayerRow" type="HBoxContainer"]
 anchors_preset = 15
@@ -19,6 +23,7 @@ expand_mode = 2
 [node name="NameLabel" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_b8gla")
 theme_override_font_sizes/font_size = 32
 text = "Player"
 clip_text = true
@@ -26,5 +31,6 @@ text_overrun_behavior = 3
 
 [node name="ScoreLabel" type="Label" parent="."]
 layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_b8gla")
 theme_override_font_sizes/font_size = 32
 text = "0/0"
