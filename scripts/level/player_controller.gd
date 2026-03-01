@@ -106,7 +106,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				else:
 					network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_AIM_START, "char_id": current_character.registry_id})
 			elif event.is_action_released("aim_throw") or event.is_action_pressed("pause_menu"):
-				if current_character.is_aiming():
+				if current_character.is_aiming() and not current_character.is_throwing():
 					if network_manager.is_host():
 						current_character.end_aim()
 					else:

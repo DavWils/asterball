@@ -36,7 +36,7 @@ func _physics_process(delta: float) -> void:
 ## Starts aiming with the given item.
 func start_aim() -> void:
 	if not character.is_unlocked(): return
-	if character.current_equipment:
+	if character.current_equipment and not is_aiming:
 		print("Starting aim.")
 		is_aiming = true
 		if network_manager.is_host():
