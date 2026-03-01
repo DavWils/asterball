@@ -1,7 +1,8 @@
-## Script for the main menu UI
+## Script for the title screen in the main menu
 
 extends Control
 
+@onready var main_menu: Control = get_parent().get_parent()
 @onready var main_scene: MainScene = get_tree().current_scene
 
 func _ready() -> void:
@@ -22,11 +23,11 @@ func _on_quick_match_button_pressed():
 
 ## Called when options button is pressed.
 func _on_options_button_pressed():
-	pass
+	main_menu.to_options()
 
 ## Called when credits button is pressed.
 func _on_credits_button_pressed():
-	pass
+	main_menu.to_credits()
 
 ## Called when quit button is pressed.
 func _on_quit_button_pressed():

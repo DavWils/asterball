@@ -1,3 +1,5 @@
+## Script responsible for the non-ui parts of the main menu.
+
 extends Node3D
 
 ## The time it takes for the camera to make a full rotation
