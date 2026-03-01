@@ -223,8 +223,8 @@ func pickup_item(item_state: ItemState):
 		equip_item(new_key)
 
 ## Drops the equipped item with validation.
-func drop_equipped_item(automatic: bool = false) -> Projectile:
-	return drop_item(equipped_key, automatic)
+func drop_equipped_item(automatic: bool = false, thrown: bool = false) -> Projectile:
+	return drop_item(equipped_key, automatic, thrown)
 
 ## Returns forward vector taking into account control pitch
 func get_look_forward_vector() -> Vector3:
@@ -244,9 +244,9 @@ func get_look_forward_vector() -> Vector3:
 
 
 ## Drops an item from the inventory with validation. Automatic flag means item was dropped automatically (i.e. equip locked item was unequipped). Returns the dropped pickup.
-func drop_item(key: int, automatic: bool = false):
+func drop_item(key: int, automatic: bool = false, thrown: bool = false):
 	if inventory_component.get_item_state(key) != null:
-		var pickup: RigidBody3D = level.spawn_projectile(inventory_component.get_item_state(key), get_throw_start(), self)
+		var pickup: RigidBody3D = level.spawn_projectile(inventory_component.get_item_state(key), get_throw_start(), self if thrown else null)
 		pickup.linear_velocity = (get_look_forward_vector() * 3) + velocity
 		
 		

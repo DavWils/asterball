@@ -74,7 +74,7 @@ func stop_throwing() -> void:
 				print("Throwing with ", throw_force, " force.")
 				
 				var throw_velocity = character.get_throw_velocity()
-				var projectile: Projectile = character.drop_equipped_item()
+				var projectile: Projectile = character.drop_equipped_item(false, true)
 				projectile.linear_velocity = throw_velocity
 			else:
 				print("Not throwing.")
