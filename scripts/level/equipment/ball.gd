@@ -26,15 +26,13 @@ func add_slowdown() -> void:
 
 func _on_area_entered(body: Node3D):
 	if network_manager.is_host():
-		# Return if it's not the right mode.
-		if not level.match_state.state_of_match == level.match_state.StateOfMatch.MATCH: return
-		
 		if body is ScoreZone:
 			overlap_score_zone(body)
 
 
 ## Called when player overlaps with a scorezone
 func overlap_score_zone(body: ScoreZone) -> void:
+	if not level.match_state.state_of_match == level.match_state.StateOfMatch.MATCH: return
 	if body.owning_team != wielder.get_player_team_id():
 		print("Score!")
 		level = get_tree().current_scene.get_node("Level")
