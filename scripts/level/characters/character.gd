@@ -191,7 +191,11 @@ func from_reg_dict(data: Dictionary) -> void:
 
 ## Called when self is tackled. Reroutes to tacklecomponent
 func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGenerator = RandomNumberGenerator.new()):
+	# Stop aiming.
+	if network_manager.is_host():
+		end_aim()
 	tackle_component.tackle(tackler, tackle_force, tackle_seed)
+	# Shake camera
 	if is_locally_possessed():
 			get_node("CameraHandle").tackle_shake(tackle_force)
 	# Spawn ragdoll and hide self.
