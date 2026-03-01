@@ -38,7 +38,6 @@ fog_sky_affect = 0.02
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t2d5p"]
 render_priority = 1
-depth_draw_mode = 2
 shading_mode = 0
 albedo_color = Color(1, 0.58000004, 0.58000004, 1)
 
@@ -48,7 +47,6 @@ radius = 1250.0
 height = 2500.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p4c5w"]
-depth_draw_mode = 2
 shading_mode = 0
 albedo_color = Color(1, 0.95, 0.85, 1)
 
