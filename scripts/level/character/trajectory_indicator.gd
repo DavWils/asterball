@@ -32,6 +32,7 @@ func _process(_delta: float) -> void:
 
 func _on_throw_start() -> void:
 	if not character.is_locally_possessed(): return
+	print("Showing trajectory for ", Steam.getFriendPersonaName(character.owning_player_id), ": ", character.is_locally_possessed())
 	projectile_mass = character.get_equipped_item().get_item_mass()
 	self.multimesh.visible_instance_count = -1
 	is_throwing = true

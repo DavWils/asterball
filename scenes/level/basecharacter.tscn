@@ -29,6 +29,7 @@ radius = 0.1
 height = 0.2
 
 [sub_resource type="MultiMesh" id="MultiMesh_3xhtn"]
+resource_local_to_scene = true
 transform_format = 1
 instance_count = 50
 visible_instance_count = 0

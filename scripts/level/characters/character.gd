@@ -61,7 +61,7 @@ func set_current_camera(current: bool) -> void:
 func is_locally_possessed() -> bool:
 	if player_controller:
 		if player_controller.current_character:
-			return player_controller.current_character == self
+			return player_controller.current_character == self and network_manager.player_id == owning_player_id
 	return false
 
 func _exit_tree() -> void:
