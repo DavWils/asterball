@@ -4,6 +4,8 @@ shader_type sky;
 uniform vec3 skyColor : source_color;
 /// Horizon color.
 uniform vec3 horizonColor : source_color;
+// Whether or not to fade stars at horizon
+uniform bool fade_stars = true;
 
 
 float hash(vec3 p) {
@@ -24,7 +26,7 @@ void sky() {
 	float stars = step(0.999, starNoise);       // rarity control
 	
 	// Fade stars near horizon
-	stars *= smoothstep(0.0, 0.2, dir.y);
+	stars *= smoothstep(fade_stars ? 0.0 : -1.0, 0.2, dir.y);
 	
 	finalColor += stars;
 	

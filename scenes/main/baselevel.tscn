@@ -17,6 +17,7 @@ resource_local_to_scene = true
 shader = ExtResource("11_oyp4u")
 shader_parameter/skyColor = Color(0, 0, 0, 1)
 shader_parameter/horizonColor = Color(0, 0, 0, 1)
+shader_parameter/fade_stars = true
 
 [sub_resource type="Sky" id="Sky_oyp4u"]
 resource_local_to_scene = true

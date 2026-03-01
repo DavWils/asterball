@@ -1,11 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://cp685y7pccjuu"]
+[gd_scene load_steps=8 format=3 uid="uid://cp685y7pccjuu"]
 
 [ext_resource type="Script" uid="uid://cy2786m3vidtf" path="res://scripts/main/main_menu/main_menu.gd" id="1_0kd0q"]
 [ext_resource type="Script" uid="uid://3uyqegwbredf" path="res://scripts/ui/menu/main_menu_ui.gd" id="1_2tvpl"]
 [ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="2_y8u07"]
+[ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://scripts/shaders/sky/astral_sky.gdshader" id="4_r7wpq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k0ycp"]
+resource_local_to_scene = true
+shader = ExtResource("4_r7wpq")
+shader_parameter/skyColor = Color(0.043137256, 0.02745098, 0.078431375, 1)
+shader_parameter/horizonColor = Color(0.041586664, 0.026399998, 0.08, 1)
+shader_parameter/fade_stars = false
+
+[sub_resource type="Sky" id="Sky_p4c5w"]
+sky_material = SubResource("ShaderMaterial_k0ycp")
+
+[sub_resource type="Environment" id="Environment_svxau"]
+background_mode = 2
+background_color = Color(0.019550411, 0.0034108006, 0.0685281, 1)
+sky = SubResource("Sky_p4c5w")
+ambient_light_source = 3
+reflected_light_source = 2
 
 [node name="MainMenu" type="Node3D"]
 script = ExtResource("1_0kd0q")
+camera_rot_rate = -60.0
 
 [node name="MainMenuUI" type="Control" parent="."]
 layout_mode = 3
@@ -46,3 +65,10 @@ text = "Quick Match"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 current = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_svxau")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(0.71135646, 0.6431652, -0.28339177, 0.62259465, -0.3895607, 0.67868894, 0.32611072, -0.6592277, -0.6775475, 0, 0, 0)
+light_color = Color(0.7295897, 0.5741453, 0.9999984, 1)
