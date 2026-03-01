@@ -416,6 +416,30 @@ func read_p2p_packet():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["char_id"]]
 						character.stop_throwing()
+				Message.CLIENT_REQUEST_AIM_START:
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							character.start_aim()
+				Message.CLIENT_REQUEST_AIM_END:
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							character.end_aim()
+				Message.CLIENT_REQUEST_THROW_START:
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							character.start_throwing()
+				Message.CLIENT_REQUEST_THROW_END:
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							character.stop_throwing()
 
 ## Enum for the message types for the network manager.
 enum Message {
@@ -457,4 +481,8 @@ enum Message {
 	CHARACTER_RECOVERY_PROGRESS, ## Character updates their progress from host, character owner also receives but acts differently.
 	CHARACTER_ADD_EFFECT, ## Adds effect to character
 	CHARACTER_REMOVE_EFFECT, ## Removes effect from character.
+	CLIENT_REQUEST_AIM_START,
+	CLIENT_REQUEST_AIM_END,
+	CLIENT_REQUEST_THROW_START,
+	CLIENT_REQUEST_THROW_END,
 }
