@@ -16,8 +16,6 @@ class_name Character
 @export var walk_speed := 1
 ## Whether or not this character can rotate on the x axis as opposed to being applied to control rotation.
 @export var use_pitch_rotation: bool = false
-## The base carry capacity of the character.
-@export var base_inventory_capacity: int = 3
 
 ## Signal called when aiming starts.
 signal aim_start
@@ -210,11 +208,7 @@ func recover() -> void:
 	position = ragdoll.get_ragdoll_position()
 	ragdoll.stop_ragdoll()
 	tackle_component.recover()
-	
 
-## Returns character carry capacity.
-func get_inventory_capacity() -> int:
-	return base_inventory_capacity
 
 ## Adds an item to the character's inventory with validation.
 func pickup_item(item_state: ItemState):
@@ -267,7 +261,7 @@ func equip_item(key: int, automatic: bool = false):
 		
 		# If this is an equip locked item, drop it.
 		if network_manager.is_host():
-			if  not automatic and inventory_component.get_item_state(equipped_key).item_resource.equip_lock:
+			if not automatic and inventory_component.get_item_state(equipped_key).item_resource.equip_lock:
 				drop_item(equipped_key, true)
 	
 	# Set new equipped value.
@@ -392,3 +386,6 @@ func remove_effect(effect: EffectResource) -> void:
 
 func has_effect(effect: EffectResource) -> bool:
 	return effects_component.has_effect(effect)
+
+func is_inventory_full() -> bool:
+	return inventory_component.get_all_items().size() >= inventory_component.get_inventory_capacity()

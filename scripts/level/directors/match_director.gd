@@ -188,6 +188,9 @@ func purchase_item(character: Character, item_resource: ItemResource) -> void:
 		spend_player_points(buyer_id, cost)
 		var new_item := ItemState.new()
 		new_item.item_resource = item_resource
+		if character.is_inventory_full():
+			character.drop_equipped_item()
+			await get_tree().process_frame
 		character.pickup_item(new_item)
 
 ## Returns true if this is a state of match where players can move.

@@ -103,6 +103,8 @@ func from_reg_dict(data: Dictionary) -> void:
 
 ## Called when interacted with.
 func interact(interactor: Character) -> void:
+	if interactor.is_inventory_full(): interactor.drop_equipped_item()
+	await get_tree().process_frame
 	level.despawn_registry_object(registry_id)
 	interactor.pickup_item(item_state)
 

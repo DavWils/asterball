@@ -7,10 +7,14 @@ class_name InventoryComponent
 ## Reference to network manager.
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 
+## The base carry capacity of the character.
+@export var base_inventory_capacity: int = 3
+
 ## Items in the inventory with their corresponding slot
 var inventory_items: Dictionary[int, ItemState] = {}
 
-
+func get_inventory_capacity() -> int:
+	return base_inventory_capacity
 
 ## Adds an item to the inventory at given key. Returns key it was added to.
 func add_item(item: ItemState, key: int = get_next_key(0, false) if inventory_items.has(0) else 0) -> int:
@@ -27,7 +31,7 @@ func remove_item(key: int) -> void:
 
 ## Gets the previous inventory slot from given key if one exists. If with is true, looks for slot WITH an item. Otherwise, look for empty.
 func get_prev_key(start: int = character.equipped_key if character.equipped_key >= 0 else 0, with: bool = true) -> int:
-	var capacity: int = character.get_inventory_capacity()
+	var capacity: int = get_inventory_capacity()
 	for i in range(capacity-1, -1, -1):
 		var prev_key: int = (start-i+capacity)%capacity
 		if with == inventory_items.has(prev_key):
@@ -38,7 +42,7 @@ func get_prev_key(start: int = character.equipped_key if character.equipped_key 
 
 ## Gets the next inventory slot from the given key if one exists. If with is true, looks for slot WITH an item. Otherwise, look for empty.
 func get_next_key(start: int = character.equipped_key if character.equipped_key >= 0 else 0, with: bool = true) -> int:
-	var capacity: int = character.get_inventory_capacity()
+	var capacity: int = get_inventory_capacity()
 	for i in range(1, capacity):
 		var next_key: int = ((start + i) % capacity + capacity) % capacity
 		if with == inventory_items.has(next_key):
