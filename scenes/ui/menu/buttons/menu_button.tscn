@@ -1,6 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://clnvfmymfgg5r"]
+[gd_scene load_steps=9 format=3 uid="uid://clnvfmymfgg5r"]
 
 [ext_resource type="Script" uid="uid://7k7cftjryriv" path="res://scripts/ui/menu/buttons/menu_button.gd" id="1_1ky74"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="1_rc5av"]
+
+[sub_resource type="FontVariation" id="FontVariation_3prsw"]
+base_font = ExtResource("1_rc5av")
+variation_opentype = {
+2003265652: 400
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ky74"]
 
@@ -13,11 +20,13 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5gys6"]
 
 [node name="MenuButton" type="Button"]
+theme_override_fonts/font = SubResource("FontVariation_3prsw")
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_1ky74")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_rc5av")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3prsw")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_tlk75")
 theme_override_styles/focus = SubResource("StyleBoxFlat_5gys6")
-text = "test"
 alignment = 0
+clip_text = true
 script = ExtResource("1_1ky74")
