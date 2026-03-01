@@ -1,9 +1,30 @@
-[gd_scene load_steps=8 format=3 uid="uid://cp685y7pccjuu"]
+[gd_scene load_steps=14 format=3 uid="uid://cp685y7pccjuu"]
 
 [ext_resource type="Script" uid="uid://cy2786m3vidtf" path="res://scripts/main/main_menu/main_menu.gd" id="1_0kd0q"]
 [ext_resource type="Script" uid="uid://3uyqegwbredf" path="res://scripts/ui/menu/main_menu_ui.gd" id="1_2tvpl"]
 [ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="2_y8u07"]
+[ext_resource type="Texture2D" uid="uid://canw8wd87crlv" path="res://textures/ui/logo.png" id="4_k0ycp"]
 [ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://scripts/shaders/sky/astral_sky.gdshader" id="4_r7wpq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_svxau"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scmgr"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6pyy2"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hsu2m"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5fid0"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k0ycp"]
 resource_local_to_scene = true
@@ -35,16 +56,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2tvpl")
 
-[node name="TextureRect" type="TextureRect" parent="MainMenuUI"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.05
-anchor_right = 0.9
-anchor_bottom = 0.3
-offset_bottom = -1.5258789e-05
-grow_horizontal = 2
-
 [node name="MenuButtonsContainer" type="VBoxContainer" parent="MainMenuUI"]
 layout_mode = 1
 anchors_preset = -1
@@ -57,24 +68,38 @@ offset_bottom = 40.0
 
 [node name="HostButton" parent="MainMenuUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_svxau")
 text = "Host Game"
 
 [node name="QuickMatchButton" parent="MainMenuUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_scmgr")
 text = "Quick Match"
 
 [node name="OptionsButton" parent="MainMenuUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pyy2")
 text = "Options"
 
 [node name="CreditsButton" parent="MainMenuUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_hsu2m")
 text = "Credits"
 
 [node name="QuitButton" parent="MainMenuUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_5fid0")
 text = "Quit Game
 "
+
+[node name="LogoRect" type="TextureRect" parent="MainMenuUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.4
+grow_horizontal = 2
+texture = ExtResource("4_k0ycp")
+stretch_mode = 3
 
 [node name="Camera3D" type="Camera3D" parent="."]
 current = true
