@@ -497,9 +497,3 @@ enum Message {
 	CLIENT_REQUEST_THROW_START,
 	CLIENT_REQUEST_THROW_END,
 }
-
-## An array of all packets that are match reliant, meaning they will not be called when match state is loading.
-const MATCH_RELIANT: Array[int] = [
-	Message.SPAWN_CHAR,
-	Message.SPAWN_PROJECTILE
-]
