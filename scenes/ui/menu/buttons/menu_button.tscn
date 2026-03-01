@@ -18,7 +18,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_rc5av")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3prsw")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_tlk75")
 theme_override_styles/focus = SubResource("StyleBoxFlat_5gys6")
-text = "
-"
+text = "test"
 alignment = 0
 script = ExtResource("1_1ky74")
