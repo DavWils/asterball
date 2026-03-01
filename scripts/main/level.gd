@@ -21,11 +21,13 @@ class_name Level
 var level_registry: Dictionary[int, Node3D] = {}
 ## The latest number in the registry to count off of.
 var latest_registry_key: int = 0
+## Whether or not the level is ready, and network packets that are game dependant can be sent.
+var network_ready := false
 
 
 func _ready() -> void:
 	print("Level has been loaded.")
-
+	if network_manager.is_host(): network_ready = true
 
 func _physics_process(_delta: float) -> void:
 	# Send registry info to clients

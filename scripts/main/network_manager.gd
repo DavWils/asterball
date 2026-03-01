@@ -182,6 +182,7 @@ func read_p2p_packet():
 		var readable_data: Dictionary = bytes_to_var(packet_code)
 		
 		if readable_data.has("m"):
+			if ignore_match_reliant_function(readable_data["m"]): return # Do not read match reliant p2p packets if match isn't loaded.
 			match readable_data["m"]:
 				Message.HANDSHAKE: 
 					get_lobby_members()
@@ -250,6 +251,7 @@ func read_p2p_packet():
 							new_scene.registry_id = id
 							level.add_child(new_scene)
 						game_info_retrieved.emit()
+						level.network_ready = true
 				Message.CHARACTER_TACKLED: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -441,6 +443,15 @@ func read_p2p_packet():
 						if character.owning_player_id == sender_id:
 							character.stop_throwing()
 
+func ignore_match_reliant_function(message: int) -> bool:
+	if is_host(): return false
+	var level: Level = get_tree().current_scene.get_node("Level")
+	if level.network_ready: return false
+	
+	if message == Message.RETRIEVE_GAME_INFO: return false
+	
+	return true
+
 ## Enum for the message types for the network manager.
 enum Message {
 	HANDSHAKE, ## Handshake
@@ -486,3 +497,9 @@ enum Message {
 	CLIENT_REQUEST_THROW_START,
 	CLIENT_REQUEST_THROW_END,
 }
+
+## An array of all packets that are match reliant, meaning they will not be called when match state is loading.
+const MATCH_RELIANT: Array[int] = [
+	Message.SPAWN_CHAR,
+	Message.SPAWN_PROJECTILE
+]
