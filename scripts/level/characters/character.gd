@@ -200,7 +200,7 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 			get_node("CameraHandle").tackle_shake(tackle_force)
 	# Spawn ragdoll and hide self.
 	visible = false
-	$CollisionShape3D.disabled = true
+	set_deferred("disabled", true)
 	var hit_direction := (position-tackler.position).normalized()
 	var ragdoll_velocity = velocity + (hit_direction * tackle_force) + (Vector3.UP * tackle_force * 0.4)
 	ragdoll.start_ragdoll(ragdoll_velocity)
@@ -208,7 +208,7 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 ## Called when self recovers from a tackle.
 func recover() -> void:
 	visible = true
-	$CollisionShape3D.disabled = false
+	set_deferred("disabled", false)
 	position = ragdoll.get_ragdoll_position()
 	ragdoll.stop_ragdoll()
 	tackle_component.recover()
