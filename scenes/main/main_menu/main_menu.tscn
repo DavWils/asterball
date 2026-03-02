@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cp685y7pccjuu"]
+[gd_scene load_steps=18 format=3 uid="uid://cp685y7pccjuu"]
 
 [ext_resource type="Script" uid="uid://cy2786m3vidtf" path="res://scripts/main/main_menu/main_menu_3d.gd" id="1_0kd0q"]
 [ext_resource type="Script" uid="uid://3uyqegwbredf" path="res://scripts/ui/menu/title_screen.gd" id="1_2tvpl"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://canw8wd87crlv" path="res://textures/ui/logo.png" id="4_k0ycp"]
 [ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://scripts/shaders/sky/astral_sky.gdshader" id="4_r7wpq"]
 [ext_resource type="Script" uid="uid://dli6mebp84f40" path="res://scripts/ui/menu/credits.gd" id="7_scmgr"]
+[ext_resource type="Script" uid="uid://f62o5afrhbmw" path="res://scripts/ui/menu/host.gd" id="8_6pyy2"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="9_hsu2m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k0ycp"]
 resource_local_to_scene = true
@@ -36,6 +38,21 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgdw1"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="FontVariation" id="FontVariation_5fid0"]
+base_font = ExtResource("9_hsu2m")
+variation_opentype = {
+2003265652: 500
+}
+
+[sub_resource type="FontVariation" id="FontVariation_hsu2m"]
+
+[sub_resource type="FontVariation" id="FontVariation_uis6f"]
+base_font = SubResource("FontVariation_hsu2m")
 
 [node name="MainMenu" type="Node3D"]
 script = ExtResource("1_0kd0q")
@@ -68,11 +85,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_k0ycp")
-current_tab = 0
+current_tab = 3
 clip_tabs = false
 tabs_visible = false
 
 [node name="TitleScreenUI" type="Control" parent="MainMenuUI/TabContainer"]
+visible = false
 layout_mode = 2
 script = ExtResource("1_2tvpl")
 metadata/_tab_index = 0
@@ -157,6 +175,71 @@ grow_vertical = 0
 
 [node name="ReturnButton" parent="MainMenuUI/TabContainer/CreditsUI/VBoxContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_xgdw1")
 text = "Return to Title Screen"
 alignment = 1
 alt_press = true
+
+[node name="HostUI" type="Control" parent="MainMenuUI/TabContainer"]
+layout_mode = 2
+script = ExtResource("8_6pyy2")
+metadata/_tab_index = 3
+
+[node name="HostButtonsContainer" type="VBoxContainer" parent="MainMenuUI/TabContainer/HostUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.6
+anchor_right = 0.3
+anchor_bottom = 0.9
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StartButton" parent="MainMenuUI/TabContainer/HostUI/HostButtonsContainer" instance=ExtResource("2_y8u07")]
+layout_mode = 2
+text = "Start Game"
+
+[node name="ReturnButton" parent="MainMenuUI/TabContainer/HostUI/HostButtonsContainer" instance=ExtResource("2_y8u07")]
+layout_mode = 2
+text = "Return to Menu"
+alt_press = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainMenuUI/TabContainer/HostUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="MainMenuUI/TabContainer/HostUI/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="SelectionLabel" type="Label" parent="MainMenuUI/TabContainer/HostUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.35
+anchor_top = 0.55
+anchor_right = 0.65
+anchor_bottom = 0.65
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = SubResource("FontVariation_5fid0")
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+
+[node name="SessionNameTextEdit" type="TextEdit" parent="MainMenuUI/TabContainer/HostUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.35
+anchor_top = 0.65
+anchor_right = 0.65
+anchor_bottom = 0.7
+focus_mode = 1
+theme_override_fonts/font = SubResource("FontVariation_uis6f")
+placeholder_text = "Session Name"
+emoji_menu_enabled = false

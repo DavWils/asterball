@@ -15,7 +15,7 @@ func _ready() -> void:
 
 ## Called when host button is pressed.
 func _on_host_button_pressed():
-	main_scene.host_game("starfield")
+	main_menu.to_host()
 
 ## Called when quick match button is pressed.
 func _on_quick_match_button_pressed():

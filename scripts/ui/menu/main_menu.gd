@@ -14,6 +14,10 @@ func to_options() -> void:
 func to_credits() -> void:
 	tab_container.current_tab = 2
 
+## Transition to host.
+func to_host() -> void:
+	tab_container.current_tab = 3
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_menu") and tab_container.current_tab != 0:
 		to_title_screen()
