@@ -18,6 +18,10 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	pressed.connect(_on_pressed)
+	
+	# Make style unique.
+	#hover_style = hover_style.duplicate()
+	#add_theme_stylebox_override("hover", hover_style)
 
 ## The base color for the button.
 var base_color: Color = INIT_COLOR
