@@ -85,12 +85,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_k0ycp")
-current_tab = 3
+current_tab = 0
 clip_tabs = false
 tabs_visible = false
 
 [node name="TitleScreenUI" type="Control" parent="MainMenuUI/TabContainer"]
-visible = false
 layout_mode = 2
 script = ExtResource("1_2tvpl")
 metadata/_tab_index = 0
@@ -181,6 +180,7 @@ alignment = 1
 alt_press = true
 
 [node name="HostUI" type="Control" parent="MainMenuUI/TabContainer"]
+visible = false
 layout_mode = 2
 script = ExtResource("8_6pyy2")
 metadata/_tab_index = 3
