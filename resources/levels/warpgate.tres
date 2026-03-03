@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LevelResource" load_steps=3 format=3 uid="uid://dxbniweur3roe"]
+
+[ext_resource type="Resource" uid="uid://owssamj57xjd" path="res://resources/teams/warpions.tres" id="1_rd0yx"]
+[ext_resource type="Script" uid="uid://smuh23ywl1il" path="res://scripts/resources/levels/levelresource.gd" id="2_mgp4e"]
+
+[resource]
+script = ExtResource("2_mgp4e")
+level_name = "Warpgate"
+home_team = ExtResource("1_rd0yx")
