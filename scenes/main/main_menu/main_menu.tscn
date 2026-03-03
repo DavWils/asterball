@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cp685y7pccjuu"]
+[gd_scene load_steps=25 format=3 uid="uid://cp685y7pccjuu"]
 
 [ext_resource type="Script" uid="uid://cy2786m3vidtf" path="res://scripts/main/main_menu/main_menu_3d.gd" id="1_0kd0q"]
 [ext_resource type="Script" uid="uid://3uyqegwbredf" path="res://scripts/ui/menu/title_screen.gd" id="1_2tvpl"]
@@ -39,7 +39,35 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hsu2m"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5fid0"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uis6f"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2lqjb"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qg0a3"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgdw1"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d8ese"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5rewn"]
 resource_local_to_scene = true
 bg_color = Color(1, 1, 1, 1)
 
@@ -106,22 +134,27 @@ offset_bottom = 40.0
 
 [node name="HostButton" parent="MainMenuUI/TabContainer/TitleScreenUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_hsu2m")
 text = "Host Game"
 
 [node name="QuickMatchButton" parent="MainMenuUI/TabContainer/TitleScreenUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_5fid0")
 text = "Quick Match"
 
 [node name="OptionsButton" parent="MainMenuUI/TabContainer/TitleScreenUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_uis6f")
 text = "Options"
 
 [node name="CreditsButton" parent="MainMenuUI/TabContainer/TitleScreenUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_2lqjb")
 text = "Credits"
 
 [node name="QuitButton" parent="MainMenuUI/TabContainer/TitleScreenUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_qg0a3")
 text = "Quit Game
 "
 alt_press = true
@@ -189,7 +222,7 @@ metadata/_tab_index = 3
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.025
-anchor_top = 0.6
+anchor_top = 0.8
 anchor_right = 0.3
 anchor_bottom = 0.9
 offset_right = 40.0
@@ -197,10 +230,12 @@ offset_bottom = 40.0
 
 [node name="StartButton" parent="MainMenuUI/TabContainer/HostUI/HostButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_d8ese")
 text = "Start Game"
 
 [node name="ReturnButton" parent="MainMenuUI/TabContainer/HostUI/HostButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_5rewn")
 text = "Return to Menu"
 alt_press = true
 
