@@ -219,7 +219,9 @@ func recover() -> void:
 	visible = true
 	set_deferred("disabled", false)
 	position = ragdoll.get_ragdoll_position()
+	velocity = ragdoll.get_ragdoll_velocity()
 	ragdoll.stop_ragdoll()
+	
 	tackle_component.recover()
 
 
