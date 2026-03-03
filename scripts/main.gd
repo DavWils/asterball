@@ -21,6 +21,9 @@ func load_level(level: LevelResource = load("res://resources/levels/" + Steam.ge
 		$Level.queue_free()
 	
 	await get_tree().process_frame
+	var new_level = level.get_level_scene().instantiate()
+	add_child(new_level)
+	if not new_level.is_node_ready(): await new_level.ready
 	
 	# If host, update metadata and tell clients to load new level..
 	if network_manager.is_host():
@@ -31,8 +34,6 @@ func load_level(level: LevelResource = load("res://resources/levels/" + Steam.ge
 		set_load_state(3)
 		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_GAME})
 		await network_manager.game_info_retrieved
-	var new_level = level.get_level_scene().instantiate()
-	add_child(new_level)
 	
 	hide_load_scren()
 
