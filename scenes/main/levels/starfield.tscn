@@ -152,11 +152,11 @@ shape = SubResource("ConcavePolygonShape3D_n6wex")
 
 [node name="Field" parent="." index="12" instance=ExtResource("6_pgjeu")]
 
-[node name="Goalpost" parent="." index="13" instance=ExtResource("7_pgjeu")]
-transform = Transform3D(-0.8, 0, -1.2079664e-07, 0, 0.8, 0, 1.2079664e-07, 0, -0.8, 0, -19.102, 130)
+[node name="HomeGoalpost" parent="." index="13" instance=ExtResource("7_pgjeu")]
+transform = Transform3D(-0.7, 0, -1.0569706e-07, 0, 0.7, 0, 1.0569706e-07, 0, -0.7, 0, -19.102, 140)
 
-[node name="Goalpost2" parent="." index="14" instance=ExtResource("7_pgjeu")]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, -19.102, -130)
+[node name="AwayGoalpost" parent="." index="14" instance=ExtResource("7_pgjeu")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, -19.102, -140)
 
 [node name="WorldEnvironment" parent="." index="15"]
 environment = SubResource("Environment_cmnbt")
