@@ -43,6 +43,7 @@ func possess_character(character: Character) -> void:
 	var interact_area: Area3D = current_character.get_node("InteractArea3D")
 	interact_area.body_entered.connect(_on_interact_area_overlap)
 	interact_area.body_exited.connect(_on_interact_area_overlap)
+	character.possess()
 
 ## Unpossesses the currently controlled character.
 func unpossess_character() -> void:
@@ -56,8 +57,10 @@ func unpossess_character() -> void:
 	
 	set_spectator_camera($Camera3D)
 	
+	current_character.unpossess()
 	# Forget character.
 	current_character = null
+	
 
 ## Enters input for a recovery key.
 func enter_recovery_key_input(key: int) -> void:

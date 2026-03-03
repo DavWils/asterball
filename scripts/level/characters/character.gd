@@ -45,6 +45,10 @@ var ragdoll: Ragdoll
 ## Amount of friction force to apply to the ragdoll if it's sliding.
 const RAGDOLL_FRICTION_MULTIPLIER: float = 0.9
 
+signal possessed
+signal unpossessed
+
+
 func _ready() -> void:
 	print("Spawned character ", registry_id, " owned by ", Steam.getFriendPersonaName(owning_player_id))
 	# Spawn ragdoll hidden from game.
@@ -393,3 +397,11 @@ func has_effect(effect: EffectResource) -> bool:
 
 func is_inventory_full() -> bool:
 	return inventory_component.get_all_items().size() >= inventory_component.get_inventory_capacity()
+
+## Function called when character is locally possessed.
+func possess() -> void:
+	possessed.emit()
+
+## Function called when character is locally unpossessed.
+func unpossess() -> void:
+	unpossessed.emit()
