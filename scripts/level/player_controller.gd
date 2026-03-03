@@ -145,13 +145,14 @@ func _physics_process(delta: float) -> void:
 		if not paused:
 			# Move input.
 			input_dictionary["mv"] = Input.get_vector("move_left", "move_right", "move_forward", "move_backward") # Movement input.
-			# Look input, which is just the resulting rotation.
-			var look_y = (current_character.rotation.y - (look_input.x*0.002))
-			var look_x = (current_character.rotation.x if current_character.use_pitch_rotation else current_character.control_pitch) - (look_input.y*0.002)
-			input_dictionary["lk"] = Vector2(look_x,look_y)
-			look_input = Vector2.ZERO
 			# Charge input.
 			input_dictionary["ch"] = Input.is_action_pressed("charge") # Charging input.
+		# Look input, which is just the resulting rotation.
+		var look_y = (current_character.rotation.y - (look_input.x*0.002))
+		var look_x = (current_character.rotation.x if current_character.use_pitch_rotation else current_character.control_pitch) - (look_input.y*0.002)
+		input_dictionary["lk"] = Vector2(look_x,look_y)
+		look_input = Vector2.ZERO
+		
 		
 		# Use input.
 		current_character.use_player_input(input_dictionary)
