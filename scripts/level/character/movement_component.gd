@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 					if charging_input and movement_input.y < 0:
 						# Have player increase in velocity only forward
 						var velocity_addition: float = -movement_input.y * delta * get_charge_acceleration()
-						var new_velocity_length: float = min(current_velocity.length() + velocity_addition, get_max_charge_speed())
+						var new_velocity_length: float = max(get_walk_speed(), min(current_velocity.length() + velocity_addition, get_max_charge_speed()))
 						
 						var charging_velocity: Vector3 = -character.global_transform.basis.z * new_velocity_length
 						character.velocity = charging_velocity
