@@ -99,12 +99,17 @@ func _physics_process(delta: float):
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary) -> void:
 	# Movement input.
+	var move_input: Vector2
+	var charging: bool
 	if is_unlocked():
-		var move_input: Vector2 = input.get("mv", Vector2.ZERO)
-		var charging: bool = input.get("ch", false) and (not is_aiming()) and move_input.y < 0
+		move_input = input.get("mv", Vector2.ZERO)
+		charging = input.get("ch", false) and (not is_aiming()) and move_input.y < 0
+	else:
+		move_input = Vector2.ZERO
+		charging = false
 		
-		movement_component.movement_input = move_input
-		movement_component.charging_input = charging
+	movement_component.movement_input = move_input
+	movement_component.charging_input = charging
 		
 	
 	# Look input.

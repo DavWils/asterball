@@ -142,7 +142,7 @@ func _physics_process(delta: float) -> void:
 	if current_character:
 		# Create input dictionary
 		var input_dictionary: Dictionary
-		if not player_ui.is_paused():
+		if not paused:
 			# Move input.
 			input_dictionary["mv"] = Input.get_vector("move_left", "move_right", "move_forward", "move_backward") # Movement input.
 			# Look input, which is just the resulting rotation.
@@ -152,7 +152,6 @@ func _physics_process(delta: float) -> void:
 			look_input = Vector2.ZERO
 			# Charge input.
 			input_dictionary["ch"] = Input.is_action_pressed("charge") # Charging input.
-		
 		
 		# Use input.
 		current_character.use_player_input(input_dictionary)
