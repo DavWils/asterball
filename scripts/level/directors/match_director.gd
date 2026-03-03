@@ -19,11 +19,11 @@ const INTERMISSION_DURATION := 3
 ## The amount of time to wait after a score until the next round begins.
 const CELEBRATION_DURATION := 10
 ## The amount of time spent in the endgame before loading to the next level.
-const ENDGAME_DURATION := 30
+const ENDGAME_DURATION := 5
 ## The number of teams.
 const TEAM_COUNT := 2
 ## The final amount of points a team must get to win the game.
-const WINNING_SCORE := 7
+const WINNING_SCORE := 1
 ## The amount of points given to all players when a new round begins.
 const NEW_ROUND_POINTS := 600
 ## The amount of points given to a player when their team wins a score.
@@ -107,11 +107,14 @@ func end_timer() -> void:
 		match_state.StateOfMatch.PREPTIME: # Prep time pre round, starts the round after this.
 			start_round()
 		match_state.StateOfMatch.MATCH: # Main match timer. When this runs out, game ends. This logic should be done in sub gamemodes
-			pass
+			if get_winning_team() >= 0:
+				end_game(get_winning_team())
 		match_state.StateOfMatch.CELEBRATION: # Celebration time after the end of a round. Starts next round after.
 			next_round()
 		match_state.StateOfMatch.ENDGAME: # End of the game. Players will vote and the most voted map will be transitioned to. This is also the same per gamemode
-			pass
+			var main_scene: MainScene = get_tree().current_scene
+			var random_level: LevelResource = main_scene.get_all_levels().pick_random()
+			main_scene.load_level(random_level)
 
 ## If there is a team that wins here, return their team id. else, return -1
 func get_winning_team() -> int:
