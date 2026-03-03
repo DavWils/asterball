@@ -165,11 +165,11 @@ environment = SubResource("Environment_cmnbt")
 transform = Transform3D(0.71135646, 0.6431652, -0.28339177, 0.62259465, -0.3895607, 0.67868894, 0.32611072, -0.6592277, -0.6775475, 0, 0, 0)
 light_color = Color(0.7295897, 0.5741453, 0.9999984, 1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="16"]
+[node name="Planet" type="MeshInstance3D" parent="." index="16"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1337.6498, 903.13184, -3024.6145)
 mesh = SubResource("SphereMesh_e7y16")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="17"]
+[node name="PlanetRing" type="MeshInstance3D" parent="." index="17"]
 transform = Transform3D(0.9245194, -0.038113493, 0, 0.35124847, 0.08520238, -0.38817516, 0.14794712, 0.035887547, 0.9215856, 1337.6498, 903.13184, -3024.6145)
 mesh = SubResource("TorusMesh_cmnbt")
 
