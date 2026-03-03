@@ -405,3 +405,10 @@ func possess() -> void:
 ## Function called when character is locally unpossessed.
 func unpossess() -> void:
 	unpossessed.emit()
+
+## Returns self's velocity if not tackled. Otherwise, returns regdoll's velocity.
+func get_body_velocity() -> Vector3:
+	if is_tackled():
+		return ragdoll.get_ragdoll_velocity()
+	else:
+		return velocity

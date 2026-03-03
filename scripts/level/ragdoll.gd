@@ -68,3 +68,6 @@ func to_reg_dict() -> Dictionary:
 
 func get_ragdoll_position() -> Vector3:
 	return simulator.get_child(0).global_position
+
+func get_ragdoll_velocity() -> Vector3:
+	return simulator.get_child(0).linear_velocity

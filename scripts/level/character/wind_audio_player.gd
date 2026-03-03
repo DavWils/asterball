@@ -8,7 +8,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if playing:
-		var current_velocity: float = character.velocity.length()
+		var current_velocity: float = character.get_body_velocity().length()
 		var speed_ratio = max(current_velocity-8.0, 0.0) / 30.0
 		var new_volume = pow(speed_ratio, 2.2)
 		volume_db = lerp(volume_db, linear_to_db(clampf(new_volume * .2, 0.01, 1.0)), 0.4)
