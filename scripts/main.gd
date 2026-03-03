@@ -12,18 +12,29 @@ var found_lobbies: Array
 
 ## Loads session into a new level.
 func load_level(level: LevelResource = load("res://resources/levels/" + Steam.getLobbyData(network_manager.lobby_id, "level") + ".tres")):
+	set_load_state(2)
 	# Remove old main menu and level.
 	if has_node("MainMenu"):
 		$MainMenu.queue_free()
 	if has_node("Level"):
+		print("Removing old level")
 		$Level.queue_free()
+	
+	await get_tree().process_frame
+	
 	# If host, update metadata and tell clients to load new level..
 	if network_manager.is_host():
 		var level_name = level.get_level_filename()
 		Steam.setLobbyData(network_manager.lobby_id, "level", level_name)
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.LOAD_LEVEL, "level_name": level_name})
+	else:
+		set_load_state(3)
+		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_GAME})
+		await network_manager.game_info_retrieved
 	var new_level = level.get_level_scene().instantiate()
 	add_child(new_level)
+	
+	hide_load_scren()
 
 func _ready() -> void:
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
@@ -43,9 +54,8 @@ func host_game(level: LevelResource):
 	await Steam.lobby_joined
 	# Set metadata for the current level
 	# Load into session's level
-	set_load_state(2)
 	load_level(level)
-	hide_load_scren()
+	
 
 ## Joins a game with the given lobby id.
 func join_game(lobby_id: int):
@@ -55,13 +65,9 @@ func join_game(lobby_id: int):
 	network_manager.join_lobby(lobby_id)
 	await Steam.lobby_joined
 	print("Successfully joined lobby! Loading now.")
-	set_load_state(2)
 	load_level()
-	set_load_state(3)
 	
-	network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_GAME})
-	await network_manager.game_info_retrieved
-	hide_load_scren()
+	
 
 ## Leave game and return to menu.
 func return_to_menu():

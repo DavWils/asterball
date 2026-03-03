@@ -7,7 +7,7 @@ class_name PlayerUI
 @onready var pause_menu: Control = $PauseMenu
 @onready var buy_menu: Control = $BuyMenu
 @onready var match_menu: Control = $MatchMenu
-@onready var player_controller: PlayerController = get_tree().current_scene.get_node("Level").get_node("PlayerController")
+@onready var player_controller: PlayerController = self.get_parent().get_node("PlayerController")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_menu"):

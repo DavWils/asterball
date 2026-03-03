@@ -11,7 +11,7 @@ class_name MatchDirector
 
 
 ## The amount of time to wait before starting the game.
-const PREGAME_DURATION := 15
+const PREGAME_DURATION := 5
 ## The amount of time in the match.
 const MATCH_DURATION := 600
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
