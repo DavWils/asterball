@@ -345,7 +345,7 @@ func read_p2p_packet():
 				Message.LOAD_LEVEL:
 					if is_host(sender_id):
 						var main: MainScene = get_tree().current_scene
-						main.load_level(readable_data["level_name"])
+						main.load_level(load("res://resources/levels/" + readable_data["level_name"] + ".tres"))
 				Message.CLIENT_PURCHASE_ITEM:
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
