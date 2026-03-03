@@ -211,7 +211,8 @@ func read_p2p_packet():
 						level.despawn_registry_object(readable_data["registry_id"])
 				Message.CLIENT_CHAR_INPUT: 
 					if is_host():
-						var level: Level = get_tree().current_scene.get_node("Level")
+						var level: Level = get_tree().current_scene.get_node_or_null("Level")
+						if level == null: return
 						#print("Recieving client input for character ", readable_data["id"])
 						#print(level.level_registry)
 						if not level.level_registry.has(readable_data["id"]): return
