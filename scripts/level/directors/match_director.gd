@@ -173,14 +173,25 @@ func add_player_points(player_id: int, points: int) -> void:
 	var player_state: PlayerState = match_state.get_player_state(player_id)
 	var player_current: int = player_state.current_score
 	var player_total: int = player_state.total_score
-	match_state.set_player_scores(player_id, player_current + points, player_total + points)
+	match_state.set_player_score(player_id, player_current + points, player_total + points)
+
+## Awards points to players in the given team, distributing them evenly. Awards bonus points to keys in the bonus dictionary with value.
+func add_team_points(team_id: int, points: int, bonus: Dictionary[int, int] = {}) -> void:
+	var team_players := match_state.get_team_players(team_id)
+	for player_id in team_players:
+		@warning_ignore("integer_division")
+		var award_points: int = points / team_players.size()
+		if bonus.has(player_id):
+			award_points += bonus[player_id]
+		add_player_points(player_id, award_points)
+
 
 ## Spends (removes) points from the given player.
 func spend_player_points(player_id: int, points: int) -> void:
 	var player_state: PlayerState = match_state.get_player_state(player_id)
 	var player_current: int = player_state.current_score
 	var player_total: int = player_state.total_score
-	match_state.set_player_scores(player_id, player_current - points, player_total)
+	match_state.set_player_score(player_id, player_current - points, player_total)
 
 ## Has a player purchase a givne item.
 func purchase_item(character: Character, item_resource: ItemResource) -> void:

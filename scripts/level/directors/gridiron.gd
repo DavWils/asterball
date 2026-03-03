@@ -43,20 +43,8 @@ func spawn_ball():
 func score(scoring_character: Character):
 	super.score(scoring_character)
 	# Give points to the winning players as well.
-	for player_id in match_state.player_states.keys():
-		var added_points: int = 0
-		var scorer_state: PlayerState = match_state.get_player_state(scoring_character.owning_player_id)
-		var current_state: PlayerState = match_state.get_player_state(player_id)
-		# If on winning team, add points.
-		if current_state.team_id == scorer_state.team_id:
-			added_points += WIN_SUPPORT_POINTS
-			# If scoring player, add more points.
-			if player_id == scoring_character.owning_player_id:
-				added_points += WIN_SCORER_POINTS
-		
-		# If non zero points, add them.
-		if added_points != 0:
-			add_player_points(player_id, added_points)
+	add_team_points(scoring_character.get_player_team_id(), WIN_SUPPORT_POINTS, {scoring_character.owning_player_id: WIN_SCORER_POINTS})
+	
 		
 	# If team has reached winning score, end the game. Else just end round.
 	if scoring_character.get_player_team_state().score >= WINNING_SCORE:

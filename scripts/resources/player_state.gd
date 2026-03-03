@@ -24,7 +24,7 @@ func to_dict() -> Dictionary:
 	return data
 
 ## Sets total and current score of the player.
-func set_scores(current: int, total: int) -> void:
+func set_score(current: int, total: int) -> void:
 	current_score = current
 	total_score = total
 	scores_changed.emit(current, total)

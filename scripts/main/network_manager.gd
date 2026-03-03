@@ -338,7 +338,7 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var match_state: MatchState = level.match_state
-						match_state.set_player_scores(readable_data["player_id"], readable_data["current"], readable_data["total"])
+						match_state.set_player_score(readable_data["player_id"], readable_data["current"], readable_data["total"])
 				Message.SCORE_EFFECT:
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")

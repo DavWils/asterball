@@ -139,7 +139,7 @@ func assign_player_team(player_id: int, team_id: int):
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_PLAYER_TEAM, "player_id": player_id, "team_id": team_id})
 
 ## Returns the players in a team.
-func get_team_players(team_id: int):
+func get_team_players(team_id: int) -> Array[int]:
 	var players: Array[int]
 	for player in player_states:
 		if player_states[player].team_id == team_id:
@@ -182,8 +182,8 @@ func get_team_ids() -> Array[int]:
 	return team_states.keys()
 
 ## Sets the score of the player with the given player id. Sets current score, as well as total score.
-func set_player_scores(player_id: int, current: int, total: int) -> void:
-	player_states[player_id].set_scores(current, total)
+func set_player_score(player_id: int, current: int, total: int) -> void:
+	player_states[player_id].set_score(current, total)
 	print("Set ", Steam.getFriendPersonaName(player_id), "'s new scores to ", str(current), "/", str(total))
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_PLAYER_SCORE, "player_id": player_id, "current": current, "total": total})
