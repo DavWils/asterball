@@ -446,7 +446,9 @@ func read_p2p_packet():
 
 func ignore_match_reliant_function(message: int) -> bool:
 	if is_host(): return false
-	var level: Level = get_tree().current_scene.get_node("Level")
+	
+	var level: Level = get_tree().current_scene.get_node_or_null("Level")
+	if not level: return false
 	if level.network_ready: return false
 	
 	if message == Message.RETRIEVE_GAME_INFO: return false
