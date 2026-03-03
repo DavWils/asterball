@@ -40,7 +40,7 @@ func select_level(level: LevelResource) -> void:
 	$SelectionLabel.text = level.level_name
 
 func _on_start_pressed() -> void:
-	main_scene.host_game(selected_level.resource_path.get_basename().get_file())
+	main_scene.host_game(selected_level)
 
 func _on_return_pressed() -> void:
 	main_menu.to_title_screen()
