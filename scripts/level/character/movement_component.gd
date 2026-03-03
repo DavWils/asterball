@@ -35,6 +35,7 @@ var peak_velocity: Vector3 = Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
 	if network_manager.is_host() or character.is_locally_possessed():
+		print(movement_input, " - ", delta)
 		# Set character movement values based on input.
 		if character.is_on_floor():
 			if character.is_unlocked():

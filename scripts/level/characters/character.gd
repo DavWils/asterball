@@ -101,7 +101,7 @@ func use_player_input(input: Dictionary) -> void:
 	# Movement input.
 	if is_unlocked():
 		var move_input: Vector2 = input.get("mv", Vector2.ZERO)
-		var charging: bool = input.get("ch", false) and (not is_aiming())
+		var charging: bool = input.get("ch", false) and (not is_aiming()) and move_input.y < 0
 		
 		movement_component.movement_input = move_input
 		movement_component.charging_input = charging
