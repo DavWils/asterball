@@ -20,12 +20,13 @@ func _init():
 func _ready():
 	print("Ragdoll spawned for ", Steam.getFriendPersonaName(character.owning_player_id))
 
-func start_ragdoll(velocity: Vector3):
+func start_ragdoll(force: Vector3):
 	position = character.position
 	simulator.physical_bones_start_simulation()
-	for child in simulator.get_children():
-		if child is PhysicalBone3D:
-			child.linear_velocity = velocity
+
+	var root_bone := simulator.get_child(0) # usually hips
+	if root_bone is PhysicalBone3D:
+		root_bone.apply_central_impulse(5 * force)
 
 func stop_ragdoll():
 	simulator.physical_bones_stop_simulation()
