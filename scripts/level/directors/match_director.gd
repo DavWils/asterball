@@ -42,8 +42,8 @@ func _ready():
 		match_state.team_states[0].team_resource = level.get_level_resource().home_team
 		# Away Team
 		# Get a random team.
-		var valid_teams: Array[TeamResource] = [load("res://resources/teams/starstriders.tres"), load("res://resources/teams/warpions.tres"), load("res://resources/teams/accelites.tres")]
-		valid_teams.erase(level.get_level_resource().home_team)
+		var valid_teams := get_all_teams(true)
+		
 		match_state.team_states[1].team_resource = valid_teams.pick_random()
 		print(match_state.team_states[0].team_resource.team_name, " vs ", match_state.team_states[1].team_resource.team_name)
 		
@@ -210,3 +210,22 @@ func purchase_item(character: Character, item_resource: ItemResource) -> void:
 ## Returns true if this is a state of match where players can move.
 func is_unlocked_state() -> bool:
 	return match_state.state_of_match == match_state.StateOfMatch.MATCH
+
+## Returns all team resources.
+func get_all_teams(avoid_home: bool = false) -> Array[TeamResource]:
+	var teams: Array[TeamResource] = []
+	var res_dir = DirAccess.open("res://resources/teams/")
+	res_dir.list_dir_begin()
+	
+	var current_filename := res_dir.get_next()
+	
+	while current_filename != "":
+		if not res_dir.current_is_dir():
+			if current_filename.ends_with(".tres"):
+				var loaded_resource = load("res://resources/teams/"+current_filename)
+				if loaded_resource is TeamResource:
+					if not (avoid_home and loaded_resource == level.get_level_resource().home_team): 
+						teams.append(loaded_resource)
+		current_filename = res_dir.get_next()
+	
+	return teams
