@@ -29,25 +29,28 @@ func update_animation():
 		if horizontal_velocity.length() < 0.1:
 			animation_tree.set("parameters/MovementTransition/transition_request", "Idle")
 		else:
-			# Running, calculate direction and run.
-			var local_velocity = character.transform.basis.inverse() * horizontal_velocity
-			var dir = Vector2(local_velocity.x, -local_velocity.z)
-			dir = dir.normalized()
-			var current_dir: Vector2 = animation_tree.get("parameters/RunBlendSpace2D/blend_position")
-			animation_tree.set("parameters/RunBlendSpace2D/blend_position", current_dir.lerp(dir, 0.25))
-			animation_tree.set("parameters/MovementTransition/transition_request", "Run")
-			
-			# Set speed scale. When running faster, animation plays faster.
-			var speed_scale: float
-			if horizontal_velocity.length() > character.walk_speed:
-				speed_scale = horizontal_velocity.length()/character.walk_speed
+			if character.is_charging():
+				animation_tree.set("parameters/MovementTransition/transition_request", "Charge")
+				# Set speed scale. When running faster, animation plays faster.
+				var speed_scale: float
+				if horizontal_velocity.length() > character.walk_speed:
+					speed_scale = horizontal_velocity.length()/character.walk_speed
+				else:
+					speed_scale = 1.0
+				animation_tree.set("parameters/RunTimeScale/scale", speed_scale)
+				return
 			else:
-				speed_scale = 1.0
-			animation_tree.set("parameters/RunTimeScale/scale", speed_scale)
-		
+				# Running, calculate direction and run.
+				var local_velocity = character.transform.basis.inverse() * horizontal_velocity
+				var dir = Vector2(local_velocity.x, -local_velocity.z)
+				dir = dir.normalized()
+				var current_dir: Vector2 = animation_tree.get("parameters/RunBlendSpace2D/blend_position")
+				animation_tree.set("parameters/RunBlendSpace2D/blend_position", current_dir.lerp(dir, 0.9))
+				animation_tree.set("parameters/MovementTransition/transition_request", "Run")
+			
 		# Rotate spine based on control pitch.
 		skeleton.clear_bones_global_pose_override()
-		var spine_idx: int = skeleton.find_bone("spine")
+		var spine_idx: int = skeleton.find_bone("spine.001")
 		var spine_pose: Transform3D = skeleton.get_bone_global_pose(spine_idx)
 		var spine_basis: Basis = spine_pose.basis
 		var spine_euler: Vector3 = spine_basis.get_euler()
@@ -55,8 +58,8 @@ func update_animation():
 		var current_velocity = absf(character.velocity.length() - character.walk_speed) if character.velocity.length()>0.1 else 0.0
 		var added_pitch = clampf(character.control_pitch - clampf(current_velocity/10, 0, 0.8), -PI/2, PI/2)
 		
-		spine_euler.x += added_pitch
+		spine_euler.x -= added_pitch
 		spine_basis = Basis.from_euler(spine_euler)
 		spine_pose.basis = spine_basis
 		
-		skeleton.set_bone_global_pose_override(spine_idx, spine_pose, 1.0, true)
+		#skeleton.set_bone_global_pose_override(spine_idx, spine_pose, 1.0, true)
