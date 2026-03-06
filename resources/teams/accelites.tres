@@ -5,3 +5,5 @@
 [resource]
 script = ExtResource("1_j2ipm")
 team_name = "Accelites"
+primary_color = Color(1, 1, 1, 1)
+secondary_color = Color(0.23753911, 0.23753914, 0.23753911, 1)
