@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cmna4204bqss8" path="res://scenes/ui/player/buy_menu/buy_tier_box.tscn" id="9_6vvpm"]
 [ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://scripts/shaders/sky/astral_sky.gdshader" id="11_oyp4u"]
 [ext_resource type="AudioStream" uid="uid://cjwl5k8yqkd3" path="res://sounds/level/wind.wav" id="14_h3tri"]
-[ext_resource type="Script" uid="uid://ct55lo0vpqcw4" path="res://scripts/level/character/wind_audio_player.gd" id="15_pie5i"]
+[ext_resource type="Script" uid="uid://ct55lo0vpqcw4" path="res://scripts/level/wind_audio_player.gd" id="15_pie5i"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_41p24"]
 shader = ExtResource("7_8k0du")
