@@ -17,7 +17,6 @@ func _process(delta: float) -> void:
 
 		volume_db = lerp(volume_db, target_db, 6.0 * delta)
 		pitch_scale = lerp(pitch_scale, 0.9 + (speed_ratio if randi()%2 else -speed_ratio) * 0.4, 5.0 * delta)
-		print(pitch_scale)
 
 	else:
 		volume_db = lerp(volume_db, linear_to_db(0.001), 6.0 * delta)
