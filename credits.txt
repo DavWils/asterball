@@ -6,3 +6,9 @@ Licensed under the SIL Open Font License 1.1.
 
 Sounds downloaded from freesound.org:
 windloop.wav by warwickallison: https://freesound.org/people/warwickallison/sounds/115759/
+
+body_hit.wav by insanity54: https://freesound.org/people/insanity54/sounds/276600/
+
+Bone_break.wav by abernatchez1: https://freesound.org/people/abernatchez1/sounds/503137/
+
+quick woosh by florianreichelt: https://freesound.org/people/florianreichelt/sounds/683101/

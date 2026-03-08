@@ -65,7 +65,7 @@ func stop_throwing() -> void:
 	if is_throwing:
 		is_throwing = false
 		end_aim()
-		
+		$ThrowAudioPlayer.play()
 		if network_manager.is_host():
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_THROW_END, "char_id": character.registry_id})
 			

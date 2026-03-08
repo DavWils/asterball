@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://on8wykmjn5go"]
+[gd_scene load_steps=18 format=3 uid="uid://on8wykmjn5go"]
 
 [ext_resource type="Script" uid="uid://bnbyil81cayt3" path="res://scripts/level/characters/character.gd" id="1_hqcqr"]
 [ext_resource type="Script" uid="uid://755ian66gy8i" path="res://scripts/level/character/character_camera.gd" id="2_5faxe"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://b7h7scddkfgqr" path="res://scripts/level/character/trajectory_indicator.gd" id="9_gx15w"]
 [ext_resource type="Script" uid="uid://dnqoeteq07upg" path="res://scripts/level/character/effects_component.gd" id="10_cmg63"]
 [ext_resource type="Script" uid="uid://cxhnyeuq2l8yn" path="res://scripts/level/character/throw_component.gd" id="11_3xhtn"]
+[ext_resource type="AudioStream" uid="uid://bik4golxaua2" path="res://sounds/level/character/throw.wav" id="12_q47tg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5faxe"]
 size = Vector3(0, 0, 0)
@@ -88,3 +89,6 @@ script = ExtResource("10_cmg63")
 
 [node name="ThrowComponent" type="Node" parent="."]
 script = ExtResource("11_3xhtn")
+
+[node name="ThrowAudioPlayer" type="AudioStreamPlayer3D" parent="ThrowComponent"]
+stream = ExtResource("12_q47tg")
