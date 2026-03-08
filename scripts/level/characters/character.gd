@@ -231,7 +231,10 @@ func recover() -> void:
 
 ## Adds an item to the character's inventory with validation.
 func pickup_item(item_state: ItemState):
-	var new_key = inventory_component.add_item(item_state)
+	var new_item_state = item_state
+	if item_state.item_resource.allegiance_on_pickup:
+		item_state.current_allegiance = get_player_team_id()
+	var new_key = inventory_component.add_item(new_item_state)
 	if equipped_key == -1 or item_state.item_resource.equip_lock:
 		equip_item(new_key)
 

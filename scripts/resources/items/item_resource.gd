@@ -16,6 +16,8 @@ class_name ItemResource
 @export var item_mass: float = 1.0
 ## Whether or not the item is essential, meaning it cannot be destroyed/killed.
 @export var is_essential: bool = false
+## Whether or not this item should change its allegiance when picked up.
+@export var allegiance_on_pickup: bool = true
 
 ## Enum for item tiers.
 enum ItemTier {
