@@ -40,10 +40,10 @@ materials/extract_path=""
 _subresources={
 "animations": {
 "charge": {
-"save_to_file/enabled": false,
-"save_to_file/fallback_path": "",
-"save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "",
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://meshes/characters/omnistriker/animation/charge.tres",
+"save_to_file/keep_custom_tracks": true,
+"save_to_file/path": "uid://brblw1te4lk5c",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -6208,10 +6208,10 @@ _subresources={
 "slices/amount": 0
 },
 "run_backward": {
-"save_to_file/enabled": false,
-"save_to_file/fallback_path": "",
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://meshes/characters/omnistriker/animation/run_backward.tres",
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "",
+"save_to_file/path": "uid://mhf76lv0qg4v",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -8264,10 +8264,10 @@ _subresources={
 "slices/amount": 0
 },
 "run_backwardleft": {
-"save_to_file/enabled": false,
-"save_to_file/fallback_path": "",
-"save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "",
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://meshes/characters/omnistriker/animation/run_backwardleft.tres",
+"save_to_file/keep_custom_tracks": true,
+"save_to_file/path": "uid://bj71s3mywoyam",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -10320,10 +10320,10 @@ _subresources={
 "slices/amount": 0
 },
 "run_backwardright": {
-"save_to_file/enabled": false,
-"save_to_file/fallback_path": "",
-"save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "",
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://meshes/characters/omnistriker/animation/run_backwardright.tres",
+"save_to_file/keep_custom_tracks": true,
+"save_to_file/path": "uid://lwv8mx5odphx",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -12376,10 +12376,10 @@ _subresources={
 "slices/amount": 0
 },
 "run_forward": {
-"save_to_file/enabled": false,
-"save_to_file/fallback_path": "",
-"save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "",
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://meshes/characters/omnistriker/animation/run_forward.tres",
+"save_to_file/keep_custom_tracks": true,
+"save_to_file/path": "uid://b12guthnft0g0",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -14432,10 +14432,10 @@ _subresources={
 "slices/amount": 0
 },
 "run_forwardleft": {
-"save_to_file/enabled": false,
-"save_to_file/fallback_path": "",
-"save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "",
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://meshes/characters/omnistriker/animation/run_forwardleft.tres",
+"save_to_file/keep_custom_tracks": true,
+"save_to_file/path": "uid://b3epx6qhhlucw",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -16488,10 +16488,10 @@ _subresources={
 "slices/amount": 0
 },
 "run_forwardright": {
-"save_to_file/enabled": false,
-"save_to_file/fallback_path": "",
-"save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "",
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://meshes/characters/omnistriker/animation/run_forwardright.tres",
+"save_to_file/keep_custom_tracks": true,
+"save_to_file/path": "uid://c2n3liqmupjqw",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -18544,10 +18544,10 @@ _subresources={
 "slices/amount": 0
 },
 "run_left": {
-"save_to_file/enabled": false,
-"save_to_file/fallback_path": "",
-"save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "",
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://meshes/characters/omnistriker/animation/run_left.tres",
+"save_to_file/keep_custom_tracks": true,
+"save_to_file/path": "uid://crtj3kgyw5k2c",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -20600,10 +20600,10 @@ _subresources={
 "slices/amount": 0
 },
 "run_right": {
-"save_to_file/enabled": false,
-"save_to_file/fallback_path": "",
-"save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "",
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://meshes/characters/omnistriker/animation/run_right.tres",
+"save_to_file/keep_custom_tracks": true,
+"save_to_file/path": "uid://cvnaicuyphb43",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
