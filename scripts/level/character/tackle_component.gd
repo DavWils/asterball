@@ -10,7 +10,7 @@ class_name TackleComponent
 @onready var network_manager: NetworkManager = get_tree().current_scene.network_manager
 
 ## The minimum speed a character must be going to tackle another.
-const MINIMUM_TACKLE_SPEED := 8.0
+const MINIMUM_TACKLE_SCORE: float = 1000.0
 
 ## Whether or not the character is tackled and cannot move.
 var is_tackled := false
@@ -29,30 +29,40 @@ func _physics_process(_delta: float) -> void:
 				on_charge_collide(collider, collision)
 				
 
+## Returns the tackle score of this character towards another.
+func get_tackle_score(target: Character) -> float:
+	var self_momentum := character.get_momentum()
+	var target_momentum := target.get_momentum()
+	
+	var offset := target.position - character.position
+	if offset.length_squared() == 0:
+		return 0
+	
+	var dir := offset.normalized()
+	
+	var self_score := self_momentum.dot(dir)
+	var target_score := -target_momentum.dot(dir)
+	return self_score - target_score
 
 ## Called when self collides with another character.
 func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
 	if not collider.is_tackled():
-		print(Steam.getFriendPersonaName(character.owning_player_id), " has charged into ", Steam.getFriendPersonaName(collider.owning_player_id))
-		var hit_direction := (collider.global_position-character.global_position).normalized() # The direction from self to collider.
-		var self_velocity := character.previous_velocity.dot(hit_direction)
-		var collider_velocity := collider.previous_velocity.dot(-hit_direction)
-		print(self_velocity, " vs ", collider_velocity)
-		print(character.previous_velocity.length())
-		if self_velocity > collider_velocity and character.previous_velocity.length() >= MINIMUM_TACKLE_SPEED:
-			print("Colliding with ", self_velocity, "+", collider_velocity)
-			collider.tackle(character, self_velocity + collider_velocity)
+		var tackle_score := get_tackle_score(collider)
+		print(Steam.getFriendPersonaName(character.owning_player_id), " has charged into ", Steam.getFriendPersonaName(collider.owning_player_id), " with a score of ", tackle_score)
+		
+		if tackle_score >= MINIMUM_TACKLE_SCORE:
+			collider.tackle(character, tackle_score)
 
 ## Called when self is tackled by another node.
-func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGenerator) -> void:
+func tackle(tackler: Node3D, tackle_score: float, tackle_seed: RandomNumberGenerator) -> void:
 	if not is_tackled:
 		is_tackled = true
-		print(Steam.getFriendPersonaName(character.owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id) if tackler is Character else tackler.item_state.item_resource.item_name, " with a force of ", tackle_force)
+		print(Steam.getFriendPersonaName(character.owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id) if tackler is Character else tackler.item_state.item_resource.item_name, " with a force of ", tackle_score)
 		$TackleAudioPlayer.play()
 		
 		# Generate the recovery code.
-		var recovery_length: int = max((round((3*log(0.1*tackle_force))+10) if tackle_force >= 1.0 else 0.0), 1)
-		print("Tackle force of ", tackle_force, " leads to a length of ", recovery_length)
+		var recovery_length: int = max((round((3*log(0.1*tackle_score))+10) if tackle_score >= 1.0 else 0.0), 1)
+		print("Tackle score of ", tackle_score, " leads to a length of ", recovery_length)
 		recovery_code.clear()
 		recovery_progress = -1
 		for i in recovery_length:
@@ -62,7 +72,7 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 		# Shake camera.
 		if network_manager.is_host():
 			# Send packet
-			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": character.registry_id, "tid": tackler.registry_id, "tf": tackle_force, "seed": tackle_seed.seed})
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": character.registry_id, "tid": tackler.registry_id, "ts": tackle_score, "seed": tackle_seed.seed})
 			# Drop all items.
 			character.drop_all_items()
 			

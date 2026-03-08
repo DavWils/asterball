@@ -16,6 +16,8 @@ class_name Character
 @export var walk_speed := 1
 ## Whether or not this character can rotate on the x axis as opposed to being applied to control rotation.
 @export var use_pitch_rotation: bool = false
+## The mass of the character.
+@export var character_mass: float
 
 ## Signal called when aiming starts.
 signal aim_start
@@ -389,6 +391,10 @@ func get_carry_mass() -> float:
 	for item in inventory_component.get_all_items():
 		total_mass += item.get_item_mass()
 	return total_mass
+
+## Returns the character's momentum as a vector.
+func get_momentum() -> Vector3:
+	return velocity * (get_carry_mass() + character_mass)
 
 
 func add_effect(effect: EffectState) -> void:

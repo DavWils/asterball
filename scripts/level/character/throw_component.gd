@@ -86,10 +86,10 @@ func get_throw_speed() -> float:
 	return base_throw_speed
 
 func from_reg_dict(data: Dictionary) -> void:
-	throw_force = data["tf"]
+	throw_force = data["ts"]
 
 func to_reg_dict() -> Dictionary:
 	var data: Dictionary
-	data["tf"] = throw_force
+	data["ts"] = throw_force
 	
 	return data

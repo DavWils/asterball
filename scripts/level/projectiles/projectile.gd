@@ -6,7 +6,7 @@ class_name Projectile
 @onready var level: Level = get_tree().current_scene.get_node("Level")
 
 ## Minimum momentum needed for projectile to cause a tackle.
-const MIN_TACKLE_MOMENTUM: float = 3.0
+const MIN_TACKLE_SCORE: float = 3.0
 
 ## Item state
 var item_state: ItemState
@@ -56,16 +56,33 @@ func _physics_process(_delta: float) -> void:
 func _on_body_entered(body: Node3D) -> void:
 	surface_collide(body)
 
-func get_momentum() -> float:
-	return linear_velocity.length() * item_state.get_item_mass()
+func get_momentum() -> Vector3:
+	return linear_velocity * item_state.get_item_mass()
 
 func _on_area_body_entered(body: Node3D) -> void:
 	if Time.get_ticks_msec() - start_time <= 1000: return
 	if body is Character:
 		character_overlap(body)
 
+## Returns the tackle score of this projectile towards the given character.
+func get_tackle_score(target: Character) -> float:
+	var self_momentum := get_momentum()
+	var target_momentum := target.get_momentum()
+	
+	var offset := target.position - position
+	if offset.length_squared() == 0:
+		return 0
+	
+	var dir := offset.normalized()
+	
+	var projectile_score := self_momentum.dot(dir)
+	var target_score := -target_momentum.dot(dir)
+	return projectile_score - target_score
+
 func character_overlap(character: Character):
-	if get_momentum() >= MIN_TACKLE_MOMENTUM: character.tackle(self, get_momentum())
+	print("Score: ", get_tackle_score(character))
+	var tackle_score = get_tackle_score(character)
+	if tackle_score >= MIN_TACKLE_SCORE: character.tackle(self, tackle_score)
 	print(item_state.item_resource.item_name, " has collided with player ", Steam.getFriendPersonaName(character.owning_player_id))
 
 func surface_collide(body: Node3D) -> void:
