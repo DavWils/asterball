@@ -48,6 +48,7 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 	if not is_tackled:
 		is_tackled = true
 		print(Steam.getFriendPersonaName(character.owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id) if tackler is Character else tackler.item_state.item_resource.item_name, " with a force of ", tackle_force)
+		$TackleAudioPlayer.play()
 		
 		# Generate the recovery code.
 		var recovery_length: int = max((round((3*log(0.1*tackle_force))+10) if tackle_force >= 1.0 else 0.0), 1)

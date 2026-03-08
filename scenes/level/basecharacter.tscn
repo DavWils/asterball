@@ -74,6 +74,8 @@ shape = SubResource("BoxShape3D_5faxe")
 [node name="TackleComponent" type="Node" parent="."]
 script = ExtResource("7_tu7bk")
 
+[node name="TackleAudioPlayer" type="AudioStreamPlayer3D" parent="TackleComponent"]
+
 [node name="MovementComponent" type="Node" parent="."]
 script = ExtResource("8_ikaoe")
 
