@@ -61,7 +61,7 @@ func tackle(tackler: Node3D, tackle_score: float, tackle_seed: RandomNumberGener
 		$TackleAudioPlayer.play()
 		
 		# Generate the recovery code.
-		var recovery_length: int = max((round((3*log(0.1*tackle_score))+10) if tackle_score >= 1.0 else 0.0), 1)
+		var recovery_length: int = max(1, round(5*(log(tackle_score)/log(10))+2))
 		print("Tackle score of ", tackle_score, " leads to a length of ", recovery_length)
 		recovery_code.clear()
 		recovery_progress = -1
