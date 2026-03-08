@@ -27,6 +27,10 @@ signal aim_end
 signal throw_start
 ## Signal called when throwing ends.
 signal throw_end
+## Signal called when tackled.
+signal tackled
+## Signal called when recovered.
+signal recovered
 
 
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
@@ -47,9 +51,6 @@ var ragdoll: Ragdoll
 ## Amount of friction force to apply to the ragdoll if it's sliding.
 const RAGDOLL_FRICTION_MULTIPLIER: float = 0.9
 
-signal possessed
-signal unpossessed
-
 
 func _ready() -> void:
 	print("Spawned character ", registry_id, " owned by ", Steam.getFriendPersonaName(owning_player_id))
@@ -57,7 +58,6 @@ func _ready() -> void:
 	ragdoll = load("res://scenes/level/characters/" + scene_file_path.get_file().get_basename() + "/ragdoll.tscn").instantiate()
 	ragdoll.character = self
 	level.add_child(ragdoll)
-	
 
 ## Sets whether or not the camera is currently being used.
 func set_current_camera(current: bool) -> void:
@@ -206,6 +206,7 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 	if network_manager.is_host():
 		end_aim()
 	tackle_component.tackle(tackler, tackle_force, tackle_seed)
+	tackled.emit()
 	# Shake camera
 	if is_locally_possessed():
 			get_node("CameraHandle").tackle_shake(tackle_force)
@@ -215,6 +216,7 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 	var hit_direction := (position-tackler.position).normalized()
 	var ragdoll_velocity = velocity + (hit_direction * tackle_force) + (Vector3.UP * tackle_force * 0.4)
 	ragdoll.start_ragdoll(ragdoll_velocity)
+	
 
 ## Called when self recovers from a tackle.
 func recover() -> void:
@@ -225,7 +227,7 @@ func recover() -> void:
 	ragdoll.stop_ragdoll()
 	
 	tackle_component.recover()
-
+	recovered.emit()
 
 ## Adds an item to the character's inventory with validation.
 func pickup_item(item_state: ItemState):
@@ -413,11 +415,11 @@ func is_inventory_full() -> bool:
 
 ## Function called when character is locally possessed.
 func possess() -> void:
-	possessed.emit()
+	pass
 
 ## Function called when character is locally unpossessed.
 func unpossess() -> void:
-	unpossessed.emit()
+	pass
 
 ## Returns self's velocity if not tackled. Otherwise, returns regdoll's velocity.
 func get_body_velocity() -> Vector3:

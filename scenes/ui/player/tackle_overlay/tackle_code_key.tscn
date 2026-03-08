@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6ol0t485y1bb"]
+
+[ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/no_icon.png" id="1_kwpm1"]
+
+[sub_resource type="GDScript" id="GDScript_dl57i"]
+script/source = "extends Control
+
+var key: int
+"
+
+[node name="TackleCodeKey" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_kwpm1")
+expand_mode = 2
+script = SubResource("GDScript_dl57i")

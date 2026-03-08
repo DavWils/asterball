@@ -19,6 +19,8 @@ var recovery_code: Array[int]
 ## Completion marker for recovery, marking the index the player is currently at.
 var recovery_progress: int
 
+signal recovery_progressed(progress: int)
+
 ## Check for collisions
 func _physics_process(_delta: float) -> void:
 	if network_manager.is_host():
@@ -103,24 +105,7 @@ func enter_recovery_key(key: int) -> bool:
 func set_recovery_code_progress(progress: int) -> void:
 	if progress == recovery_progress: return
 	recovery_progress = progress if progress >= 0 else 0
-	print("Recovery progress for "+ Steam.getFriendPersonaName(character.owning_player_id) +": ", recovery_progress)
-	for key in recovery_code.size():
-		var key_str: String
-		match recovery_code[key]:
-			0:
-				key_str = "W"
-			1:
-				key_str = "A"
-			2:
-				key_str = "S"
-			3:
-				key_str = "D"
-		if key == recovery_progress:
-			print("["+str(key_str)+"]")
-		elif key == recovery_progress+1:
-			print(key_str, "<-")
-		else:
-			print(key_str)
+	recovery_progressed.emit(recovery_progress)
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_RECOVERY_PROGRESS, "char_id": character.registry_id, "progress": recovery_progress})
 		if recovery_code.size() <= recovery_progress+1:

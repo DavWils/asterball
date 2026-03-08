@@ -17,6 +17,11 @@ var look_input := Vector2.ZERO
 ## Whether or not player is currently paused. (in pause menu).
 var paused: bool = false
 
+## Signal called when character is possessed.
+signal possessed(character: Character)
+## Signal called when character is unpossessed.
+signal unpossessed(character: Character)
+
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -44,23 +49,25 @@ func possess_character(character: Character) -> void:
 	interact_area.body_entered.connect(_on_interact_area_overlap)
 	interact_area.body_exited.connect(_on_interact_area_overlap)
 	character.possess()
+	possessed.emit(character)
 
 ## Unpossesses the currently controlled character.
 func unpossess_character() -> void:
+	var last_character = current_character
 	# Disable camera
-	current_character.set_current_camera(false)
+	last_character.set_current_camera(false)
 	# Disconnect signals.
 	# Interaction box signal.
-	var interact_area: Area3D = current_character.get_node("InteractArea3D")
+	var interact_area: Area3D = last_character.get_node("InteractArea3D")
 	interact_area.body_entered.disconnect(_on_interact_area_overlap)
 	interact_area.body_exited.disconnect(_on_interact_area_overlap)
 	
 	set_spectator_camera($Camera3D)
 	
-	current_character.unpossess()
+	last_character.unpossess()
 	# Forget character.
-	current_character = null
-	
+	last_character = null
+	unpossessed.emit(last_character)
 
 ## Enters input for a recovery key.
 func enter_recovery_key_input(key: int) -> void:
