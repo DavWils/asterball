@@ -21,9 +21,10 @@ func _on_possessed(character: Character) -> void:
 	character.tackle_component.recovery_progressed.connect(_on_recovery_progressed)
 
 func _on_unpossessed(character: Character) -> void:
-	character.tackled.disconnect(_on_tackled)
-	character.recovered.disconnect(_on_recovered)
-	character.tackle_component.recovery_progressed.disconnect(_on_recovery_progressed)
+	if character:
+		character.tackled.disconnect(_on_tackled)
+		character.recovered.disconnect(_on_recovered)
+		character.tackle_component.recovery_progressed.disconnect(_on_recovery_progressed)
 
 func _on_tackled() -> void:
 	# Close buy menu when tackled.
