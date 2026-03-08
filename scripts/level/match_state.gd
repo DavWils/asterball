@@ -176,7 +176,10 @@ func get_player_state(player_id: int) -> PlayerState:
 
 ## Returns the team state of the given team via id.
 func get_team_state(team_id: int) -> TeamState:
-	return team_states[team_id]
+	if team_states.has(team_id):
+		return team_states[team_id]
+	else:
+		return null
 
 func get_team_ids() -> Array[int]:
 	return team_states.keys()

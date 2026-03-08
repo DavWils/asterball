@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmb45ptlogy8n"]
+
+[ext_resource type="PackedScene" uid="uid://cbk0tx3ba7v5" path="res://scenes/level/baseprojectile.tscn" id="1_k5xdh"]
+[ext_resource type="Script" uid="uid://6yrj6hgsxqmm" path="res://scripts/level/projectiles/ball.gd" id="2_k5xdh"]
+
+[node name="Projectile" instance=ExtResource("1_k5xdh")]
+script = ExtResource("2_k5xdh")
+
+[node name="TeamLight" type="OmniLight3D" parent="." index="2"]

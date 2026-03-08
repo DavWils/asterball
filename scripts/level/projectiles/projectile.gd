@@ -20,6 +20,11 @@ var throwing_character: Character
 ## The time in which the projectile was first thrown.
 var start_time: float
 
+## Returns the team state of allegiance team.
+func get_allegiance_team() -> TeamState:
+	var match_state: MatchState = level.match_state
+	return match_state.get_team_state(item_state.current_allegiance)
+
 func _ready() -> void:
 	# Spawn item mesh, take the item mesh's collision shape and copy it to our own, disabling the original
 	var item_mesh: Node3D = item_state.item_resource.mesh_file.instantiate()
