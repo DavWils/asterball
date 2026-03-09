@@ -8,6 +8,9 @@ class_name Projectile
 ## Minimum momentum needed for projectile to cause a tackle.
 const MIN_TACKLE_SCORE: float = 3.0
 
+## Spawned item mesh.
+var projectile_mesh: Node3D
+
 ## Item state
 var item_state: ItemState
 ## Registry id
@@ -29,6 +32,7 @@ func _ready() -> void:
 	# Spawn item mesh, take the item mesh's collision shape and copy it to our own, disabling the original
 	var item_mesh: Node3D = item_state.item_resource.mesh_file.instantiate()
 	add_child(item_mesh)
+	projectile_mesh = item_mesh
 	var mesh_shape: CollisionShape3D = item_mesh.find_child("CollisionShape3D")
 	$CollisionShape3D.shape = mesh_shape.shape
 	mesh_shape.disabled = true
@@ -36,6 +40,11 @@ func _ready() -> void:
 	$Area3D/CollisionShape3D.shape = $CollisionShape3D.shape
 	$Area3D/CollisionShape3D.disabled = false
 	
+	var mesh_instance = projectile_mesh.get_child(0)
+	for i in mesh_instance.get_surface_override_material_count():
+		var current_mat = mesh_instance.get_active_material(i)
+		if current_mat:
+			mesh_instance.set_surface_override_material(i, current_mat.duplicate())
 	
 	mass = item_state.get_item_mass()
 	

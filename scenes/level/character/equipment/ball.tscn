@@ -9,3 +9,5 @@ script = ExtResource("2_78f2h")
 [node name="SlowdownTimer" type="Timer" parent="." index="0"]
 wait_time = 10.0
 autostart = true
+
+[node name="TeamLight" type="OmniLight3D" parent="." index="1"]
