@@ -92,7 +92,11 @@ func character_overlap(character: Character):
 
 func surface_collide(body: Node3D) -> void:
 	print(item_state.item_resource.item_name, " projectile has overlapped with ", body.name)
-
+	# Play a sound on collision
+	var linear_vol: float = linear_velocity.length()/25.0
+	$CollideAudioPlayer.volume_linear = clampf(linear_vol, 0.0, 1.0)
+	$CollideAudioPlayer.pitch_scale = randf_range(0.9,1.1)
+	$CollideAudioPlayer.play()
 
 func despawn_projectile():
 	level.despawn_registry_object(registry_id)
