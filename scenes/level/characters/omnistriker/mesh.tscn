@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=3 uid="uid://dum6laalon7cq"]
 
 [ext_resource type="PackedScene" uid="uid://dtburs7dpxgxy" path="res://meshes/characters/omnistriker/omnistriker.glb" id="1_yfdhx"]
-[ext_resource type="Script" uid="uid://cql7lecmsjdeq" path="res://scripts/level/character/character_mesh.gd" id="2_owm0j"]
+[ext_resource type="Script" uid="uid://cql7lecmsjdeq" path="res://scripts/level/character/omnistriker/character_mesh.gd" id="2_owm0j"]
 [ext_resource type="AudioStream" uid="uid://c11w7vscr8nep" path="res://sounds/level/character/omnistriker/step/step.wav" id="3_ckpng"]
 [ext_resource type="Script" uid="uid://bp3h6g6w37af3" path="res://scripts/level/character/footstep_sound_player.gd" id="4_f7l4a"]
 
