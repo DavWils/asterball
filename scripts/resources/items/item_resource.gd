@@ -18,6 +18,8 @@ class_name ItemResource
 @export var is_essential: bool = false
 ## Whether or not this item should change its allegiance when picked up.
 @export var allegiance_on_pickup: bool = true
+## Passive effect that this item puts on the player.
+@export var passive_effect: EffectResource
 
 ## Enum for item tiers.
 enum ItemTier {

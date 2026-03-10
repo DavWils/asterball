@@ -7,4 +7,5 @@ script = ExtResource("1_blrtw")
 effect_name = "Slowdown"
 effect_description = "Slows down the character's maximum charging speed."
 max_stacks = 1
+infinite_duration = true
 metadata/_custom_type_script = "uid://cgdj7e0yvscrf"

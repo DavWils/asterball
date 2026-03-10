@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://0glg71bb41t6"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=4 format=3 uid="uid://0glg71bb41t6"]
 
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="1_ws2j4"]
 [ext_resource type="PackedScene" uid="uid://cumihpl5vh2ta" path="res://meshes/items/ball/ball.glb" id="2_pf5td"]
+[ext_resource type="Resource" uid="uid://8gp0gt7r7tit" path="res://resources/effects/ball_slow.tres" id="2_y7ggh"]
 
 [resource]
 script = ExtResource("1_ws2j4")
@@ -12,3 +13,4 @@ can_purchase = null
 equip_lock = true
 item_mass = 5.0
 is_essential = true
+passive_effect = ExtResource("2_y7ggh")

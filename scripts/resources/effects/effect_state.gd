@@ -5,11 +5,12 @@ extends Resource
 class_name EffectState
 
 ## Resource used here.
-@export var effect_resource: EffectResource
+var effect_resource: EffectResource
 ## The duration of this effect (seconds remaining).
-@export var effect_duration: int
+var effect_duration: int
 ## The number of stacks of this effect.
-@export var effect_stacks: int
+var effect_stacks: int
+
 
 var time_interval: float = 0.0
 
@@ -20,6 +21,7 @@ func _init(resource: EffectResource = null, duration: int = 0):
 
 ## Ran from effects component every tick and is used to tick down the effect's duration.
 func update_tick(delta: float) -> bool:
+	if effect_resource.infinite_duration: return false
 	time_interval += delta
 	if time_interval >= 1.0:
 		time_interval = 0.0
