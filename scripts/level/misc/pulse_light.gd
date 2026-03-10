@@ -10,7 +10,6 @@ var shader_mat: ShaderMaterial
 func _ready() -> void:
 	var item_scene = self.get_parent()
 	if not item_scene.is_node_ready(): await item_scene.ready
-	print("ready now")
 	var mesh_node: Node3D
 	if item_scene is Equipment:
 		mesh_node = item_scene.equipment_mesh
