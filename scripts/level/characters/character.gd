@@ -235,7 +235,8 @@ func pickup_item(item_state: ItemState):
 	if item_state.item_resource.allegiance_on_pickup:
 		item_state.current_allegiance = get_player_team_id()
 	var new_key = inventory_component.add_item(new_item_state)
-	add_effect(EffectState.new(item_state.item_resource.passive_effect))
+	if item_state.item_resource.passive_effect:
+		add_effect(EffectState.new(item_state.item_resource.passive_effect))
 	if equipped_key == -1 or item_state.item_resource.equip_lock:
 		equip_item(new_key)
 
@@ -265,8 +266,9 @@ func drop_item(key: int, automatic: bool = false, thrown: bool = false):
 	if inventory_component.get_item_state(key) != null:
 		var pickup_item_state: ItemState = inventory_component.get_item_state(key)
 		# First remove passive effect if possible.
-		if pickup_item_state.item_resource.passive_effect.infinite_duration:
-			remove_effect(pickup_item_state.item_resource.passive_effect)
+		if pickup_item_state.item_resource.passive_effect:
+			if pickup_item_state.item_resource.passive_effect.infinite_duration:
+				remove_effect(pickup_item_state.item_resource.passive_effect)
 		
 		# Now make the pickup.
 		var pickup: RigidBody3D = level.spawn_projectile(inventory_component.get_item_state(key), get_throw_start(), self if thrown else null)
