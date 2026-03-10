@@ -1,10 +1,22 @@
 shader_type spatial;
 
-// Albedo texture for this material
+/**
+Albedo texture for this material
+*/
 uniform sampler2D albedo_texture : source_color;
+/**
+Emission texture for this material
+*/
 uniform sampler2D emission_texture : source_color;
 
-uniform vec3 emission_color : source_color = vec3(1.0,1.0,1.0);
+/**
+Emission tint
+*/
+uniform vec3 emission_color : source_color = vec3(0.0,0.0,0.0);
+/**
+Emission pulse
+*/
+uniform bool pulse = false;
 
 void vertex() {
 	// Called for every vertex the material is visible on.
@@ -14,9 +26,11 @@ void fragment() {
 	// Sample the texture using the built-in UV coordinates
 	vec4 albedo_tex = texture(albedo_texture, UV);
 	vec4 emission_tex = texture(emission_texture, UV);
+	float emission_strength = pulse ? (0.5*(sin(5.0*TIME)+1.0)) : 1.0;
+
 	// Apply texture color to the material
 	ALBEDO = albedo_tex.rgb;
-	EMISSION = emission_tex.rgb * emission_color;
+	EMISSION = emission_tex.rgb * emission_color * emission_strength;
 	ALPHA = albedo_tex.a;
 }
 

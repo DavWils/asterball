@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b148q5ycguux"
-path.s3tc="res://.godot/imported/ball_ball_albedo.png-734a8f962b54341d38ece086b3fcdd6a.s3tc.ctex"
+uid="uid://brtjf7aiuwyhc"
+path.s3tc="res://.godot/imported/emission.png-4342fcd7b6f26ded0dcc24f192307673.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "22e7fbb03bae55344edadae7529f64ba"
+"md5": "a8f133e0fdd81d4693723f523f67589a"
 }
 
 [deps]
 
-source_file="res://textures/items/ball/ball_ball_albedo.png"
-dest_files=["res://.godot/imported/ball_ball_albedo.png-734a8f962b54341d38ece086b3fcdd6a.s3tc.ctex"]
+source_file="res://textures/items/ball/emission.png"
+dest_files=["res://.godot/imported/emission.png-4342fcd7b6f26ded0dcc24f192307673.s3tc.ctex"]
 
 [params]
 
