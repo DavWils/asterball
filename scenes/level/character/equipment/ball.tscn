@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cnf0cspauyc56"]
+[gd_scene load_steps=5 format=3 uid="uid://cnf0cspauyc56"]
 
 [ext_resource type="PackedScene" uid="uid://d00rxwj1hofxg" path="res://scenes/level/character/baseequipment.tscn" id="1_mj4go"]
 [ext_resource type="Script" uid="uid://buqvutimwl0fb" path="res://scripts/level/equipment/ball.gd" id="2_78f2h"]
+[ext_resource type="AudioStream" uid="uid://dsa73e13ht2cj" path="res://sounds/level/projectile/ball/hum.wav" id="3_oamvp"]
+[ext_resource type="Script" uid="uid://ddvxna5ipkkgr" path="res://scripts/level/equipment/ball/humaudioplayer.gd" id="4_sc7el"]
 
 [node name="Equipment" instance=ExtResource("1_mj4go")]
 script = ExtResource("2_78f2h")
@@ -11,3 +13,8 @@ wait_time = 10.0
 autostart = true
 
 [node name="TeamLight" type="OmniLight3D" parent="." index="1"]
+
+[node name="HumAudioPlayer" type="AudioStreamPlayer3D" parent="." index="2"]
+stream = ExtResource("3_oamvp")
+autoplay = true
+script = ExtResource("4_sc7el")
