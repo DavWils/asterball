@@ -54,3 +54,7 @@ func score(scoring_character: Character):
 
 func is_unlocked_state() -> bool:
 	return match_state.state_of_match == match_state.StateOfMatch.MATCH or match_state.state_of_match == match_state.StateOfMatch.CELEBRATION
+
+func _on_char_terminated(_char: Node3D) -> void:
+	if network_manager.is_host() and all_teams_dead() and match_state.is_match():
+		end_round()

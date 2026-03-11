@@ -4,6 +4,8 @@ class_name PlayerController
 
 ## Reference to the game's network manager.
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
+## Reference to level.
+@onready var level: Level = get_tree().current_scene.get_node("Level")
 
 ## The currently controlled character.
 var current_character: Character
@@ -66,8 +68,25 @@ func unpossess_character() -> void:
 	
 	last_character.unpossess()
 	# Forget character.
-	last_character = null
+	current_character = null
 	unpossessed.emit(last_character)
+	
+	# If we disconnected from a non-omnistriker and our omnistriker is still alive, return to it.
+	if not last_character is Omnistriker:
+		var omnistriker := get_local_omnistriker()
+		if omnistriker:
+			possess_character(omnistriker)
+
+## Returns the omnistriker owned by local player.
+func get_local_omnistriker() -> Omnistriker:
+	for id in level.level_registry:
+		var registry_node := level.level_registry[id]
+		if registry_node is Omnistriker:
+			if registry_node.can_possess():
+				return registry_node
+
+
+	return null
 
 ## Enters input for a recovery key.
 func enter_recovery_key_input(key: int) -> void:

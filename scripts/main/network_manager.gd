@@ -443,6 +443,11 @@ func read_p2p_packet():
 						var character: Character = level.level_registry[readable_data["char_id"]]
 						if character.owning_player_id == sender_id:
 							character.stop_throwing()
+				Message.CHARACTER_KILL:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						character.kill()
 
 func ignore_match_reliant_function(message: int) -> bool:
 	if is_host(): return false
@@ -473,6 +478,7 @@ enum Message {
 	CHARACTER_AIM_END, ## Character stops aiming.
 	CHARACTER_THROW_START, ## Character starts charging throw.
 	CHARACTER_THROW_END, ## Character finishes throw
+	CHARACTER_KILL,
 	CLIENT_INTERACT, ## Client wants to interact with something.
 	CLIENT_DROP, ## Client wants to drop item.
 	CHARACTER_ADDITEM, ## Adds an item to a character's inventory.

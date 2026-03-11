@@ -24,6 +24,11 @@ var latest_registry_key: int = 0
 ## Whether or not the level is ready, and network packets that are game dependant can be sent.
 var network_ready := false
 
+## Signal called when registry object spawns.
+signal registry_obj_spawned(object: Node3D)
+## Signal called when registry object is removed.
+signal registry_obj_removed(object: Node3D)
+
 
 func _ready() -> void:
 	print("Level has been loaded.")
@@ -69,6 +74,7 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 		)
 	latest_registry_key = registry_id
 	
+	registry_obj_spawned.emit(character)
 	return character
 
 func spawn_projectile(item_state: ItemState, start_position: Vector3, thrower: Character = null, registry_id := get_unused_registry_id()):
@@ -96,15 +102,19 @@ func spawn_projectile(item_state: ItemState, start_position: Vector3, thrower: C
 		)
 	
 	latest_registry_key = registry_id
+	registry_obj_spawned.emit(projectile_node)
 	return projectile_node
 
 ## Removes a scene from the registry and deletes it for host and clients.
 func despawn_registry_object(registry_id: int):
 	print("Despawning registry object at id ", registry_id)
-	level_registry[registry_id].queue_free()
-	level_registry.erase(registry_id)
-	if network_manager.is_host():
-		network_manager.send_p2p_packet(0, {"m": network_manager.Message.DESPAWN_OBJECT, "registry_id": registry_id})
+	if level_registry.has(registry_id):
+		registry_obj_removed.emit(level_registry[registry_id])
+		level_registry[registry_id].queue_free()
+		level_registry.erase(registry_id)
+		if network_manager.is_host():
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.DESPAWN_OBJECT, "registry_id": registry_id})
+	
 
 ## Returns a registry id thats not used.
 func get_unused_registry_id() -> int:

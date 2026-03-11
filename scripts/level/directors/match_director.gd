@@ -50,6 +50,49 @@ func _ready():
 		# Set time
 		match_state.intermission_time = PREGAME_DURATION
 		
+	# Track characters so that when they are terminated from the game (killed/despawned) the director will notice and act.
+	level.registry_obj_spawned.connect(_on_registry_obj_spawned)
+	
+	for id in level.level_registry:
+		if level.level_registry[id] is Character:
+			_on_registry_obj_spawned(level.level_registry[id])
+
+func _on_registry_obj_spawned(new_obj: Node3D):
+	if new_obj is Character:
+		new_obj.killed.connect(_on_char_terminated)
+		new_obj.freed.connect(_on_char_terminated)
+		print("Connecting ", new_obj.registry_id, " to termination")
+	else:
+		print("Not character, ", new_obj)
+
+## Called when character is removed from the game.
+func _on_char_terminated(_char: Node3D) -> void:
+	pass
+
+## Returns true if no team has a living character
+func all_teams_dead() -> bool:
+	var team_ids = match_state.get_team_ids()
+	for id in level.level_registry:
+		var registry_obj := level.level_registry[id]
+		if registry_obj is Character:
+			var team_id = registry_obj.get_player_team_id()
+			if team_ids.has(team_id): 
+				return false
+	
+	return true
+
+## Return strue if all teams have a living character.
+func all_teams_alive() -> bool:
+	var team_ids = match_state.get_team_ids()
+	var alive_ids: Array[int] = []
+	for id in level.level_registry:
+		var registry_obj := level.level_registry[id]
+		if registry_obj is Character:
+			var team_id = registry_obj.get_player_team_id()
+			if not alive_ids.has(team_id):
+				alive_ids.append(team_id)
+	
+	return team_ids.size() == alive_ids.size()
 
 ## Start the game from pregame.
 func start_game():

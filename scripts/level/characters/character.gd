@@ -31,7 +31,10 @@ signal throw_end
 signal tackled
 ## Signal called when recovered.
 signal recovered
-
+## Signal called when killed.
+signal killed(char: Character)
+## Signal called when queue_freed.
+signal freed(char: Character)
 
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
 var owning_player_id := -1
@@ -47,6 +50,8 @@ var equipped_key: int = -1
 var previous_velocity: Vector3
 ## The ragdoll of this character.
 var ragdoll: Ragdoll
+## Whether or not this character is alive and in the game.
+var is_alive: bool = true
 
 ## Amount of friction force to apply to the ragdoll if it's sliding.
 const RAGDOLL_FRICTION_MULTIPLIER: float = 0.9
@@ -73,6 +78,7 @@ func is_locally_possessed() -> bool:
 func _exit_tree() -> void:
 	if is_locally_possessed(): player_controller.unpossess_character()
 	level.level_registry.erase(registry_id)
+	freed.emit(self)
 	
 	# Remove ragdoll.
 	ragdoll.queue_free()
@@ -96,6 +102,10 @@ func _physics_process(delta: float):
 	
 	if not is_tackled(): move_and_slide()
 	
+	# Kill character if out of bounds.
+	if network_manager.is_host():
+		if not level.is_in_bounds(position):
+			kill()
 
 
 # Makes the character move based on player input.
@@ -439,3 +449,24 @@ func get_body_velocity() -> Vector3:
 		return ragdoll.get_ragdoll_velocity()
 	else:
 		return velocity
+
+## Kills this character, making them irrelevant to the game.
+func kill() -> void:
+	if not is_alive: return
+	if is_locally_possessed(): player_controller.unpossess_character()
+	visible = false
+	set_deferred("disabled", true)
+	ragdoll.start_ragdoll(velocity)
+	is_alive = false
+	level.level_registry.erase(registry_id)
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_KILL, "char_id": registry_id})
+	if is_locally_possessed():
+		player_controller.unpossess_character()
+	killed.emit(self)
+
+func can_possess() -> bool:
+	if player_controller:
+		if player_controller.current_character:
+			return is_alive
+	return false
