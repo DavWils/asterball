@@ -222,7 +222,9 @@ func read_p2p_packet():
 				Message.REGISTRY_UPDATE: 
 					if is_host(sender_id):
 						var network_registry = readable_data["r"]
-						var level: Level = get_tree().current_scene.get_node("Level")
+						var level: Level = get_tree().current_scene.get_node_or_null("Level")
+						if not level: return
+						if not level.network_ready: return
 						for id in network_registry:
 							if level.level_registry.has(id):
 								level.level_registry[id].from_reg_dict(network_registry[id])
@@ -459,6 +461,12 @@ func ignore_match_reliant_function(message: int) -> bool:
 	if message == Message.RETRIEVE_GAME_INFO: return false
 	
 	return true
+
+func is_network_ready() -> bool:
+	var level: Level = get_tree().current_scene.get_node_or_null("Level")
+	if not level: return false
+	else: return level.network_ready
+
 
 ## Enum for the message types for the network manager.
 enum Message {

@@ -153,6 +153,11 @@ func to_init_dict() -> Dictionary:
 func from_init_dict(data: Dictionary) -> void:
 	owning_player_id = data["owner_id"]
 	$InventoryComponent.from_dict(data["inventory"])
+	
+	# Wait until ready to actually equip. 
+	if not is_node_ready(): await ready
+	if not network_manager.is_network_ready(): await network_manager.game_info_retrieved
+	
 	equip_item(data["equipped_key"], true)
 
 ## Converts ongoing character values that need to be updated to players from host constantly, like position and such.
