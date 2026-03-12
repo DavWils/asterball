@@ -252,7 +252,12 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["id"]]
-						var tackler: Node3D = level.level_registry[readable_data["tid"]]
+						
+						var tackler_id: int = readable_data["tid"]
+						var tackler: Node3D = null
+						if level.level_registry.has(tackler_id):
+							tackler = level.level_registry[readable_data["tid"]]
+						
 						var tackle_force = readable_data["ts"]
 						var tackle_seed := RandomNumberGenerator.new()
 						tackle_seed.seed = readable_data["seed"]

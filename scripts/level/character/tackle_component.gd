@@ -74,7 +74,7 @@ func tackle(tackler: Node3D, tackle_score: float, tackle_seed: RandomNumberGener
 		# Shake camera.
 		if network_manager.is_host():
 			# Send packet
-			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": character.registry_id, "tid": tackler.registry_id, "ts": tackle_score, "seed": tackle_seed.seed})
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": character.registry_id, "tid": tackler.registry_id if "registry_id" in tackler else -1, "ts": tackle_score, "seed": tackle_seed.seed})
 			# Drop all items.
 			character.drop_all_items()
 			
