@@ -255,7 +255,7 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 	tackled.emit()
 	# Shake camera
 	if is_locally_possessed():
-			get_node("CameraHandle").tackle_shake(tackle_force)
+		$CameraHandle.camera_shake(3*log(tackle_force))
 	# Spawn ragdoll and hide self.
 	visible = false
 	$CollisionShape3D.set_deferred("disabled", true)
