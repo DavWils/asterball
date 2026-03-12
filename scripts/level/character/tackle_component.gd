@@ -59,7 +59,7 @@ func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
 func tackle(tackler: Node3D, tackle_score: float, tackle_seed: RandomNumberGenerator) -> void:
 	if not is_tackled:
 		is_tackled = true
-		print(Steam.getFriendPersonaName(character.owning_player_id), " has been tackled by ", Steam.getFriendPersonaName(tackler.owning_player_id) if tackler is Character else tackler.item_state.item_resource.item_name, " with a force of ", tackle_score)
+		print(Steam.getFriendPersonaName(character.owning_player_id), " has been tackled with a score of ", tackle_score)
 		$TackleAudioPlayer.play()
 		
 		# Generate the recovery code.
