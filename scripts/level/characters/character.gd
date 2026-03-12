@@ -147,6 +147,15 @@ func to_init_dict() -> Dictionary:
 	character_data["inventory"] = $InventoryComponent.to_dict()
 	character_data["equipped_key"] = equipped_key
 	
+	# If aiming/throwing, check here.
+	character_data["is_aiming"] = is_aiming()
+	character_data["is_throwing"] = is_throwing()
+	
+	character_data["is_tackled"] = is_tackled()
+	if is_tackled():
+		character_data["t_c"] = tackle_component.recovery_code
+		character_data["t_p"] = tackle_component.recovery_progress
+	
 	return character_data
 
 ## Loads character variables based on the given dictionary.
@@ -160,6 +169,16 @@ func from_init_dict(data: Dictionary) -> void:
 	if not network_manager.is_network_ready(): await network_manager.game_info_retrieved
 	
 	equip_item(data.get("equipped_key", -1), true)
+	
+	if data.get("is_aiming", false): 
+		start_aim()
+		if data["is_throwing"]:
+			start_throwing()
+
+	if data.get("is_tackled", false):
+		tackle(self, 0.0, RandomNumberGenerator.new())
+		tackle_component.recovery_code = data["t_c"]
+		tackle_component.recovery_progress = data["t_p"]
 
 ## Converts ongoing character values that need to be updated to players from host constantly, like position and such.
 func to_reg_dict() -> Dictionary:
