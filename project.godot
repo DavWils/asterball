@@ -91,9 +91,9 @@ buy_menu={
 [layer_names]
 
 3d_physics/layer_1="World"
-3d_physics/layer_2="Characters"
-3d_physics/layer_3="Pickups"
-3d_physics/layer_4="Zones"
+3d_physics/layer_2="Character"
+3d_physics/layer_3="Projectile"
+3d_physics/layer_4="Zone"
 3d_physics/layer_5="Ragdoll"
 
 [rendering]
