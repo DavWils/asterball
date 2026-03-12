@@ -45,11 +45,11 @@ func _physics_process(_delta: float) -> void:
 
 
 ## Spawns the given character and adds it to the character registry.
-func spawn_character(character_path: String, owner_id := -1, character_position := Vector3.ZERO, registry_id := get_unused_registry_id()) -> Character:
+func spawn_character(character_scene: PackedScene, character_position := Vector3.ZERO, init_dict: Dictionary = {}, registry_id := get_unused_registry_id()) -> Character:
 	print("Spawning a new character with id ", registry_id)
-	var character: Character = load(character_path).instantiate()
+	var character: Character = character_scene.instantiate()
 	character.registry_id = registry_id
-	character.owning_player_id = owner_id
+	character.from_init_dict(init_dict)
 	character.position = character_position
 	var is_x_greater: bool = abs(character.position.x) > abs(character.position.z)
 	var look_at_vector := Vector3(0.0, character.position.y, 0.0)
@@ -66,9 +66,9 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 		network_manager.send_p2p_packet(0, 
 		{
 			"m": network_manager.Message.SPAWN_CHAR,
-			"char_path": character_path,
+			"char_path": character.scene_file_path,
 			"registry_id": registry_id,
-			"owner_id": owner_id,
+			"init_dict": character.to_init_dict(),
 			"position": character_position
 		}
 		)

@@ -189,7 +189,6 @@ func auto_assign_player_team(player_id: int):
 
 ## Spawns a character for each player.
 func spawn_omnistrikers() -> void:
-	var omnistriker_path := "res://scenes/level/characters/omnistriker.tscn"
 	# An array of each team and their respective players. After getting this, we'll use the number of team players to place them in an even line.
 	var teams_and_players: Dictionary[int, Array]
 	for team_id in match_state.team_states:
@@ -204,7 +203,7 @@ func spawn_omnistrikers() -> void:
 			# Make sure they're actually in the game when spawning them.
 			if network_manager.has_lobby_member(player_id):
 				var spawn_position: Vector3 = spawn_zone.get_spawn_position(teams_and_players[team_id].find(player_id), teams_and_players[team_id].size())
-				level.spawn_character(omnistriker_path, player_id, spawn_position)
+				level.spawn_character(load("res://scenes/level/characters/omnistriker.tscn"), spawn_position, {"owner_id": player_id})
 
 ## Cleans up the level, removing old stuff from registry.
 func clean_level() -> void:

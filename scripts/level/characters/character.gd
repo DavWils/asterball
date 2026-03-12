@@ -151,14 +151,15 @@ func to_init_dict() -> Dictionary:
 
 ## Loads character variables based on the given dictionary.
 func from_init_dict(data: Dictionary) -> void:
-	owning_player_id = data["owner_id"]
-	$InventoryComponent.from_dict(data["inventory"])
+	owning_player_id = data.get("owner_id", -1)
+	if data.has("inventory"):
+		$InventoryComponent.from_dict(data["inventory"])
 	
 	# Wait until ready to actually equip. 
 	if not is_node_ready(): await ready
 	if not network_manager.is_network_ready(): await network_manager.game_info_retrieved
 	
-	equip_item(data["equipped_key"], true)
+	equip_item(data.get("equipped_key", -1), true)
 
 ## Converts ongoing character values that need to be updated to players from host constantly, like position and such.
 func to_reg_dict() -> Dictionary:

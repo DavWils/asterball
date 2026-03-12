@@ -193,7 +193,7 @@ func read_p2p_packet():
 				Message.SPAWN_CHAR: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
-						level.spawn_character(readable_data["char_path"], readable_data["owner_id"], readable_data["position"], readable_data["registry_id"])
+						level.spawn_character(load(readable_data["char_path"]), readable_data["position"], readable_data["init_dict"], readable_data["registry_id"])
 				Message.SPAWN_PROJECTILE: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
