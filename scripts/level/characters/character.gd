@@ -267,10 +267,10 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 ## Called when self recovers from a tackle.
 func recover() -> void:
 	visible = true
-	$CollisionShape3D.set_deferred("disabled", false)
 	if network_manager.is_host():
 		position = ragdoll.get_ragdoll_position()
 		velocity = ragdoll.get_ragdoll_velocity()
+	$CollisionShape3D.set_deferred("disabled", false)
 	ragdoll.stop_ragdoll()
 	
 	tackle_component.recover()
