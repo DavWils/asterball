@@ -30,7 +30,7 @@ func start_ragdoll(force: Vector3):
 	simulator.physical_bones_start_simulation()
 	var root_bone := simulator.get_child(0)
 	if root_bone is PhysicalBone3D:
-		root_bone.apply_central_impulse(5 * force)
+		root_bone.apply_central_impulse(5 * force/100)
 
 func stop_ragdoll():
 	simulator.physical_bones_stop_simulation()

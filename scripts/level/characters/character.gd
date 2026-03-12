@@ -249,8 +249,9 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 func recover() -> void:
 	visible = true
 	$CollisionShape3D.set_deferred("disabled", false)
-	position = ragdoll.get_ragdoll_position()
-	velocity = ragdoll.get_ragdoll_velocity()
+	if network_manager.is_host():
+		position = ragdoll.get_ragdoll_position()
+		velocity = ragdoll.get_ragdoll_velocity()
 	ragdoll.stop_ragdoll()
 	
 	tackle_component.recover()
@@ -439,7 +440,7 @@ func get_carry_mass() -> float:
 
 ## Returns the character's momentum as a vector.
 func get_momentum() -> Vector3:
-	return velocity * (get_carry_mass() + character_mass)
+	return previous_velocity * (get_carry_mass() + character_mass)
 
 
 func add_effect(effect: EffectState) -> void:
