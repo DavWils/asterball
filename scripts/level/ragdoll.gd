@@ -28,14 +28,13 @@ func _ready():
 func start_ragdoll(force: Vector3):
 	position = character.position
 	simulator.physical_bones_start_simulation()
-	var root_bone := simulator.get_child(0)
-	if root_bone is PhysicalBone3D:
-		root_bone.apply_central_impulse(5 * force/100)
+	for child in $Armature/Skeleton3D/PhysicalBoneSimulator3D.get_children():
+		if child is PhysicalBone3D:
+			child.apply_central_impulse(5 * force/100)
 
 func stop_ragdoll():
 	simulator.physical_bones_stop_simulation()
 	position = Vector3(0,-1000,0)
-
 
 func from_reg_dict(data: Dictionary) -> void:
 	if data.is_empty():
