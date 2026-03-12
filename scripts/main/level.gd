@@ -77,14 +77,12 @@ func spawn_character(character_path: String, owner_id := -1, character_position 
 	registry_obj_spawned.emit(character)
 	return character
 
-func spawn_projectile(item_state: ItemState, start_position: Vector3, thrower: Character = null, registry_id := get_unused_registry_id()):
+func spawn_projectile(projectile_scene: PackedScene, start_position: Vector3, init_dict: Dictionary = {}, registry_id := get_unused_registry_id()):
 	print("Spawning a new projectile with id ", registry_id)
-	var projectile_node: Projectile = item_state.item_resource.get_projectile_scene().instantiate()
+	var projectile_node: Projectile = projectile_scene.instantiate()
 	projectile_node.position = start_position
-	projectile_node.item_state = item_state
 	projectile_node.registry_id = registry_id
-	projectile_node.thrower_id = thrower.owning_player_id if thrower else -1
-	projectile_node.throwing_character = thrower
+	projectile_node.from_init_dict(init_dict)
 	
 	level_registry[registry_id] = projectile_node
 	add_child(projectile_node)
@@ -94,10 +92,10 @@ func spawn_projectile(item_state: ItemState, start_position: Vector3, thrower: C
 		network_manager.send_p2p_packet(0, 
 		{
 			"m": network_manager.Message.SPAWN_PROJECTILE,
-			"item_state": item_state.to_dict(),
+			"proj_path": projectile_node.scene_file_path,
+			"init_dict": projectile_node.to_init_dict(),
 			"position": start_position,
 			"registry_id": registry_id,
-			"thrower_char_id": thrower.registry_id if thrower else -1
 		}
 		)
 	

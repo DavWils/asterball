@@ -38,7 +38,7 @@ func next_round():
 func spawn_ball():
 	var ball_item_state = ItemState.new()
 	ball_item_state.item_resource = load("res://resources/items/ball.tres")
-	return level.spawn_projectile(ball_item_state, level.default_item_spawn, null)
+	return level.spawn_projectile(ball_item_state.item_resource.get_projectile_scene(), level.default_item_spawn, {"item_state": ball_item_state.to_dict()})
 
 func score(scoring_character: Character):
 	super.score(scoring_character)

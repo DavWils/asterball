@@ -12,11 +12,11 @@ const MIN_TACKLE_SCORE: float = 3.0
 var projectile_mesh: Node3D
 
 ## Item state
-var item_state: ItemState
+var item_state: ItemState = null
 ## Registry id
 var registry_id: int
 ## Player id of the thrower.
-var thrower_id: int
+var thrower_id: int = -1
 ## The character who threw the item.
 var throwing_character: Character
 
@@ -50,11 +50,16 @@ func _ready() -> void:
 	
 	start_time = Time.get_ticks_msec()
 	
+	if level.level_registry.has(thrower_id):
+		throwing_character = level.level_registry[thrower_id]
+	
 	print("Spawned projectile ", registry_id)
+	
 	
 	
 	$Area3D.body_entered.connect(_on_area_body_entered)
 	body_entered.connect(_on_body_entered)
+
 
 func _physics_process(_delta: float) -> void:
 	# If out of bounds, kill or respawn.
@@ -121,8 +126,11 @@ func to_init_dict() -> Dictionary:
 
 ## Loads character variables based on the given dictionary.
 func from_init_dict(data: Dictionary) -> void:
-	item_state = ItemState.new()
-	item_state.from_dict(data["item_state"])
+	if not item_state:
+		item_state = ItemState.new()
+		item_state.from_dict(data["item_state"])
+	if data.has("thrower_id"):
+		thrower_id = data["thrower_id"]
 
 ## Converts ongoing character values that need to be updated to players from host constantly, like position and such.
 func to_reg_dict() -> Dictionary:

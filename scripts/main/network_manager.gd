@@ -197,14 +197,7 @@ func read_p2p_packet():
 				Message.SPAWN_PROJECTILE: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
-						var item_state = ItemState.new()
-						item_state.from_dict(readable_data["item_state"])
-						var thrower: Character
-						if level.level_registry.has(readable_data["thrower_char_id"]):
-							thrower = level.level_registry[readable_data["thrower_char_id"]]
-						else:
-							thrower = null
-						level.spawn_projectile(item_state, readable_data["position"], thrower, readable_data["registry_id"])
+						level.spawn_projectile(load(readable_data["proj_path"]), readable_data["position"], readable_data["init_dict"], readable_data["registry_id"])
 				Message.DESPAWN_OBJECT: 
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
