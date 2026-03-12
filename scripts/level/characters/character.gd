@@ -164,18 +164,27 @@ func from_init_dict(data: Dictionary) -> void:
 ## Converts ongoing character values that need to be updated to players from host constantly, like position and such.
 func to_reg_dict() -> Dictionary:
 	var character_reg_data: Dictionary
-	character_reg_data["p"] = position # Position
-	character_reg_data["r"] = rotation # Rotation
-	character_reg_data["v"] = velocity # Velocity
-	character_reg_data["cp"] = control_pitch
-	character_reg_data["mv"] = movement_component.to_reg_dict()
-	character_reg_data["tc"] = throw_component.to_reg_dict()
-	
-	return character_reg_data
+	if is_tackled():
+		character_reg_data["t"] = true
+		character_reg_data["rag"] = ragdoll.to_reg_dict()
+		return character_reg_data
+	else:
+		character_reg_data["p"] = position # Position
+		character_reg_data["r"] = rotation # Rotation
+		character_reg_data["v"] = velocity # Velocity
+		character_reg_data["cp"] = control_pitch
+		character_reg_data["mv"] = movement_component.to_reg_dict()
+		character_reg_data["tc"] = throw_component.to_reg_dict()
+		
+		return character_reg_data
 
 ## Loads character registry info from dict.
 func from_reg_dict(data: Dictionary) -> void:
 	if not is_node_ready(): return
+	if is_tackled() and data.has("t"):
+		ragdoll.from_reg_dict(data["rag"])
+		return
+	elif is_tackled() != data.has("t"): return
 	var new_pos: Vector3 = data["p"]
 	var new_rot: Vector3 = data["r"]
 	var new_vel: Vector3 = data["v"]

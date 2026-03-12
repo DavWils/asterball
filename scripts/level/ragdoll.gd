@@ -10,7 +10,7 @@ var character: Character
 @onready var simulator = $Armature/Skeleton3D/PhysicalBoneSimulator3D
 
 ## The amount of times registry dictionary must be made before it actually sends something, necessary so no lag.
-const REG_TICK_QUOTA: int = 10
+const REG_TICK_QUOTA: int = 1
 ## Tick count for registry.
 var reg_tick_count: int = 0
 
@@ -28,8 +28,7 @@ func _ready():
 func start_ragdoll(force: Vector3):
 	position = character.position
 	simulator.physical_bones_start_simulation()
-
-	var root_bone := simulator.get_child(0) # usually hips
+	var root_bone := simulator.get_child(0)
 	if root_bone is PhysicalBone3D:
 		root_bone.apply_central_impulse(5 * force)
 
@@ -39,38 +38,40 @@ func stop_ragdoll():
 
 
 func from_reg_dict(data: Dictionary) -> void:
-	const LERP_FACTOR: float = 0.4 # The factor in which skeleton bones are lerped to their true value.
-	
-	if data == {}: return
-	var bone_counter: int = 0
-	for child in simulator.get_children():
-		if child is PhysicalBone3D:
-			var true_pos = data["p"][bone_counter]
-			var true_rot = data["r"][bone_counter]
-			
-			var lerped_pos = child.global_transform.origin.lerp(true_pos, LERP_FACTOR)
-			
-			child.global_transform.origin = lerped_pos
-			child.global_transform.basis = Basis(true_rot)
-			
-			bone_counter += 1
+	if data.is_empty():
+		return
+
+	const LERP_FACTOR := 0.35
+
+	var root := simulator.get_child(0)
+
+	var true_pos: Vector3 = data["p"]
+	var true_rot: Quaternion = data["r"]
+
+	var new_transform: Transform3D = root.global_transform
+	new_transform.origin = root.global_transform.origin.lerp(true_pos, LERP_FACTOR)
+	new_transform.basis = Basis(true_rot)
+
+	root.global_transform = new_transform
+	root.linear_velocity = root.linear_velocity.lerp(data["v"], 0.25)
 
 func to_reg_dict() -> Dictionary:
-	if not character.is_tackled(): return {}
+	if not character.is_tackled():
+		return {}
+
 	if reg_tick_count < REG_TICK_QUOTA:
 		reg_tick_count += 1
 		return {}
-	
-	var data: Dictionary
-	var pos_array: PackedVector3Array
-	var rot_array: PackedVector3Array
-	for child in simulator.get_children():
-		if child is PhysicalBone3D:
-			pos_array.append(child.global_transform.origin)
-			rot_array.append(child.global_transform.basis.get_rotation_quaternion())
-	data["p"] = pos_array
-	data["r"] = rot_array
-	return data
+
+	reg_tick_count = 0
+
+	var root := simulator.get_child(0)
+
+	return {
+		"p": root.global_transform.origin,
+		"r": root.global_transform.basis.get_rotation_quaternion(),
+		"v": root.linear_velocity
+	}
 
 func get_ragdoll_position() -> Vector3:
 	return simulator.get_child(0).global_position
