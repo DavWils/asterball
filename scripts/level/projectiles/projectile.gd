@@ -104,8 +104,8 @@ func character_overlap(character: Character):
 	if tackle_score >= MIN_TACKLE_SCORE: character.tackle(self, tackle_score)
 	print(item_state.item_resource.item_name, " has collided with player ", Steam.getFriendPersonaName(character.owning_player_id))
 
-func surface_collide(body: Node3D) -> void:
-	print(item_state.item_resource.item_name, " projectile has overlapped with ", body.name)
+func surface_collide(_body: Node3D) -> void:
+	#print(item_state.item_resource.item_name, " projectile has overlapped with ", body.name)
 	# Play a sound on collision
 	var linear_vol: float = linear_velocity.length()/25.0
 	$CollideAudioPlayer.volume_linear = clampf(linear_vol, 0.0, 1.0)
