@@ -457,9 +457,13 @@ func get_carry_mass() -> float:
 		total_mass += item.get_item_mass()
 	return total_mass
 
+## Returns character total mass.
+func get_total_mass() -> float:
+	return get_carry_mass() + character_mass
+
 ## Returns the character's momentum as a vector.
 func get_momentum() -> Vector3:
-	return previous_velocity * (get_carry_mass() + character_mass)
+	return previous_velocity * (get_total_mass())
 
 
 func add_effect(effect: EffectState) -> void:
