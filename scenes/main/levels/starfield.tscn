@@ -75,6 +75,9 @@ kill_horizontal = Vector2(100, 200)
 kill_depth = -5.0
 default_item_spawn = Vector3(0, 20, 0)
 
+[node name="PlayerController" parent="." index="1"]
+transform = Transform3D(-4.1523407e-08, 0.3124178, -0.9499448, 1.3656216e-08, 0.9499448, 0.3124178, 1, 0, -4.371139e-08, -50, 25, 0)
+
 [node name="HomeSpawnZone" type="Area3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 113.25)
 collision_layer = 8
