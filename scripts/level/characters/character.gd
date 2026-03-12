@@ -186,7 +186,9 @@ func from_reg_dict(data: Dictionary) -> void:
 		## The percentage to lerp from local position to updated position
 		const NONLOCAL_LERP_FACTOR: float = 0.4
 		position = position.lerp(new_pos, NONLOCAL_LERP_FACTOR)
-		rotation = rotation.lerp(new_rot, NONLOCAL_LERP_FACTOR)
+		rotation.x = lerp_angle(rotation.x, new_rot.x, NONLOCAL_LERP_FACTOR)
+		rotation.y = lerp_angle(rotation.y, new_rot.y, NONLOCAL_LERP_FACTOR)
+		rotation.z = lerp_angle(rotation.z, new_rot.z, NONLOCAL_LERP_FACTOR)
 		velocity = new_vel
 		control_pitch = new_con_pitch
 	else:
