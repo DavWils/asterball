@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cmlmvkht2rnjk" path="res://scripts/level/zones/spawn_zone.gd" id="2_duo4t"]
 [ext_resource type="Script" uid="uid://citpb5m7we5p8" path="res://scripts/level/zones/buy_zone.gd" id="3_iwd2m"]
 [ext_resource type="Script" uid="uid://cxatpiq5agerl" path="res://scripts/level/zones/score_zone.gd" id="4_kt5yk"]
-[ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://scripts/shaders/sky/astral_sky.gdshader" id="8_fcqct"]
+[ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://shaders/sky/astral_sky.gdshader" id="8_fcqct"]
 [ext_resource type="AudioStream" uid="uid://btxmjdxc4svu" path="res://sounds/music/ambience/starfield_ambience.wav" id="9_dyqur"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gs6xa"]

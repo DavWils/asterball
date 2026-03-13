@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c1ob8k6aooccr" path="res://meshes/levels/starfield/starfield_field.glb" id="6_pgjeu"]
 [ext_resource type="PackedScene" uid="uid://c03unke567evk" path="res://meshes/levels/starfield/starfield_crater.glb" id="6_u3xwc"]
 [ext_resource type="PackedScene" uid="uid://d3tl7r41kdwl5" path="res://meshes/levels/starfield/starfield_goalpost.glb" id="7_pgjeu"]
-[ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://scripts/shaders/sky/astral_sky.gdshader" id="8_t2d5p"]
+[ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://shaders/sky/astral_sky.gdshader" id="8_t2d5p"]
 [ext_resource type="AudioStream" uid="uid://btxmjdxc4svu" path="res://sounds/music/ambience/starfield_ambience.wav" id="9_e7y16"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gs6xa"]

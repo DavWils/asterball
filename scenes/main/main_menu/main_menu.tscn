@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="2_y8u07"]
 [ext_resource type="Script" uid="uid://nbam8rhrfg8s" path="res://scripts/ui/menu/main_menu.gd" id="3_svxau"]
 [ext_resource type="Texture2D" uid="uid://canw8wd87crlv" path="res://textures/ui/logo.png" id="4_k0ycp"]
-[ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://scripts/shaders/sky/astral_sky.gdshader" id="4_r7wpq"]
+[ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://shaders/sky/astral_sky.gdshader" id="4_r7wpq"]
 [ext_resource type="Script" uid="uid://dli6mebp84f40" path="res://scripts/ui/menu/credits.gd" id="7_scmgr"]
 [ext_resource type="Script" uid="uid://f62o5afrhbmw" path="res://scripts/ui/menu/host.gd" id="8_6pyy2"]
 [ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="9_hsu2m"]

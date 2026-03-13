@@ -1,7 +1,7 @@
 [gd_scene load_steps=32 format=3 uid="uid://bfcofdjjcnss8"]
 
 [ext_resource type="PackedScene" uid="uid://2my1jf36g7kt" path="res://scenes/level/misc/explosion.tscn" id="1_mw7uk"]
-[ext_resource type="Shader" uid="uid://l8nd11qkw1dm" path="res://scripts/shaders/shockwave.gdshader" id="2_mw85o"]
+[ext_resource type="Shader" uid="uid://l8nd11qkw1dm" path="res://shaders/shockwave.gdshader" id="2_mw85o"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mw7uk"]
 radius = 5.0
