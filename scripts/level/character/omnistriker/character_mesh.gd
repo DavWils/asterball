@@ -39,7 +39,6 @@ func update_animation():
 				else:
 					speed_scale = 1.0
 				animation_tree.set("parameters/RunTimeScale/scale", speed_scale)
-				return
 			else:
 				# Running, calculate direction and run.
 				var local_velocity = character.transform.basis.inverse() * horizontal_velocity
