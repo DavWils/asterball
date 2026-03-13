@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 func _process(_delta: float) -> void:
 	if throw_particles.emitting:
 		throw_particles.position = character.current_equipment.global_position
-		throw_particles.amount_ratio = throw_force / get_max_throw_force()
+		throw_particles.amount_ratio = (throw_force / get_max_throw_force())**2
 
 ## Starts aiming with the given item.
 func start_aim() -> void:

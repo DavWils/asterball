@@ -14,7 +14,7 @@ const AIM_HEIGHT := 2.2
 ## Distance from character while aiming
 const AIM_LENGTH := 1.5
 ## Side offset while iaming
-const AIM_OFFSET := 1.7
+const AIM_OFFSET := 1.3
 
 ## Camera position offset caused by camera shake.
 var shake_time := 0.0
@@ -22,6 +22,9 @@ var shake_duration := 0.0
 var shake_strength := 0.0
 var shake_offset := Vector3.ZERO
 
+## Returns player's base fov.
+func get_base_fov() -> float:
+	return 75.0
 
 func _process(_delta: float) -> void:
 	if character.is_tackled():
@@ -40,17 +43,20 @@ func _process(_delta: float) -> void:
 		
 		# Zoom camera on ragdoll.
 		var ragdoll_distance = global_position.distance_to(ragdoll_position)
-		camera.fov = lerp(camera.fov, 75.0 - ((min(ragdoll_distance*1,50.0))), 0.2)
+		camera.fov = lerp(camera.fov, get_base_fov() - ((min(ragdoll_distance*1,50.0))), 0.2)
 	else:
 		self.rotation.x = lerp(self.rotation.x, character.control_pitch, .6)
 		self.rotation.y = lerp(self.rotation.y, 0.0, 0.6)
-		camera.fov = lerp(camera.fov, 75.0, 0.4)
 		if character.is_aiming():
 			self.position = self.position.lerp(Vector3(0, AIM_HEIGHT, 0), 0.2)
 			camera.position = camera.position.lerp(Vector3(AIM_OFFSET, 0, AIM_LENGTH), 0.2)
 		else:
 			self.position = self.position.lerp(Vector3(0, BASE_HEIGHT, 0), 0.2)
 			camera.position = camera.position.lerp(Vector3(0, 0, BASE_LENGTH), 0.2)
+		if character.is_throwing():
+			camera.fov = lerp(camera.fov, get_base_fov() - ((character.throw_component.throw_force / character.throw_component.get_max_throw_force()) * 35), 0.4)
+		else:
+			camera.fov = lerp(camera.fov, get_base_fov(), 0.4)
 	# Camera shake update
 	if shake_time < shake_duration:
 		shake_time += _delta
