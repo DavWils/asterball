@@ -127,7 +127,7 @@ shape = SubResource("BoxShape3D_gd8ut")
 [node name="InventoryCarousel" type="Node3D" parent="."]
 script = ExtResource("4_fwypb")
 
-[node name="InventoryComponent" type="Node" parent="."]
+[node name="InventoryComponent" type="Node3D" parent="."]
 script = ExtResource("5_7da80")
 
 [node name="OverlapArea3D" type="Area3D" parent="."]
@@ -143,14 +143,14 @@ script = ExtResource("7_tu7bk")
 
 [node name="TackleAudioPlayer" type="AudioStreamPlayer3D" parent="TackleComponent"]
 
-[node name="MovementComponent" type="Node" parent="."]
+[node name="MovementComponent" type="Node3D" parent="."]
 script = ExtResource("8_ikaoe")
 
 [node name="TrajectoryIndicator" type="MultiMeshInstance3D" parent="."]
 multimesh = SubResource("MultiMesh_3xhtn")
 script = ExtResource("9_gx15w")
 
-[node name="EffectsComponent" type="Node" parent="."]
+[node name="EffectsComponent" type="Node3D" parent="."]
 script = ExtResource("10_cmg63")
 
 [node name="ThrowComponent" type="Node3D" parent="."]
