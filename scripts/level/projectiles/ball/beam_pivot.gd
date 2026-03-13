@@ -12,6 +12,8 @@ func _ready() -> void:
 	var allegiance_team := ball.get_allegiance_team()
 	if allegiance_team:
 		beam_mat.set_shader_parameter("emission", ball.get_allegiance_team().team_resource.primary_color)
+		$SmokeParticles.draw_pass_1.material.albedo_color = ball.get_allegiance_team().team_resource.primary_color
+		$SmokeParticles.draw_pass_1.material.emission = ball.get_allegiance_team().team_resource.primary_color
 	else:
 		beam_mat.set_shader_parameter("emission", Color())
 		beam_mat.set_shader_parameter("emission_energy", 0.0)
@@ -29,9 +31,9 @@ func _process(delta: float) -> void:
 		global_transform.basis = global_transform.basis.slerp(transform.looking_at(transform.origin + vel_dir, Vector3.FORWARD if abs(vel_dir.dot(Vector3.UP)) > 0.99 else Vector3.UP).basis, delta * 5.0)
 
 	# Set the length of the beam.
-	var new_beam_length = ball_velocity.length()/6.0
+	var new_beam_length = ball_velocity.length()/3.0
 	var cur_beam_length = beam_mesh.mesh.height
-	var beam_length: float = lerp(cur_beam_length, new_beam_length, delta)
+	var beam_length: float = lerp(cur_beam_length, new_beam_length, delta*5.0)
 	var half_length: float = beam_length/2.0
 	beam_mesh.mesh.height = beam_length
 	beam_mesh.position = Vector3(0,0,half_length)
