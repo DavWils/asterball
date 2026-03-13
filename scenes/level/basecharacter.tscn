@@ -47,12 +47,9 @@ point_count = 4
 curve = SubResource("Curve_u24d6")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_d3ms2"]
-emission_shape = 6
-emission_ring_axis = Vector3(0, 1, 0)
-emission_ring_height = 0.1
-emission_ring_radius = 1.0
-emission_ring_inner_radius = 1.0
-emission_ring_cone_angle = 90.0
+emission_shape_offset = Vector3(0, 0, -1)
+emission_shape = 1
+emission_sphere_radius = 1.0
 direction = Vector3(0, 1, 0)
 gravity = Vector3(0, 0, 0)
 tangential_accel_min = 1.9999977
@@ -74,8 +71,8 @@ emission_energy_multiplier = 25.0
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_u24d6")
 flip_faces = true
-radius = 0.02
-height = 0.04
+radius = 0.005
+height = 0.01
 radial_segments = 4
 rings = 2
 
@@ -101,8 +98,8 @@ emission_energy_multiplier = 5.0
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_ys7i3")
 flip_faces = true
-radius = 0.01
-height = 0.02
+radius = 0.002
+height = 0.004
 radial_segments = 4
 rings = 2
 
@@ -166,17 +163,21 @@ stream = ExtResource("12_q47tg")
 top_level = true
 emitting = false
 amount = 200
+amount_ratio = 0.0
 sub_emitter = NodePath("GPUParticles3D2")
+lifetime = 0.2
+local_coords = true
 process_material = SubResource("ParticleProcessMaterial_d3ms2")
 draw_pass_1 = SubResource("SphereMesh_q1d0b")
 
 [node name="GPUParticlesAttractorSphere3D" type="GPUParticlesAttractorSphere3D" parent="ThrowComponent/GPUParticles3D"]
-strength = 4.0
+strength = 16.0
 attenuation = 0.5
 radius = 2.0
 
 [node name="GPUParticles3D2" type="GPUParticles3D" parent="ThrowComponent/GPUParticles3D"]
 emitting = false
 amount = 100
+local_coords = true
 process_material = SubResource("ParticleProcessMaterial_q1d0b")
 draw_pass_1 = SubResource("SphereMesh_ccchl")
