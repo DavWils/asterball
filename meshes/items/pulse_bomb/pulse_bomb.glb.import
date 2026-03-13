@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cmc4ri13fs8fb"
-path="res://.godot/imported/pulse_bomb.glb-a83907ab1196f41c019c9e126b65a110.scn"
+path="res://.godot/imported/pulse_bomb.glb-7a3cda9e50e20dae00d9d6139d8e3263.scn"
 
 [deps]
 
-source_file="res://meshes/items/warp_sphere/pulse_bomb.glb"
-dest_files=["res://.godot/imported/pulse_bomb.glb-a83907ab1196f41c019c9e126b65a110.scn"]
+source_file="res://meshes/items/pulse_bomb/pulse_bomb.glb"
+dest_files=["res://.godot/imported/pulse_bomb.glb-7a3cda9e50e20dae00d9d6139d8e3263.scn"]
 
 [params]
 

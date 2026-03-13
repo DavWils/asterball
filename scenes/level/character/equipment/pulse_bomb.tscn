@@ -1,5 +1,38 @@
-[gd_scene load_steps=2 format=3 uid="uid://di8ectre2doqv"]
+[gd_scene load_steps=7 format=3 uid="uid://di8ectre2doqv"]
 
 [ext_resource type="PackedScene" uid="uid://d00rxwj1hofxg" path="res://scenes/level/character/baseequipment.tscn" id="1_goqxd"]
 
+[sub_resource type="Curve" id="Curve_mkiqc"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5x1du"]
+curve = SubResource("Curve_mkiqc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mx7hm"]
+particle_flag_align_y = true
+emission_shape_scale = Vector3(0.2, 0.2, 0.2)
+emission_shape = 2
+emission_sphere_radius = 1.4
+radial_velocity_min = 0.99997765
+radial_velocity_max = 0.99997765
+gravity = Vector3(0, -1, 0)
+scale_curve = SubResource("CurveTexture_5x1du")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mkiqc"]
+albedo_color = Color(0.05490196, 0, 0.81960785, 1)
+emission_enabled = true
+emission = Color(0.05490196, 0, 0.81960785, 1)
+emission_energy_multiplier = 25.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_goqxd"]
+material = SubResource("StandardMaterial3D_mkiqc")
+top_radius = 0.0
+bottom_radius = 0.01
+height = 0.2
+
 [node name="Equipment" instance=ExtResource("1_goqxd")]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." index="0"]
+process_material = SubResource("ParticleProcessMaterial_mx7hm")
+draw_pass_1 = SubResource("CylinderMesh_goqxd")

@@ -14,7 +14,7 @@ curve = SubResource("Curve_mkiqc")
 particle_flag_align_y = true
 emission_shape_scale = Vector3(0.2, 0.2, 0.2)
 emission_shape = 2
-emission_sphere_radius = 1.0
+emission_sphere_radius = 1.4
 radial_velocity_min = 0.99997765
 radial_velocity_max = 0.99997765
 gravity = Vector3(0, -1, 0)
@@ -38,6 +38,7 @@ explode_on_collide = true
 explosion_scene = ExtResource("2_mkiqc")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." index="3"]
+amount = 30
 lifetime = 0.4
 process_material = SubResource("ParticleProcessMaterial_mkiqc")
 draw_pass_1 = SubResource("CylinderMesh_mkiqc")
