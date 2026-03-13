@@ -1,12 +1,56 @@
-[gd_scene load_steps=6 format=3 uid="uid://bmb45ptlogy8n"]
+[gd_scene load_steps=13 format=3 uid="uid://bmb45ptlogy8n"]
 
 [ext_resource type="PackedScene" uid="uid://cbk0tx3ba7v5" path="res://scenes/level/baseprojectile.tscn" id="1_k5xdh"]
 [ext_resource type="Script" uid="uid://6yrj6hgsxqmm" path="res://scripts/level/projectiles/ball.gd" id="2_k5xdh"]
 [ext_resource type="Script" uid="uid://25ntfjrlqiyj" path="res://scripts/level/misc/pulse_light.gd" id="3_1ndh6"]
 [ext_resource type="AudioStream" uid="uid://dsa73e13ht2cj" path="res://sounds/level/projectile/ball/hum.wav" id="3_c6fsd"]
 [ext_resource type="Script" uid="uid://ddvxna5ipkkgr" path="res://scripts/level/equipment/ball/humaudioplayer.gd" id="3_vu03h"]
+[ext_resource type="Shader" uid="uid://4nppemalluc3" path="res://shaders/ball_beam.gdshader" id="6_xsvik"]
+[ext_resource type="Script" uid="uid://cxuwxlalh06y7" path="res://scripts/level/projectiles/ball/beam_pivot.gd" id="7_0jrsm"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pxhcf"]
+bounce = 0.4
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0jrsm"]
+noise_type = 0
+frequency = 0.0025
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bxhag"]
+noise = SubResource("FastNoiseLite_0jrsm")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b6atv"]
+render_priority = 0
+shader = ExtResource("6_xsvik")
+shader_parameter/main_color = Color(0, 0, 0, 1)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_bxhag")
+shader_parameter/emission = Color(1, 1, 1, 1)
+shader_parameter/emission_energy = 25.0
+shader_parameter/scroll_speed = 1.0
+shader_parameter/alpha_threshold = 0.0
+shader_parameter/use_threshold = true
+shader_parameter/invert_boost_direction = false
+shader_parameter/fade_emission = true
+shader_parameter/fade_mode = 0
+shader_parameter/fade_softness = 0.02
+shader_parameter/cylinder_half_height = 1.0000000475
+shader_parameter/cylinder_fade_bottom = 2.000000095
+shader_parameter/cylinder_fade_top = 0.05
+shader_parameter/box_half_extents = Vector3(0.5, 0.005, 0.5)
+shader_parameter/box_fade_x_neg = 0.12
+shader_parameter/box_fade_x_pos = 0.12
+shader_parameter/box_fade_z_neg = 0.12
+shader_parameter/box_fade_z_pos = 0.12
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vxy32"]
+material = SubResource("ShaderMaterial_b6atv")
+top_radius = 0.313
+bottom_radius = 0.125
+cap_top = false
+cap_bottom = false
 
 [node name="Projectile" instance=ExtResource("1_k5xdh")]
+physics_material_override = SubResource("PhysicsMaterial_pxhcf")
 script = ExtResource("2_k5xdh")
 
 [node name="TeamLight" type="OmniLight3D" parent="." index="2"]
@@ -16,3 +60,12 @@ script = ExtResource("3_1ndh6")
 stream = ExtResource("3_c6fsd")
 autoplay = true
 script = ExtResource("3_vu03h")
+
+[node name="BeamPivot" type="Node3D" parent="." index="5"]
+top_level = true
+script = ExtResource("7_0jrsm")
+
+[node name="Beam" type="MeshInstance3D" parent="BeamPivot" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 1)
+mesh = SubResource("CylinderMesh_vxy32")
+skeleton = NodePath("../..")

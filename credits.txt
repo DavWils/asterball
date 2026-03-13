@@ -1,11 +1,21 @@
-Textures received by polyhaven.com
-
-Maven Pro font by Vissol Ltd.
+# Maven Pro font by Vissol Ltd.
 Licensed under the SIL Open Font License 1.1.
 
+
+
+# Textures received by polyhaven.com
+Moon 01 Texture by Dario Barresi, Greg Zaal, Jenelle van Heerden and Rico Cilliers: https://polyhaven.com/a/moon_01
+
+
+
+# Godot Shaders from godotshaders.com:
 Distortion bubble shader by thelastflapjack: https://godotshaders.com/shader/distortion-bubble/
 
-Sounds downloaded from freesound.org:
+Futuristic Jet Thruster by MadSerb and a_kimb0: https://godotshaders.com/shader/updated-futuristic-jet-thruster-advanced-end-edge-fading/
+
+
+
+# Sounds downloaded from freesound.org:
 windloop.wav by warwickallison: https://freesound.org/people/warwickallison/sounds/115759/
 
 body_hit.wav by insanity54: https://freesound.org/people/insanity54/sounds/276600/
