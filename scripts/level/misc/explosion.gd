@@ -20,6 +20,9 @@ func _ready() -> void:
 	$ShockwaveAudioPlayer.pitch_scale = randf_range(0.9,1.2)
 	$Timer.timeout.connect(_on_timeout)
 	
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SPAWN_EXPLOSION, "pos": position, "path": scene_file_path})
+	
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	await get_tree().physics_frame
@@ -51,10 +54,11 @@ func explode() -> void:
 					body.velocity += get_explosion_force(body.global_position) / body.get_total_mass()
 	
 	# Camera shake.
-	var dist := position.distance_to(local_char.position)
-	var falloff: float = clamp(1.0 - ((dist / 10.0) / explosion_intensity), 0.0, 1.0)
-	var force: float = explosion_intensity * falloff * 30.0
-	local_char.get_node("CameraHandle").camera_shake(force)
+	if local_char:
+		var dist := position.distance_to(local_char.position)
+		var falloff: float = clamp(1.0 - ((dist / 10.0) / explosion_intensity), 0.0, 1.0)
+		var force: float = explosion_intensity * falloff * 30.0
+		local_char.get_node("CameraHandle").camera_shake(force)
 
 ## Returns the tackle score of this explosion towards the given character.
 func get_tackle_score(_character: Character, _impulse: Vector3) -> float:

@@ -448,6 +448,13 @@ func read_p2p_packet():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["char_id"]]
 						character.kill()
+				Message.SPAWN_EXPLOSION:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var explosion: Node3D = load(readable_data["path"]).instantiate()
+						print("Spawning ", readable_data["path"])
+						explosion.position = readable_data["pos"]
+						level.add_child(explosion)
 
 func ignore_match_reliant_function(message: int) -> bool:
 	if is_host(): return false
@@ -511,4 +518,5 @@ enum Message {
 	CLIENT_REQUEST_AIM_END,
 	CLIENT_REQUEST_THROW_START,
 	CLIENT_REQUEST_THROW_END,
+	SPAWN_EXPLOSION,
 }
