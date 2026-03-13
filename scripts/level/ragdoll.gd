@@ -24,6 +24,12 @@ func _ready():
 		simulator.physical_bones_start_simulation()
 		simulator.get_child(0).apply_central_impulse(Vector3.UP*5.0)
 
+func _physics_process(_delta: float) -> void:
+	if character:
+		if character.is_tackled():
+			if not character.level.is_in_bounds(simulator.get_child(0).global_position):
+				character.kill()
+
 
 func start_ragdoll(force: Vector3):
 	position = character.position

@@ -506,6 +506,10 @@ func kill() -> void:
 	if is_locally_possessed(): player_controller.unpossess_character()
 	visible = false
 	set_deferred("disabled", true)
+	if is_tackled():
+		recover()
+	if is_aiming():
+		end_aim()
 	ragdoll.start_ragdoll(velocity)
 	is_alive = false
 	level.level_registry.erase(registry_id)
