@@ -259,6 +259,8 @@ func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGener
 	# Spawn ragdoll and hide self.
 	visible = false
 	$CollisionShape3D.set_deferred("disabled", true)
+	velocity = Vector3.ZERO
+	
 	var hit_direction := (position-tackler.position).normalized()
 	var ragdoll_velocity = velocity + (hit_direction * tackle_force) + (Vector3.UP * tackle_force * 0.4)
 	ragdoll.start_ragdoll(ragdoll_velocity)

@@ -20,8 +20,9 @@ func _physics_process(_delta: float) -> void:
 		update_animation()
 
 func update_animation():
-	if character.is_tackled(): return
-	
+	if character.is_tackled(): 
+		animation_tree.set("parameters/MovementTransition/transition_request", "Idle")
+		return
 	if not character.is_on_floor():
 		animation_tree.set("parameters/MovementTransition/transition_request", "Fall")
 	else:
