@@ -91,7 +91,7 @@ func is_paused() -> bool:
 
 ## Returns true if in any menu.
 func is_in_menu() -> bool:
-	for ui in [pause_menu, buy_menu, match_menu]:
+	for ui in [pause_menu, buy_menu]:
 		if ui.visible: return true
 	return false
 

@@ -152,9 +152,9 @@ func _unhandled_input(event: InputEvent) -> void:
 						current_character.stop_throwing()
 					else:
 						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_THROW_END, "char_id": current_character.registry_id})
-
 	if event is InputEventMouseMotion:
 		look_input += event.relative
+
 
 ## Has the character equip an inventory item by given key.
 func equip_by_key(key: int) -> void:

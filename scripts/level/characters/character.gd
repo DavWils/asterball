@@ -127,7 +127,8 @@ func use_player_input(input: Dictionary) -> void:
 	# Look input.
 	if is_camera_unlocked():
 		var look_input: Vector2 = input.get("lk", Vector2.ZERO)
-			
+		
+		
 		self.rotation.y = look_input.y
 		var rot_x = clampf(look_input.x, -deg_to_rad(89.0), deg_to_rad(89.0))
 		if use_pitch_rotation:
