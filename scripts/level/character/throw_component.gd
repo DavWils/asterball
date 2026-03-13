@@ -39,7 +39,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	# If throwing, accumulate force.
 	if is_throwing:
-		print("T: ", throw_force)
 		throw_force = clampf(throw_force + (get_throw_speed() * delta), 0, get_max_throw_force())
 
 func _process(_delta: float) -> void:
