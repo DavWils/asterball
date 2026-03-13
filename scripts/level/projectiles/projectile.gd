@@ -8,6 +8,14 @@ class_name Projectile
 ## Minimum momentum needed for projectile to cause a tackle.
 const MIN_TACKLE_SCORE: float = 3.0
 
+## Whether or not to explode whne hitting a character.
+@export var explode_on_overlap: bool = false
+## Whether or not to explode when hitting a surface
+@export var explode_on_collide: bool = false
+
+## The scene to use for an explosion from this projectile. If no scene is given, the projectile will despawn wihtout explosion.
+@export var explosion_scene: PackedScene = null
+
 ## Spawned item mesh.
 var projectile_mesh: Node3D
 
@@ -103,6 +111,12 @@ func character_overlap(character: Character):
 	var tackle_score = get_tackle_score(character)
 	if tackle_score >= MIN_TACKLE_SCORE: character.tackle(self, tackle_score)
 	print(item_state.item_resource.item_name, " has collided with player ", Steam.getFriendPersonaName(character.owning_player_id))
+	
+	if network_manager.is_host():
+		if explode_on_collide and throwing_character:
+			if explosion_scene:
+				spawn_explosion()
+			despawn_projectile()
 
 func surface_collide(_body: Node3D) -> void:
 	#print(item_state.item_resource.item_name, " projectile has overlapped with ", body.name)
@@ -111,6 +125,18 @@ func surface_collide(_body: Node3D) -> void:
 	$CollideAudioPlayer.volume_linear = clampf(linear_vol, 0.0, 1.0)
 	$CollideAudioPlayer.pitch_scale = randf_range(0.9,1.1)
 	$CollideAudioPlayer.play()
+	
+	if network_manager.is_host():
+		if explode_on_collide and throwing_character:
+			if explosion_scene:
+				spawn_explosion()
+			despawn_projectile()
+
+func spawn_explosion() -> void:
+	var explosion = explosion_scene.instantiate()
+	explosion.position = position
+	level.add_child(explosion)
+	
 
 func despawn_projectile():
 	level.despawn_registry_object(registry_id)

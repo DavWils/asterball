@@ -54,6 +54,8 @@ height = 0.04
 
 [node name="Projectile" instance=ExtResource("1_0jndu")]
 script = ExtResource("2_07qh5")
+explode_on_overlap = true
+explode_on_collide = true
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." index="2"]
 amount = 64

@@ -8,33 +8,34 @@ extends Node3D
 ## Minimum score necessary to tackle.
 const MIN_TACKLE_SCORE: float = 10.0
 
-## Explosion intensity, meaning larger radius and higher damage.
+## Explosion intensity, meaning higher tackle scores.
 @export var explosion_intensity: float = 1.0
 
+## Radius of the explosion, which is taken from the shape.
+var explosion_radius: float
 
 
 func _ready() -> void:
-	await get_tree().physics_frame
 	$ExplosionAudioPlayer.pitch_scale = randf_range(0.9,1.2)
 	$ShockwaveAudioPlayer.pitch_scale = randf_range(0.9,1.2)
-	$Area3D/CollisionShape3D.shape.radius = 5*explosion_intensity
-	for particle in get_all_particles():
-		particle.process_material.scale_min *= explosion_intensity
-		particle.process_material.scale_max *= explosion_intensity
+	$Timer.timeout.connect(_on_timeout)
+	
 	await get_tree().physics_frame
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	
 	explode()
 
-func get_all_particles() -> Array[GPUParticles3D]:
-	var particles: Array[GPUParticles3D] = []
-	for child in get_children():
-		if child is GPUParticles3D:
-			particles.append(child)
-	return particles
+func _on_timeout() -> void:
+	queue_free()
 
 func explode() -> void:
 	print("Exploded with ", $Area3D.get_overlapping_bodies(), " bodies.")
-	$AnimationPlayer.play("explode")
-	$AnimationPlayer.animation_finished.connect(_on_animation_finished)
+	$ExplosionAudioPlayer.play()
+	$ShockwaveAudioPlayer.play()
+	if has_node("AnimationPlayer"):
+		$AnimationPlayer.play("explode")
+	$Timer.start()
 	if network_manager.is_host():
 		for body in $Area3D.get_overlapping_bodies():
 			if body is Projectile:
@@ -47,29 +48,17 @@ func explode() -> void:
 				if score >= MIN_TACKLE_SCORE:
 					body.tackle(self, score)
 				else:
-					body.velocity += body.velocity/body.get_total_mass()
+					body.velocity += get_explosion_force(body.global_position) / body.get_total_mass()
+	
+	# Camera shake.
 	var dist := position.distance_to(local_char.position)
 	var falloff: float = clamp(1.0 - ((dist / 10.0) / explosion_intensity), 0.0, 1.0)
 	var force: float = explosion_intensity * falloff * 30.0
 	local_char.get_node("CameraHandle").camera_shake(force)
 
-func _on_animation_finished(_name: StringName) -> void:
-	queue_free()
-
 ## Returns the tackle score of this explosion towards the given character.
-func get_tackle_score(character: Character, impulse: Vector3) -> float:
-	var target_momentum := character.get_momentum()
-	
-	var offset := character.global_position - global_position
-	if offset.length_squared() == 0:
-		return 0
-	
-	var dir := offset.normalized()
-	
-	var explosion_score := impulse.dot(dir)
-	var target_score := -target_momentum.dot(dir)
-	
-	return (10*explosion_score) - target_score
+func get_tackle_score(_character: Character, _impulse: Vector3) -> float:
+	return 100
 
 func get_explosion_force(target_pos: Vector3) -> Vector3:
 	var explosion_pos = global_position
