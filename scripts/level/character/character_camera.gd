@@ -10,11 +10,11 @@ const BASE_HEIGHT := 1.8
 const BASE_LENGTH := 2.0
 
 ## Height of camera while aiming
-const AIM_HEIGHT := 2.0
+const AIM_HEIGHT := 2.2
 ## Distance from character while aiming
-const AIM_LENGTH := 0.8
+const AIM_LENGTH := 1.5
 ## Side offset while iaming
-const AIM_OFFSET := 1.0
+const AIM_OFFSET := 1.7
 
 ## Camera position offset caused by camera shake.
 var shake_time := 0.0
