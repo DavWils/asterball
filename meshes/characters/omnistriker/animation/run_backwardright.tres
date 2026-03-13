@@ -1,4 +1,4 @@
-[gd_resource type="Animation" format=3 uid="uid://lwv8mx5odphx"]
+[gd_resource type="Animation" load_steps=0 format=3 uid="uid://lwv8mx5odphx"]
 
 [resource]
 resource_name = "run_backwardright"

@@ -51,9 +51,9 @@ func update_animation():
 		
 	# Now we do aiming animation
 	if character.is_aiming():
-		var current_blend: float = animation_tree.get("parameters/AimBlend/blend_amount")
+		var current_blend: float = animation_tree.get("parameters/ThrowAimBlend/blend_amount")
 		var new_blend = lerpf(current_blend, 1.0, .1)
-		animation_tree.set("parameters/AimBlend/blend_amount", new_blend)
+		animation_tree.set("parameters/ThrowAimBlend/blend_amount", new_blend)
 		# Rotate spine based on control pitch.
 		skeleton.clear_bones_global_pose_override()
 		var spine_idx: int = skeleton.find_bone("spine.001")
@@ -71,11 +71,13 @@ func update_animation():
 		spine_basis = Basis.from_euler(spine_euler)
 		spine_pose.basis = spine_basis
 		
-		print(spine_euler.y)
 		
 		skeleton.set_bone_global_pose_override(spine_idx, spine_pose, 1.0, true)
 	else:
 		skeleton.clear_bones_global_pose_override()
-		var current_blend: float = animation_tree.get("parameters/AimBlend/blend_amount")
-		var new_blend = lerpf(current_blend, 0.0, .1)
-		animation_tree.set("parameters/AimBlend/blend_amount", new_blend)
+		var current_blend: float = animation_tree.get("parameters/ThrowAimBlend/blend_amount")
+		if current_blend >= 0.88 and not character.current_equipment:
+			animation_tree.set("parameters/ThrowAimBlend/blend_amount", 0.0)
+			animation_tree.set("parameters/ThrowOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		else:
+			animation_tree.set("parameters/ThrowAimBlend/blend_amount", lerpf(current_blend, 0.0, .1))
