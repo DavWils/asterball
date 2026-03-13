@@ -12,6 +12,9 @@ class_name TackleComponent
 ## The minimum speed a character must be going to tackle another.
 const MINIMUM_TACKLE_SCORE: float = 1000.0
 
+## Returns resistance multiplier, resistance is this * mass.
+const RESISTANCE_MULTIPLIER: float = 0.3
+
 ## Whether or not the character is tackled and cannot move.
 var is_tackled := false
 ## The code that the player must use to untackle themself
@@ -44,7 +47,9 @@ func get_tackle_score(target: Character) -> float:
 	
 	var self_score := self_momentum.dot(dir)
 	var target_score := -target_momentum.dot(dir)
-	return self_score - target_score
+	var final_score = self_score - target_score - target.get_tackle_resistance()
+	print("Character Tackle Calculation: ", self_score, " - ", target_score, " - ", target.get_tackle_resistance(), " = ", final_score)
+	return final_score
 
 ## Called when self collides with another character.
 func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
@@ -52,8 +57,11 @@ func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
 		var tackle_score := get_tackle_score(collider)
 		print(Steam.getFriendPersonaName(character.owning_player_id), " has charged into ", Steam.getFriendPersonaName(collider.owning_player_id), " with a score of ", tackle_score)
 		
-		if tackle_score >= MINIMUM_TACKLE_SCORE:
-			collider.tackle(character, tackle_score)
+		if network_manager.is_host():
+			if tackle_score >= MINIMUM_TACKLE_SCORE:
+				collider.tackle(character, tackle_score)
+				
+				# Decrease velocity but allow character to still run.
 
 ## Called when self is tackled by another node.
 func tackle(tackler: Node3D, tackle_score: float, tackle_seed: RandomNumberGenerator) -> void:
@@ -71,7 +79,6 @@ func tackle(tackler: Node3D, tackle_score: float, tackle_seed: RandomNumberGener
 			recovery_code.append(tackle_seed.randi()%4)
 		
 		
-		# Shake camera.
 		if network_manager.is_host():
 			# Send packet
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_TACKLED, "id": character.registry_id, "tid": tackler.registry_id if "registry_id" in tackler else -1, "ts": tackle_score, "seed": tackle_seed.seed})
@@ -112,3 +119,6 @@ func set_recovery_code_progress(progress: int) -> void:
 			character.recover()
 	elif character.is_locally_possessed():
 		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_RECOVERY_PROGRESS, "char_id": character.registry_id, "progress": recovery_progress})
+
+func get_tackle_resistance() -> float:
+	return character.get_total_mass() * RESISTANCE_MULTIPLIER

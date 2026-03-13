@@ -11,8 +11,6 @@ const MIN_TACKLE_SCORE: float = 10.0
 ## Explosion intensity, meaning higher tackle scores.
 @export var explosion_intensity: float = 1.0
 
-## Radius of the explosion, which is taken from the shape.
-var explosion_radius: float
 
 
 func _ready() -> void:
@@ -61,21 +59,34 @@ func explode() -> void:
 		local_char.get_node("CameraHandle").camera_shake(force)
 
 ## Returns the tackle score of this explosion towards the given character.
-func get_tackle_score(_character: Character, _impulse: Vector3) -> float:
-	return 100
+func get_tackle_score(character: Character, impulse: Vector3) -> float:
+	
+	var offset := character.position - global_position
+	if offset.length_squared() == 0:
+		return 0
+	
+	var dir := offset.normalized()
+	
+	var explosion_score := impulse.dot(dir)
+	
+	var final_score = explosion_score - character.get_tackle_resistance()
+	
+	print("Explosion Tackle Calculation: ", explosion_score, " - ", character.get_tackle_resistance(), " = ", final_score)
+	return final_score
+
 
 func get_explosion_force(target_pos: Vector3) -> Vector3:
 	var explosion_pos = global_position
 	var dir = target_pos - explosion_pos
 	var distance = dir.length()
 	
-	var radius = 5 * explosion_intensity
+	var radius = $Area3D/CollisionShape3D.shape.radius
 	if distance > radius:
 		return Vector3.ZERO
 	
 	dir = dir.normalized()
 	
 	var falloff = pow(1.0 - (distance / radius), 2)
-	var force = 50.0 * explosion_intensity * falloff
+	var force = 1000.0 * explosion_intensity * falloff
 	
 	return dir * force

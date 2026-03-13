@@ -519,3 +519,6 @@ func can_possess() -> bool:
 		if player_controller.current_character:
 			return is_alive
 	return false
+
+func get_tackle_resistance() -> float:
+	return tackle_component.get_tackle_resistance()

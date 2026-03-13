@@ -87,7 +87,7 @@ func get_momentum() -> Vector3:
 	return linear_velocity * item_state.get_item_mass()
 
 func _on_area_body_entered(body: Node3D) -> void:
-	if Time.get_ticks_msec() - start_time <= 1000: return
+	if Time.get_ticks_msec() - start_time <= 100 and body == throwing_character: return
 	if body is Character:
 		character_overlap(body)
 
@@ -104,12 +104,21 @@ func get_tackle_score(target: Character) -> float:
 	
 	var projectile_score := self_momentum.dot(dir)
 	var target_score := -target_momentum.dot(dir)
-	return projectile_score - target_score
+	var final_score = projectile_score - target_score - target.get_tackle_resistance()
+	print(item_state.item_resource.item_name, " Projectile Tackle Calculation: ", projectile_score, " - ", target_score, " - ", target.get_tackle_resistance(), " = ", final_score)
+	return final_score
 
 func character_overlap(character: Character):
 	print("Score: ", get_tackle_score(character))
 	var tackle_score = get_tackle_score(character)
-	if tackle_score >= MIN_TACKLE_SCORE: character.tackle(self, tackle_score)
+	if tackle_score >= MIN_TACKLE_SCORE: 
+		if network_manager.is_host(): character.tackle(self, tackle_score)
+	else:
+		var direction = (character.position - global_position).normalized()
+		linear_velocity = linear_velocity.bounce(direction)
+		play_surface_collide_sound()
+	
+	
 	print(item_state.item_resource.item_name, " has collided with player ", Steam.getFriendPersonaName(character.owning_player_id))
 	
 	if network_manager.is_host():
@@ -118,14 +127,16 @@ func character_overlap(character: Character):
 				spawn_explosion()
 			despawn_projectile()
 
-func surface_collide(_body: Node3D) -> void:
-	#print(item_state.item_resource.item_name, " projectile has overlapped with ", body.name)
+func play_surface_collide_sound() -> void:
 	# Play a sound on collision
 	var linear_vol: float = linear_velocity.length()/25.0
 	$CollideAudioPlayer.volume_linear = clampf(linear_vol, 0.0, 1.0)
 	$CollideAudioPlayer.pitch_scale = randf_range(0.9,1.1)
 	$CollideAudioPlayer.play()
-	
+
+func surface_collide(_body: Node3D) -> void:
+	#print(item_state.item_resource.item_name, " projectile has overlapped with ", body.name)
+	play_surface_collide_sound()
 	if network_manager.is_host():
 		if explode_on_collide and throwing_character:
 			if explosion_scene:
