@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=28 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
@@ -12,11 +12,37 @@
 [ext_resource type="Texture2D" uid="uid://bg2s8mgr3tnr6" path="res://textures/ui/player/tackle_overlay/tackle_key_up.png" id="7_v6uec"]
 [ext_resource type="Script" uid="uid://d153tfj16xmce" path="res://scripts/ui/player/buy_menu.gd" id="7_x0hxo"]
 [ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="8_41p24"]
+[ext_resource type="Script" uid="uid://r75w7tnj1ldy" path="res://scripts/ui/player/throw_overlay.gd" id="8_f5hr8"]
 [ext_resource type="Material" uid="uid://buotaxuok3bnc" path="res://materials/ui/blur.tres" id="8_x0hxo"]
 [ext_resource type="PackedScene" uid="uid://cmna4204bqss8" path="res://scenes/ui/player/buy_menu/buy_tier_box.tscn" id="9_6vvpm"]
 [ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://shaders/sky/astral_sky.gdshader" id="11_oyp4u"]
 [ext_resource type="AudioStream" uid="uid://cjwl5k8yqkd3" path="res://sounds/level/wind.wav" id="14_h3tri"]
 [ext_resource type="Script" uid="uid://ct55lo0vpqcw4" path="res://scripts/level/wind_audio_player.gd" id="15_pie5i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f5hr8"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 0.043137256)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_up6r2"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 0.87058824)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_detail = 6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_41p24"]
 shader = ExtResource("7_8k0du")
@@ -84,6 +110,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("6_pie5i")
 
 [node name="KeyBox" type="HBoxContainer" parent="PlayerUI/TackleOverlay"]
@@ -135,6 +162,31 @@ texture = ExtResource("7_v6uec")
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("7_v6uec")
+
+[node name="ThrowOverlay" type="Control" parent="PlayerUI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("8_f5hr8")
+
+[node name="ProgressBar" type="ProgressBar" parent="PlayerUI/ThrowOverlay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.88
+anchor_top = 0.3
+anchor_right = 0.9
+anchor_bottom = 0.7
+theme_override_styles/background = SubResource("StyleBoxFlat_f5hr8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_up6r2")
+max_value = 1.0
+value = 0.48
+fill_mode = 3
+show_percentage = false
 
 [node name="PauseMenu" type="Control" parent="PlayerUI"]
 visible = false

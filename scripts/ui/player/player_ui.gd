@@ -8,6 +8,7 @@ class_name PlayerUI
 @onready var buy_menu: Control = $BuyMenu
 @onready var match_menu: Control = $MatchMenu
 @onready var tackle_overlay: Control = $TackleOverlay
+@onready var throw_overlay: Control = $ThrowOverlay
 @onready var player_controller: PlayerController = self.get_parent().get_node("PlayerController")
 
 
@@ -19,12 +20,17 @@ func _on_possessed(character: Character) -> void:
 	character.tackled.connect(_on_tackled)
 	character.recovered.connect(_on_recovered)
 	character.tackle_component.recovery_progressed.connect(_on_recovery_progressed)
+	character.throw_start.connect(_on_throw_start)
+	character.throw_end.connect(_on_throw_end)
 
 func _on_unpossessed(character: Character) -> void:
 	if character:
 		character.tackled.disconnect(_on_tackled)
 		character.recovered.disconnect(_on_recovered)
 		character.tackle_component.recovery_progressed.disconnect(_on_recovery_progressed)
+		character.throw_start.disconnect(_on_throw_start)
+		character.throw_end.disconnect(_on_throw_end)
+
 
 func _on_tackled() -> void:
 	# Close buy menu when tackled.
@@ -37,6 +43,12 @@ func _on_tackled() -> void:
 func _on_recovered() -> void:
 	hide_tackle_overlay()
 
+func _on_throw_start() -> void:
+	show_throw_overlay()
+
+func _on_throw_end() -> void:
+	hide_throw_overlay()
+
 func _on_recovery_progressed(progress: int) -> void:
 	tackle_overlay.set_recovery_progress(progress)
 
@@ -48,6 +60,12 @@ func show_tackle_overlay() -> void:
 
 func hide_tackle_overlay() -> void:
 	tackle_overlay.visible = false
+
+func show_throw_overlay() -> void:
+	throw_overlay.visible = true
+
+func hide_throw_overlay() -> void:
+	throw_overlay.visible = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_menu"):
