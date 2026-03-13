@@ -32,7 +32,9 @@ const MINIMUM_THROW_FORCE := 0.05
 func _ready() -> void:
 	if not character.is_node_ready(): await character.ready
 	throw_particles.draw_pass_1.material.emission = character.get_player_team_state().team_resource.primary_color
+	throw_particles.draw_pass_1.material.albedo_color = character.get_player_team_state().team_resource.primary_color
 	throw_sub_particles.draw_pass_1.material.emission = character.get_player_team_state().team_resource.secondary_color
+	throw_sub_particles.draw_pass_1.material.albedo_color = character.get_player_team_state().team_resource.secondary_color
 
 func _physics_process(delta: float) -> void:
 	# If throwing, accumulate force.

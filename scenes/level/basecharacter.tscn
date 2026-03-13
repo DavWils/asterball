@@ -40,8 +40,8 @@ buffer = PackedFloat32Array(0, 2.9999998, 0.24936, 0.26783997, 0.29863998, 1, 0,
 [sub_resource type="CurveTexture" id="CurveTexture_q47tg"]
 
 [sub_resource type="Curve" id="Curve_u24d6"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.74876845, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 0.011235952), 0.0, 0.0, 0, 0, Vector2(0.5369458, 1), 0.0, 0.0, 0, 0, Vector2(0.8374384, 0.9887641), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="CurveTexture" id="CurveTexture_q1d0b"]
 curve = SubResource("Curve_u24d6")
@@ -71,6 +71,7 @@ emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 25.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_q1d0b"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_u24d6")
 flip_faces = true
 radius = 0.02
@@ -97,6 +98,7 @@ emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 5.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_ccchl"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_ys7i3")
 flip_faces = true
 radius = 0.01
