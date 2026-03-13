@@ -503,7 +503,10 @@ func get_body_velocity() -> Vector3:
 ## Kills this character, making them irrelevant to the game.
 func kill() -> void:
 	if not is_alive: return
-	if is_locally_possessed(): player_controller.unpossess_character()
+	if is_locally_possessed(): 
+		player_controller.position = $CameraHandle/PlayerCamera.global_position
+		player_controller.rotation = $CameraHandle.global_rotation
+		player_controller.unpossess_character()
 	visible = false
 	set_deferred("disabled", true)
 	if is_tackled():
