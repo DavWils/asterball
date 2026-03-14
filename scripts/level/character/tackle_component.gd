@@ -121,4 +121,5 @@ func set_recovery_code_progress(progress: int) -> void:
 		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_RECOVERY_PROGRESS, "char_id": character.registry_id, "progress": recovery_progress})
 
 func get_tackle_resistance() -> float:
-	return character.get_total_mass() * RESISTANCE_MULTIPLIER
+	var base_resistance: float = character.get_total_mass() * RESISTANCE_MULTIPLIER
+	return character.effects_component.calculate_post_effects_value(base_resistance, Modifier.ModifierType.TACKLE_RESISTANCE)

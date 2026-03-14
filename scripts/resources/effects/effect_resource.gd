@@ -12,3 +12,5 @@ class_name EffectResource
 @export var max_stacks: int = -1
 ## If true, effect is meant to last infinitely.
 @export var infinite_duration: bool = false
+## The modifiers this passive applies.
+@export var modifiers: Array[Modifier]

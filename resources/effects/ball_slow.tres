@@ -1,11 +1,32 @@
-[gd_resource type="Resource" script_class="EffectResource" load_steps=2 format=3 uid="uid://8gp0gt7r7tit"]
+[gd_resource type="Resource" script_class="EffectResource" load_steps=6 format=3 uid="uid://8gp0gt7r7tit"]
 
 [ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="1_blrtw"]
+[ext_resource type="Script" uid="uid://bwqqhgvduuvrs" path="res://scripts/resources/effects/modifier.gd" id="1_xqpp0"]
+
+[sub_resource type="Resource" id="Resource_xqpp0"]
+script = ExtResource("1_xqpp0")
+modifier_value = -0.2
+is_percentage = true
+metadata/_custom_type_script = "uid://bwqqhgvduuvrs"
+
+[sub_resource type="Resource" id="Resource_jqnf6"]
+script = ExtResource("1_xqpp0")
+modifier_type = 2
+modifier_value = -0.6
+is_percentage = true
+metadata/_custom_type_script = "uid://bwqqhgvduuvrs"
+
+[sub_resource type="Resource" id="Resource_fomrg"]
+script = ExtResource("1_xqpp0")
+modifier_type = 3
+modifier_value = -0.3
+is_percentage = true
+metadata/_custom_type_script = "uid://bwqqhgvduuvrs"
 
 [resource]
 script = ExtResource("1_blrtw")
 effect_name = "Slowdown"
-effect_description = "Slows down the character's maximum charging speed."
-max_stacks = 1
+effect_description = "The weight of the Asterball slows you down."
 infinite_duration = true
+modifiers = Array[ExtResource("1_xqpp0")]([SubResource("Resource_xqpp0"), SubResource("Resource_jqnf6"), SubResource("Resource_fomrg")])
 metadata/_custom_type_script = "uid://cgdj7e0yvscrf"

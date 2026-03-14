@@ -43,3 +43,19 @@ func remove_effect(effect: EffectResource) -> void:
 
 func has_effect(effect: EffectResource) -> bool:
 	return current_effects.has(effect)
+
+## Given a value and modifier type, returns that value based on modifiers from current effects.
+func calculate_post_effects_value(base_value: float, modifier_type: Modifier.ModifierType) -> float:
+	var post_value := base_value
+	var percentage_sum := 0.0
+	for effect in current_effects:
+		for modifier in effect.modifiers:
+			if modifier.modifier_type == modifier_type:
+				if modifier.is_percentage:
+					percentage_sum += modifier.modifier_value
+				else:
+					post_value += modifier.modifier_value
+	
+	var final_value := post_value * (1.0 + percentage_sum)
+	#print("Final Value for ", modifier_type, " is ", final_value, " with post of ", post_value, " and percentage of ", percentage_sum)
+	return final_value

@@ -73,17 +73,18 @@ func _physics_process(delta: float) -> void:
 
 ## Returns the character's walk speed.
 func get_walk_speed() -> float:
-	return base_walk_speed
+	return character.effects_component.calculate_post_effects_value(base_walk_speed, Modifier.ModifierType.WALK_SPEED)
 
 ## Returns the maximum charge speed character can attain.
 func get_max_charge_speed() -> float:
-	var max_speed := base_max_charge_speed - (base_max_charge_speed/2 if character.has_effect(load("res://resources/effects/ball_slow.tres")) else 0.0)
+	var max_speed := character.effects_component.calculate_post_effects_value(base_max_charge_speed, Modifier.ModifierType.MAX_CHARGE)
 	return max(max_speed, get_walk_speed())
 
 ## Returns the acceleration to apply to the character when charging.
 func get_charge_acceleration():
 	var max_accel = base_charge_accel - (character.get_carry_mass() * 0.2)
-	return max(max_accel, 0.2)
+	max_accel = character.effects_component.calculate_post_effects_value(base_charge_accel, Modifier.ModifierType.CHARGE_ACCELERATION)
+	return max(max_accel, 0.1)
 
 ## Returns the deceleration to apply to the character when skidding after a charge.
 func get_charge_deceleration():
