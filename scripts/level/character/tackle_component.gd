@@ -122,4 +122,5 @@ func set_recovery_code_progress(progress: int) -> void:
 
 func get_tackle_resistance() -> float:
 	var base_resistance: float = character.get_total_mass() * RESISTANCE_MULTIPLIER
-	return character.effects_component.calculate_post_effects_value(base_resistance, Modifier.ModifierType.TACKLE_RESISTANCE)
+	var final_resistance: float = character.effects_component.calculate_post_effects_value(base_resistance, Modifier.ModifierType.TACKLE_RESISTANCE)
+	return max(final_resistance, 0.0)
