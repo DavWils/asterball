@@ -61,6 +61,9 @@ func _ready() -> void:
 	if level.level_registry.has(thrower_id):
 		throwing_character = level.level_registry[thrower_id]
 	
+	# Set gravity scale to coincide with the level.
+	gravity_scale = level.gravity_acceleration / 9.8
+	
 	print("Spawned projectile ", registry_id)
 	
 	
