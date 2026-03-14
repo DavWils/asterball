@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://dysmx1a8ttjed"]
+
+[ext_resource type="Shader" uid="uid://c6uypjvnrpn4m" path="res://shaders/materials/character.gdshader" id="1_ww40y"]
+[ext_resource type="Texture2D" uid="uid://ck1yf2cc4m5xn" path="res://textures/characters/omnistriker/albedo.png" id="2_ilo3q"]
+[ext_resource type="Texture2D" uid="uid://buigr1cj6paew" path="res://textures/characters/omnistriker/albedo_primary.png" id="3_ww40y"]
+[ext_resource type="Texture2D" uid="uid://2i6ialvbg5h2" path="res://textures/characters/omnistriker/albedo_secondary.png" id="4_ilo3q"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_ww40y")
+shader_parameter/albedo_texture = ExtResource("2_ilo3q")
+shader_parameter/primary_texture = ExtResource("3_ww40y")
+shader_parameter/secondary_texture = ExtResource("4_ilo3q")
+shader_parameter/primary_emission = 1.0
+shader_parameter/primary_color = Color(1, 1, 1, 1)
+shader_parameter/secondary_color = Color(1, 1, 1, 1)

@@ -15,6 +15,13 @@ extends Node3D
 ## Node to attach equipment to.
 @export var equipment_attachment: Node3D
 
+func _ready() -> void:
+	if not character.is_node_ready(): await character.ready
+	var mesh_mat: ShaderMaterial = $Armature/Skeleton3D/omnistriker.mesh.surface_get_material(0)
+	mesh_mat.set_shader_parameter("primary_color", character.get_player_team_state().team_resource.primary_color)
+	mesh_mat.set_shader_parameter("secondary_color", character.get_player_team_state().team_resource.secondary_color)
+	(character.ragdoll.get_node("Armature/Skeleton3D/omnistriker").mesh as ArrayMesh).surface_set_material(0, mesh_mat)
+	
 func _physics_process(_delta: float) -> void:
 	if is_node_ready() and animation_player:
 		update_animation()

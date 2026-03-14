@@ -3,34 +3,48 @@ shader_type spatial;
 /**
 Albedo texture for this material
 */
-uniform sampler2D albedo_texture : source_color;
-/**
-Emission texture for this material
-*/
-uniform sampler2D emission_texture : source_color;
+uniform sampler2D albedo_texture : source_color, filter_nearest;
 
 /**
-Emission tint
+Texture using the primary color.
 */
-uniform vec3 emission_color : source_color = vec3(0.0,0.0,0.0);
+uniform sampler2D primary_texture : source_color, filter_nearest;
 /**
-Strength of emission
+Texture using the secondary color.
 */
-uniform float emission_strength = 1.0;
+uniform sampler2D secondary_texture : source_color, filter_nearest;
+
+/**
+The scale of the emission for the primary color
+*/
+uniform float primary_emission = 0.0;
+
+/**
+Primary color.
+*/
+uniform vec3 primary_color : source_color;
+
+/**
+Secondary color.
+*/
+uniform vec3 secondary_color : source_color;
 
 void vertex() {
 	// Called for every vertex the material is visible on.
 }
 
 void fragment() {
-	// Sample the texture using the built-in UV coordinates
-	vec4 albedo_tex = texture(albedo_texture, UV);
-	vec4 emission_tex = texture(emission_texture, UV);
+	vec3 base = texture(albedo_texture, UV).rgb;
+	float primary_mask = texture(primary_texture, UV).r;
+	float secondary_mask = texture(secondary_texture, UV).r;
 
-	// Apply texture color to the material
-	ALBEDO = albedo_tex.rgb;
-	EMISSION = emission_tex.rgb * emission_color * emission_strength;
-	ALPHA = albedo_tex.a;
+	vec3 color = base;
+	color = mix(color, primary_color, primary_mask);
+	color = mix(color, secondary_color, secondary_mask);
+
+	ALBEDO = color;
+
+	EMISSION = primary_color * primary_mask * primary_emission;
 }
 
 //void light() {
