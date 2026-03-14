@@ -9,6 +9,8 @@ class_name MatchDirector
 @onready var match_state: MatchState = level.get_node("MatchState")
 @onready var match_timer: Timer = $MatchTimer
 
+## The temporary memory of the inventory of player omnistrikers whewn level is cleared.
+var inventory_memory: Dictionary[int, Dictionary]
 
 ## The amount of time to wait before starting the game.
 const PREGAME_DURATION := 5
@@ -203,11 +205,22 @@ func spawn_omnistrikers() -> void:
 			# Make sure they're actually in the game when spawning them.
 			if network_manager.has_lobby_member(player_id):
 				var spawn_position: Vector3 = spawn_zone.get_spawn_position(teams_and_players[team_id].find(player_id), teams_and_players[team_id].size())
-				level.spawn_character(load("res://scenes/level/characters/omnistriker.tscn"), spawn_position, {"owner_id": player_id})
+				var spawn_dict: Dictionary = {"owner_id": player_id}
+				if inventory_memory.has(player_id):
+					spawn_dict["inventory"] = inventory_memory[player_id]["inv"]
+					spawn_dict["equipped_key"] = inventory_memory[player_id]["omni_ek"]
+				level.spawn_character(load("res://scenes/level/characters/omnistriker.tscn"), spawn_position, spawn_dict)
 
 ## Cleans up the level, removing old stuff from registry.
 func clean_level() -> void:
+	inventory_memory.clear()
 	for id in level.level_registry.keys():
+		var registry_obj: Node3D = level.level_registry[id]
+		if registry_obj is Omnistriker:
+			var omni_inventory: Dictionary = {}
+			omni_inventory["inv"] = registry_obj.inventory_component.to_dict(true)
+			omni_inventory["omni_ek"] = registry_obj.equipped_key
+			inventory_memory[registry_obj.owning_player_id] = omni_inventory
 		level.despawn_registry_object(id)
 
 ## Adds points to the given player.

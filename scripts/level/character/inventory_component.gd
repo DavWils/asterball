@@ -65,10 +65,11 @@ func from_dict(data: Dictionary) -> void:
 		current_item.from_dict(data[key])
 		inventory_items[key] = current_item
 
-## Converts inventory to dictionary with validation.
-func to_dict() -> Dictionary:
+## Converts inventory to dictionary with validation. If ignore_ball is true, will not add ball to inventory dict.
+func to_dict(ignore_ball := false) -> Dictionary:
 	var data: Dictionary = {}
 	for key in inventory_items.keys():
+		if inventory_items[key].item_resource == load("res://resources/items/ball.tres") and ignore_ball: continue
 		data[key] = inventory_items[key].to_dict()
 	return data
 
