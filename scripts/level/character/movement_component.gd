@@ -30,15 +30,16 @@ var peak_velocity: Vector3 = Vector3.ZERO
 @export var base_charge_decel: float = 22.5
 ## The base maximum charging speed of the character.
 @export var base_max_charge_speed: float = 24.0
-
+## Base air control modifier, added to walk speed.
+@export var base_air_control_acceleration: float = 20.0
 
 
 func _physics_process(delta: float) -> void:
 	if network_manager.is_host() or character.is_locally_possessed():
+		# The character's movement input in global space.
+		var global_movement_input: Vector3 = ((character.global_transform.basis.z * movement_input.y)+(character.global_transform.basis.x * movement_input.x))
 		# Set character movement values based on input.
 		if character.is_on_floor():
-			# The character's movement input in global space.
-			var global_movement_input: Vector3 = ((character.global_transform.basis.z * movement_input.y)+(character.global_transform.basis.x * movement_input.x))
 			# Current velocity
 			var current_velocity := character.velocity
 			
@@ -68,7 +69,22 @@ func _physics_process(delta: float) -> void:
 						character.velocity = current_velocity.lerp(global_movement_input * get_walk_speed(), 0.4)
 		else:
 			if not character.is_tackled():
-				character.velocity = character.velocity.lerp(Vector3(0,character.velocity.y,0), 0.4)
+				var wish_dir: Vector3 = global_movement_input.normalized()
+				var wish_speed: float = get_walk_speed()
+
+				var current_speed: float = character.velocity.dot(wish_dir)
+				var add_speed: float = wish_speed - current_speed
+
+				if add_speed > 0:
+					var accel: float = get_air_control_acceleration() * delta * wish_speed
+					accel = min(accel, add_speed)
+
+					character.velocity += wish_dir * accel
+
+
+## Returns air control speed.
+func get_air_control_acceleration() -> float:
+	return character.effects_component.calculate_post_effects_value(base_air_control_acceleration, Modifier.ModifierType.AIR_CONTROL)
 
 
 ## Returns the character's walk speed.
