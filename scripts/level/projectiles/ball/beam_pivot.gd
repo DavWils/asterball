@@ -9,14 +9,17 @@ extends Node3D
 func _ready() -> void:
 	if not ball.is_node_ready(): await ball.ready
 	var beam_mat := beam_mesh.get_active_material(0) as ShaderMaterial
+	var smoke_mat: StandardMaterial3D = $SmokeParticles.draw_pass_1.material
 	var allegiance_team := ball.get_allegiance_team()
 	if allegiance_team:
 		beam_mat.set_shader_parameter("emission", ball.get_allegiance_team().team_resource.primary_color)
-		$SmokeParticles.draw_pass_1.material.albedo_color = ball.get_allegiance_team().team_resource.primary_color
-		$SmokeParticles.draw_pass_1.material.emission = ball.get_allegiance_team().team_resource.primary_color
+		smoke_mat.albedo_color = ball.get_allegiance_team().team_resource.primary_color
+		smoke_mat.emission = ball.get_allegiance_team().team_resource.primary_color
 	else:
 		beam_mat.set_shader_parameter("emission", Color())
 		beam_mat.set_shader_parameter("emission_energy", 0.0)
+		smoke_mat.albedo_color = Color()
+		smoke_mat.emission_enabled = false
 
 func _process(delta: float) -> void:
 	position = ball.position
