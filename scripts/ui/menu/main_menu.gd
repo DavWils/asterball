@@ -18,6 +18,9 @@ func to_credits() -> void:
 func to_host() -> void:
 	tab_container.current_tab = 3
 
+func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_menu") and tab_container.current_tab != 0:
 		to_title_screen()
