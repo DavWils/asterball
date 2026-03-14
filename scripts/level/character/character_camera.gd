@@ -84,7 +84,6 @@ func _process(_delta: float) -> void:
 		# Zoom camera on ragdoll.
 		var ragdoll_distance = global_position.distance_to(ragdoll_position)
 		var zoom_offset = (min(ragdoll_distance*4,50.0))
-		print(get_base_fov() - zoom_offset)
 		camera.fov = lerp(camera.fov, get_base_fov() - zoom_offset, 0.2)
 	else:
 		self.rotation.x = lerp(self.rotation.x, character.control_pitch, .6)
