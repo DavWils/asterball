@@ -56,10 +56,11 @@ func update_animation():
 				animation_tree.set("parameters/MovementTransition/transition_request", "Run")
 		
 	# Now we do aiming animation
-	if character.is_aiming():
-		var current_blend: float = animation_tree.get("parameters/ThrowAimBlend/blend_amount")
-		var new_blend = lerpf(current_blend, 1.0, .1)
-		animation_tree.set("parameters/ThrowAimBlend/blend_amount", new_blend)
+	if character.is_aiming() or animation_tree.get("parameters/ThrowOneShot/active"):
+		if character.is_aiming():
+			var current_blend: float = animation_tree.get("parameters/ThrowAimBlend/blend_amount")
+			var new_blend = lerpf(current_blend, 1.0, .1)
+			animation_tree.set("parameters/ThrowAimBlend/blend_amount", new_blend)
 		# Rotate spine based on control pitch.
 		skeleton.clear_bones_global_pose_override()
 		var spine_idx: int = skeleton.find_bone("spine.001")
@@ -67,8 +68,7 @@ func update_animation():
 		var spine_basis: Basis = spine_pose.basis
 		var spine_euler: Vector3 = spine_basis.get_euler()
 		
-		var current_velocity = absf(character.velocity.length() - character.walk_speed) if character.velocity.length()>0.1 else 0.0
-		var added_pitch = clampf(character.control_pitch - clampf(current_velocity/10, 0, 0.8), -PI/2, PI/2)
+		var added_pitch = clampf(character.control_pitch, -PI/2, PI/2)
 		spine_euler.x -= added_pitch
 		
 		spine_euler.y = -PI
