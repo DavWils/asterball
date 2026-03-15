@@ -142,6 +142,7 @@ shape = SubResource("BoxShape3D_5faxe")
 script = ExtResource("7_tu7bk")
 
 [node name="TackleAudioPlayer" type="AudioStreamPlayer3D" parent="TackleComponent"]
+bus = &"Game"
 
 [node name="MovementComponent" type="Node3D" parent="."]
 script = ExtResource("8_ikaoe")
@@ -158,6 +159,7 @@ script = ExtResource("11_3xhtn")
 
 [node name="ThrowAudioPlayer" type="AudioStreamPlayer3D" parent="ThrowComponent"]
 stream = ExtResource("12_q47tg")
+bus = &"Game"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="ThrowComponent"]
 top_level = true
