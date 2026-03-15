@@ -48,6 +48,7 @@ script = ExtResource("1_o5qli")
 
 [node name="UIAudioPlayer" type="AudioStreamPlayer" parent="."]
 editor_description = "Audio stream player used for UI sounds like buttons."
+bus = &"Interface"
 script = ExtResource("4_jyhfs")
 hover_sound = ExtResource("5_tbgi4")
 pressed_sound = ExtResource("6_tefeu")

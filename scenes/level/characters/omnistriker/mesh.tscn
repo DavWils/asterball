@@ -163,24 +163,24 @@ script = ExtResource("2_owm0j")
 equipment_attachment = NodePath("Armature/Skeleton3D/EquipmentAttachment/EquipmentNode")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(8.36225e-09, 0.9829251, 0.05520001)
+bones/0/position = Vector3(8.37342e-09, 0.98294896, 0.05520001)
 bones/0/rotation = Quaternion(0.03783466, 0.9461379, -0.11999632, 0.298316)
 bones/1/rotation = Quaternion(-0.054632973, 0.08368986, -0.02828861, 0.9945909)
-bones/2/rotation = Quaternion(-0.0042412374, 0.2153327, -0.019810515, 0.9763306)
+bones/2/rotation = Quaternion(-0.004128942, 0.21533038, -0.019835282, 0.97633106)
 bones/3/position = Vector3(1.3151845e-09, 0.31357813, -2.237962e-08)
 bones/3/rotation = Quaternion(0.06408965, 1.1036568e-08, -1.3804135e-08, 0.99794424)
 bones/4/rotation = Quaternion(-0.14214674, -1.876833e-08, -2.695224e-09, 0.9898456)
-bones/5/rotation = Quaternion(0.08577461, -0.11771168, 0.9747343, -0.16935068)
+bones/5/rotation = Quaternion(0.08558072, -0.11775369, 0.97486454, -0.1686692)
 bones/6/rotation = Quaternion(0.36941957, -0.014853992, -0.061895005, 0.92708015)
 bones/7/rotation = Quaternion(0.00535938, -0.0082770595, -0.001420923, 0.99995047)
-bones/8/rotation = Quaternion(-0.044496942, -0.11008501, 0.97615135, 0.18174165)
+bones/8/rotation = Quaternion(-0.04460151, -0.1100788, 0.97607666, 0.18212055)
 bones/9/rotation = Quaternion(0.37682906, 0.021947974, 0.044638302, 0.9249463)
 bones/10/rotation = Quaternion(0.005359394, 0.008276966, 0.0014209457, 0.9999504)
-bones/11/rotation = Quaternion(0.9149535, 0.02315613, -0.29965508, 0.26931575)
-bones/12/rotation = Quaternion(0.19306089, 0.0007496406, -0.020620113, 0.98096985)
+bones/11/rotation = Quaternion(0.9149293, 0.02317502, -0.2996504, 0.26940125)
+bones/12/rotation = Quaternion(0.19431436, 0.0007496907, -0.020759996, 0.9807194)
 bones/13/rotation = Quaternion(-0.5273639, -4.7321205e-08, 2.7319098e-08, 0.84963953)
-bones/15/rotation = Quaternion(0.92878425, -0.057271376, 0.27001697, 0.24732745)
-bones/16/rotation = Quaternion(0.17494339, 0.0018535382, -0.059024855, 0.98280597)
+bones/15/rotation = Quaternion(0.9288735, -0.05707566, 0.27000895, 0.2470459)
+bones/16/rotation = Quaternion(0.1761986, 0.001852961, -0.059442557, 0.98255646)
 bones/17/rotation = Quaternion(-0.5273639, -4.736555e-08, 2.5702414e-08, 0.84963953)
 bones/19/position = Vector3(-0.098, 0.0852, -0.18024626)
 bones/19/rotation = Quaternion(0, 0.7071068, 0.7071068, 0)
@@ -191,7 +191,7 @@ bones/20/rotation = Quaternion(0, 0.7071068, 0.7071068, 0)
 mesh = SubResource("ArrayMesh_r4jgs")
 
 [node name="EquipmentAttachment" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.9606809, 0.26943, -0.067080885, 0.27292186, -0.8719107, 0.4065518, 0.051048778, -0.4088747, -0.9111615, 0.3959811, 1.0756512, -0.021517001)
+transform = Transform3D(0.96046156, 0.27013293, -0.0673943, 0.2737023, -0.8717889, 0.4062884, 0.050998308, -0.4086706, -0.91125584, 0.3963656, 1.0758077, -0.021459468)
 bone_name = "hand.R"
 bone_idx = 10
 
@@ -217,8 +217,10 @@ parameters/EquipOneShot/request = 0
 [node name="FootstepSoundPlayer" type="AudioStreamPlayer3D" parent="." index="3"]
 stream = ExtResource("3_ckpng")
 volume_db = -15.0
+bus = &"Game"
 script = ExtResource("4_f7l4a")
 
-[node name="EquipSoundPlayer" type="AudioStreamPlayer3D" parent="." index="5"]
+[node name="EquipSoundPlayer" type="AudioStreamPlayer3D" parent="." index="4"]
 stream = ExtResource("6_t5lj2")
+bus = &"Game"
 script = ExtResource("6_r4jgs")

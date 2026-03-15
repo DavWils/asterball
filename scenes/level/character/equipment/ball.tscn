@@ -15,4 +15,5 @@ script = ExtResource("3_sc7el")
 [node name="HumAudioPlayer" type="AudioStreamPlayer3D" parent="." index="1"]
 stream = ExtResource("3_oamvp")
 autoplay = true
+bus = &"Game"
 script = ExtResource("4_sc7el")

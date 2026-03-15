@@ -281,3 +281,4 @@ emoji_menu_enabled = false
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_5fid0")
 autoplay = true
+bus = &"Music"

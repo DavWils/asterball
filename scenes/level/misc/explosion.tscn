@@ -19,10 +19,12 @@ shape = SubResource("SphereShape3D_1ef5b")
 [node name="ExplosionAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_86q4b")
 unit_size = 15.0
+bus = &"Game"
 
 [node name="ShockwaveAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_86q4b")
 unit_size = 50.0
+bus = &"Game"
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 10.0
