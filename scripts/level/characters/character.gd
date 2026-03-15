@@ -333,8 +333,10 @@ func drop_item(key: int, automatic: bool = false, thrown: bool = false):
 		pickup.linear_velocity = (get_look_forward_vector() * 3) + velocity
 		
 		
-		if key == equipped_key and not automatic:
-			equip_item(-1, true)
+		if key == equipped_key:
+			stop_throwing()
+			if not automatic:
+				equip_item(-1, true)
 		inventory_component.remove_item(key)
 		
 		return pickup
