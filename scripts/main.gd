@@ -27,9 +27,10 @@ func load_level(level: LevelResource = load("res://resources/levels/" + Steam.ge
 	
 	# If host, update metadata and tell clients to load new level..
 	if network_manager.is_host():
-		var level_name = level.get_level_filename()
-		Steam.setLobbyData(network_manager.lobby_id, "level", level_name)
-		network_manager.send_p2p_packet(0, {"m": network_manager.Message.LOAD_LEVEL, "level_name": level_name})
+		if network_manager.is_in_lobby():
+			var level_name = level.get_level_filename()
+			Steam.setLobbyData(network_manager.lobby_id, "level", level_name)
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.LOAD_LEVEL, "level_name": level_name})
 	else:
 		set_load_state(3)
 		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_GAME})
@@ -47,13 +48,14 @@ func _on_lobby_match_list(lobbies):
 
 ## Hosts a game.
 func host_game(level: LevelResource):
-	# Create the lobby.
-	print("Hosting lobby")
 	show_load_screen(level)
-	set_load_state(0)
-	network_manager.create_lobby()
-	await Steam.lobby_joined
-	# Set metadata for the current level
+	if network_manager.is_steam_initialized:
+		# Create the lobby.
+		print("Hosting lobby")
+	
+		set_load_state(0)
+		network_manager.create_lobby()
+		await Steam.lobby_joined
 	# Load into session's level
 	load_level(level)
 	

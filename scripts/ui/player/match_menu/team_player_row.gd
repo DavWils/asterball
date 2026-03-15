@@ -10,8 +10,9 @@ var player_id: int
 
 func _ready() -> void:
 	Steam.avatar_loaded.connect(_on_loaded_avatar)
-	Steam.getPlayerAvatar(Steam.AvatarSizes.AVATAR_SMALL, player_id)
-	$NameLabel.text = Steam.getFriendPersonaName(player_id)
+	if network_manager.is_in_lobby(): 
+		Steam.getPlayerAvatar(Steam.AvatarSizes.AVATAR_SMALL, player_id)
+		$NameLabel.text = Steam.getFriendPersonaName(player_id)
 	var player_state = match_state.get_player_state(player_id)
 	player_state.scores_changed.connect(_on_scores_changed)
 	_on_scores_changed(player_state.current_score, player_state.total_score)

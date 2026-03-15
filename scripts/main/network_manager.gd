@@ -17,7 +17,7 @@ var lobby_members := []
 ## Self's player id.
 var player_id := 0
 ## Self's username.
-var player_username := ""
+var player_username := "Player"
 
 ## Whether or not we are successfully connected to the steam servers.
 var is_steam_initialized: bool = false
@@ -66,10 +66,17 @@ func is_on_steam() -> bool:
 
 ## Returns true the given player id (or self by default) is the host of the session.
 func is_host(id := player_id):
-	return id == Steam.getLobbyOwner(lobby_id)
+	if is_in_lobby():
+		return id == get_host_id()
+	else:
+		return true
+
 
 func get_host_id() -> int:
-	return Steam.getLobbyOwner(lobby_id)
+	if is_in_lobby():
+		return Steam.getLobbyOwner(lobby_id)
+	else:
+		return player_id
 
 ## Returns true if member is currently in lobby.
 func has_lobby_member(id: int):
@@ -147,6 +154,7 @@ func get_lobby_members():
 
 ## Send a packet to another player.
 func send_p2p_packet(target: int, packet: Dictionary, send_type:=Steam.P2P_SEND_RELIABLE):
+	if not is_in_lobby(): return
 	var channel: int = 0
 	var packet_data: PackedByteArray
 	packet_data.append_array(var_to_bytes(packet))
