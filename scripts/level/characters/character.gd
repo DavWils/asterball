@@ -364,7 +364,7 @@ func equip_item(key: int, automatic: bool = false):
 		current_equipment.wielder = self
 		var bone_attachment = character_mesh.equipment_attachment
 		bone_attachment.add_child(current_equipment)
-	equipped.emit()
+		equipped.emit()
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_EQUIP, "char_id": registry_id, "key": key})
 
