@@ -280,6 +280,7 @@ placeholder_text = "Session Name"
 emoji_menu_enabled = false
 
 [node name="NoConnectionButton" type="Button" parent="MainMenuUI"]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.919

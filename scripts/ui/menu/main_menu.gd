@@ -33,14 +33,18 @@ func _ready() -> void:
 func _on_ncb_pressed() -> void:
 	$NoConnectionButton.disabled = true
 	$NoConnectionButton/ConnectingProgressBar.visible = true
-	await get_tree().create_timer(2).timeout
 	network_manager.connect_to_steam()
 	
 
 func _on_steam_initialized(status: int) -> void:
 	if status == 0:
-		$NoConnectionButton.visible = false
+		if $NoConnectionButton.visible:
+			$NoConnectionButton.visible = false
+			get_tree().current_scene.get_node("UIAudioPlayer").play_pressed()
 	else:
+		if not $NoConnectionButton.visible:
+			$NoConnectionButton.visible = true
+		get_tree().current_scene.get_node("UIAudioPlayer").play_fail_purchased()
 		if fail_connect_tween:
 			fail_connect_tween.kill()
 		fail_connect_tween = create_tween()
