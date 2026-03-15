@@ -5,7 +5,7 @@ extends Control
 const CREDITS_FILE_PATH: String = "res://credits.txt"
 
 @onready var main_menu: Control = get_parent().get_parent()
-@onready var text_label: Label = $ScrollContainer/Label
+@onready var text_label: RichTextLabel = $Label
 @onready var return_button: Button = $VBoxContainer/ReturnButton
 
 func _ready():

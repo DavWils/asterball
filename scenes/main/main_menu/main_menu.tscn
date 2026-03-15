@@ -180,20 +180,6 @@ layout_mode = 2
 script = ExtResource("7_scmgr")
 metadata/_tab_index = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MainMenuUI/TabContainer/CreditsUI"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.9
-anchor_bottom = 0.8
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="MainMenuUI/TabContainer/CreditsUI/ScrollContainer"]
-layout_mode = 2
-text = "Credits"
-
 [node name="VBoxContainer" type="VBoxContainer" parent="MainMenuUI/TabContainer/CreditsUI"]
 layout_mode = 1
 anchors_preset = -1
@@ -212,6 +198,18 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_xgdw1")
 text = "Return to Title Screen"
 alignment = 1
 alt_press = true
+
+[node name="Label" type="RichTextLabel" parent="MainMenuUI/TabContainer/CreditsUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.05
+anchor_right = 0.9
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "Credits"
 
 [node name="HostUI" type="Control" parent="MainMenuUI/TabContainer"]
 visible = false
