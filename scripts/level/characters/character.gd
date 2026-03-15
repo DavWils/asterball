@@ -341,7 +341,7 @@ func drop_item(key: int, automatic: bool = false, thrown: bool = false):
 
 ## Unequips current item if existing and equips the current item at the given inventory key. Use -1 as key to unequip.
 func equip_item(key: int, automatic: bool = false):
-	if key == equipped_key: return
+	if key == equipped_key or is_aiming(): return
 	
 	# Unequip old equipment.
 	if current_equipment:
