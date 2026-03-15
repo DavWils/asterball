@@ -1,4 +1,4 @@
-[gd_resource type="Animation" load_steps=0 format=3 uid="uid://bj71s3mywoyam"]
+[gd_resource type="Animation" format=3 uid="uid://bj71s3mywoyam"]
 
 [resource]
 resource_name = "run_backwardleft"
@@ -172,7 +172,7 @@ tracks/23/path = NodePath("FootstepSoundPlayer")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/keys = {
-"times": PackedFloat32Array(0.06666667, 0.23336667),
+"times": PackedFloat32Array(0.06666667, 0.2334),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
