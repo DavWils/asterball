@@ -22,6 +22,7 @@ func _on_possessed(character: Character) -> void:
 	character.tackle_component.recovery_progressed.connect(_on_recovery_progressed)
 	character.throw_start.connect(_on_throw_start)
 	character.throw_end.connect(_on_throw_end)
+	player_controller.interactable_found.connect(_on_interactable_found)
 
 func _on_unpossessed(character: Character) -> void:
 	if character:
@@ -30,6 +31,7 @@ func _on_unpossessed(character: Character) -> void:
 		character.tackle_component.recovery_progressed.disconnect(_on_recovery_progressed)
 		character.throw_start.disconnect(_on_throw_start)
 		character.throw_end.disconnect(_on_throw_end)
+		player_controller.interactable_found.disconnect(_on_interactable_found)
 	_on_recovered()
 	_on_throw_end()
 	close_buy_menu()
@@ -53,6 +55,10 @@ func _on_throw_end() -> void:
 
 func _on_recovery_progressed(progress: int) -> void:
 	tackle_overlay.set_recovery_progress(progress)
+
+func _on_interactable_found(interactable: Node3D) -> void:
+	$InteractOverlay.visible = (interactable != null)
+	$InteractOverlay.set_interactable(interactable)
 
 func show_tackle_overlay() -> void:
 	tackle_overlay.set_recovery_code(player_controller.current_character.tackle_component.recovery_code)

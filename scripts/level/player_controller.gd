@@ -24,6 +24,9 @@ signal possessed(character: Character)
 ## Signal called when character is unpossessed.
 signal unpossessed(character: Character)
 
+## Signal emitted when going over an interactable.
+signal interactable_found(interactable: Node3D)
+
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -205,6 +208,6 @@ func _physics_process(delta: float) -> void:
 func _on_interact_area_overlap(_body: Node3D):
 	var desired_interactable = current_character.get_node("InteractArea3D").get_desired_interactable()
 	if desired_interactable:
-		print("Current desired interactable is ", desired_interactable.name)
+		interactable_found.emit(desired_interactable)
 	else:
-		print("No pickup")
+		interactable_found.emit(null)
