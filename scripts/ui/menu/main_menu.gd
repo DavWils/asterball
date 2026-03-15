@@ -19,6 +19,7 @@ func to_host() -> void:
 	tab_container.current_tab = 3
 
 func _ready() -> void:
+	await get_tree().process_frame
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _unhandled_input(event: InputEvent) -> void:
