@@ -248,12 +248,15 @@ func spend_player_points(player_id: int, points: int) -> void:
 	var player_total: int = player_state.total_score
 	match_state.set_player_score(player_id, player_current - points, player_total)
 
+func can_player_afford(buyer_id: int, cost: int) -> bool:
+	return match_state.get_player_state(buyer_id).can_afford(cost)
+
 ## Has a player purchase a givne item.
 func purchase_item(character: Character, item_resource: ItemResource) -> void:
 	var buyer_id: int = character.owning_player_id
 	var cost: int = item_resource.item_cost
 	print(Steam.getFriendPersonaName(buyer_id), " wants to buy ", item_resource.item_name)
-	if match_state.get_player_state(buyer_id).can_afford(cost):
+	if can_player_afford(buyer_id, cost):
 		spend_player_points(buyer_id, cost)
 		var new_item := ItemState.new()
 		new_item.item_resource = item_resource

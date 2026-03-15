@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=32 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
@@ -14,10 +14,12 @@
 [ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="8_41p24"]
 [ext_resource type="Script" uid="uid://r75w7tnj1ldy" path="res://scripts/ui/player/throw_overlay.gd" id="8_f5hr8"]
 [ext_resource type="Material" uid="uid://buotaxuok3bnc" path="res://materials/ui/blur.tres" id="8_x0hxo"]
-[ext_resource type="PackedScene" uid="uid://cmna4204bqss8" path="res://scenes/ui/player/buy_menu/buy_tier_box.tscn" id="9_6vvpm"]
 [ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://shaders/sky/astral_sky.gdshader" id="11_oyp4u"]
+[ext_resource type="PackedScene" uid="uid://bcaxcpbsm2cc1" path="res://scenes/ui/player/buy_menu/buy_sub_menu.tscn" id="14_f5hr8"]
 [ext_resource type="AudioStream" uid="uid://cjwl5k8yqkd3" path="res://sounds/level/wind.wav" id="14_h3tri"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="14_up6r2"]
 [ext_resource type="Script" uid="uid://ct55lo0vpqcw4" path="res://scripts/level/wind_audio_player.gd" id="15_pie5i"]
+[ext_resource type="AudioStream" uid="uid://v6tbn41w21h3" path="res://sounds/ui/click.wav" id="16_khij2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f5hr8"]
 content_margin_left = 2.0
@@ -60,6 +62,15 @@ bg_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h3tri"]
 resource_local_to_scene = true
 bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="FontVariation" id="FontVariation_it2fa"]
+base_font = ExtResource("14_up6r2")
+variation_opentype = {
+2003265652: 500
+}
+
+[sub_resource type="FontVariation" id="FontVariation_khij2"]
+base_font = ExtResource("14_up6r2")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e7y16"]
 resource_local_to_scene = true
@@ -243,7 +254,6 @@ text = "Quit Game"
 alt_press = true
 
 [node name="BuyMenu" type="Control" parent="PlayerUI"]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -270,35 +280,116 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.33333334)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PlayerUI/BuyMenu"]
+[node name="SelectedItemDisplay" type="Control" parent="PlayerUI/BuyMenu"]
+layout_mode = 1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.3
+anchor_bottom = 0.9
+
+[node name="ColorRect" type="ColorRect" parent="PlayerUI/BuyMenu/SelectedItemDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.59607846)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="PlayerUI/BuyMenu/SelectedItemDisplay"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.4
-anchor_top = 0.075
-anchor_right = 0.9
-anchor_bottom = 0.925
+anchor_right = 1.0
+anchor_bottom = 0.446
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="PlayerUI/BuyMenu/SelectedItemDisplay/SubViewportContainer"]
+transparent_bg = true
+size = Vector2i(230, 231)
+
+[node name="Camera3D" type="Camera3D" parent="PlayerUI/BuyMenu/SelectedItemDisplay/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5000, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="PlayerUI/BuyMenu/SelectedItemDisplay/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5000, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/BuyMenu/SelectedItemDisplay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.446
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/BuyMenu/ScrollContainer"]
+[node name="SelectedItemNameLabel" type="Label" parent="PlayerUI/BuyMenu/SelectedItemDisplay/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_it2fa")
+theme_override_font_sizes/font_size = 24
+text = "Item"
+horizontal_alignment = 1
+
+[node name="SelectedItemDescriptionLabel" type="Label" parent="PlayerUI/BuyMenu/SelectedItemDisplay/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/BuyMenu/SelectedItemDisplay/VBoxContainer"]
+layout_mode = 2
+
+[node name="SelectedItemCostLabel" type="Label" parent="PlayerUI/BuyMenu/SelectedItemDisplay/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_it2fa")
+theme_override_font_sizes/font_size = 16
+text = "Item"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="PlayerUI/BuyMenu/SelectedItemDisplay/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="BuyTierBox1" parent="PlayerUI/BuyMenu/ScrollContainer/VBoxContainer" instance=ExtResource("9_6vvpm")]
+[node name="SelectedItemMassLabel" type="Label" parent="PlayerUI/BuyMenu/SelectedItemDisplay/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_it2fa")
+theme_override_font_sizes/font_size = 16
+text = "Item"
+horizontal_alignment = 1
+
+[node name="EffectsContainer" type="VBoxContainer" parent="PlayerUI/BuyMenu/SelectedItemDisplay/VBoxContainer"]
 layout_mode = 2
 
-[node name="BuyTierBox2" parent="PlayerUI/BuyMenu/ScrollContainer/VBoxContainer" instance=ExtResource("9_6vvpm")]
-layout_mode = 2
-item_tier = 1
+[node name="MenuTabContainer" type="TabContainer" parent="PlayerUI/BuyMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.1
+anchor_right = 0.865
+anchor_bottom = 0.9
+offset_top = -27.800003
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = SubResource("FontVariation_khij2")
+current_tab = 0
 
-[node name="BuyTierBox3" parent="PlayerUI/BuyMenu/ScrollContainer/VBoxContainer" instance=ExtResource("9_6vvpm")]
+[node name="Throwables" parent="PlayerUI/BuyMenu/MenuTabContainer" instance=ExtResource("14_f5hr8")]
 layout_mode = 2
-item_tier = 2
+bg_color = Color(0.2725206, 0.0644667, 0.0646482, 1)
+metadata/_tab_index = 0
 
-[node name="BuyTierBox4" parent="PlayerUI/BuyMenu/ScrollContainer/VBoxContainer" instance=ExtResource("9_6vvpm")]
+[node name="Weapons" parent="PlayerUI/BuyMenu/MenuTabContainer" instance=ExtResource("14_f5hr8")]
+visible = false
 layout_mode = 2
-item_tier = 3
+bg_color = Color(0.08302193, 0.061734065, 0.265638, 1)
+metadata/_tab_index = 1
+
+[node name="Utility" parent="PlayerUI/BuyMenu/MenuTabContainer" instance=ExtResource("14_f5hr8")]
+visible = false
+layout_mode = 2
+bg_color = Color(0.19434938, 0.19434923, 0.19434929, 1)
+metadata/_tab_index = 2
+
+[node name="ClickAudioPlayer" type="AudioStreamPlayer" parent="PlayerUI/BuyMenu"]
+stream = ExtResource("16_khij2")
 
 [node name="MatchMenu" type="Control" parent="PlayerUI"]
 visible = false

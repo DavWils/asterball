@@ -6,6 +6,10 @@ class_name ItemResource
 @export var item_name: String
 ## The point value of this item.
 @export var item_cost: int = 0
+## The category of this item.
+@export var item_category: ItemCategory
+## The texture icon of this item.
+@export var item_icon: Texture2D
 ## The file of the mesh.
 @export var mesh_file: PackedScene
 ## Whether or not this item can be bought in the store.
@@ -21,12 +25,13 @@ class_name ItemResource
 ## Passive effect that this item puts on the player.
 @export var passive_effect: EffectResource
 
+
+
 ## Enum for item tiers.
-enum ItemTier {
-	ONE,
-	TWO,
-	THREE,
-	FOUR
+enum ItemCategory {
+	Throwables,
+	Weapons,
+	Utility,
 }
 
 ## Returns the loaded equipment scene resource if one exists, otherwise returning the basic equipment scene.
@@ -44,14 +49,3 @@ func get_projectile_scene() -> PackedScene:
 		return load(filepath)
 	else:
 		return load("res://scenes/level/baseprojectile.tscn")
-
-## Automatically calculates item tier based on set values.
-func get_item_tier() -> ItemTier:
-	if item_cost <= 450:
-		return ItemTier.ONE
-	elif item_cost <= 2500:
-		return ItemTier.TWO
-	elif item_cost <= 9000:
-		return ItemTier.THREE
-	else:
-		return ItemTier.FOUR

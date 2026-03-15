@@ -32,6 +32,7 @@ func _on_unpossessed(character: Character) -> void:
 		character.throw_end.disconnect(_on_throw_end)
 	_on_recovered()
 	_on_throw_end()
+	close_buy_menu()
 
 func _on_tackled() -> void:
 	# Close buy menu when tackled.

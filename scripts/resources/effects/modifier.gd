@@ -16,3 +16,12 @@ enum ModifierType {
 	CHARGE_ACCELERATION, ## Adds to charge acceleration.
 	TACKLE_RESISTANCE, ## Adds to tackle resistance.
 }
+
+func mod_to_string() -> String:
+	match modifier_type:
+		ModifierType.WALK_SPEED: return "Walk Speed"
+		ModifierType.AIR_CONTROL: return "Air Control"
+		ModifierType.MAX_CHARGE: return "Max Charge Speed"
+		ModifierType.CHARGE_ACCELERATION: return "Charge Acceleration"
+		ModifierType.TACKLE_RESISTANCE: "Tackle Resistance"
+	return "Modifier " + str(modifier_type)

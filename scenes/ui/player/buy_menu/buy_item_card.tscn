@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://ryfvsh0e7xiq"]
+
+[ext_resource type="Script" uid="uid://csr0rg1qr83gt" path="res://scripts/ui/player/buy_menu/buy_item_card.gd" id="1_bhnfi"]
+[ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/no_icon.png" id="2_27y8d"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="3_y4ivt"]
+
+[sub_resource type="FontVariation" id="FontVariation_r4u0x"]
+base_font = ExtResource("3_y4ivt")
+
+[node name="BuyItemCard" type="Button"]
+clip_contents = true
+custom_minimum_size = Vector2(100, 140)
+offset_right = 100.0
+offset_bottom = 140.0
+focus_mode = 0
+script = ExtResource("1_bhnfi")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(100, 140)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_27y8d")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("FontVariation_r4u0x")
+theme_override_font_sizes/font_size = 18
+text = "Item"
+horizontal_alignment = 1
+autowrap_mode = 2
