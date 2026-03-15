@@ -133,7 +133,7 @@ func set_intermission_time(time: int = intermission_time - 1):
 func assign_player_team(player_id: int, team_id: int):
 	if player_states.has(player_id) and team_states.has(team_id):
 		player_states[player_id].team_id = team_id
-		print(Steam.getFriendPersonaName(player_id), " has been assigned to the ", team_states[team_id].team_resource.team_name)
+		if network_manager.is_in_lobby(): print(player_id, " has been assigned to the ", team_states[team_id].team_resource.team_name)
 		player_team_assigned.emit(player_id, team_id)
 		if network_manager.is_host():
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_PLAYER_TEAM, "player_id": player_id, "team_id": team_id})
@@ -187,7 +187,7 @@ func get_team_ids() -> Array[int]:
 ## Sets the score of the player with the given player id. Sets current score, as well as total score.
 func set_player_score(player_id: int, current: int, total: int) -> void:
 	player_states[player_id].set_score(current, total)
-	print("Set ", Steam.getFriendPersonaName(player_id), "'s new scores to ", str(current), "/", str(total))
+	print("Set ", player_id, "'s new scores to ", str(current), "/", str(total))
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_PLAYER_SCORE, "player_id": player_id, "current": current, "total": total})
 

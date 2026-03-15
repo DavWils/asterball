@@ -128,7 +128,7 @@ func end_game(scoring_team: int):
 	match_state.set_state_of_match(match_state.StateOfMatch.ENDGAME)
 
 func score(scoring_character: Character):
-	print(Steam.getFriendPersonaName(scoring_character.owning_player_id), " has scored!")
+	print(scoring_character.owning_player_id, " has scored!")
 	# Add a point to the player's team.
 	match_state.set_team_score(match_state.player_states[scoring_character.owning_player_id].team_id)
 	level.score_effect(scoring_character)
@@ -167,7 +167,7 @@ func get_winning_team() -> int:
 
 ## Automatically assigns the player a team. By default, assigns to team with least players.
 func auto_assign_player_team(player_id: int):
-	print("Auto assigning ", Steam.getFriendPersonaName(player_id))
+	if network_manager.is_in_lobby(): print("Auto assigning ", player_id)
 	if match_state.get_team_ids().size() == 1:
 		match_state.assign_player_team(player_id, 0)
 		return
@@ -255,7 +255,7 @@ func can_player_afford(buyer_id: int, cost: int) -> bool:
 func purchase_item(character: Character, item_resource: ItemResource) -> void:
 	var buyer_id: int = character.owning_player_id
 	var cost: int = item_resource.item_cost
-	print(Steam.getFriendPersonaName(buyer_id), " wants to buy ", item_resource.item_name)
+	print(buyer_id, " wants to buy ", item_resource.item_name)
 	if can_player_afford(buyer_id, cost):
 		spend_player_points(buyer_id, cost)
 		var new_item := ItemState.new()

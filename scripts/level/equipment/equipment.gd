@@ -29,10 +29,10 @@ func _ready() -> void:
 		if current_mat:
 			mesh_instance.set_surface_override_material(i, current_mat.duplicate())
 	
-	print(item_resource.item_name, " has been equipped by ", Steam.getFriendPersonaName(wielder.owning_player_id))
+	print(item_resource.item_name, " has been equipped by ", wielder.owning_player_id)
 
 func _exit_tree() -> void:
-	print(item_resource.item_name, " has been unequipped by ", Steam.getFriendPersonaName(wielder.owning_player_id))
+	print(item_resource.item_name, " has been unequipped by ", wielder.owning_player_id)
 
 func get_item_state():
 	return wielder.get_equipped_item()

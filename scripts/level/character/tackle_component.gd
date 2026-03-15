@@ -55,7 +55,7 @@ func get_tackle_score(target: Character) -> float:
 func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
 	if not collider.is_tackled():
 		var tackle_score := get_tackle_score(collider)
-		print(Steam.getFriendPersonaName(character.owning_player_id), " has charged into ", Steam.getFriendPersonaName(collider.owning_player_id), " with a score of ", tackle_score)
+		print(character.owning_player_id, " has charged into ", collider.owning_player_id, " with a score of ", tackle_score)
 		
 		if network_manager.is_host():
 			if tackle_score >= MINIMUM_TACKLE_SCORE:
@@ -67,7 +67,7 @@ func on_charge_collide(collider: Character, _collision: KinematicCollision3D):
 func tackle(tackler: Node3D, tackle_score: float, tackle_seed: RandomNumberGenerator) -> void:
 	if not is_tackled:
 		is_tackled = true
-		print(Steam.getFriendPersonaName(character.owning_player_id), " has been tackled with a score of ", tackle_score)
+		print(character.owning_player_id, " has been tackled with a score of ", tackle_score)
 		$TackleAudioPlayer.play()
 		
 		# Generate the recovery code.
@@ -93,7 +93,7 @@ func tackle(tackler: Node3D, tackle_score: float, tackle_seed: RandomNumberGener
 func recover() -> void:
 	if is_tackled:
 		is_tackled = false
-		print(Steam.getFriendPersonaName(character.owning_player_id), " has recovered from being tackled.")
+		print(character.owning_player_id, " has recovered from being tackled.")
 		if network_manager.is_host():
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_RECOVERED, "id": character.registry_id})
 			

@@ -124,7 +124,7 @@ func character_overlap(character: Character):
 		play_surface_collide_sound()
 	
 	
-	print(item_state.item_resource.item_name, " has collided with player ", Steam.getFriendPersonaName(character.owning_player_id))
+	print(item_state.item_resource.item_name, " has collided with player ", character.owning_player_id)
 	
 	if network_manager.is_host():
 		if explode_on_collide and throwing_character:

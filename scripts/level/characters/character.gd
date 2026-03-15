@@ -60,7 +60,7 @@ const RAGDOLL_FRICTION_MULTIPLIER: float = 0.9
 
 
 func _ready() -> void:
-	print("Spawned character ", registry_id, " owned by ", Steam.getFriendPersonaName(owning_player_id))
+	if network_manager.is_in_lobby(): print("Spawned character ", registry_id, " owned by ", owning_player_id)
 	# Spawn ragdoll hidden from game.
 	ragdoll = load("res://scenes/level/characters/" + scene_file_path.get_file().get_basename() + "/ragdoll.tscn").instantiate()
 	ragdoll.character = self
@@ -474,11 +474,11 @@ func get_momentum() -> Vector3:
 
 
 func add_effect(effect: EffectState) -> void:
-	print("Adding effect ", effect.effect_resource.effect_name, " to ", Steam.getFriendPersonaName(owning_player_id))
+	print("Adding effect ", effect.effect_resource.effect_name, " to ", owning_player_id)
 	effects_component.add_effect(effect)
 
 func remove_effect(effect: EffectResource) -> void:
-	print("Removing effect ", effect.effect_name, " from ", Steam.getFriendPersonaName(owning_player_id))
+	print("Removing effect ", effect.effect_name, " from ", owning_player_id)
 	effects_component.remove_effect(effect)
 
 func has_effect(effect: EffectResource) -> bool:

@@ -19,7 +19,7 @@ func _init():
 
 func _ready():
 	if character:
-		print("Ragdoll spawned for ", Steam.getFriendPersonaName(character.owning_player_id))
+		if character.network_manager.is_in_lobby(): print("Ragdoll spawned for ", character.owning_player_id)
 	else:
 		simulator.physical_bones_start_simulation()
 		simulator.get_child(0).apply_central_impulse(Vector3.UP*5.0)
