@@ -8,7 +8,8 @@ extends Control
 ## The currently selected level.
 var selected_level: LevelResource
 
-@onready var default_session_name: String = Steam.getFriendPersonaName(get_tree().current_scene.get_node("NetworkManager").player_id)+"'s Asterball Server"
+var default_session_name: String
+
 
 func _ready() -> void:
 	$HostButtonsContainer/StartButton.pressed.connect(_on_start_pressed)
@@ -21,11 +22,18 @@ func _ready() -> void:
 		level_button.level = level
 		level_button.host_ui = self
 		$ScrollContainer/GridContainer.add_child(level_button)
-		$SessionNameTextEdit.text = default_session_name
+	
+	$SessionNameTextEdit.text = default_session_name
 	
 	
 	# Select level by default.
 	select_level(all_levels[0])
+
+func set_default_session_name() -> void:
+	if main_scene.network_manager.is_steam_initialized:
+		$SessionNameTextEdit.text = Steam.getFriendPersonaName(get_tree().current_scene.get_node("NetworkManager").player_id)+"'s Asterball Server"
+	else:
+		$SessionNameTextEdit.text = "Asterball Session"
 
 func _input(event:InputEvent):
 	if ($SessionNameTextEdit.has_focus()

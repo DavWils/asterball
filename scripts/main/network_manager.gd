@@ -25,6 +25,9 @@ var is_steam_initialized: bool = false
 ## Signal emitted when game info is retrieved from host.
 signal game_info_retrieved
 
+## Signal emitted after trying to connect to steam, returning code.
+signal steam_initialized(status: int)
+
 func _init():
 	OS.set_environment("SteamAppID",str(2837470))
 	OS.set_environment("SteamGameID",str(2837470))
@@ -55,6 +58,7 @@ func connect_to_steam():
 		print("Error ", steam_results["status"]," when initializing steam: ", steam_results["verbal"])
 		is_steam_initialized = false
 		get_lobby_members()
+	steam_initialized.emit(steam_results["status"])
 
 ## Returns true if the client is successfully connected to steam and can host/join lobbies.
 func is_on_steam() -> bool:
