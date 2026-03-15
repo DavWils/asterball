@@ -1,10 +1,12 @@
-[gd_scene load_steps=27 format=4 uid="uid://dum6laalon7cq"]
+[gd_scene load_steps=31 format=4 uid="uid://dum6laalon7cq"]
 
 [ext_resource type="PackedScene" uid="uid://dtburs7dpxgxy" path="res://meshes/characters/omnistriker/omnistriker.glb" id="1_yfdhx"]
 [ext_resource type="Script" uid="uid://cql7lecmsjdeq" path="res://scripts/level/character/omnistriker/character_mesh.gd" id="2_owm0j"]
 [ext_resource type="Material" uid="uid://dysmx1a8ttjed" path="res://materials/meshes/characters/omnistriker.tres" id="3_36uyq"]
 [ext_resource type="AudioStream" uid="uid://c11w7vscr8nep" path="res://sounds/level/character/omnistriker/step/step.wav" id="3_ckpng"]
 [ext_resource type="Script" uid="uid://bp3h6g6w37af3" path="res://scripts/level/character/footstep_sound_player.gd" id="4_f7l4a"]
+[ext_resource type="Script" uid="uid://dik0pb1setcc0" path="res://scripts/level/character/equip_sound_player.gd" id="6_r4jgs"]
+[ext_resource type="AudioStream" uid="uid://b3uctcliv4eso" path="res://sounds/level/character/omnistriker/equip/equip.wav" id="6_t5lj2"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_r4jgs"]
 resource_local_to_scene = true
@@ -29,6 +31,14 @@ blend_shape_mode = 0
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pfe7s"]
 animation = &"charge"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tkofe"]
+animation = &"equip"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_odaxh"]
+filter_enabled = true
+filters = ["Armature/Skeleton3D:forearm.R", "Armature/Skeleton3D:hand.R", "Armature/Skeleton3D:spine.001", "Armature/Skeleton3D:spine.002", "Armature/Skeleton3D:spine.003", "Armature/Skeleton3D:spine.004", "Armature/Skeleton3D:upper_arm.R"]
+fadeout_time = 0.1
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ubvka"]
 animation = &"falling"
@@ -120,8 +130,8 @@ filters = ["Armature/Skeleton3D:forearm.L", "Armature/Skeleton3D:forearm.R", "Ar
 animation = &"idle"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ckpng"]
-graph_offset = Vector2(-135.95822, 59.8434)
-nodes/output/position = Vector2(1240, 160)
+graph_offset = Vector2(264.4334, 76.09856)
+nodes/output/position = Vector2(1460, 120)
 nodes/Fall/node = SubResource("AnimationNodeAnimation_ubvka")
 nodes/Fall/position = Vector2(-660, 600)
 nodes/RunTimeScale/node = SubResource("AnimationNodeTimeScale_ubvka")
@@ -141,43 +151,47 @@ nodes/ThrowIdleAnimation/position = Vector2(500, 340)
 nodes/ThrowOneShot/node = SubResource("AnimationNodeOneShot_f7l4a")
 nodes/ThrowOneShot/position = Vector2(1040, 100)
 nodes/ThrowEndAnimation/node = SubResource("AnimationNodeAnimation_tejfy")
-nodes/ThrowEndAnimation/position = Vector2(974.054, 419.60834)
-node_connections = [&"output", 0, &"ThrowOneShot", &"RunTimeScale", 0, &"Charge", &"MovementTransition", 0, &"idle", &"MovementTransition", 1, &"RunBlendSpace2D", &"MovementTransition", 2, &"Fall", &"MovementTransition", 3, &"RunTimeScale", &"ThrowAimBlend", 0, &"MovementTransition", &"ThrowAimBlend", 1, &"ThrowIdleAnimation", &"ThrowOneShot", 0, &"ThrowAimBlend", &"ThrowOneShot", 1, &"ThrowEndAnimation"]
+nodes/ThrowEndAnimation/position = Vector2(900, 440)
+nodes/EquipOneShot/node = SubResource("AnimationNodeOneShot_odaxh")
+nodes/EquipOneShot/position = Vector2(1280, 100)
+nodes/EquipAnimation/node = SubResource("AnimationNodeAnimation_tkofe")
+nodes/EquipAnimation/position = Vector2(1260, 380)
+node_connections = [&"output", 0, &"EquipOneShot", &"RunTimeScale", 0, &"Charge", &"MovementTransition", 0, &"idle", &"MovementTransition", 1, &"RunBlendSpace2D", &"MovementTransition", 2, &"Fall", &"MovementTransition", 3, &"RunTimeScale", &"ThrowAimBlend", 0, &"MovementTransition", &"ThrowAimBlend", 1, &"ThrowIdleAnimation", &"ThrowOneShot", 0, &"ThrowAimBlend", &"ThrowOneShot", 1, &"ThrowEndAnimation", &"EquipOneShot", 0, &"ThrowOneShot", &"EquipOneShot", 1, &"EquipAnimation"]
 
 [node name="Mesh" node_paths=PackedStringArray("equipment_attachment") instance=ExtResource("1_yfdhx")]
 script = ExtResource("2_owm0j")
 equipment_attachment = NodePath("Armature/Skeleton3D/EquipmentAttachment/EquipmentNode")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(7.99556e-09, 0.9699, 0.0552)
-bones/0/rotation = Quaternion(0.048149083, 0.9165377, -0.11624219, 0.37964222)
-bones/1/rotation = Quaternion(-0.09506839, 0.12893565, -0.02031462, 0.98687637)
-bones/2/rotation = Quaternion(-0.03884111, 0.04360943, -0.0009311015, 0.998293)
-bones/3/position = Vector3(0.018833963, 0.31354246, 0.0020236108)
-bones/3/rotation = Quaternion(0.14724724, 0.21450345, -0.028886069, 0.96512806)
-bones/4/rotation = Quaternion(-0.14214674, -1.8768327e-08, -2.6952285e-09, 0.9898456)
-bones/5/rotation = Quaternion(0.036313996, 0.0063452646, 0.9982653, -0.04590735)
-bones/6/rotation = Quaternion(0.69089764, 0.0034214396, -0.040231746, 0.72182417)
-bones/7/rotation = Quaternion(0.005359369, -0.008277063, -0.0014209113, 0.99995047)
-bones/8/rotation = Quaternion(-0.07439886, -0.052306935, 0.9949247, 0.043055147)
-bones/9/rotation = Quaternion(0.68827826, -0.0028705217, 0.085305355, 0.7204081)
-bones/10/rotation = Quaternion(0.0053593866, 0.008276963, 0.0014209172, 0.9999504)
-bones/11/rotation = Quaternion(0.79608756, -1.0127458e-07, 6.3380206e-08, 0.6051815)
-bones/12/rotation = Quaternion(0.41446823, -7.361413e-09, -2.1476089e-07, 0.9100638)
-bones/13/rotation = Quaternion(-0.5958961, -1.05650734e-07, 2.0582704e-08, 0.80306154)
-bones/15/rotation = Quaternion(0.95320976, 5.5310107e-08, 3.43653e-08, -0.3023097)
-bones/16/rotation = Quaternion(0.43470523, 2.1323412e-08, -2.5829499e-08, 0.9005728)
-bones/17/rotation = Quaternion(-0.3944289, -3.8129414e-08, 1.9498495e-08, 0.9189265)
-bones/19/position = Vector3(0.3510962, 0.31827706, -0.43448916)
-bones/19/rotation = Quaternion(-0.27059805, 0.6532815, 0.6532815, 0.27059805)
-bones/20/position = Vector3(-0.5045645, 0.7728063, 0.69835746)
-bones/20/rotation = Quaternion(-0.27059805, 0.6532815, 0.6532815, 0.27059805)
+bones/0/position = Vector3(8.36225e-09, 0.9829251, 0.05520001)
+bones/0/rotation = Quaternion(0.03783466, 0.9461379, -0.11999632, 0.298316)
+bones/1/rotation = Quaternion(-0.054632973, 0.08368986, -0.02828861, 0.9945909)
+bones/2/rotation = Quaternion(-0.0042412374, 0.2153327, -0.019810515, 0.9763306)
+bones/3/position = Vector3(1.3151845e-09, 0.31357813, -2.237962e-08)
+bones/3/rotation = Quaternion(0.06408965, 1.1036568e-08, -1.3804135e-08, 0.99794424)
+bones/4/rotation = Quaternion(-0.14214674, -1.876833e-08, -2.695224e-09, 0.9898456)
+bones/5/rotation = Quaternion(0.08577461, -0.11771168, 0.9747343, -0.16935068)
+bones/6/rotation = Quaternion(0.36941957, -0.014853992, -0.061895005, 0.92708015)
+bones/7/rotation = Quaternion(0.00535938, -0.0082770595, -0.001420923, 0.99995047)
+bones/8/rotation = Quaternion(-0.044496942, -0.11008501, 0.97615135, 0.18174165)
+bones/9/rotation = Quaternion(0.37682906, 0.021947974, 0.044638302, 0.9249463)
+bones/10/rotation = Quaternion(0.005359394, 0.008276966, 0.0014209457, 0.9999504)
+bones/11/rotation = Quaternion(0.9149535, 0.02315613, -0.29965508, 0.26931575)
+bones/12/rotation = Quaternion(0.19306089, 0.0007496406, -0.020620113, 0.98096985)
+bones/13/rotation = Quaternion(-0.5273639, -4.7321205e-08, 2.7319098e-08, 0.84963953)
+bones/15/rotation = Quaternion(0.92878425, -0.057271376, 0.27001697, 0.24732745)
+bones/16/rotation = Quaternion(0.17494339, 0.0018535382, -0.059024855, 0.98280597)
+bones/17/rotation = Quaternion(-0.5273639, -4.736555e-08, 2.5702414e-08, 0.84963953)
+bones/19/position = Vector3(-0.098, 0.0852, -0.18024626)
+bones/19/rotation = Quaternion(0, 0.7071068, 0.7071068, 0)
+bones/20/position = Vector3(0.24431443, 0.081792444, 0.068951964)
+bones/20/rotation = Quaternion(0, 0.7071068, 0.7071068, 0)
 
 [node name="omnistriker" parent="Armature/Skeleton3D" index="0"]
 mesh = SubResource("ArrayMesh_r4jgs")
 
 [node name="EquipmentAttachment" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.8902349, 0.44386354, 0.10230976, -0.055013936, -0.11819232, 0.99146515, 0.45216793, -0.88826543, -0.08080012, 0.32680133, 1.2243313, -0.07910636)
+transform = Transform3D(0.9606809, 0.26943, -0.067080885, 0.27292186, -0.8719107, 0.4065518, 0.051048778, -0.4088747, -0.9111615, 0.3959811, 1.0756512, -0.021517001)
 bone_name = "hand.R"
 bone_idx = 10
 
@@ -196,8 +210,15 @@ parameters/ThrowAimBlend/blend_amount = 0.0
 parameters/ThrowOneShot/active = false
 parameters/ThrowOneShot/internal_active = false
 parameters/ThrowOneShot/request = 0
+parameters/EquipOneShot/active = false
+parameters/EquipOneShot/internal_active = false
+parameters/EquipOneShot/request = 0
 
 [node name="FootstepSoundPlayer" type="AudioStreamPlayer3D" parent="." index="3"]
 stream = ExtResource("3_ckpng")
 volume_db = -15.0
 script = ExtResource("4_f7l4a")
+
+[node name="EquipSoundPlayer" type="AudioStreamPlayer3D" parent="." index="5"]
+stream = ExtResource("6_t5lj2")
+script = ExtResource("6_r4jgs")

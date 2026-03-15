@@ -1,4 +1,4 @@
-[gd_resource type="Animation" format=3 uid="uid://mhf76lv0qg4v"]
+[gd_resource type="Animation" load_steps=0 format=3 uid="uid://mhf76lv0qg4v"]
 
 [resource]
 resource_name = "run_backward"
@@ -165,20 +165,3 @@ tracks/22/path = NodePath("Armature/Skeleton3D:IK-shin.R")
 tracks/22/interp = 0
 tracks/22/loop_wrap = true
 tracks/22/keys = PackedFloat32Array(0, 1, 0, 0.7071068, 0.7071068, 0)
-tracks/23/type = "method"
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/path = NodePath("FootstepSoundPlayer")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/keys = {
-"times": PackedFloat32Array(0.0667, 0.2334),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"play_step_sonud"
-}, {
-"args": [],
-"method": &"play_step_sonud"
-}]
-}

@@ -21,6 +21,7 @@ func _ready() -> void:
 	mesh_mat.set_shader_parameter("primary_color", character.get_player_team_state().team_resource.primary_color)
 	mesh_mat.set_shader_parameter("secondary_color", character.get_player_team_state().team_resource.secondary_color)
 	(character.ragdoll.get_node("Armature/Skeleton3D/omnistriker").mesh as ArrayMesh).surface_set_material(0, mesh_mat)
+	character.equipped.connect(_on_equipped)
 	
 func _physics_process(_delta: float) -> void:
 	if is_node_ready() and animation_player:
@@ -87,3 +88,8 @@ func update_animation():
 			animation_tree.set("parameters/ThrowOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 		else:
 			animation_tree.set("parameters/ThrowAimBlend/blend_amount", lerpf(current_blend, 0.0, .1))
+
+func _on_equipped() -> void:
+	if not animation_tree.get("parameters/ThrowAimBlend/blend_amount"):
+		animation_tree.set("parameters/EquipOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		$EquipSoundPlayer.play_equip_sound()
