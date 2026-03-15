@@ -199,6 +199,7 @@ func from_reg_dict(data: Dictionary) -> void:
 func interact(interactor: Character) -> void:
 	if interactor.is_inventory_full(): interactor.drop_equipped_item()
 	await get_tree().process_frame
+	interactor.velocity += ((linear_velocity * item_state.get_item_mass()) / (item_state.get_item_mass() + interactor.get_total_mass()))
 	level.despawn_registry_object(registry_id)
 	interactor.pickup_item(item_state)
 
