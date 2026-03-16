@@ -11,6 +11,7 @@ radius = 5.0
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_mw85o"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_enx55"]
+resource_local_to_scene = true
 noise = SubResource("FastNoiseLite_mw85o")
 color_ramp = SubResource("Gradient_mw7uk")
 
@@ -41,6 +42,7 @@ point_count = 2
 curve = SubResource("Curve_gw1pm")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vrerb"]
+resource_local_to_scene = true
 gravity = Vector3(0, 0, 0)
 scale_min = 20.0
 scale_max = 20.0

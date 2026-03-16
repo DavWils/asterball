@@ -39,6 +39,7 @@ func load_level(level: LevelResource = load("res://resources/levels/" + Steam.ge
 	hide_load_scren()
 
 func _ready() -> void:
+	$AssetLoader.load_assets()
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
 
 ## Update known lobby list.
