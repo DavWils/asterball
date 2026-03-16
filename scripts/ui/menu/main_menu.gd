@@ -1,5 +1,7 @@
 extends Control
 
+class_name MainMenuUI
+
 @onready var tab_container: TabContainer = $TabContainer
 
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")

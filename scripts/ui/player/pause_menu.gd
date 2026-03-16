@@ -19,3 +19,6 @@ func _on_options_button_pressed() -> void:
 
 func _on_quit_button_pressed() -> void:
 	main_scene.return_to_menu()
+
+func return_to_pause_home() -> void:
+	$TabContainer.current_tab = 0

@@ -171,9 +171,10 @@ grow_horizontal = 2
 texture = ExtResource("4_k0ycp")
 stretch_mode = 3
 
-[node name="OptionsUI" parent="MainMenuUI/TabContainer" instance=ExtResource("7_xgdw1")]
+[node name="OptionsUI" parent="MainMenuUI/TabContainer" node_paths=PackedStringArray("main_menu_ui") instance=ExtResource("7_xgdw1")]
 visible = false
 layout_mode = 2
+main_menu_ui = NodePath("../..")
 metadata/_tab_index = 1
 
 [node name="CreditsUI" type="Control" parent="MainMenuUI/TabContainer"]

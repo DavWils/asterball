@@ -308,9 +308,10 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_h3tri")
 text = "Quit Game"
 alt_press = true
 
-[node name="OptionsMenu" parent="PlayerUI/PauseMenu/TabContainer" instance=ExtResource("14_v53ew")]
+[node name="OptionsMenu" parent="PlayerUI/PauseMenu/TabContainer" node_paths=PackedStringArray("player_ui") instance=ExtResource("14_v53ew")]
 visible = false
 layout_mode = 2
+player_ui = NodePath("../../..")
 metadata/_tab_index = 1
 
 [node name="BuyMenu" type="Control" parent="PlayerUI"]
