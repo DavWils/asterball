@@ -46,18 +46,9 @@ script = ExtResource("1_o5qli")
 
 [node name="MainMenu" parent="." instance=ExtResource("3_sugp2")]
 
-[node name="UIAudioPlayer" type="AudioStreamPlayer" parent="."]
-editor_description = "Audio stream player used for UI sounds like buttons."
-bus = &"Interface"
-script = ExtResource("4_jyhfs")
-hover_sound = ExtResource("5_tbgi4")
-pressed_sound = ExtResource("6_tefeu")
-pressed_sound_alt = ExtResource("7_o6xl0")
-purchased_sound = ExtResource("8_choun")
-fail_purchased_sound = ExtResource("9_ya4ey")
-
 [node name="LoadingUI" type="Control" parent="."]
 visible = false
+z_index = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -121,3 +112,13 @@ theme_override_font_sizes/font_size = 20
 text = "..."
 horizontal_alignment = 1
 clip_text = true
+
+[node name="UIAudioPlayer" type="AudioStreamPlayer" parent="."]
+editor_description = "Audio stream player used for UI sounds like buttons."
+bus = &"Interface"
+script = ExtResource("4_jyhfs")
+hover_sound = ExtResource("5_tbgi4")
+pressed_sound = ExtResource("6_tefeu")
+pressed_sound_alt = ExtResource("7_o6xl0")
+purchased_sound = ExtResource("8_choun")
+fail_purchased_sound = ExtResource("9_ya4ey")
