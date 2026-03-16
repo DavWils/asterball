@@ -17,7 +17,7 @@ size = Vector3(120, 10, 23.5)
 resource_local_to_scene = true
 bg_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e7y16"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e2tyw"]
 resource_local_to_scene = true
 bg_color = Color(1, 1, 1, 1)
 
@@ -135,13 +135,16 @@ owning_team = 1
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwayScoreZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
 
-[node name="ResumeButton" parent="PlayerUI/PauseMenu/VBoxContainer" index="0"]
+[node name="PauseMenu" parent="PlayerUI" index="3"]
+visible = false
+
+[node name="ResumeButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" index="0"]
 theme_override_styles/hover = SubResource("StyleBoxFlat_41p24")
 
-[node name="OptionsButton" parent="PlayerUI/PauseMenu/VBoxContainer" index="1"]
-theme_override_styles/hover = SubResource("StyleBoxFlat_e7y16")
+[node name="OptionsButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" index="1"]
+theme_override_styles/hover = SubResource("StyleBoxFlat_e2tyw")
 
-[node name="QuitButton" parent="PlayerUI/PauseMenu/VBoxContainer" index="2"]
+[node name="QuitButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" index="2"]
 theme_override_styles/hover = SubResource("StyleBoxFlat_h3tri")
 
 [node name="Crater" parent="." index="11" instance=ExtResource("6_u3xwc")]

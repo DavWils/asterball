@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://op33b3y3xnd5"]
+
+[ext_resource type="Script" uid="uid://biusr2ivekr2k" path="res://scripts/ui/menu/options_menu.gd" id="1_tfrac"]
+[ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="2_m7wsh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o28os"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lekxg"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tfrac")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.8
+anchor_right = 0.3
+anchor_bottom = 0.925
+
+[node name="ApplyButton" parent="VBoxContainer" instance=ExtResource("2_m7wsh")]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_o28os")
+text = "Apply Changes"
+
+[node name="ReturnButton" parent="VBoxContainer" instance=ExtResource("2_m7wsh")]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_lekxg")
+text = "Return to Menu"
+alt_press = true

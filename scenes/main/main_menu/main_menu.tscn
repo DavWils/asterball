@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cp685y7pccjuu"]
+[gd_scene load_steps=28 format=3 uid="uid://cp685y7pccjuu"]
 
 [ext_resource type="Script" uid="uid://cy2786m3vidtf" path="res://scripts/main/main_menu/main_menu_3d.gd" id="1_0kd0q"]
 [ext_resource type="Script" uid="uid://3uyqegwbredf" path="res://scripts/ui/menu/title_screen.gd" id="1_2tvpl"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://canw8wd87crlv" path="res://textures/ui/logo.png" id="4_k0ycp"]
 [ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://shaders/sky/astral_sky.gdshader" id="4_r7wpq"]
 [ext_resource type="Script" uid="uid://dli6mebp84f40" path="res://scripts/ui/menu/credits.gd" id="7_scmgr"]
+[ext_resource type="PackedScene" uid="uid://op33b3y3xnd5" path="res://scenes/ui/menu/options_menu.tscn" id="7_xgdw1"]
 [ext_resource type="Script" uid="uid://f62o5afrhbmw" path="res://scripts/ui/menu/host.gd" id="8_6pyy2"]
 [ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="9_hsu2m"]
 [ext_resource type="AudioStream" uid="uid://dnw8l57rrjpwp" path="res://sounds/music/menu/menu_music.wav" id="10_5fid0"]
@@ -170,7 +171,7 @@ grow_horizontal = 2
 texture = ExtResource("4_k0ycp")
 stretch_mode = 3
 
-[node name="OptionsUI" type="Control" parent="MainMenuUI/TabContainer"]
+[node name="OptionsUI" parent="MainMenuUI/TabContainer" instance=ExtResource("7_xgdw1")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1

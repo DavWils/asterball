@@ -114,6 +114,7 @@ func open_pause_menu() -> void:
 func close_pause_menu() -> void:
 	pause_menu.visible = false
 	player_controller.paused = false
+	pause_menu.get_node("TabContainer").current_tab = 0
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func open_buy_menu() -> void:
