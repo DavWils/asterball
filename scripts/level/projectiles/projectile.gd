@@ -31,6 +31,9 @@ var throwing_character: Character
 ## The time in which the projectile was first thrown.
 var start_time: float
 
+## If true, item is currently beign picked up.
+var being_picked_up: bool = false
+
 ## Returns the team state of allegiance team.
 func get_allegiance_team() -> TeamState:
 	var match_state: MatchState = level.match_state
@@ -197,6 +200,8 @@ func from_reg_dict(data: Dictionary) -> void:
 
 ## Called when interacted with.
 func interact(interactor: Character) -> void:
+	if being_picked_up: return
+	being_picked_up = true
 	if interactor.is_inventory_full(): interactor.drop_equipped_item()
 	await get_tree().process_frame
 	interactor.velocity += ((linear_velocity * item_state.get_item_mass()) / (item_state.get_item_mass() + interactor.get_total_mass()))
