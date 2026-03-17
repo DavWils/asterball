@@ -30,7 +30,7 @@ func _ready() -> void:
 	select_level(all_levels[0])
 
 func set_default_session_name() -> void:
-	if main_scene.network_manager.is_steam_initialized:
+	if main_scene.network_manager.is_on_steam():
 		$SessionNameTextEdit.text = Steam.getFriendPersonaName(get_tree().current_scene.get_node("NetworkManager").player_id)+"'s Asterball Server"
 	else:
 		$SessionNameTextEdit.text = "Asterball Session"

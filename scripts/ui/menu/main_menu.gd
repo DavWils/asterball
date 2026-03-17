@@ -27,7 +27,7 @@ func to_host() -> void:
 
 func _ready() -> void:
 	network_manager.steam_initialized.connect(_on_steam_initialized)
-	_on_steam_initialized(not network_manager.is_steam_initialized)
+	_on_steam_initialized(not network_manager.is_on_steam())
 	await get_tree().process_frame
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	$NoConnectionButton.pressed.connect(_on_ncb_pressed)

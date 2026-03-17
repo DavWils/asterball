@@ -19,7 +19,8 @@ func _on_host_button_pressed():
 
 ## Called when quick match button is pressed.
 func _on_quick_match_button_pressed():
-	main_scene.quick_find_game()
+	if main_scene.network_manager.is_on_steam():
+		main_scene.quick_find_game()
 
 ## Called when options button is pressed.
 func _on_options_button_pressed():
