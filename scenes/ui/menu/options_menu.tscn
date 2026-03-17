@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://op33b3y3xnd5"]
+[gd_scene load_steps=7 format=3 uid="uid://op33b3y3xnd5"]
 
 [ext_resource type="Script" uid="uid://biusr2ivekr2k" path="res://scripts/ui/menu/options_menu.gd" id="1_tfrac"]
 [ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="2_m7wsh"]
@@ -16,6 +16,9 @@ corner_detail = 1
 [sub_resource type="FontVariation" id="FontVariation_lekxg"]
 base_font = ExtResource("3_o28os")
 variation_embolden = 0.5
+
+[sub_resource type="FontVariation" id="FontVariation_o28os"]
+base_font = ExtResource("3_o28os")
 
 [node name="OptionsMenu" type="Control"]
 layout_mode = 3
@@ -96,6 +99,38 @@ theme_override_fonts/font = SubResource("FontVariation_lekxg")
 theme_override_font_sizes/font_size = 32
 text = "Display"
 horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="DisplayPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="DisplayPanel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DisplayOptionsContaienr" type="VBoxContainer" parent="DisplayPanel/ScrollContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="CameraShakeBox" type="VBoxContainer" parent="DisplayPanel/ScrollContainer/MarginContainer/DisplayOptionsContaienr"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="DisplayPanel/ScrollContainer/MarginContainer/DisplayOptionsContaienr/CameraShakeBox"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_o28os")
+theme_override_font_sizes/font_size = 20
+text = "Camera Shake Scale"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="DisplayPanel/ScrollContainer/MarginContainer/DisplayOptionsContaienr/CameraShakeBox"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
 
 [node name="ControlsPanel" type="Panel" parent="."]
 layout_mode = 1

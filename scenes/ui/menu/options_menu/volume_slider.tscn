@@ -17,7 +17,9 @@ script = ExtResource("1_s5fy8")
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_2y3f6")
+theme_override_font_sizes/font_size = 20
 text = "Unknown Volume"
+horizontal_alignment = 1
 
 [node name="HSlider" type="HSlider" parent="."]
 layout_mode = 2
