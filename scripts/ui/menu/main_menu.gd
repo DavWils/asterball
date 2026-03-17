@@ -37,6 +37,7 @@ func _input(event: InputEvent) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _on_ncb_pressed() -> void:
+	if $NoConnectionButton.disabled: return
 	$NoConnectionButton.disabled = true
 	$NoConnectionButton/ConnectingProgressBar.visible = true
 	network_manager.connect_to_steam()
@@ -44,20 +45,32 @@ func _on_ncb_pressed() -> void:
 
 func _on_steam_initialized(status: int) -> void:
 	if status == 0:
-		if $NoConnectionButton.visible:
-			$NoConnectionButton.visible = false
-			get_tree().current_scene.get_node("UIAudioPlayer").play_pressed()
+		ncb_success()
 	else:
-		if not $NoConnectionButton.visible:
-			$NoConnectionButton.visible = true
-		get_tree().current_scene.get_node("UIAudioPlayer").play_fail_purchased()
-		if fail_connect_tween:
-			fail_connect_tween.kill()
-		fail_connect_tween = create_tween()
-		$NoConnectionButton.modulate = Color.RED
-		fail_connect_tween.tween_property($NoConnectionButton, "modulate", Color.WHITE, 0.5)
+		ncb_fail()
+
+## Play visual effect for when connection succeeds.
+func ncb_success() -> void:
+	if $NoConnectionButton.visible:
+		$NoConnectionButton.visible = false
+		get_tree().current_scene.get_node("UIAudioPlayer").play_pressed()
 	$NoConnectionButton.disabled = false
 	$NoConnectionButton/ConnectingProgressBar.visible = false
+
+
+## Play visual effect for when connection fails.
+func ncb_fail() -> void:
+	if not $NoConnectionButton.visible:
+		$NoConnectionButton.visible = true
+	get_tree().current_scene.get_node("UIAudioPlayer").play_fail_purchased()
+	if fail_connect_tween:
+		fail_connect_tween.kill()
+	fail_connect_tween = create_tween()
+	$NoConnectionButton.modulate = Color.RED
+	fail_connect_tween.tween_property($NoConnectionButton, "modulate", Color.WHITE, 0.5)
+	$NoConnectionButton.disabled = false
+	$NoConnectionButton/ConnectingProgressBar.visible = false
+
 
 
 func _unhandled_input(event: InputEvent) -> void:
