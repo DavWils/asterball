@@ -1,8 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://op33b3y3xnd5"]
+[gd_scene load_steps=6 format=3 uid="uid://op33b3y3xnd5"]
 
 [ext_resource type="Script" uid="uid://biusr2ivekr2k" path="res://scripts/ui/menu/options_menu.gd" id="1_tfrac"]
 [ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="2_m7wsh"]
 [ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="3_o28os"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o28os"]
+bg_color = Color(0, 0, 0, 0.49803922)
+border_width_left = 4
+border_width_top = 6
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_detail = 1
 
 [sub_resource type="FontVariation" id="FontVariation_lekxg"]
 base_font = ExtResource("3_o28os")
@@ -39,6 +48,7 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.333
 anchor_bottom = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_o28os")
 
 [node name="Label" type="Label" parent="AudioPanel"]
 layout_mode = 1
@@ -74,6 +84,7 @@ anchors_preset = -1
 anchor_left = 0.333
 anchor_right = 0.667
 anchor_bottom = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_o28os")
 
 [node name="Label" type="Label" parent="DisplayPanel"]
 layout_mode = 1
@@ -92,6 +103,7 @@ anchors_preset = -1
 anchor_left = 0.667
 anchor_right = 1.0
 anchor_bottom = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_o28os")
 
 [node name="Label" type="Label" parent="ControlsPanel"]
 layout_mode = 1
