@@ -21,7 +21,12 @@ theme_override_font_sizes/font_size = 20
 text = "Unknown Volume"
 horizontal_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HSlider" type="HSlider" parent="MarginContainer"]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
