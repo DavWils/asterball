@@ -12,6 +12,9 @@ class_name MainScene
 
 var found_lobbies: Array
 
+## Filepath to the options file
+const OPTIONS_FILE_PATH := "user://options.cfg"
+
 ## Loads session into a new level.
 func load_level(level: LevelResource = load("res://resources/levels/" + Steam.getLobbyData(network_manager.lobby_id, "level") + ".tres")):
 	set_load_state(2)
@@ -43,6 +46,7 @@ func load_level(level: LevelResource = load("res://resources/levels/" + Steam.ge
 func _ready() -> void:
 	asset_loader.load_complete.connect(_on_load_complete)
 	asset_loader.asset_started.connect(_on_asset_started)
+	load_options()
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
 	asset_loader.load_assets()
 	if not asset_loader.assets_loaded: await asset_loader.load_complete
@@ -142,3 +146,26 @@ func get_all_levels() -> Array[LevelResource]:
 					levels.append(loaded_resource)
 		current_filename = res_dir.get_next()
 	return levels
+
+func apply_options(options: Dictionary) -> void:
+	var options_file = ConfigFile.new()
+	
+	for key in options:
+		for sub_key in options[key]:
+			options_file.set_value(key, sub_key, options[key][sub_key])
+
+	var save_status := options_file.save(OPTIONS_FILE_PATH)
+	if save_status == OK:
+		print("Successfully saved options!")
+	else:
+		print("Failed to save options. [", str(save_status), "]")
+	
+	load_options()
+
+
+func load_options() -> void:
+	var options_file := ConfigFile.new()
+	options_file.load(OPTIONS_FILE_PATH)
+	
+	for bus in options_file.get_section_keys("audio"):
+		AudioServer.set_bus_volume_linear(bus.to_int(), options_file.get_value("audio", bus))

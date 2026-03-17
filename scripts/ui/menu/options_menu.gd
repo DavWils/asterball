@@ -2,6 +2,7 @@ extends Control
 
 @export var player_ui: PlayerUI
 @export var main_menu_ui: MainMenuUI
+@onready var main_scene: MainScene = get_tree().current_scene
 
 @onready var volume_slider_box := $AudioPanel/ScrollContainer/MarginContainer/VolumeSliderContainer
 
@@ -18,10 +19,17 @@ func _ready() -> void:
 		volume_slider_box.add_child(current_slider)
 
 func _on_apply_pressed() -> void:
-	# Load Volume Sliders.
+	var save_dict: Dictionary = {}
+	
+	# Save audio settings
+	save_dict["audio"] = {}
 	for bus in AudioServer.bus_count:
 		var linear_vol: float = volume_slider_box.get_child(bus).get_linear_vol()
-		AudioServer.set_bus_volume_linear(bus, linear_vol)
+		save_dict["audio"][str(bus)] = linear_vol
+	
+	# Send dict to main.
+	main_scene.apply_options(save_dict)
+
 
 func _on_return_pressed() -> void:
 	if player_ui:
