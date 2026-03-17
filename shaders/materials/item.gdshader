@@ -30,7 +30,6 @@ void fragment() {
 	// Apply texture color to the material
 	ALBEDO = albedo_tex.rgb;
 	EMISSION = emission_tex.rgb * emission_color * emission_strength;
-	ALPHA = albedo_tex.a;
 }
 
 //void light() {
