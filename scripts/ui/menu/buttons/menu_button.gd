@@ -20,15 +20,16 @@ const HOVER_COLOR: Color = Color.PURPLE
 ## The base color for the button.
 var base_color: Color = INIT_COLOR
 
+## Is pressed.
+var is_pressed_visually: bool = false
 
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	pressed.connect(_on_pressed)
 
-
 func _process(_delta: float) -> void:
-	if is_hovered():
+	if is_hovered() and not is_pressed_visually:
 		var new_color := base_color + (base_color * 0.1 * sin(Time.get_ticks_msec()/600.0))
 		for i in range(0,4):
 			var step_color := new_color
@@ -55,6 +56,7 @@ func _on_mouse_exited() -> void:
 	)
 
 func _on_pressed() -> void:
+	is_pressed_visually = true
 	var new_color := Color.WHITE
 	for i in range(0,4):
 		var step_color := new_color
@@ -65,3 +67,5 @@ func _on_pressed() -> void:
 		audio_player.play_pressed_alt()
 	else:
 		audio_player.play_pressed()
+	await get_tree().create_timer(.05).timeout
+	is_pressed_visually = false
