@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=33 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
@@ -67,18 +67,6 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_41p24"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e2tyw"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h3tri"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="FontVariation" id="FontVariation_it2fa"]
 base_font = ExtResource("14_up6r2")
@@ -295,19 +283,15 @@ anchor_bottom = 0.9
 
 [node name="ResumeButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" instance=ExtResource("8_41p24")]
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_41p24")
 text = "Resume"
 
 [node name="OptionsButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" instance=ExtResource("8_41p24")]
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_e2tyw")
 text = "Options"
 
 [node name="QuitButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" instance=ExtResource("8_41p24")]
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_h3tri")
 text = "Quit Game"
-alt_press = true
 
 [node name="OptionsMenu" parent="PlayerUI/PauseMenu/TabContainer" node_paths=PackedStringArray("player_ui") instance=ExtResource("14_v53ew")]
 visible = false

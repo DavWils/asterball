@@ -1,15 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://op33b3y3xnd5"]
+[gd_scene load_steps=3 format=3 uid="uid://op33b3y3xnd5"]
 
 [ext_resource type="Script" uid="uid://biusr2ivekr2k" path="res://scripts/ui/menu/options_menu.gd" id="1_tfrac"]
 [ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="2_m7wsh"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o28os"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lekxg"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
 
 [node name="OptionsMenu" type="Control"]
 layout_mode = 3
@@ -30,11 +22,9 @@ anchor_bottom = 0.925
 
 [node name="ApplyButton" parent="VBoxContainer" instance=ExtResource("2_m7wsh")]
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_o28os")
 text = "Apply Changes"
 
 [node name="ReturnButton" parent="VBoxContainer" instance=ExtResource("2_m7wsh")]
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_lekxg")
 text = "Return to Menu"
 alt_press = true

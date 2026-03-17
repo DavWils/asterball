@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://clnvfmymfgg5r"]
+[gd_scene load_steps=9 format=3 uid="uid://clnvfmymfgg5r"]
 
 [ext_resource type="Script" uid="uid://7k7cftjryriv" path="res://scripts/ui/menu/buttons/menu_button.gd" id="1_1ky74"]
 [ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="1_rc5av"]
@@ -12,12 +12,16 @@ variation_opentype = {
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ky74"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rc5av"]
-bg_color = Color(1, 1, 1, 1)
+[sub_resource type="Gradient" id="Gradient_rc5av"]
+offsets = PackedFloat32Array(0, 0.1, 0.9, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3prsw"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3prsw"]
+gradient = SubResource("Gradient_rc5av")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tlk75"]
+texture = SubResource("GradientTexture1D_3prsw")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlk75"]
 
@@ -26,8 +30,8 @@ focus_mode = 0
 theme_override_fonts/font = SubResource("FontVariation_3prsw")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_1ky74")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_rc5av")
-theme_override_styles/hover = SubResource("StyleBoxFlat_3prsw")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tlk75")
+theme_override_styles/hover = SubResource("StyleBoxTexture_tlk75")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_tlk75")
 alignment = 0
 clip_text = true
