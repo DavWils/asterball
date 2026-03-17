@@ -4,7 +4,13 @@ extends Node
 
 class_name AssetLoader
 
-signal assets_loaded
+## Whether or not asset loading is complete.
+var assets_loaded: bool = true
+
+## Called when all assets are loaded
+signal load_complete
+## Called when an asset has started loading.
+signal asset_started(asset_name: String)
 
 var assets: Dictionary[String, PackedScene]
 
@@ -16,6 +22,7 @@ const directories: Dictionary[String, String] = {
 }
 
 func load_assets() -> void:
+	assets_loaded = false
 	assets.clear()
 	
 	for dir in directories:
@@ -31,9 +38,11 @@ func load_assets() -> void:
 		while current_filename != "":
 			if not cur_dir.current_is_dir():
 				if current_filename.ends_with(".tscn"):
-					print("Loading ", dir, "/", current_filename)
+					asset_started.emit(dir + "/" + current_filename)
 					var scene_path: String = dir_string + current_filename
 					var cur_scene := load(scene_path)
 					assets[dir + "_" + current_filename.get_basename()]  = cur_scene
 			current_filename = cur_dir.get_next()
-	assets_loaded.emit()
+	
+	assets_loaded = true
+	load_complete.emit()

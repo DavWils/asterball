@@ -8,6 +8,8 @@ class_name MainScene
 ## Loaded scene for the main menu.
 @onready var main_menu_resource := load("res://scenes/main/main_menu/main_menu.tscn")
 
+@onready var asset_loader: AssetLoader = $AssetLoader
+
 var found_lobbies: Array
 
 ## Loads session into a new level.
@@ -39,8 +41,21 @@ func load_level(level: LevelResource = load("res://resources/levels/" + Steam.ge
 	hide_load_scren()
 
 func _ready() -> void:
-	$AssetLoader.load_assets()
+	asset_loader.load_complete.connect(_on_load_complete)
+	asset_loader.asset_started.connect(_on_asset_started)
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
+	asset_loader.load_assets()
+	if not asset_loader.assets_loaded: await asset_loader.load_complete
+	add_child(load("res://scenes/main/main_menu/main_menu.tscn").instantiate())
+	
+	
+
+func _on_load_complete() -> void:
+	pass
+
+func _on_asset_started(asset_name: String) -> void:
+	print("Loading ", asset_name)
+
 
 ## Update known lobby list.
 func _on_lobby_match_list(lobbies):
