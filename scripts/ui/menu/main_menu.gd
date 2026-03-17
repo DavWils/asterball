@@ -33,7 +33,7 @@ func _ready() -> void:
 	$NoConnectionButton.pressed.connect(_on_ncb_pressed)
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouse and Input.get_mouse_mode() == Input.MOUSE_MODE_HIDDEN:
+	if event is InputEventMouse and Input.get_mouse_mode() != Input.MOUSE_MODE_VISIBLE:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _on_ncb_pressed() -> void:
