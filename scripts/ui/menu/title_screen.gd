@@ -7,7 +7,7 @@ extends Control
 
 func _ready() -> void:
 	$MenuButtonsContainer/HostButton.pressed.connect(_on_host_button_pressed)
-	$MenuButtonsContainer/QuickMatchButton.pressed.connect(_on_quick_match_button_pressed)
+	$MenuButtonsContainer/FindGameButton.pressed.connect(_on_find_game_button_pressed)
 	$MenuButtonsContainer/OptionsButton.pressed.connect(_on_options_button_pressed)
 	$MenuButtonsContainer/CreditsButton.pressed.connect(_on_credits_button_pressed)
 	$MenuButtonsContainer/QuitButton.pressed.connect(_on_quit_button_pressed)
@@ -18,7 +18,7 @@ func _on_host_button_pressed():
 	main_menu.to_host()
 
 ## Called when quick match button is pressed.
-func _on_quick_match_button_pressed():
+func _on_find_game_button_pressed():
 	if main_scene.network_manager.is_on_steam():
 		main_scene.quick_find_game()
 

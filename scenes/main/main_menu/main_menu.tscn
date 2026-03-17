@@ -107,9 +107,9 @@ offset_bottom = 40.0
 layout_mode = 2
 text = "Host Game"
 
-[node name="QuickMatchButton" parent="MainMenuUI/TabContainer/TitleScreenUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
+[node name="FindGameButton" parent="MainMenuUI/TabContainer/TitleScreenUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
-text = "Quick Match"
+text = "Find Game"
 
 [node name="OptionsButton" parent="MainMenuUI/TabContainer/TitleScreenUI/MenuButtonsContainer" instance=ExtResource("2_y8u07")]
 layout_mode = 2
