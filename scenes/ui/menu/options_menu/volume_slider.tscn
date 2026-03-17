@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://clq4akund6n46"]
+
+[ext_resource type="Script" uid="uid://do2n2ixuqou5a" path="res://scripts/ui/menu/options_menu/volume_slider.gd" id="1_s5fy8"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="2_c2g54"]
+
+[sub_resource type="FontVariation" id="FontVariation_2y3f6"]
+base_font = ExtResource("2_c2g54")
+
+[node name="VolumeSlider" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_s5fy8")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_2y3f6")
+text = "Unknown Volume"
+
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
