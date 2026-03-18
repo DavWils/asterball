@@ -2,20 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddsv2cip7htvv"
-path.s3tc="res://.godot/imported/starfield_crater_albedo.png-f15e8b2b617a53c800791f0170917fd7.s3tc.ctex"
+uid="uid://cwcw4h07w888h"
+path.s3tc="res://.godot/imported/gravel_albedo.png-a2202bcdc901f0f9f0b83411ac7ae204.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "cd61dd173eb894069cb2e76b0f0a8035"
-}
 
 [deps]
 
-source_file="res://meshes/levels/starfield/starfield_crater_albedo.png"
-dest_files=["res://.godot/imported/starfield_crater_albedo.png-f15e8b2b617a53c800791f0170917fd7.s3tc.ctex"]
+source_file="res://textures/basic/gravel_albedo.png"
+dest_files=["res://.godot/imported/gravel_albedo.png-a2202bcdc901f0f9f0b83411ac7ae204.s3tc.ctex"]
 
 [params]
 

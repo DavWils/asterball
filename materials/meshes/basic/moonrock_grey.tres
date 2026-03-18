@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c26q754s620rh"]
+
+[ext_resource type="Shader" uid="uid://cqbd8gsmptd5v" path="res://shaders/materials/basic.gdshader" id="1_pcwvq"]
+[ext_resource type="Texture2D" uid="uid://m3orv8g7okqf" path="res://textures/basic/moonrock_albedo.png" id="2_rexcb"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_pcwvq")
+shader_parameter/texture_albedo = ExtResource("2_rexcb")
+shader_parameter/tint = Color(0.39308554, 0.3930855, 0.39308548, 1)
+shader_parameter/blend_sharpness = 4.0

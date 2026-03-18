@@ -2,20 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ftxqblkthf2e"
-path.s3tc="res://.godot/imported/starfield_field_shell_albedo.jpg-7dad100effbbaeef5d2d09ae242157dc.s3tc.ctex"
+uid="uid://m3orv8g7okqf"
+path.s3tc="res://.godot/imported/moonrock_albedo.png-b1671c6b4acf1b2b2d7d1ab57952a6af.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "464037f56bdcbea52df8d880e80a6d50"
-}
 
 [deps]
 
-source_file="res://meshes/levels/starfield/starfield_field_shell_albedo.jpg"
-dest_files=["res://.godot/imported/starfield_field_shell_albedo.jpg-7dad100effbbaeef5d2d09ae242157dc.s3tc.ctex"]
+source_file="res://textures/basic/moonrock_albedo.png"
+dest_files=["res://.godot/imported/moonrock_albedo.png-b1671c6b4acf1b2b2d7d1ab57952a6af.s3tc.ctex"]
 
 [params]
 

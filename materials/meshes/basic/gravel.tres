@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://6dooclvfn1sb"]
+
+[ext_resource type="Shader" uid="uid://cqbd8gsmptd5v" path="res://shaders/materials/basic.gdshader" id="1_htvys"]
+[ext_resource type="Texture2D" uid="uid://cwcw4h07w888h" path="res://textures/basic/gravel_albedo.png" id="2_htvys"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_htvys")
+shader_parameter/texture_albedo = ExtResource("2_htvys")
+shader_parameter/tile_scale = 0.015625
+shader_parameter/blend_sharpness = 4.0
