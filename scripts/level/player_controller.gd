@@ -30,6 +30,12 @@ signal interactable_found(interactable: Node3D)
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
+func get_player_state() -> PlayerState:
+	return (level.match_state as MatchState).get_player_state(network_manager.player_id)
+
+func get_team_state() -> TeamState:
+	return (level.match_state as MatchState).get_team_state(get_player_state().team_id)
+
 ## Sets the spectator camera. If null, disables it.
 func set_spectator_camera(cam: Camera3D = null):
 	if current_camera:

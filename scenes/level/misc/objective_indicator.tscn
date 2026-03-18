@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://bu6opm14dih73"]
+
+[ext_resource type="Script" uid="uid://c0fwmhexvasrf" path="res://scripts/level/misc/objective_indicator.gd" id="1_twn6l"]
+[ext_resource type="Shader" uid="uid://but2huos6yt12" path="res://shaders/light_shaft.gdshader" id="2_8tpoi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_82hqo"]
+render_priority = 0
+shader = ExtResource("2_8tpoi")
+shader_parameter/base_color = Color(1, 0.95, 0.85, 20)
+shader_parameter/falloff_power = 8.0
+shader_parameter/facing_boost = 1.5
+shader_parameter/facing_power = 4.0
+shader_parameter/boost_along_y = 1.0
+shader_parameter/feather_sharpness = 4.0
+shader_parameter/feather_intensity = 1.0
+shader_parameter/near_fade_start = 0.01
+shader_parameter/near_fade_end = 1.0
+shader_parameter/far_fade_start = 100.00000474674012
+shader_parameter/far_fade_end = 500.0
+shader_parameter/max_brightness = 10.0
+shader_parameter/depth_feather_enabled = true
+shader_parameter/depth_fade_distance = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vo0e1"]
+material = SubResource("ShaderMaterial_82hqo")
+top_radius = 0.0
+bottom_radius = 50.0
+height = 200.0
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="Curve" id="Curve_xyuhm"]
+_data = [Vector2(0, 0.033707857), 0.0, 0.0, 0, 0, Vector2(0.20218581, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.022471905), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_wbjoj"]
+curve = SubResource("Curve_xyuhm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xyuhm"]
+emission_shape = 1
+emission_sphere_radius = 50.0
+gravity = Vector3(0, 0, -1)
+scale_curve = SubResource("CurveTexture_wbjoj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xyuhm"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 5.0
+normal_enabled = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_wbjoj"]
+material = SubResource("StandardMaterial3D_xyuhm")
+radius = 0.25
+height = 0.5
+radial_segments = 4
+rings = 2
+
+[node name="ObjectiveIndicator" type="Node3D"]
+script = ExtResource("1_twn6l")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 200, 0)
+light_color = Color(1, 0, 0, 1)
+light_energy = 400.0
+spot_range = 400.0
+spot_angle = 20.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
+mesh = SubResource("CylinderMesh_vo0e1")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 50, 0)
+amount = 10
+lifetime = 3.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_xyuhm")
+draw_pass_1 = SubResource("SphereMesh_wbjoj")

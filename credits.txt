@@ -13,6 +13,7 @@ Distortion bubble shader by thelastflapjack: https://godotshaders.com/shader/dis
 
 Futuristic Jet Thruster by MadSerb and a_kimb0: https://godotshaders.com/shader/updated-futuristic-jet-thruster-advanced-end-edge-fading/
 
+Spatial Light Shaft by absentSpaghetti: https://godotshaders.com/shader/spatial-light-shaft/
 
 
 [b]Sounds downloaded from freesound.org[/b]

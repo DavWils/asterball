@@ -89,7 +89,7 @@ func update_animation():
 		else:
 			animation_tree.set("parameters/ThrowAimBlend/blend_amount", lerpf(current_blend, 0.0, .1))
 
-func _on_equipped() -> void:
-	if animation_tree.get("parameters/ThrowAimBlend/blend_amount") < 0.9:
+func _on_equipped(key: int) -> void:
+	if key >= 0 and animation_tree.get("parameters/ThrowAimBlend/blend_amount") < 0.9:
 		animation_tree.set("parameters/EquipOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 		$EquipSoundPlayer.play_equip_sound()
