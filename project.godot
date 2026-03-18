@@ -19,6 +19,12 @@ config/icon="res://icon.svg"
 
 window/stretch/mode="canvas_items"
 
+[importer_defaults]
+
+scene={
+&"gltf/embedded_image_handling": 0
+}
+
 [input]
 
 move_forward={
