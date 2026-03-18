@@ -52,14 +52,17 @@ func _on_equipped(_key: int) -> void:
 		set_target_type(TargetType.BALL)
 
 func set_target_type(target_type: TargetType = current_target_type):
+	const TWEEN_TIME: float = 0.15
+	const TOP_RADIUS_MULTIPLIER: float = 1.0
 	var _old_target_type = current_target_type
 	current_target_type = target_type
 	var cone_mesh: CylinderMesh = $MeshInstance3D.mesh
 	var radius = INDICATOR_PARAMS[current_target_type][1]
 	#cone_mesh.bottom_radius = radius
 	var cone_tween := create_tween()
-	cone_tween.tween_property($SpotLight3D, "spot_angle", rad_to_deg(atan2(radius, cone_mesh.height)), 0.15)
-	cone_tween.parallel().tween_property(cone_mesh, "bottom_radius", radius, 0.15)
+	cone_tween.tween_property($SpotLight3D, "spot_angle", rad_to_deg(atan2(radius * (1-TOP_RADIUS_MULTIPLIER), cone_mesh.height)), TWEEN_TIME)
+	cone_tween.parallel().tween_property(cone_mesh, "bottom_radius", radius, TWEEN_TIME)
+	cone_tween.parallel().tween_property(cone_mesh, "top_radius", radius * TOP_RADIUS_MULTIPLIER, TWEEN_TIME)
 	#$SpotLight3D.spot_angle = rad_to_deg(atan2(cone_mesh.bottom_radius, cone_mesh.height))
 	$GPUParticles3D.process_material.emission_sphere_radius = radius
 	$GPUParticles3D.position = Vector3.UP * radius
@@ -75,4 +78,4 @@ func get_target_pos() -> Vector3:
 		for child in level.get_children():
 			if child is ScoreZone:
 				if child.owning_team != player_controller.get_player_state().team_id: return child.global_position * Vector3(1,0,1)
-	return Vector3.ZERO
+	return Vector3.DOWN * 1000

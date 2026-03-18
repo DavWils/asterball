@@ -71,7 +71,7 @@ void fragment() {
 		}
 	}
 
-	float final_alpha = feather_alpha * depth_mult * dist_fade;
+	float final_alpha = (feather_alpha * depth_mult * dist_fade);
 
 	ALBEDO = base_color.rgb * brightness;
 	ALPHA = clamp(final_alpha * base_color.a, 0.0, 1.0);
