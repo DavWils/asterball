@@ -3,11 +3,11 @@ shader_type spatial;
 /**
 Albedo texture for this material
 */
-uniform sampler2D albedo_texture : source_color;
+uniform sampler2D albedo_texture : source_color, filter_nearest;
 /**
 Emission texture for this material
 */
-uniform sampler2D emission_texture : source_color;
+uniform sampler2D emission_texture : source_color, filter_nearest;
 
 /**
 Emission tint
