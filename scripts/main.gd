@@ -165,7 +165,13 @@ func apply_options(options: Dictionary) -> void:
 
 func load_options() -> void:
 	var options_file := ConfigFile.new()
-	options_file.load(OPTIONS_FILE_PATH)
+	var load_status = options_file.load(OPTIONS_FILE_PATH)
+	if load_status == OK:
+		print("Options Config loaded successfully!")
+	else:
+		print("Failed to find options config.")
+		return
+	
 	
 	for bus in options_file.get_section_keys("audio"):
 		AudioServer.set_bus_volume_linear(bus.to_int(), options_file.get_value("audio", bus))
