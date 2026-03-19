@@ -7,7 +7,9 @@ class_name GridironDirector
 func _ready() -> void:
 	super._ready()
 	if not level.is_node_ready(): await level.ready
-	level.add_child(load("res://scenes/level/misc/objective_indicator.tscn").instantiate())
+	var obj_indicator = load("res://scenes/level/misc/objective_indicator.tscn").instantiate()
+	obj_indicator.position = Vector3.DOWN * -1000.0
+	level.add_child(obj_indicator)
 
 ## Find the team with winning score.
 func get_winning_team() -> int:
