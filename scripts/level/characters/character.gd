@@ -132,7 +132,7 @@ func use_player_input(input: Dictionary) -> void:
 		
 		
 		self.rotation.y = look_input.y
-		var rot_x = clampf(look_input.x, -deg_to_rad(89.0), deg_to_rad(89.0))
+		var rot_x = clampf(look_input.x, -deg_to_rad(90.0), deg_to_rad(90.0))
 		if use_pitch_rotation:
 			self.rotation.x = rot_x
 		else:
