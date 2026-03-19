@@ -80,11 +80,9 @@ func _physics_process(_delta: float) -> void:
 	if network_manager.is_host():
 		if not level.is_in_bounds(position):
 			if item_state.item_resource.is_essential:
-				var packed_scene = PackedScene.new()
-				packed_scene.pack(self)
-				item_state.current_allegiance = -1
-				linear_velocity = Vector3.ZERO
-				level.spawn_projectile(packed_scene, level.default_item_spawn, to_init_dict())
+				var new_scene := load(scene_file_path)
+				var init_dict := to_init_dict()
+				level.spawn_projectile(new_scene, level.default_item_spawn, init_dict)
 			despawn_projectile()
 
 
