@@ -44,12 +44,19 @@ func _ready() -> void:
 	var item_mesh: Node3D = item_state.item_resource.mesh_file.instantiate()
 	add_child(item_mesh)
 	projectile_mesh = item_mesh
-	var mesh_shape: CollisionShape3D = item_mesh.find_child("CollisionShape3D")
-	$CollisionShape3D.shape = mesh_shape.shape
-	mesh_shape.disabled = true
-	$CollisionShape3D.disabled = false
-	$Area3D/CollisionShape3D.shape = $CollisionShape3D.shape
-	$Area3D/CollisionShape3D.disabled = false
+	for child in projectile_mesh.get_child(0).get_children():
+		if child is StaticBody3D:
+			var mesh_shape: CollisionShape3D = child.get_child(0)
+			if $CollisionShape3D.shape is BoxShape3D:
+				$CollisionShape3D.shape = mesh_shape.shape
+				$Area3D/CollisionShape3D.shape = mesh_shape.shape
+				$CollisionShape3D.disabled = false
+				$Area3D/CollisionShape3D.disabled = false
+			else:
+				var new_shape := CollisionShape3D.new()
+				new_shape.shape = mesh_shape.shape
+				self.add_child(new_shape)
+			mesh_shape.disabled = true
 	
 	var mesh_instance = projectile_mesh.get_child(0)
 	for i in mesh_instance.get_surface_override_material_count():

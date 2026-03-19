@@ -20,8 +20,9 @@ func _ready() -> void:
 	var item_mesh: Node3D = item_resource.mesh_file.instantiate()
 	add_child(item_mesh)
 	equipment_mesh = item_mesh
-	var mesh_shape: CollisionShape3D = item_mesh.find_child("CollisionShape3D")
-	mesh_shape.disabled = true
+	for child in equipment_mesh.get_child(0).get_children():
+		if child is StaticBody3D:
+			child.find_child("CollisionShape3D").disabled = true
 	
 	var mesh_instance = equipment_mesh.get_child(0)
 	for i in mesh_instance.get_surface_override_material_count():
