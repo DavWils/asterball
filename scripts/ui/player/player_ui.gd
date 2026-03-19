@@ -10,11 +10,14 @@ class_name PlayerUI
 @onready var tackle_overlay: Control = $TackleOverlay
 @onready var throw_overlay: Control = $ThrowOverlay
 @onready var player_controller: PlayerController = self.get_parent().get_node("PlayerController")
-
+@onready var endgame_menu: Control = $EndgameMenu
+@onready var level: Level = self.get_parent()
+@onready var match_state: MatchState = level.get_node("MatchState")
 
 func _ready() -> void:
 	player_controller.possessed.connect(_on_possessed)
 	player_controller.unpossessed.connect(_on_unpossessed)
+	match_state.state_of_match_set.connect(_on_state_of_match_set)
 
 func _on_possessed(character: Character) -> void:
 	character.tackled.connect(_on_tackled)
@@ -118,6 +121,7 @@ func close_pause_menu() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func open_buy_menu() -> void:
+	if endgame_menu.visible: return
 	close_match_menu()
 	buy_menu.visible = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
@@ -127,6 +131,7 @@ func close_buy_menu() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func open_match_menu() -> void:
+	if endgame_menu.visible: return
 	close_buy_menu()
 	match_menu.visible = true
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
@@ -139,3 +144,14 @@ func _physics_process(_delta: float) -> void:
 	if player_controller:
 		if player_controller.current_character:
 			$SpeedLabel.text = "%.2f" % player_controller.current_character.get_real_velocity().length()
+
+func open_endgame_menu() -> void:
+	close_buy_menu()
+	close_match_menu()
+	endgame_menu.load_endgame()
+	endgame_menu.visible = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func _on_state_of_match_set(state: MatchState.StateOfMatch) -> void:
+	if state == MatchState.StateOfMatch.ENDGAME:
+		open_endgame_menu()

@@ -27,6 +27,8 @@ signal player_state_added(player_id: int)
 signal player_team_assigned(player_id: int, team_id: int)
 ## Signal when time is set.
 signal time_set(time: int)
+## Signal emitted when state of match is changed
+signal state_of_match_set(state: StateOfMatch)
 
 enum StateOfMatch {
 	PREGAME,
@@ -108,6 +110,7 @@ func set_current_round(num: int = current_round + 1):
 ## Sets whether or not match is ongoing.
 func set_state_of_match(state: StateOfMatch):
 	state_of_match = state
+	state_of_match_set.emit(state)
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.SET_STATE_OF_MATCH, "state_of_match": state_of_match})
 

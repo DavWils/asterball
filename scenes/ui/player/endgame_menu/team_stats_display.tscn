@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://bnpwasarl8m4v"]
+
+[ext_resource type="Script" uid="uid://kmfa1neepoq7" path="res://scripts/ui/player/endgame_menu/team_stats_display.gd" id="1_thw8p"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="2_cee4t"]
+[ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/no_icon.png" id="3_paftl"]
+
+[sub_resource type="FontVariation" id="FontVariation_frutt"]
+base_font = ExtResource("2_cee4t")
+variation_embolden = 0.3
+
+[node name="TeamStatsDisplay" type="Control"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_thw8p")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="WinningTeamPlacement" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_frutt")
+theme_override_font_sizes/font_size = 16
+text = "1st."
+
+[node name="WinningTeamTexture" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_paftl")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="WinningTeamName" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_frutt")
+theme_override_font_sizes/font_size = 16
+text = "TEAM NAME"
+clip_text = true
+
+[node name="WinningTeamScore" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_frutt")
+theme_override_font_sizes/font_size = 16
+text = "[1]"

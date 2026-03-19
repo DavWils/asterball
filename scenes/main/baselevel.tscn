@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=37 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
@@ -16,12 +16,15 @@
 [ext_resource type="Script" uid="uid://do4qx3p8pcf07" path="res://scripts/ui/player/interact_overlay.gd" id="8_it2fa"]
 [ext_resource type="Material" uid="uid://buotaxuok3bnc" path="res://materials/ui/blur.tres" id="8_x0hxo"]
 [ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://shaders/sky/astral_sky.gdshader" id="11_oyp4u"]
+[ext_resource type="Shader" uid="uid://bq4a3xyuekp27" path="res://shaders/blur.gdshader" id="12_bq4vo"]
 [ext_resource type="PackedScene" uid="uid://bcaxcpbsm2cc1" path="res://scenes/ui/player/buy_menu/buy_sub_menu.tscn" id="14_f5hr8"]
 [ext_resource type="AudioStream" uid="uid://cjwl5k8yqkd3" path="res://sounds/level/wind.wav" id="14_h3tri"]
 [ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="14_up6r2"]
 [ext_resource type="PackedScene" uid="uid://op33b3y3xnd5" path="res://scenes/ui/menu/options_menu.tscn" id="14_v53ew"]
 [ext_resource type="Script" uid="uid://ct55lo0vpqcw4" path="res://scripts/level/wind_audio_player.gd" id="15_pie5i"]
+[ext_resource type="Script" uid="uid://d1if2632xxhyq" path="res://scripts/ui/player/endgame_menu.gd" id="16_826uu"]
 [ext_resource type="AudioStream" uid="uid://v6tbn41w21h3" path="res://sounds/ui/click.wav" id="16_khij2"]
+[ext_resource type="PackedScene" uid="uid://bnpwasarl8m4v" path="res://scenes/ui/player/endgame_menu/team_stats_display.tscn" id="18_33xg6"]
 
 [sub_resource type="FontVariation" id="FontVariation_v53ew"]
 base_font = ExtResource("14_up6r2")
@@ -51,6 +54,19 @@ border_width_bottom = 2
 border_color = Color(0.8, 0.8, 0.8, 0)
 corner_detail = 6
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_33xg6"]
+shader = ExtResource("12_bq4vo")
+shader_parameter/blur_amount = 4.00000019
+
+[sub_resource type="FontVariation" id="FontVariation_it2fa"]
+base_font = ExtResource("14_up6r2")
+variation_opentype = {
+2003265652: 500
+}
+
+[sub_resource type="FontVariation" id="FontVariation_khij2"]
+base_font = ExtResource("14_up6r2")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_41p24"]
 shader = ExtResource("7_8k0du")
 shader_parameter/outerRadius = 1.350000064125
@@ -67,15 +83,6 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
-
-[sub_resource type="FontVariation" id="FontVariation_it2fa"]
-base_font = ExtResource("14_up6r2")
-variation_opentype = {
-2003265652: 500
-}
-
-[sub_resource type="FontVariation" id="FontVariation_khij2"]
-base_font = ExtResource("14_up6r2")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e7y16"]
 resource_local_to_scene = true
@@ -238,67 +245,6 @@ value = 0.48
 fill_mode = 3
 show_percentage = false
 
-[node name="PauseMenu" type="Control" parent="PlayerUI"]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("6_h058a")
-
-[node name="VignetteRect" type="ColorRect" parent="PlayerUI/PauseMenu"]
-material = SubResource("ShaderMaterial_41p24")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="TabContainer" type="TabContainer" parent="PlayerUI/PauseMenu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_826uu")
-current_tab = 0
-tabs_visible = false
-
-[node name="PauseHome" type="Control" parent="PlayerUI/PauseMenu/TabContainer"]
-layout_mode = 2
-metadata/_tab_index = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/PauseMenu/TabContainer/PauseHome"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.025
-anchor_top = 0.6
-anchor_right = 0.3
-anchor_bottom = 0.9
-
-[node name="ResumeButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" instance=ExtResource("8_41p24")]
-layout_mode = 2
-text = "Resume"
-
-[node name="OptionsButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" instance=ExtResource("8_41p24")]
-layout_mode = 2
-text = "Options"
-
-[node name="QuitButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" instance=ExtResource("8_41p24")]
-layout_mode = 2
-text = "Quit Game"
-
-[node name="OptionsMenu" parent="PlayerUI/PauseMenu/TabContainer" node_paths=PackedStringArray("player_ui") instance=ExtResource("14_v53ew")]
-visible = false
-layout_mode = 2
-player_ui = NodePath("../../..")
-metadata/_tab_index = 1
-
 [node name="BuyMenu" type="Control" parent="PlayerUI"]
 visible = false
 layout_mode = 3
@@ -310,7 +256,7 @@ grow_vertical = 2
 script = ExtResource("7_x0hxo")
 
 [node name="BlurRect" type="ColorRect" parent="PlayerUI/BuyMenu"]
-material = ExtResource("8_x0hxo")
+material = SubResource("ShaderMaterial_33xg6")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -478,6 +424,123 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 48
 text = "00:00"
 horizontal_alignment = 1
+
+[node name="EndgameMenu" type="Control" parent="PlayerUI" node_paths=PackedStringArray("other_teams_box")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("16_826uu")
+other_teams_box = NodePath("OtherTeamsBox/MarginContainer/HBoxContainer")
+
+[node name="BlurRect" type="ColorRect" parent="PlayerUI/EndgameMenu"]
+material = ExtResource("8_x0hxo")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="PlayerUI/EndgameMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7607843)
+
+[node name="WinningTeamStatsDisplay" parent="PlayerUI/EndgameMenu" instance=ExtResource("18_33xg6")]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.15
+winning_team = true
+
+[node name="OtherTeamsBox" type="ScrollContainer" parent="PlayerUI/EndgameMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.15
+anchor_right = 0.5
+anchor_bottom = 0.25
+vertical_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerUI/EndgameMenu/OtherTeamsBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/EndgameMenu/OtherTeamsBox/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PauseMenu" type="Control" parent="PlayerUI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_h058a")
+
+[node name="VignetteRect" type="ColorRect" parent="PlayerUI/PauseMenu"]
+material = SubResource("ShaderMaterial_41p24")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TabContainer" type="TabContainer" parent="PlayerUI/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_826uu")
+current_tab = 0
+tabs_visible = false
+
+[node name="PauseHome" type="Control" parent="PlayerUI/PauseMenu/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/PauseMenu/TabContainer/PauseHome"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.6
+anchor_right = 0.3
+anchor_bottom = 0.9
+
+[node name="ResumeButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" instance=ExtResource("8_41p24")]
+layout_mode = 2
+text = "Resume"
+
+[node name="OptionsButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" instance=ExtResource("8_41p24")]
+layout_mode = 2
+text = "Options"
+
+[node name="QuitButton" parent="PlayerUI/PauseMenu/TabContainer/PauseHome/VBoxContainer" instance=ExtResource("8_41p24")]
+layout_mode = 2
+text = "Quit Game"
+
+[node name="OptionsMenu" parent="PlayerUI/PauseMenu/TabContainer" node_paths=PackedStringArray("player_ui") instance=ExtResource("14_v53ew")]
+visible = false
+layout_mode = 2
+player_ui = NodePath("../../..")
+metadata/_tab_index = 1
 
 [node name="SpeedLabel" type="Label" parent="PlayerUI"]
 offset_right = 40.0

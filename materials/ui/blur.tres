@@ -4,4 +4,4 @@
 
 [resource]
 shader = ExtResource("1_1t28a")
-shader_parameter/blur_amount = 4.0
+shader_parameter/blur_amount = 8.00000038
