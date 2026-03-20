@@ -20,6 +20,11 @@ func _ready() -> void:
 	if not player_ui.is_node_ready(): await player_ui.ready
 	player_ui.chat_menu.message_received.connect(_on_message_received)
 	$ChatTextEdit.gui_input.connect(_on_gui_input)
+	match_state.time_set.connect(_on_time_set)
+
+func _on_time_set(time: int) -> void:
+	if match_state.state_of_match == MatchState.StateOfMatch.ENDGAME:
+		$TimerLabel.text = str(time)
 
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -44,6 +49,9 @@ func _on_message_received(sender: int, message: String, channel: int):
 	$ChatScrollBox.scroll_vertical = 99999999 
 
 func load_endgame() -> void:
+	# Load time.
+	$TimerLabel.text = str(match_state.intermission_time)
+	
 	# Load level votes.
 	for new_level in main_scene.get_all_levels():
 		var poll_scene: Control = load("res://scenes/ui/player/endgame_menu/level_poll.tscn").instantiate()
