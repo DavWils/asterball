@@ -111,7 +111,7 @@ func enter_recovery_key(key: int) -> bool:
 ## Offsets the recovery code by given value
 func set_recovery_code_progress(progress: int) -> void:
 	if progress == recovery_progress: return
-	recovery_progress = progress if progress >= 0 else 0
+	recovery_progress = progress if progress >= -1 else -1
 	recovery_progressed.emit(recovery_progress)
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_RECOVERY_PROGRESS, "char_id": character.registry_id, "progress": recovery_progress})
