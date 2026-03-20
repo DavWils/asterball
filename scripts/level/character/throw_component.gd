@@ -93,6 +93,10 @@ func stop_throwing(known_result := throw_force > get_max_throw_force() * MINIMUM
 				var throw_velocity = character.get_throw_velocity()
 				var projectile: Projectile = character.drop_equipped_item(false, true)
 				projectile.linear_velocity = throw_velocity
+				# Add angular velocity
+				var axis = throw_velocity.normalized().cross(Vector3.UP).normalized()
+				var spin_strength = throw_force * -0.4
+				projectile.angular_velocity = axis * spin_strength
 			else:
 				print("Not throwing.")
 
