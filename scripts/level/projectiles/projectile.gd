@@ -172,19 +172,17 @@ func from_init_dict(data: Dictionary) -> void:
 
 ## Converts ongoing character values that need to be updated to players from host constantly, like position and such.
 func to_reg_dict() -> Dictionary:
-	var character_reg_data: Dictionary
-	character_reg_data["p"] = position # Position
-	character_reg_data["r"] = rotation # Rotation
-	character_reg_data["v"] = linear_velocity # Velocity
-	
-	return character_reg_data
+	var projectile_reg_data: Dictionary
+	projectile_reg_data["p"] = position # Position
+	projectile_reg_data["r"] = rotation # Rotation
+	projectile_reg_data["lv"] = linear_velocity # Velocity
+	return projectile_reg_data
 
 ## Loads character registry info from dict.
 func from_reg_dict(data: Dictionary) -> void:
 	var new_pos: Vector3 = data["p"]
 	var new_rot: Vector3 = data["r"]
-	var new_vel: Vector3 = data["v"]
-	
+	var new_vel: Vector3 = data["lv"]
 	const PROJECTILE_LERP_FACTOR: float = 0.6
 	
 	position = position.lerp(new_pos, PROJECTILE_LERP_FACTOR)
