@@ -3,6 +3,7 @@ extends Node3D
 @onready var level: Level = get_tree().current_scene.get_node("Level")
 @onready var match_state: MatchState = get_tree().current_scene.get_node("Level").get_node("MatchState")
 @onready var player_controller: PlayerController = get_tree().current_scene.get_node("Level").get_node("PlayerController")
+@onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 
 @onready var ball_resource := load("res://resources/items/ball.tres")
 
@@ -24,12 +25,16 @@ func _ready() -> void:
 	match_state.player_team_assigned.connect(_on_player_team_assigned)
 	player_controller.possessed.connect(_on_possessed)
 	player_controller.unpossessed.connect(_on_unpossessed)
+	network_manager.game_info_retrieved.connect(_on_game_info_retrieved)
 
 func _process(delta: float) -> void:
 	self.position = position.lerp(get_target_pos(), delta * 8.0)
 
+func _on_game_info_retrieved() -> void:
+	_on_player_team_assigned(network_manager.player_id, match_state.get_player_state(network_manager.player_id).team_id)
 
 func _on_player_team_assigned(player_id: int, team_id: int) -> void:
+	print("obj ind: ", player_id, " | ", team_id)
 	if player_id == player_controller.network_manager.player_id:
 		# Set appropriate colors.
 		var team_color: Color = match_state.get_team_state(team_id).team_resource.primary_color
