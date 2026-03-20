@@ -13,7 +13,7 @@ func _ready():
 func set_team_info(placement: int, team_state: TeamState) -> void:
 	$MarginContainer/HBoxContainer/WinningTeamPlacement.text = str(placement)+get_ordinal(placement)
 	$MarginContainer/HBoxContainer/WinningTeamName.text = str(team_state.team_resource.team_name)
-	$MarginContainer/HBoxContainer/WinningTeamScore.text = str(team_state.score)
+	$MarginContainer/HBoxContainer/WinningTeamScore.text = str(team_state.score) + (" pts" if team_state.score != 1 else " pt")
 	$MarginContainer/HBoxContainer/WinningTeamName.modulate = team_state.team_resource.primary_color
 	$MarginContainer/HBoxContainer/WinningTeamScore.modulate = team_state.team_resource.primary_color
 	$MarginContainer/HBoxContainer/WinningTeamPlacement.modulate = team_state.team_resource.primary_color
