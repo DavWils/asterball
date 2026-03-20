@@ -74,8 +74,8 @@ func to_dict(ignore_ball := false) -> Dictionary:
 	return data
 
 ## Returns an array of all inventory items
-func get_all_items() -> Array:
-	var item_array: Array
+func get_all_items() -> Array[ItemState]:
+	var item_array: Array[ItemState]
 	for item_key in inventory_items.keys():
 		item_array.append(inventory_items[item_key])
 	

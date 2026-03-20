@@ -444,8 +444,9 @@ func use_equipment_finish() -> void:
 
 ## Drops all character items.
 func drop_all_items() -> void:
-	while $InventoryComponent.get_item_state(0):
-		drop_item(0)
+	for key in inventory_component.inventory_items.keys():
+		drop_item(key)
+
 
 ## Returns true if tackled.
 func is_tackled() -> bool:
