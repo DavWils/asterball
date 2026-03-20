@@ -202,6 +202,7 @@ func _physics_process(delta: float) -> void:
 				}
 			)
 	else:
+		if paused: return
 		# No current character. just moves the player controller around.
 		var forward_vector: Vector3 = self.transform.basis.z
 		var right_vector: Vector3 = self.transform.basis.x
