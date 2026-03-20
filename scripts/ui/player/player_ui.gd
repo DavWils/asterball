@@ -84,7 +84,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if is_paused():
 			close_pause_menu()
 		else:
-			open_pause_menu()
+			if buy_menu.visible:
+				close_buy_menu()
+			else:
+				open_pause_menu()
 	elif event.is_action_pressed("buy_menu"): # Toggle buy menu on press.
 		if not is_paused() and player_controller.current_character: 
 			if not player_controller.current_character.is_tackled():
