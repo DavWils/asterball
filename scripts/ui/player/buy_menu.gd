@@ -13,6 +13,9 @@ extends Control
 
 var buy_item_cards: Array[Button]
 
+@onready var inv_card_resource := load("res://scenes/ui/player/inventory_overlay/inventory_item_card.tscn")
+
+
 var hovered_item: ItemResource = null
 var hover_mesh: Node3D = null
 
@@ -40,11 +43,28 @@ func _ready() -> void:
 	match_state.player_team_assigned.connect(_on_player_team_assigned)
 	network_manager.game_info_retrieved.connect(_on_game_info_retrieved)
 	
+	player_controller.possessed.connect(_on_possessed)
+	
 	# Listen to when player state is added so we can be signalled of new point values.
 	match_state.player_state_added.connect(_on_player_state_added)
 	
 	if not level.network_ready: await network_manager.game_info_retrieved
 	if match_state.get_player_state(network_manager.player_id): _on_player_state_added(network_manager.player_id)
+
+	
+
+func _on_possessed(character: Character) -> void:
+	character.inventory_component.inventory_changed.connect(_on_inventory_changed)
+	
+func _on_inventory_changed() -> void:
+	for child in $InventoryPanel/ScrollContainer/VBoxContainer.get_children():
+		child.queue_free()
+	
+	for key in player_controller.current_character.inventory_component.inventory_items.keys():
+		var new_card = inv_card_resource.instantiate()
+		new_card.inventory_key = key
+		new_card.custom_minimum_size = Vector2(96.0,96.0)
+		$InventoryPanel/ScrollContainer/VBoxContainer.add_child(new_card)
 
 func _on_player_state_added(player_id: int):
 	if player_id == network_manager.player_id:

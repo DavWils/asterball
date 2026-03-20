@@ -15,4 +15,4 @@ func set_equip_status(equipped: bool) -> void:
 	if equipped:
 		modulate = Color.WHITE
 	else:
-		modulate = Color.DIM_GRAY
+		modulate = Color.GRAY
