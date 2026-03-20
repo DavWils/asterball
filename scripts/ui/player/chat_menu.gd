@@ -37,7 +37,9 @@ func _on_gui_input(event: InputEvent) -> void:
 		# Example: consume the Enter key to prevent other nodes from using "ui_accept"
 		if event.is_action_pressed("ui_accept"):
 			var new_message: String = $ChatTextEdit.text
-			if new_message == "": return
+			if new_message == "": 
+				get_viewport().set_input_as_handled()
+				return
 			send_message(network_manager.player_id, new_message, current_channel)
 			close_chat()
 			return
