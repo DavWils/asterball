@@ -95,6 +95,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if not is_paused(): open_match_menu()
 	elif event.is_action_released("match_menu"): # Close match menu on release
 		close_match_menu()
+	elif event.is_action_pressed("open_chat"):
+		if not is_paused():
+			open_chat()
 
 ## Returns true if paused.
 func is_paused() -> bool:
@@ -148,6 +151,7 @@ func _physics_process(_delta: float) -> void:
 func open_endgame_menu() -> void:
 	close_buy_menu()
 	close_match_menu()
+	$ChatMenu.close_chat()
 	endgame_menu.load_endgame()
 	endgame_menu.visible = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -155,3 +159,23 @@ func open_endgame_menu() -> void:
 func _on_state_of_match_set(state: MatchState.StateOfMatch) -> void:
 	if state == MatchState.StateOfMatch.ENDGAME:
 		open_endgame_menu()
+
+func open_chat() -> void:
+	$ChatMenu.open_chat()
+	player_controller.paused = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func close_chat() -> void:
+	player_controller.paused = false
+	if not is_in_menu():
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func send_chat(sender: int, message: String, channel: int):
+	if level.network_manager.is_on_steam():
+		$ChatMenu.send_message(sender, message, channel)
+
+func receive_chat(sender: int, message: String, channel: int):
+	if level.network_manager.is_on_steam():
+		$ChatMenu.receive_message(sender, message, channel)

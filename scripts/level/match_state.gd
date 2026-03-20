@@ -180,6 +180,10 @@ func get_winning_team_ids() -> Array[int]:
 	
 	return highest_teams
 
+## Returns team id of given player.
+func get_player_team_id(player_id: int) -> int:
+	return get_player_state(player_id).team_id
+
 ## Returns the player state of the given player via id.
 func get_player_state(player_id: int) -> PlayerState:
 	return player_states[player_id]

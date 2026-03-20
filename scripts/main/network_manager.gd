@@ -477,6 +477,16 @@ func read_p2p_packet():
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var match_state: MatchState = level.match_state
 						match_state.set_player_vote(readable_data["player_id"], load("res://resources/levels/" + readable_data["vote"] + ".tres"))
+				Message.CLIENT_REQUEST_CHAT:
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var player_ui: PlayerUI = level.get_node("PlayerUI")
+						player_ui.send_chat(readable_data["sender_id"], readable_data["message"], readable_data["channel"])
+				Message.PLAYER_CHAT:
+					if is_host(sender_id):
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var player_ui: PlayerUI = level.get_node("PlayerUI")
+						player_ui.receive_chat(readable_data["sender_id"], readable_data["message"], readable_data["channel"])
 
 func ignore_match_reliant_function(message: int) -> bool:
 	if is_host(): return false
@@ -543,4 +553,6 @@ enum Message {
 	SPAWN_EXPLOSION,
 	CLIENT_REQUEST_VOTE, ## Client requests to vote for a map.
 	PLAYER_VOTE, ## Player votes for a map.
+	CLIENT_REQUEST_CHAT,
+	PLAYER_CHAT,
 }

@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqs81aj6tlmww"]
+
+[ext_resource type="Script" uid="uid://b75j1pcxpwm1p" path="res://scripts/ui/player/chat_menu/chat_message.gd" id="1_48r4c"]
+
+[node name="ChatMessage" type="Control"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_48r4c")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "Player: Hello"
+scroll_active = false
