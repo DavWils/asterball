@@ -430,7 +430,7 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["char_id"]]
-						character.stop_throwing()
+						character.stop_throwing(readable_data["known_result"])
 				Message.CLIENT_REQUEST_AIM_START:
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")

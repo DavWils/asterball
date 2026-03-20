@@ -407,8 +407,8 @@ func start_throwing() -> void:
 	throw_component.start_throwing()
 	if is_throwing(): throw_start.emit()
 
-func stop_throwing() -> void:
-	throw_component.stop_throwing()
+func stop_throwing(known_result := throw_component.throw_force > throw_component.get_max_throw_force() * throw_component.MINIMUM_THROW_FORCE) -> void:
+	throw_component.stop_throwing(known_result)
 	if not is_throwing(): throw_end.emit()
 	if not is_aiming(): aim_end.emit()
 

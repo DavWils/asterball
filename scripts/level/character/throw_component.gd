@@ -76,14 +76,14 @@ func start_throwing() -> void:
 			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_THROW_START, "char_id": character.registry_id})
 
 
-func stop_throwing() -> void:
+func stop_throwing(known_result := throw_force > get_max_throw_force() * MINIMUM_THROW_FORCE) -> void:
 	if is_throwing:
 		is_throwing = false
+		if known_result: $ThrowAudioPlayer.play()
 		end_aim()
 		throw_particles.emitting = false
-		if throw_force > get_max_throw_force() * MINIMUM_THROW_FORCE: $ThrowAudioPlayer.play()
 		if network_manager.is_host():
-			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_THROW_END, "char_id": character.registry_id})
+			network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_THROW_END, "char_id": character.registry_id, "known_result": known_result})
 			
 			# If enough throw force, throw the item.
 			print(throw_force)
