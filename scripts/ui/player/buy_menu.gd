@@ -39,6 +39,19 @@ func _ready() -> void:
 	# Listen to signal of player team being assigned to know which areas to recognize.
 	match_state.player_team_assigned.connect(_on_player_team_assigned)
 	network_manager.game_info_retrieved.connect(_on_game_info_retrieved)
+	
+	# Listen to when player state is added so we can be signalled of new point values.
+	match_state.player_state_added.connect(_on_player_state_added)
+	
+	if not level.network_ready: await network_manager.game_info_retrieved
+	if match_state.get_player_state(network_manager.player_id): _on_player_state_added(network_manager.player_id)
+
+func _on_player_state_added(player_id: int):
+	if player_id == network_manager.player_id:
+		match_state.get_player_state(network_manager.player_id).scores_changed.connect(_on_scores_changed)
+
+func _on_scores_changed(new_current: int, _new_total: int) -> void:
+	$CurrentPointsLabel.text = str(new_current) + " points"
 
 func set_hovered_item(item: ItemResource) -> void:
 	hovered_item = item

@@ -186,7 +186,10 @@ func get_player_team_id(player_id: int) -> int:
 
 ## Returns the player state of the given player via id.
 func get_player_state(player_id: int) -> PlayerState:
-	return player_states[player_id]
+	if player_states.has(player_id):
+		return player_states[player_id]
+	else:
+		return null
 
 ## Returns the team state of the given team via id.
 func get_team_state(team_id: int) -> TeamState:
