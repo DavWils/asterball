@@ -69,7 +69,7 @@ func open_chat() -> void:
 	$ChatTextEdit.text = ""
 	$ChatTextEdit.visible = true
 	$ChannelPanel.visible = true
-	
+	$ColorRect.visible = true
 	$VisibilityTimer.stop()
 	$ChatScrollBox.visible = true
 	
@@ -79,7 +79,7 @@ func open_chat() -> void:
 func close_chat() -> void:
 	$ChatTextEdit.visible = false
 	$ChannelPanel.visible = false
-	
+	$ColorRect.visible = false
 	$VisibilityTimer.start()
 	
 	player_ui.close_chat()
