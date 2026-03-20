@@ -176,6 +176,7 @@ func to_reg_dict() -> Dictionary:
 	projectile_reg_data["p"] = position # Position
 	projectile_reg_data["r"] = rotation # Rotation
 	projectile_reg_data["lv"] = linear_velocity # Velocity
+	projectile_reg_data["av"] = angular_velocity
 	return projectile_reg_data
 
 ## Loads character registry info from dict.
@@ -183,6 +184,7 @@ func from_reg_dict(data: Dictionary) -> void:
 	var new_pos: Vector3 = data["p"]
 	var new_rot: Vector3 = data["r"]
 	var new_vel: Vector3 = data["lv"]
+	angular_velocity = data["av"]
 	const PROJECTILE_LERP_FACTOR: float = 0.6
 	
 	position = position.lerp(new_pos, PROJECTILE_LERP_FACTOR)
