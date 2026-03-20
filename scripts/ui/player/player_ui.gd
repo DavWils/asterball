@@ -109,7 +109,7 @@ func is_paused() -> bool:
 
 ## Returns true if in any menu.
 func is_in_menu() -> bool:
-	for ui in [pause_menu, buy_menu]:
+	for ui in [pause_menu, buy_menu, endgame_menu]:
 		if ui.visible: return true
 	return false
 
@@ -125,7 +125,8 @@ func close_pause_menu() -> void:
 	pause_menu.visible = false
 	player_controller.paused = false
 	pause_menu.get_node("TabContainer").current_tab = 0
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if not is_in_menu():
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func open_buy_menu() -> void:
 	if endgame_menu.visible: return

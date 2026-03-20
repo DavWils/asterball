@@ -38,7 +38,7 @@ func _on_timeout() -> void:
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		# Example: consume the Enter key to prevent other nodes from using "ui_accept"
-		if event.is_action_pressed("ui_accept"):
+		if event.is_action_pressed("ui_accept") and event.keycode == KEY_ENTER:
 			var new_message: String = $ChatTextEdit.text
 			if new_message == "": 
 				get_viewport().set_input_as_handled()

@@ -5,6 +5,7 @@ extends Control
 @onready var blur_rect: ColorRect = $BlurRect
 @onready var color_rect: ColorRect = $ColorRect
 @onready var player_ui: PlayerUI = self.get_parent()
+@onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 
 
 @export var poll_container: GridContainer
@@ -18,11 +19,29 @@ const FADE_TIME: float = 1.0
 func _ready() -> void:
 	if not player_ui.is_node_ready(): await player_ui.ready
 	player_ui.chat_menu.message_received.connect(_on_message_received)
+	$ChatTextEdit.gui_input.connect(_on_gui_input)
+
+func _on_gui_input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		# Example: consume the Enter key to prevent other nodes from using "ui_accept"
+		if event.is_action_pressed("ui_accept") and event.keycode == KEY_ENTER:
+			var new_message: String = $ChatTextEdit.text
+			if new_message == "": 
+				get_viewport().set_input_as_handled()
+				return
+			player_ui.chat_menu.send_message(network_manager.player_id, new_message, 0)
+			$ChatTextEdit.text = ""
+			get_viewport().set_input_as_handled()
+		elif event.is_action_pressed("pause_menu") and $ChatTextEdit.has_focus():
+			$ChatTextEdit.release_focus()
+			$ChatTextEdit.text = ""
+			get_viewport().set_input_as_handled()
 
 func _on_message_received(sender: int, message: String, channel: int):
 	var new_message = player_ui.chat_menu.message_control.instantiate()
 	new_message.set_message(sender, message, channel)
 	$ChatScrollBox/VBoxContainer.add_child(new_message)
+	$ChatScrollBox.scroll_vertical = 99999999 
 
 func load_endgame() -> void:
 	# Load level votes.
