@@ -13,6 +13,7 @@ class_name PlayerUI
 @onready var endgame_menu: Control = $EndgameMenu
 @onready var level: Level = self.get_parent()
 @onready var match_state: MatchState = level.get_node("MatchState")
+@onready var chat_menu: Control = $ChatMenu
 
 func _ready() -> void:
 	player_controller.possessed.connect(_on_possessed)
@@ -96,8 +97,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_released("match_menu"): # Close match menu on release
 		close_match_menu()
 	elif event.is_action_pressed("open_chat"):
-		if not is_paused():
-			open_chat()
+		if (not is_paused()):
+			if endgame_menu.visible:
+				pass
+			else:
+				open_chat()
 
 ## Returns true if paused.
 func is_paused() -> bool:
@@ -151,7 +155,7 @@ func _physics_process(_delta: float) -> void:
 func open_endgame_menu() -> void:
 	close_buy_menu()
 	close_match_menu()
-	$ChatMenu.close_chat()
+	chat_menu.close_chat()
 	endgame_menu.load_endgame()
 	endgame_menu.visible = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -161,7 +165,7 @@ func _on_state_of_match_set(state: MatchState.StateOfMatch) -> void:
 		open_endgame_menu()
 
 func open_chat() -> void:
-	$ChatMenu.open_chat()
+	chat_menu.open_chat()
 	player_controller.paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
@@ -174,8 +178,8 @@ func close_chat() -> void:
 
 func send_chat(sender: int, message: String, channel: int):
 	if level.network_manager.is_on_steam():
-		$ChatMenu.send_message(sender, message, channel)
+		chat_menu.send_message(sender, message, channel)
 
 func receive_chat(sender: int, message: String, channel: int):
 	if level.network_manager.is_on_steam():
-		$ChatMenu.receive_message(sender, message, channel)
+		chat_menu.receive_message(sender, message, channel)

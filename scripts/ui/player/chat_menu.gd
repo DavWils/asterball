@@ -19,6 +19,9 @@ var current_channel: ChatChannel
 
 @export var message_box: VBoxContainer
 
+## Signal emitted when a message is received.
+signal message_received(sender: int, message: String, channel: int)
+
 enum ChatChannel {
 	ALL,
 	TEAM
@@ -101,6 +104,7 @@ func receive_message(sender_id: int, message: String, channel: ChatChannel):
 	message_box.add_child(new_message)
 	await get_tree().process_frame
 	$ChatScrollBox.scroll_vertical = 99999999 
+	message_received.emit(sender_id, message, channel)
 
 func send_message(sender_id: int, message: String, channel: ChatChannel):
 	if network_manager.is_host():
