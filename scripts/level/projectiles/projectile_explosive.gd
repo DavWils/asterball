@@ -13,6 +13,16 @@ class_name ProjectileExplosive
 
 ## If true, despawn on explosion.
 @export var despawn_on_explosion: bool
+## If true, explodes after $FuseTimer runs out.
+@export var timed_explosion: bool
+
+func _ready() -> void:
+	if timed_explosion:
+		$FuseTimer.timeout.connect(_on_fuse_timeout)
+	super._ready()
+
+func _on_fuse_timeout() -> void:
+	spawn_explosion()
 
 func character_overlap(character: Character):
 	if network_manager.is_host():
