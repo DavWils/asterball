@@ -7,6 +7,9 @@ class_name InventoryComponent
 ## Reference to network manager.
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 
+## Signal called when inventory changes (add or remove).
+signal inventory_changed
+
 ## The base carry capacity of the character.
 @export var base_inventory_capacity: int = 3
 
@@ -21,6 +24,7 @@ func add_item(item: ItemState, key: int = get_next_key(0, false) if inventory_it
 	inventory_items[key] = item
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_ADDITEM, "char_id": character.registry_id, "key": key, "item_state": item.to_dict()})
+	inventory_changed.emit()
 	return key
 
 ## Removes an item from inventory at the given key.
@@ -28,15 +32,18 @@ func remove_item(key: int) -> void:
 	inventory_items.erase(key)
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_REMOVEITEM, "char_id": character.registry_id, "key": key})
+	inventory_changed.emit()
 
 ## Gets the previous inventory slot from given key if one exists. If with is true, looks for slot WITH an item. Otherwise, look for empty.
 func get_prev_key(start: int = character.equipped_key if character.equipped_key >= 0 else 0, with: bool = true) -> int:
 	var capacity: int = get_inventory_capacity()
-	for i in range(capacity-1, -1, -1):
-		var prev_key: int = (start-i+capacity)%capacity
+	
+	for i in range(1, capacity):
+		var prev_key: int = (start - i + capacity) % capacity
 		if with == inventory_items.has(prev_key):
 			print("prev > ", prev_key)
 			return prev_key
+
 	print("prev > ", start)
 	return start
 

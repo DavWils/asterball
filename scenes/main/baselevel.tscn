@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=45 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dt0qd8g844ixh" path="res://scripts/ui/player/player_ui.gd" id="5_lw4hh"]
 [ext_resource type="Script" uid="uid://bubjmu6ys67a8" path="res://scripts/ui/player/match_menu.gd" id="6_dtma0"]
 [ext_resource type="Script" uid="uid://cis1m2nwwovjw" path="res://scripts/ui/player/pause_menu.gd" id="6_h058a"]
+[ext_resource type="Script" uid="uid://bdffykwfktbnp" path="res://scripts/ui/player/inventory_overlay.gd" id="6_l383a"]
 [ext_resource type="Script" uid="uid://cj8fpueflhd61" path="res://scripts/ui/player/tackle_overlay.gd" id="6_pie5i"]
 [ext_resource type="Shader" uid="uid://b4p2tl6qkhykd" path="res://shaders/vignette.gdshader" id="7_8k0du"]
 [ext_resource type="Texture2D" uid="uid://bg2s8mgr3tnr6" path="res://textures/ui/player/tackle_overlay/tackle_key_up.png" id="7_v6uec"]
@@ -157,6 +158,37 @@ autostart = true
 
 [node name="PlayerUI" type="CanvasLayer" parent="."]
 script = ExtResource("5_lw4hh")
+
+[node name="InventoryOverlay" type="Control" parent="PlayerUI" node_paths=PackedStringArray("item_box")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_l383a")
+item_box = NodePath("Panel/HBoxContainer")
+
+[node name="Panel" type="Panel" parent="PlayerUI/InventoryOverlay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.9
+anchor_right = 0.9
+anchor_bottom = 0.975
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/InventoryOverlay/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.1
+anchor_right = 0.975
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 
 [node name="TackleOverlay" type="Control" parent="PlayerUI"]
 visible = false

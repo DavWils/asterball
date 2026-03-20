@@ -38,6 +38,7 @@ signal freed(char: Character)
 ## Signal called when equipping an item.
 signal equipped(key: int)
 
+
 ## The id of the player currently controlling this character. Or -1 if it's AI controlled.
 var owning_player_id := -1
 ## The id of this character in level registry.
