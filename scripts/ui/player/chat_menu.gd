@@ -33,7 +33,7 @@ func _ready() -> void:
 	$VisibilityTimer.timeout.connect(_on_timeout)
 
 func _on_timeout() -> void:
-	$ChatScrollBox.visible = false
+	$ChatPanel.visible = false
 
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -74,7 +74,7 @@ func open_chat() -> void:
 	$ChannelPanel.visible = true
 	$ColorRect.visible = true
 	$VisibilityTimer.stop()
-	$ChatScrollBox.visible = true
+	$ChatPanel.visible = true
 	
 	await get_tree().process_frame
 	$ChatTextEdit.grab_focus()
@@ -103,7 +103,7 @@ func receive_message(sender_id: int, message: String, channel: ChatChannel):
 	new_message.set_message(sender_id, message, channel)
 	message_box.add_child(new_message)
 	await get_tree().process_frame
-	$ChatScrollBox.scroll_vertical = 99999999 
+	$ChatPanel/ChatScrollBox.scroll_vertical = 99999999 
 	message_received.emit(sender_id, message, channel)
 
 func send_message(sender_id: int, message: String, channel: ChatChannel):

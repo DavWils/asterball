@@ -467,7 +467,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("16_2iq38")
-message_box = NodePath("ChatScrollBox/VBoxContainer")
+message_box = NodePath("ChatPanel/ChatScrollBox/VBoxContainer")
 
 [node name="ColorRect" type="ColorRect" parent="PlayerUI/ChatMenu"]
 visible = false
@@ -490,20 +490,26 @@ anchor_bottom = 0.895
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ChatScrollBox" type="ScrollContainer" parent="PlayerUI/ChatMenu"]
+[node name="ChatPanel" type="Panel" parent="PlayerUI/ChatMenu"]
 visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.66
 anchor_top = 0.65
-anchor_right = 0.95500004
+anchor_right = 0.955
 anchor_bottom = 0.854
+
+[node name="ChatScrollBox" type="ScrollContainer" parent="PlayerUI/ChatMenu/ChatPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/ChatMenu/ChatScrollBox"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/ChatMenu/ChatPanel/ChatScrollBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
