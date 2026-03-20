@@ -84,8 +84,10 @@ func _on_player_team_assigned(player_id: int, team_id: int):
 			if child is BuyZone:
 				if child.owning_team == team_id:
 					print("Found a buy zone: ", child)
-					child.area_entered.connect(_on_area_entered)
-					child.area_exited.connect(_on_area_exited)
+					if not child.area_entered.is_connected(_on_area_entered):
+						child.area_entered.connect(_on_area_entered)
+					if not child.area_exited.is_connected(_on_area_exited):
+						child.area_exited.connect(_on_area_exited)
 				else:
 					if child.area_entered.is_connected(_on_area_entered):
 						child.area_entered.disconnect(_on_area_entered)
