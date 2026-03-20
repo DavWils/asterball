@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqs81aj6tlmww"]
+[gd_scene load_steps=6 format=3 uid="uid://dqs81aj6tlmww"]
 
 [ext_resource type="Script" uid="uid://b75j1pcxpwm1p" path="res://scripts/ui/player/chat_menu/chat_message.gd" id="1_48r4c"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="2_guiq1"]
+
+[sub_resource type="FontVariation" id="FontVariation_2g3vq"]
+base_font = ExtResource("2_guiq1")
+variation_embolden = 1.2
+
+[sub_resource type="FontVariation" id="FontVariation_guiq1"]
+base_font = ExtResource("2_guiq1")
+variation_embolden = 1.2
+variation_transform = Transform2D(1, 0.2, 0, 1, 0, 0)
+
+[sub_resource type="FontVariation" id="FontVariation_l60ti"]
+base_font = ExtResource("2_guiq1")
+variation_transform = Transform2D(1, 0.2, 0, 1, 0, 0)
 
 [node name="ChatMessage" type="Control"]
 custom_minimum_size = Vector2(0, 20)
@@ -20,6 +34,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("2_guiq1")
+theme_override_fonts/bold_font = SubResource("FontVariation_2g3vq")
+theme_override_fonts/bold_italics_font = SubResource("FontVariation_guiq1")
+theme_override_fonts/italics_font = SubResource("FontVariation_l60ti")
 bbcode_enabled = true
-text = "Player: Hello"
+text = "[b]Player:[/b] Hello [i]team[/i]"
 scroll_active = false
