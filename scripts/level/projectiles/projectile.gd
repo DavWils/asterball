@@ -10,6 +10,14 @@ class_name Projectile
 ## Whether or not to despawn on colliding with a surface.
 @export var despawn_on_collide: bool
 
+## When true, projectile will face the direction of it's velocity.
+@export var javelin_throw: bool = false
+## The forward vector of the javelin, the vector that faces towards velocity.
+@export var javelin_forward: Vector3 = Vector3.FORWARD
+
+## Whether or not we are currently in javelin throw.
+var is_javelin = false
+
 ## Minimum momentum needed for projectile to cause a tackle.
 const MIN_TACKLE_SCORE: float = 3.0
 
@@ -73,13 +81,27 @@ func _ready() -> void:
 	
 	print("Spawned projectile ", registry_id)
 	
-	
+	# If this is a javelin item, start as a javelin throw.
+	if javelin_throw and throwing_character: 
+		is_javelin = true
+		angular_velocity = Vector3.ZERO
 	
 	$Area3D.body_entered.connect(_on_area_body_entered)
 	body_entered.connect(_on_body_entered)
 
 
 func _physics_process(_delta: float) -> void:
+	if is_javelin and linear_velocity.length_squared() > 0.0001:
+		var dir = linear_velocity.normalized()
+		var up = Vector3.UP
+		
+		if abs(dir.dot(up)) > 0.99:
+			up = Vector3.FORWARD
+		
+		var target = global_position + dir
+		look_at(target, up)
+		rotate_object_local(Vector3.LEFT, PI/2)
+	
 	# If out of bounds, kill or respawn.
 	if network_manager.is_host():
 		if not level.is_in_bounds(position):
@@ -145,6 +167,7 @@ func play_surface_collide_sound() -> void:
 
 func surface_collide(_body: Node3D) -> void:
 	#print(item_state.item_resource.item_name, " projectile has overlapped with ", body.name)
+	is_javelin = false
 	play_surface_collide_sound()
 	if network_manager.is_host():
 		if despawn_on_collide:
