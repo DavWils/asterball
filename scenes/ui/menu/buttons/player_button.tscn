@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtwsxkwldwk47"]
+
+[ext_resource type="Script" uid="uid://ct5h8fb4x0fyd" path="res://scripts/ui/menu/buttons/player_button.gd" id="1_rch4l"]
+[ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/no_icon.png" id="2_2j3v3"]
+
+[node name="PlayerButton" type="Button"]
+custom_minimum_size = Vector2(24, 24)
+anchors_preset = -1
+anchor_right = 0.06
+anchor_bottom = 0.108
+size_flags_horizontal = 6
+script = ExtResource("1_rch4l")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_2j3v3")
+expand_mode = 3
+stretch_mode = 5

@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=38 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
@@ -66,6 +66,21 @@ variation_opentype = {
 
 [sub_resource type="FontVariation" id="FontVariation_khij2"]
 base_font = ExtResource("14_up6r2")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_33xg6"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_41p24"]
 shader = ExtResource("7_8k0du")
@@ -425,7 +440,7 @@ theme_override_font_sizes/font_size = 48
 text = "00:00"
 horizontal_alignment = 1
 
-[node name="EndgameMenu" type="Control" parent="PlayerUI" node_paths=PackedStringArray("other_teams_box")]
+[node name="EndgameMenu" type="Control" parent="PlayerUI" node_paths=PackedStringArray("poll_container", "other_teams_box")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -434,6 +449,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("16_826uu")
+poll_container = NodePath("VotePanel/MarginContainer/ScrollContainer/GridContainer")
 other_teams_box = NodePath("OtherTeamsBox/MarginContainer/HBoxContainer")
 
 [node name="BlurRect" type="ColorRect" parent="PlayerUI/EndgameMenu"]
@@ -457,7 +473,7 @@ color = Color(0, 0, 0, 0.7607843)
 [node name="WinningTeamStatsDisplay" parent="PlayerUI/EndgameMenu" instance=ExtResource("18_33xg6")]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.5
+anchor_right = 0.45
 anchor_bottom = 0.15
 winning_team = true
 
@@ -465,7 +481,7 @@ winning_team = true
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.15
-anchor_right = 0.5
+anchor_right = 0.45
 anchor_bottom = 0.25
 vertical_scroll_mode = 0
 
@@ -480,6 +496,35 @@ theme_override_constants/margin_right = 25
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="VotePanel" type="Panel" parent="PlayerUI/EndgameMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_33xg6")
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerUI/EndgameMenu/VotePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PlayerUI/EndgameMenu/VotePanel/MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="PlayerUI/EndgameMenu/VotePanel/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
 
 [node name="PauseMenu" type="Control" parent="PlayerUI"]
 visible = false

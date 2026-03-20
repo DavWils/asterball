@@ -4,6 +4,8 @@ extends Node
 
 class_name MatchState
 
+@onready var main_scene: MainScene = get_tree().current_scene
+
 @onready var level: Level = self.get_parent()
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 @onready var match_director: MatchDirector = level.get_node("MatchDirector")
@@ -21,6 +23,9 @@ var state_of_match: StateOfMatch = StateOfMatch.PREGAME
 ## The current round the match is on.
 var current_round: int = 0
 
+## Player votes for the next map.
+var player_votes: Dictionary[int, LevelResource]
+
 ## Signal emitted when player state is added.
 signal player_state_added(player_id: int)
 ## Signal emitted when player team is assigned.
@@ -29,6 +34,8 @@ signal player_team_assigned(player_id: int, team_id: int)
 signal time_set(time: int)
 ## Signal emitted when state of match is changed
 signal state_of_match_set(state: StateOfMatch)
+## Signal called when a player votes.
+signal player_voted(player_id: int, level: LevelResource)
 
 enum StateOfMatch {
 	PREGAME,
@@ -212,3 +219,44 @@ func get_time_text() -> String:
 ## Returns true if match is active (i.e. if match timer should tick instead of intermission).
 func is_match() -> bool:
 	return state_of_match == StateOfMatch.MATCH
+
+## Sets a player's vote for the next map.
+func set_player_vote(player_id: int, vote: LevelResource) -> void:
+	player_votes[player_id] = vote
+	player_voted.emit(player_id, vote)
+	print(player_id, " has voted for ", vote.level_name)
+	if network_manager.is_host():
+		network_manager.send_p2p_packet(0, {"m": NetworkManager.Message.PLAYER_VOTE, "player_id": player_id, "vote": vote.get_level_filename()})
+
+
+## Returns winning level from votes.
+func get_winning_vote() -> LevelResource:
+	var level_votes: Dictionary[LevelResource, int] = {}
+	
+	# Count votes.
+	for id in player_votes:
+		var level_res: LevelResource = player_votes[id]
+		if level_votes.has(level_res):
+			level_votes[level_res] += 1
+		else:
+			level_votes[level_res] = 1
+	
+	# Get winner (handle ties).
+	var current_high_score: int = -1
+	var top_levels: Array[LevelResource] = []
+	
+	for level_res in level_votes:
+		var score: int = level_votes[level_res]
+		
+		if score > current_high_score:
+			current_high_score = score
+			top_levels.clear()
+			top_levels.append(level_res)
+		elif score == current_high_score:
+			top_levels.append(level_res)
+	
+	# Pick randomly if tie
+	if top_levels.size() > 0:
+		return top_levels.pick_random()
+	
+	return main_scene.get_all_levels().pick_random()

@@ -1,15 +1,23 @@
 extends Control
 
+@onready var main_scene: MainScene = get_tree().current_scene
 @onready var match_state: MatchState = get_tree().current_scene.get_node("Level").get_node("MatchState")
 @onready var blur_rect: ColorRect = $BlurRect
 @onready var color_rect: ColorRect = $ColorRect
 
+@export var poll_container: GridContainer
 @export var other_teams_box: BoxContainer
 
 ## Time it takes to fade in the background of the endgame menu.
 const FADE_TIME: float = 1.0
 
 func load_endgame() -> void:
+	# Load level votes.
+	for new_level in main_scene.get_all_levels():
+		var poll_scene: Control = load("res://scenes/ui/player/endgame_menu/level_poll.tscn").instantiate()
+		poll_scene.poll_level = new_level
+		poll_container.add_child(poll_scene)
+	
 	
 	
 	# Set teams.
