@@ -5,16 +5,13 @@ class_name Projectile
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 @onready var level: Level = get_tree().current_scene.get_node("Level")
 
+## Whether or not to despawn when overlapping with a character.
+@export var despawn_on_overlap: bool
+## Whether or not to despawn on colliding with a surface.
+@export var despawn_on_collide: bool
+
 ## Minimum momentum needed for projectile to cause a tackle.
 const MIN_TACKLE_SCORE: float = 3.0
-
-## Whether or not to explode whne hitting a character.
-@export var explode_on_overlap: bool = false
-## Whether or not to explode when hitting a surface
-@export var explode_on_collide: bool = false
-
-## The scene to use for an explosion from this projectile. If no scene is given, the projectile will despawn wihtout explosion.
-@export var explosion_scene: PackedScene = null
 
 ## Spawned item mesh.
 var projectile_mesh: Node3D
@@ -135,10 +132,9 @@ func character_overlap(character: Character):
 	print(item_state.item_resource.item_name, " has collided with player ", character.owning_player_id)
 	
 	if network_manager.is_host():
-		if explode_on_collide and throwing_character:
-			if explosion_scene:
-				spawn_explosion()
+		if despawn_on_overlap:
 			despawn_projectile()
+
 
 func play_surface_collide_sound() -> void:
 	# Play a sound on collision
@@ -151,16 +147,8 @@ func surface_collide(_body: Node3D) -> void:
 	#print(item_state.item_resource.item_name, " projectile has overlapped with ", body.name)
 	play_surface_collide_sound()
 	if network_manager.is_host():
-		if explode_on_collide and throwing_character:
-			if explosion_scene:
-				spawn_explosion()
+		if despawn_on_collide:
 			despawn_projectile()
-
-func spawn_explosion() -> void:
-	var explosion = explosion_scene.instantiate()
-	explosion.position = position
-	level.add_child(explosion)
-	
 
 func despawn_projectile():
 	level.despawn_registry_object(registry_id)

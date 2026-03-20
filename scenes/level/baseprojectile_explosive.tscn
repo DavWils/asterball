@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs3v6wb6jtx8q"]
+
+[ext_resource type="PackedScene" uid="uid://cbk0tx3ba7v5" path="res://scenes/level/baseprojectile.tscn" id="1_y3iu2"]
+[ext_resource type="Script" uid="uid://dqj7weypbiufa" path="res://scripts/level/projectiles/projectile_explosive.gd" id="2_sn2a8"]
+
+[node name="Projectile" instance=ExtResource("1_y3iu2")]
+script = ExtResource("2_sn2a8")
+explode_on_overlap = false
+explode_on_collide = false
+explosion_scene = null
