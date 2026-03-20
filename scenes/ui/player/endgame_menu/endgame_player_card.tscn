@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp8urddogaydw"]
+
+[ext_resource type="Script" uid="uid://dwuhqoprujds3" path="res://scripts/ui/player/endgame_menu/endgame_player_card.gd" id="1_k0wks"]
+[ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/no_icon.png" id="2_6dog1"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="2_ymh1f"]
+
+[node name="EndgamePlayerCard" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_k0wks")
+
+[node name="PlacementLabel" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ymh1f")
+text = "1st"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_6dog1")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ymh1f")
+text = "Player"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="ScoreLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ymh1f")
+text = "0 pts"
+clip_text = true
+text_overrun_behavior = 3

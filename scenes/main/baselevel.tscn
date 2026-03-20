@@ -453,7 +453,7 @@ theme_override_font_sizes/font_size = 48
 text = "00:00"
 horizontal_alignment = 1
 
-[node name="EndgameMenu" type="Control" parent="PlayerUI" node_paths=PackedStringArray("poll_container", "other_teams_box", "mvp_display")]
+[node name="EndgameMenu" type="Control" parent="PlayerUI" node_paths=PackedStringArray("poll_container", "other_teams_box", "mvp_display", "leaderboard_box")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -465,6 +465,7 @@ script = ExtResource("16_826uu")
 poll_container = NodePath("VotePanel/MarginContainer/ScrollContainer/GridContainer")
 other_teams_box = NodePath("OtherTeamsBox/MarginContainer/HBoxContainer")
 mvp_display = NodePath("MVPDisplay")
+leaderboard_box = NodePath("ScrollContainer/MarginContainer/LeaderboardBox")
 
 [node name="BlurRect" type="ColorRect" parent="PlayerUI/EndgameMenu"]
 material = ExtResource("8_x0hxo")
@@ -617,6 +618,26 @@ text = "x Points"
 horizontal_alignment = 1
 clip_text = true
 text_overrun_behavior = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PlayerUI/EndgameMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.35
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerUI/EndgameMenu/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 5
+
+[node name="LeaderboardBox" type="VBoxContainer" parent="PlayerUI/EndgameMenu/ScrollContainer/MarginContainer"]
+layout_mode = 2
 
 [node name="PauseMenu" type="Control" parent="PlayerUI"]
 visible = false

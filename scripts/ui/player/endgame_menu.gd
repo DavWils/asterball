@@ -8,6 +8,7 @@ extends Control
 @export var poll_container: GridContainer
 @export var other_teams_box: BoxContainer
 @export var mvp_display: Control
+@export var leaderboard_box: VBoxContainer
 
 ## Time it takes to fade in the background of the endgame menu.
 const FADE_TIME: float = 1.0
@@ -22,7 +23,17 @@ func load_endgame() -> void:
 	# Load MVP
 	mvp_display.set_mvp(match_state.get_mvp_player())
 	
-	
+	# Load leaderboard.
+	var sorted_players = match_state.player_states.keys()
+	sorted_players.sort_custom(player_sort)
+	var current_placement := 1
+	for player_id in sorted_players:
+		var new_card: Control = load("res://scenes/ui/player/endgame_menu/endgame_player_card.tscn").instantiate()
+		new_card.player_placement = current_placement
+		current_placement += 1
+		new_card.player_id = player_id
+		new_card.player_score = match_state.get_player_state(player_id).total_score
+		leaderboard_box.add_child(new_card)
 	
 	# Set teams.
 	var winning_teams: Array[int] = match_state.get_winning_team_ids()
@@ -31,7 +42,7 @@ func load_endgame() -> void:
 		other_teams.erase(id)
 	other_teams.sort_custom(team_sort)
 	
-	# Load winning teams first.
+	# Load winning teams.
 	for id in winning_teams:
 		if id == winning_teams[0]: $WinningTeamStatsDisplay.set_team_info(1, match_state.get_team_state(id))
 		else: load_other_team(id, 1)
@@ -56,6 +67,9 @@ func load_endgame() -> void:
 
 func team_sort(team_a: int, team_b: int) -> bool:
 	return match_state.get_team_state(team_a).score > match_state.get_team_state(team_b).score
+
+func player_sort(player_a: int, player_b: int) -> bool:
+	return match_state.get_player_state(player_a).total_score > match_state.get_player_state(player_b).total_score
 
 func load_other_team(placement: int, team_id: int) -> void:
 	var new_child: Control = load("res://scenes/ui/player/endgame_menu/team_stats_display.tscn").instantiate()
