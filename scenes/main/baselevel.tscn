@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://cis1m2nwwovjw" path="res://scripts/ui/player/pause_menu.gd" id="6_h058a"]
 [ext_resource type="Script" uid="uid://bdffykwfktbnp" path="res://scripts/ui/player/inventory_overlay.gd" id="6_l383a"]
 [ext_resource type="Script" uid="uid://cj8fpueflhd61" path="res://scripts/ui/player/tackle_overlay.gd" id="6_pie5i"]
-[ext_resource type="Shader" uid="uid://b4p2tl6qkhykd" path="res://shaders/vignette.gdshader" id="7_8k0du"]
 [ext_resource type="Texture2D" uid="uid://bg2s8mgr3tnr6" path="res://textures/ui/player/tackle_overlay/tackle_key_up.png" id="7_v6uec"]
 [ext_resource type="Script" uid="uid://d153tfj16xmce" path="res://scripts/ui/player/buy_menu.gd" id="7_x0hxo"]
 [ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="8_41p24"]
@@ -28,6 +27,25 @@
 [ext_resource type="AudioStream" uid="uid://v6tbn41w21h3" path="res://sounds/ui/click.wav" id="16_khij2"]
 [ext_resource type="PackedScene" uid="uid://bnpwasarl8m4v" path="res://scenes/ui/player/endgame_menu/team_stats_display.tscn" id="18_33xg6"]
 [ext_resource type="Script" uid="uid://7uus16ub7s4t" path="res://scripts/ui/player/endgame_menu/mvp_display.gd" id="19_wa7ku"]
+
+[sub_resource type="Shader" id="Shader_2iq38"]
+code = "shader_type canvas_item;
+
+uniform float outerRadius : hint_range(0.0, 5.0) = 1.0;
+uniform float MainAlpha : hint_range(0.0, 1.0) = 1.0;
+
+void fragment() {
+	float x = abs(UV.x-.5)*2.0;
+	float y = abs(UV.y-.5)*2.0;
+	float v = (sqrt((x*x)+(y*y))/outerRadius);
+	vec4 base_color = COLOR;
+	COLOR = vec4(1.0,1.0,1.0,v*MainAlpha) * base_color;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_41p24"]
+shader = SubResource("Shader_2iq38")
+shader_parameter/outerRadius = 3.0000001425
+shader_parameter/MainAlpha = 0.650000030875
 
 [sub_resource type="FontVariation" id="FontVariation_v53ew"]
 base_font = ExtResource("14_up6r2")
@@ -100,11 +118,6 @@ fill_to = Vector2(0, 1)
 gradient = SubResource("Gradient_wa7ku")
 fill_from = Vector2(0, 1)
 fill_to = Vector2(0, 0)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_41p24"]
-shader = ExtResource("7_8k0du")
-shader_parameter/outerRadius = 1.350000064125
-shader_parameter/MainAlpha = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_826uu"]
 content_margin_left = 0.0
@@ -259,6 +272,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 texture = ExtResource("7_v6uec")
+
+[node name="VignetteRect" type="ColorRect" parent="PlayerUI/TackleOverlay"]
+material = SubResource("ShaderMaterial_41p24")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
 
 [node name="InteractOverlay" type="Control" parent="PlayerUI"]
 visible = false

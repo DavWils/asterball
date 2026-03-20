@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c1pcvwr3t2r47"]
+[gd_scene load_steps=17 format=3 uid="uid://c1pcvwr3t2r47"]
 
 [ext_resource type="Script" uid="uid://ddltssi0smi1x" path="res://scripts/main.gd" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://dh0mq14ojnjin" path="res://scripts/main/network_manager.gd" id="1_o5qli"]
@@ -10,6 +10,8 @@
 [ext_resource type="AudioStream" uid="uid://dtnqr8p3eibsh" path="res://sounds/ui/purchase.wav" id="8_choun"]
 [ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="8_tipki"]
 [ext_resource type="AudioStream" uid="uid://x3domv7it502" path="res://sounds/ui/fail_purchase.wav" id="9_ya4ey"]
+[ext_resource type="AudioStream" uid="uid://bcxsebvrif58u" path="res://sounds/ui/recovery_pass.wav" id="11_trceg"]
+[ext_resource type="AudioStream" uid="uid://bjuxe5it0nmfr" path="res://sounds/ui/recovery_fail.wav" id="12_a8y0u"]
 [ext_resource type="Script" uid="uid://bq7ah576ok7u" path="res://scripts/main/asset_loader.gd" id="12_eb6dy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tipki"]
@@ -120,6 +122,8 @@ pressed_sound = ExtResource("6_tefeu")
 pressed_sound_alt = ExtResource("7_o6xl0")
 purchased_sound = ExtResource("8_choun")
 fail_purchased_sound = ExtResource("9_ya4ey")
+recovery_pass_sound = ExtResource("11_trceg")
+recovery_fail_sound = ExtResource("12_a8y0u")
 
 [node name="AssetLoader" type="Node" parent="."]
 script = ExtResource("12_eb6dy")

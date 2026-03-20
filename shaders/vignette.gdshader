@@ -7,5 +7,6 @@ void fragment() {
 	float x = abs(UV.x-.5)*2.0;
 	float y = abs(UV.y-.5)*2.0;
 	float v = (sqrt((x*x)+(y*y))/outerRadius);
-	COLOR = vec4(0,0,0,v*MainAlpha);
+	vec4 base_color = COLOR;
+	COLOR = vec4(1.0,1.0,1.0,v*MainAlpha) * base_color;
 }
