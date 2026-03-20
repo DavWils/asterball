@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=46 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
@@ -42,9 +42,9 @@ void fragment() {
 	COLOR = vec4(1.0,1.0,1.0,v*MainAlpha) * base_color;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_41p24"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2iq38"]
 shader = SubResource("Shader_2iq38")
-shader_parameter/outerRadius = 3.0000001425
+shader_parameter/outerRadius = 5.0
 shader_parameter/MainAlpha = 0.650000030875
 
 [sub_resource type="FontVariation" id="FontVariation_v53ew"]
@@ -118,6 +118,11 @@ fill_to = Vector2(0, 1)
 gradient = SubResource("Gradient_wa7ku")
 fill_from = Vector2(0, 1)
 fill_to = Vector2(0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_41p24"]
+shader = SubResource("Shader_2iq38")
+shader_parameter/outerRadius = 1.0000000475
+shader_parameter/MainAlpha = 0.6000000285
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_826uu"]
 content_margin_left = 0.0
@@ -274,7 +279,7 @@ mouse_filter = 2
 texture = ExtResource("7_v6uec")
 
 [node name="VignetteRect" type="ColorRect" parent="PlayerUI/TackleOverlay"]
-material = SubResource("ShaderMaterial_41p24")
+material = SubResource("ShaderMaterial_2iq38")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
