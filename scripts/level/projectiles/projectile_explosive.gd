@@ -11,6 +11,8 @@ class_name ProjectileExplosive
 ## The scene to use for an explosion from this projectile.
 @export var explosion_scene: PackedScene = null
 
+## If true, despawn on explosion.
+@export var despawn_on_explosion: bool
 
 func character_overlap(character: Character):
 	if network_manager.is_host():
@@ -31,3 +33,4 @@ func spawn_explosion() -> void:
 	var explosion = explosion_scene.instantiate()
 	explosion.position = position
 	level.add_child(explosion)
+	despawn_projectile()

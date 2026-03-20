@@ -8,3 +8,4 @@ script = ExtResource("2_sn2a8")
 explode_on_overlap = false
 explode_on_collide = false
 explosion_scene = null
+despawn_on_explosion = false

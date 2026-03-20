@@ -36,8 +36,7 @@ height = 0.2
 explode_on_overlap = true
 explode_on_collide = true
 explosion_scene = ExtResource("2_mkiqc")
-despawn_on_overlap = true
-despawn_on_collide = true
+despawn_on_explosion = true
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." index="3"]
 amount = 30
