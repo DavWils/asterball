@@ -89,8 +89,8 @@ func close_chat() -> void:
 	
 
 ## Returns true if the receiver can receive the given message given the chat channel.
-func channel_filter(sender: int, receiver: int):
-	match current_channel:
+func channel_filter(sender: int, receiver: int, channel: ChatChannel):
+	match channel:
 		ChatChannel.ALL:
 			return true
 		ChatChannel.TEAM:
@@ -112,7 +112,7 @@ func receive_message(sender_id: int, message: String, channel: ChatChannel):
 func send_message(sender_id: int, message: String, channel: ChatChannel):
 	if network_manager.is_host():
 		for lobby_member in network_manager.lobby_members:
-			if channel_filter(sender_id, lobby_member):
+			if channel_filter(sender_id, lobby_member, channel):
 				if lobby_member != match_state.get_player_team_id(lobby_member):
 					network_manager.send_p2p_packet(lobby_member, {"m": network_manager.Message.PLAYER_CHAT, "sender_id": sender_id, "message": message, "channel": channel})
 				else:
