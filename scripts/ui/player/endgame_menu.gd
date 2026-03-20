@@ -7,6 +7,7 @@ extends Control
 
 @export var poll_container: GridContainer
 @export var other_teams_box: BoxContainer
+@export var mvp_display: Control
 
 ## Time it takes to fade in the background of the endgame menu.
 const FADE_TIME: float = 1.0
@@ -17,6 +18,9 @@ func load_endgame() -> void:
 		var poll_scene: Control = load("res://scenes/ui/player/endgame_menu/level_poll.tscn").instantiate()
 		poll_scene.poll_level = new_level
 		poll_container.add_child(poll_scene)
+	
+	# Load MVP
+	mvp_display.set_mvp(match_state.get_mvp_player())
 	
 	
 	

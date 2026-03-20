@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=42 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" uid="uid://d1if2632xxhyq" path="res://scripts/ui/player/endgame_menu.gd" id="16_826uu"]
 [ext_resource type="AudioStream" uid="uid://v6tbn41w21h3" path="res://sounds/ui/click.wav" id="16_khij2"]
 [ext_resource type="PackedScene" uid="uid://bnpwasarl8m4v" path="res://scenes/ui/player/endgame_menu/team_stats_display.tscn" id="18_33xg6"]
+[ext_resource type="Script" uid="uid://7uus16ub7s4t" path="res://scripts/ui/player/endgame_menu/mvp_display.gd" id="19_wa7ku"]
 
 [sub_resource type="FontVariation" id="FontVariation_v53ew"]
 base_font = ExtResource("14_up6r2")
@@ -81,6 +82,18 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
+
+[sub_resource type="Gradient" id="Gradient_wa7ku"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2iq38"]
+gradient = SubResource("Gradient_wa7ku")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wa7ku"]
+gradient = SubResource("Gradient_wa7ku")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_41p24"]
 shader = ExtResource("7_8k0du")
@@ -440,7 +453,7 @@ theme_override_font_sizes/font_size = 48
 text = "00:00"
 horizontal_alignment = 1
 
-[node name="EndgameMenu" type="Control" parent="PlayerUI" node_paths=PackedStringArray("poll_container", "other_teams_box")]
+[node name="EndgameMenu" type="Control" parent="PlayerUI" node_paths=PackedStringArray("poll_container", "other_teams_box", "mvp_display")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -451,6 +464,7 @@ grow_vertical = 2
 script = ExtResource("16_826uu")
 poll_container = NodePath("VotePanel/MarginContainer/ScrollContainer/GridContainer")
 other_teams_box = NodePath("OtherTeamsBox/MarginContainer/HBoxContainer")
+mvp_display = NodePath("MVPDisplay")
 
 [node name="BlurRect" type="ColorRect" parent="PlayerUI/EndgameMenu"]
 material = ExtResource("8_x0hxo")
@@ -525,6 +539,84 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 3
+
+[node name="MVPDisplay" type="Control" parent="PlayerUI/EndgameMenu" node_paths=PackedStringArray("mvp_name_label", "mvp_points_label", "viewport_camera")]
+layout_mode = 1
+anchor_top = 0.25
+anchor_right = 0.35
+anchor_bottom = 1.0
+script = ExtResource("19_wa7ku")
+mvp_name_label = NodePath("MVPNameLabel")
+mvp_points_label = NodePath("MVPPointsLabel")
+viewport_camera = NodePath("SubViewportContainer/SubViewport/Camera3D")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="PlayerUI/EndgameMenu/MVPDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="PlayerUI/EndgameMenu/MVPDisplay/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(403, 486)
+render_target_update_mode = 0
+
+[node name="Camera3D" type="Camera3D" parent="PlayerUI/EndgameMenu/MVPDisplay/SubViewportContainer/SubViewport"]
+fov = 50.0
+far = 6.0
+
+[node name="TopGradient" type="TextureRect" parent="PlayerUI/EndgameMenu/MVPDisplay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.3
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_2iq38")
+
+[node name="BottomGradietn" type="TextureRect" parent="PlayerUI/EndgameMenu/MVPDisplay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.85
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_wa7ku")
+
+[node name="MVPNameLabel" type="Label" parent="PlayerUI/EndgameMenu/MVPDisplay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.15
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_up6r2")
+theme_override_font_sizes/font_size = 32
+text = "MVP
+PLAYER"
+horizontal_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="MVPPointsLabel" type="Label" parent="PlayerUI/EndgameMenu/MVPDisplay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.175
+anchor_right = 1.0
+anchor_bottom = 0.275
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_up6r2")
+theme_override_font_sizes/font_size = 24
+text = "x Points"
+horizontal_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
 
 [node name="PauseMenu" type="Control" parent="PlayerUI"]
 visible = false

@@ -228,6 +228,19 @@ func set_player_vote(player_id: int, vote: LevelResource) -> void:
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": NetworkManager.Message.PLAYER_VOTE, "player_id": player_id, "vote": vote.get_level_filename()})
 
+## Returns the player with the most points.
+func get_mvp_player() -> int:
+	var total_points: int = -1
+	var top_players: Array[int]
+	for player in player_states:
+		var player_total := player_states[player].total_score
+		if player_total > total_points:
+			top_players.clear()
+			total_points = player_total
+			top_players.append(player)
+		elif player_total == total_points:
+			top_players.append(player)
+	return top_players.pick_random()
 
 ## Returns winning level from votes.
 func get_winning_vote() -> LevelResource:
