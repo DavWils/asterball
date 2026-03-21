@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dqixqy780vbuo"]
+[gd_scene load_steps=11 format=3 uid="uid://dqixqy780vbuo"]
 
 [ext_resource type="PackedScene" uid="uid://u6kaxkr2k4w7" path="res://scenes/main/baselevel.tscn" id="1_g86y2"]
 [ext_resource type="Script" uid="uid://cmlmvkht2rnjk" path="res://scripts/level/zones/spawn_zone.gd" id="2_duo4t"]
@@ -9,18 +9,6 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gs6xa"]
 size = Vector3(120, 10, 23.5)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_41p24"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e7y16"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h3tri"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e7y16"]
 resource_local_to_scene = true
@@ -104,15 +92,6 @@ owning_team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwayScoreZone" index="0"]
 shape = SubResource("BoxShape3D_gs6xa")
-
-[node name="ResumeButton" parent="PlayerUI/PauseMenu/VBoxContainer" index="0"]
-theme_override_styles/hover = SubResource("StyleBoxFlat_41p24")
-
-[node name="OptionsButton" parent="PlayerUI/PauseMenu/VBoxContainer" index="1"]
-theme_override_styles/hover = SubResource("StyleBoxFlat_e7y16")
-
-[node name="QuitButton" parent="PlayerUI/PauseMenu/VBoxContainer" index="2"]
-theme_override_styles/hover = SubResource("StyleBoxFlat_h3tri")
 
 [node name="WorldEnvironment" parent="." index="11"]
 environment = SubResource("Environment_cmnbt")
