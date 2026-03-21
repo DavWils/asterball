@@ -1,9 +1,10 @@
-[gd_scene load_steps=48 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=51 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
 [ext_resource type="Script" uid="uid://budf6d2cxdeye" path="res://scripts/level/player_controller.gd" id="3_iv6mu"]
 [ext_resource type="Script" uid="uid://bvtcywgx6648c" path="res://scripts/level/directors/gridiron.gd" id="4_iv6mu"]
+[ext_resource type="Shader" uid="uid://cpvghcn3pd8bi" path="res://shaders/post_process/outline.gdshader" id="4_xpiji"]
 [ext_resource type="Script" uid="uid://dt0qd8g844ixh" path="res://scripts/ui/player/player_ui.gd" id="5_lw4hh"]
 [ext_resource type="Script" uid="uid://bubjmu6ys67a8" path="res://scripts/ui/player/match_menu.gd" id="6_dtma0"]
 [ext_resource type="Script" uid="uid://cis1m2nwwovjw" path="res://scripts/ui/player/pause_menu.gd" id="6_h058a"]
@@ -28,6 +29,19 @@
 [ext_resource type="PackedScene" uid="uid://bnpwasarl8m4v" path="res://scenes/ui/player/endgame_menu/team_stats_display.tscn" id="18_33xg6"]
 [ext_resource type="Script" uid="uid://7uus16ub7s4t" path="res://scripts/ui/player/endgame_menu/mvp_display.gd" id="19_wa7ku"]
 [ext_resource type="Shader" uid="uid://b3skqhm6m20b6" path="res://shaders/post_process/dithering.gdshader" id="28_l383a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ni21y"]
+render_priority = 0
+shader = ExtResource("4_xpiji")
+shader_parameter/thickness = 1.0000000074506001
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/samples = 4
+shader_parameter/sensitivity = 0.00999999977648
+shader_parameter/edge_fade = 0.0010000000475
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_l383a"]
+material = SubResource("ShaderMaterial_ni21y")
+flip_faces = true
 
 [sub_resource type="Shader" id="Shader_2iq38"]
 code = "shader_type canvas_item;
@@ -155,6 +169,7 @@ background_color = Color(0.019550411, 0.0034108006, 0.0685281, 1)
 sky = SubResource("Sky_oyp4u")
 ambient_light_source = 3
 reflected_light_source = 2
+ssao_enabled = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xpiji"]
 shader = ExtResource("28_l383a")
@@ -172,6 +187,10 @@ script = ExtResource("3_iv6mu")
 
 [node name="Camera3D" type="Camera3D" parent="PlayerController"]
 current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerController/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.13764852)
+mesh = SubResource("PlaneMesh_l383a")
 
 [node name="MatchDirector" type="Node" parent="."]
 script = ExtResource("4_iv6mu")
@@ -753,6 +772,7 @@ size = Vector2i(403, 486)
 render_target_update_mode = 0
 
 [node name="Camera3D" type="Camera3D" parent="PlayerUI/EndgameMenu/MVPDisplay/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -500, 0)
 fov = 50.0
 far = 6.0
 

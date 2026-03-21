@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode diffuse_toon, specular_toon;
 
 uniform sampler2D texture_albedo: source_color, filter_nearest;
 uniform vec3 tint : source_color = vec3(1,1,1);
@@ -33,4 +34,5 @@ void fragment() {
     vec2 uv = (top_weight > side_x_weight && top_weight > side_z_weight) ? uv_top :
                (side_x_weight > side_z_weight) ? uv_side_x : uv_side_z;
     ALBEDO = texture(texture_albedo, uv).rgb * tint;
+	ROUGHNESS = 0.0;
 }

@@ -20,6 +20,7 @@ Spatial Light Shaft by absentSpaghetti: https://godotshaders.com/shader/spatial-
 
 Triplanar Texture Shader (Doom-style) by Soup-o-Stat: https://godotshaders.com/shader/triplanar-texture-shader-doom-style/
 
+post process outline by Merovingen: https://godotshaders.com/shader/post-process-outline/
 
 
 [b]Sounds downloaded from freesound.org[/b]

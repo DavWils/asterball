@@ -67,6 +67,13 @@ func _ready() -> void:
 	ragdoll.character = self
 	level.add_child(ragdoll)
 
+	# Copy any post process effects from player controller to character.
+	for plane in player_controller.get_node("Camera3D").get_children():
+		if plane is MeshInstance3D:
+			if plane.mesh.material is ShaderMaterial:
+				var new_mesh = plane.duplicate()
+				$CameraHandle/PlayerCamera.add_child(new_mesh)
+
 ## Sets whether or not the camera is currently being used.
 func set_current_camera(current: bool) -> void:
 	$CameraHandle/PlayerCamera.current = current

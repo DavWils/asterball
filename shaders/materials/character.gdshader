@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode diffuse_toon, specular_toon;
 
 /**
 Albedo texture for this material
@@ -43,6 +44,7 @@ void fragment() {
 	color = mix(color, secondary_color, secondary_mask);
 
 	ALBEDO = color;
+	ROUGHNESS = 0.0;
 
 	EMISSION = primary_color * primary_mask * primary_emission;
 }
