@@ -25,14 +25,14 @@ enum AttachmentSlotType {
 @export var offset_position: Vector3:
 	set(value):
 		offset_position = value
-		if Engine.is_editor_hint():
+		if Engine.is_editor_hint() and offset_node:
 			offset_node.position = value
 
 ## Rotational offset.
 @export var offset_rotation: Vector3:
 	set(value):
 		offset_rotation = value
-		if Engine.is_editor_hint():
+		if Engine.is_editor_hint() and offset_node:
 			offset_node.rotation = value
 
 func _ready() -> void:

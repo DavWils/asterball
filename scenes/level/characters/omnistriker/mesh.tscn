@@ -163,24 +163,24 @@ script = ExtResource("2_owm0j")
 equipment_attachment = NodePath("Armature/Skeleton3D/EquipmentAttachment/EquipmentNode")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(8.369182e-09, 0.9824496, 0.055200003)
+bones/0/position = Vector3(8.311491e-09, 0.98065054, 0.055200007)
 bones/0/rotation = Quaternion(0.03783466, 0.9461379, -0.11999632, 0.298316)
 bones/1/rotation = Quaternion(-0.054632973, 0.08368986, -0.02828861, 0.9945909)
-bones/2/rotation = Quaternion(-0.0033480874, 0.21531439, -0.020007493, 0.97633415)
+bones/2/rotation = Quaternion(-0.00012455661, 0.21524724, -0.020718282, 0.9763398)
 bones/3/position = Vector3(1.3151845e-09, 0.31357813, -2.237962e-08)
 bones/3/rotation = Quaternion(0.06408965, 1.1036568e-08, -1.3804135e-08, 0.99794424)
 bones/4/rotation = Quaternion(-0.14214674, -1.876833e-08, -2.695224e-09, 0.9898456)
-bones/5/rotation = Quaternion(0.08536671, -0.11779996, 0.9750075, -0.16791716)
+bones/5/rotation = Quaternion(0.08448778, -0.117989115, 0.97558796, -0.16482906)
 bones/6/rotation = Quaternion(0.36941957, -0.014853992, -0.061895005, 0.92708015)
 bones/7/rotation = Quaternion(0.00535938, -0.0082770595, -0.001420923, 0.99995047)
-bones/8/rotation = Quaternion(-0.044351015, -0.11009365, 0.97625524, 0.18121295)
+bones/8/rotation = Quaternion(-0.04350695, -0.110143065, 0.97685045, 0.17815459)
 bones/9/rotation = Quaternion(0.37682906, 0.021947974, 0.044638302, 0.9249463)
 bones/10/rotation = Quaternion(0.005359394, 0.008276966, 0.0014209457, 0.9999504)
-bones/11/rotation = Quaternion(0.91460407, 0.023429329, -0.29958722, 0.27055138)
-bones/12/rotation = Quaternion(0.19685185, 0.0007497937, -0.021043513, 0.9802071)
+bones/11/rotation = Quaternion(0.91343427, 0.024335103, -0.29935792, 0.27464628)
+bones/12/rotation = Quaternion(0.20599395, 0.0007501732, -0.02206934, 0.97830415)
 bones/13/rotation = Quaternion(-0.5273639, -4.7321205e-08, 2.7319098e-08, 0.84963953)
-bones/15/rotation = Quaternion(0.92855144, -0.057780333, 0.27003726, 0.24805945)
-bones/16/rotation = Quaternion(0.17873795, 0.0018517668, -0.0602872, 0.98204625)
+bones/15/rotation = Quaternion(0.92736393, -0.060348947, 0.27013624, 0.25175488)
+bones/16/rotation = Quaternion(0.18793608, 0.0018473202, -0.063341804, 0.9801349)
 bones/17/rotation = Quaternion(-0.5273639, -4.736555e-08, 2.5702414e-08, 0.84963953)
 bones/19/position = Vector3(-0.098, 0.0852, -0.18024626)
 bones/19/rotation = Quaternion(0, 0.7071068, 0.7071068, 0)
@@ -191,7 +191,7 @@ bones/20/rotation = Quaternion(0, 0.7071068, 0.7071068, 0)
 mesh = SubResource("ArrayMesh_r4jgs")
 
 [node name="EquipmentAttachment" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.9609859, 0.26844913, -0.06664315, 0.27194214, -0.87295747, 0.40495867, 0.050534207, -0.407283, -0.91190267, 0.39544442, 1.0749499, -0.02107983)
+transform = Transform3D(0.9627262, 0.26276985, -0.06411174, 0.2660595, -0.8773428, 0.3993504, 0.0486893, -0.401523, -0.91455364, 0.39233676, 1.0719391, -0.019499108)
 bone_name = "hand.R"
 bone_idx = 10
 
@@ -234,7 +234,7 @@ script = ExtResource("6_r4jgs")
 script = ExtResource("8_054bl")
 
 [node name="PanoplyAttachment" parent="Panoply" index="0" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-1.0000001, -8.9256275e-08, -2.7170435e-07, -4.7538013e-08, 0.99989706, 0.014317483, 2.5895437e-07, 0.014317572, -0.99989754, 0.029399952, 1.7495517, -0.081132166)
+transform = Transform3D(-1.0000001, -8.159632e-08, -4.213588e-07, -3.2697333e-08, 0.9999699, 0.007714659, 4.37984e-07, 0.007714778, -0.9999703, 0.02939994, 1.7472222, -0.08399622)
 bone_name = "spine.004"
 bone_idx = 4
 use_external_skeleton = true
@@ -243,7 +243,7 @@ offset_position = Vector3(0, 0.255, -0.025)
 offset_rotation = Vector3(0, 0, 0)
 
 [node name="PanoplyAttachment2" parent="Panoply" index="1" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-1.0000001, -9.9651515e-08, -2.682209e-07, -1.4901161e-08, 0.98983884, -0.14219092, 2.682209e-07, -0.14219087, -0.9898393, 0.029400004, 1.3155557, -0.002210468)
+transform = Transform3D(-1.0000001, -1.15484e-07, -4.172325e-07, 0, 0.9888784, -0.14872397, 4.4703484e-07, -0.14872393, -0.98887885, 0.029400004, 1.3137567, -0.0022104643)
 bone_name = "spine.002"
 bone_idx = 2
 use_external_skeleton = true
@@ -253,7 +253,7 @@ offset_position = Vector3(0, 0.165, 0.115)
 offset_rotation = Vector3(0, 0, 0)
 
 [node name="PanoplyAttachment3" parent="Panoply" index="2" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-1.0000001, -9.9651515e-08, -2.682209e-07, -1.4901161e-08, 0.98983884, -0.14219092, 2.682209e-07, -0.14219087, -0.9898393, 0.029400004, 1.3155557, -0.002210468)
+transform = Transform3D(-1.0000001, -1.15484e-07, -4.172325e-07, 0, 0.9888784, -0.14872397, 4.4703484e-07, -0.14872393, -0.98887885, 0.029400004, 1.3137567, -0.0022104643)
 bone_name = "spine.002"
 bone_idx = 2
 use_external_skeleton = true
@@ -263,7 +263,7 @@ offset_position = Vector3(0, 0.18, -0.185)
 offset_rotation = Vector3(0, 0, 0.695)
 
 [node name="PanoplyAttachment4" parent="Panoply" index="3" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-1.0000001, -9.9651515e-08, -2.682209e-07, -1.4901161e-08, 0.98983884, -0.14219092, 2.682209e-07, -0.14219087, -0.9898393, 0.029400004, 1.3155557, -0.002210468)
+transform = Transform3D(-1.0000001, -1.15484e-07, -4.172325e-07, 0, 0.9888784, -0.14872397, 4.4703484e-07, -0.14872393, -0.98887885, 0.029400004, 1.3137567, -0.0022104643)
 bone_name = "spine.002"
 bone_idx = 2
 use_external_skeleton = true
@@ -273,7 +273,7 @@ offset_position = Vector3(0, 0.18, -0.185)
 offset_rotation = Vector3(0, 0, -0.695)
 
 [node name="PanoplyAttachment5" parent="Panoply" index="4" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-1.0000001, -9.9651515e-08, -2.682209e-07, -1.4901161e-08, 0.98983884, -0.14219092, 2.682209e-07, -0.14219087, -0.9898393, 0.029400004, 1.3155557, -0.002210468)
+transform = Transform3D(-1.0000001, -1.15484e-07, -4.172325e-07, 0, 0.9888784, -0.14872397, 4.4703484e-07, -0.14872393, -0.98887885, 0.029400004, 1.3137567, -0.0022104643)
 bone_name = "spine.002"
 bone_idx = 2
 use_external_skeleton = true
@@ -283,7 +283,7 @@ offset_position = Vector3(0, 0.18, -0.185)
 offset_rotation = Vector3(0, 0, 1.571)
 
 [node name="PanoplyAttachment6" parent="Panoply" index="5" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-0.81915236, 0.14318724, 0.5554161, -2.9802322e-08, 0.9683386, -0.24963951, -0.5735763, -0.20449275, -0.793217, 8.369182e-09, 0.9824496, 0.055200003)
+transform = Transform3D(-0.81915236, 0.14318724, 0.5554161, -2.9802322e-08, 0.9683386, -0.24963951, -0.5735763, -0.20449275, -0.793217, 8.311491e-09, 0.98065054, 0.055200007)
 bone_name = "spine"
 bone_idx = 0
 use_external_skeleton = true
@@ -293,7 +293,7 @@ offset_position = Vector3(0.2, 0.095, 0)
 offset_rotation = Vector3(0, 0, 0)
 
 [node name="PanoplyAttachment7" parent="Panoply" index="6" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-0.81915236, 0.14318724, 0.5554161, -2.9802322e-08, 0.9683386, -0.24963951, -0.5735763, -0.20449275, -0.793217, 8.369182e-09, 0.9824496, 0.055200003)
+transform = Transform3D(-0.81915236, 0.14318724, 0.5554161, -2.9802322e-08, 0.9683386, -0.24963951, -0.5735763, -0.20449275, -0.793217, 8.311491e-09, 0.98065054, 0.055200007)
 bone_name = "spine"
 bone_idx = 0
 use_external_skeleton = true
