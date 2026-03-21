@@ -38,6 +38,9 @@ fog_enabled = true
 fog_light_color = Color(0.2826666, 0.23319998, 0.53, 1)
 fog_density = 0.0001
 fog_sky_affect = 0.02
+volumetric_fog_density = 0.01
+volumetric_fog_albedo = Color(0.7333331, 0, 1, 1)
+volumetric_fog_sky_affect = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t2d5p"]
 render_priority = 1
@@ -146,7 +149,7 @@ transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, -19.102, -140)
 environment = SubResource("Environment_cmnbt")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" index="0"]
-transform = Transform3D(0.71135646, 0.6431652, -0.28339177, 0.62259465, -0.3895607, 0.67868894, 0.32611072, -0.6592277, -0.6775475, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.5951874, 0.80358684, 0, -0.80358684, 0.5951874, 0, 98.91287, 0)
 light_color = Color(0.7295897, 0.5741453, 0.9999984, 1)
 
 [node name="Planet" type="MeshInstance3D" parent="." index="16"]
@@ -158,9 +161,9 @@ transform = Transform3D(0.9245194, -0.038113493, 0, 0.35124847, 0.08520238, -0.3
 mesh = SubResource("TorusMesh_cmnbt")
 
 [node name="PlanetDirectionalLight" type="DirectionalLight3D" parent="." index="18"]
-transform = Transform3D(0.08750626, -0.9437894, 0.31875417, -0.96432215, 4.215186e-08, 0.2647315, -0.2498508, -0.3305473, -0.91011703, 0, 44.795856, 0)
+transform = Transform3D(0.087506264, -0.9437894, 0.31875414, -0.75327694, 0.14669387, 0.6411356, -0.6518562, -0.29621354, -0.6980982, 0, 44.795856, 0)
 light_color = Color(1, 0.64918756, 0.4954893, 1)
-light_energy = 0.6
+light_energy = 0.501
 
 [node name="AmbienceStreamPlayer" parent="." index="19"]
 stream = ExtResource("9_e7y16")
