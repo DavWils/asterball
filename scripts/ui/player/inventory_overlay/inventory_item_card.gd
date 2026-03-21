@@ -5,7 +5,7 @@ extends Control
 
 
 ## The inventory key represented by this card.
-var inventory_key: int
+var inventory_key: int = -1
 
 func _ready() -> void:
 	if player_controller.current_character:
