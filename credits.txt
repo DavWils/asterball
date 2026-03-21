@@ -22,6 +22,8 @@ Triplanar Texture Shader (Doom-style) by Soup-o-Stat: https://godotshaders.com/s
 
 [MIT] post process outline by Merovingen: https://godotshaders.com/shader/post-process-outline/
 
+Dither Portals by nojoule: https://godotshaders.com/shader/dither-portals/
+
 
 [b]Sounds downloaded from freesound.org[/b]
 windloop.wav by warwickallison -- https://freesound.org/s/115759/ -- License: Attribution 3.0
