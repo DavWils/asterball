@@ -9,3 +9,5 @@ shader = ExtResource("1_pcwvq")
 shader_parameter/texture_albedo = ExtResource("2_rexcb")
 shader_parameter/tint = Color(0.39308554, 0.3930855, 0.39308548, 1)
 shader_parameter/blend_sharpness = 4.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 1.0

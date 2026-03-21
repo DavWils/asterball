@@ -6,6 +6,15 @@ uniform vec3 tint : source_color = vec3(1,1,1);
 const float tile_scale = 128.0;
 uniform float blend_sharpness = 4.0;
 
+/**
+Metallic value.
+*/
+uniform float metallic = 0.0;
+/**
+Roughness value.
+*/
+uniform float roughness = 0.0;
+
 varying vec3 world_position;
 varying vec3 world_normal;
 
@@ -34,5 +43,6 @@ void fragment() {
     vec2 uv = (top_weight > side_x_weight && top_weight > side_z_weight) ? uv_top :
                (side_x_weight > side_z_weight) ? uv_side_x : uv_side_z;
     ALBEDO = texture(texture_albedo, uv).rgb * tint;
-	ROUGHNESS = 0.0;
+	ROUGHNESS = roughness;
+	METALLIC = metallic;
 }

@@ -7,5 +7,7 @@
 render_priority = 0
 shader = ExtResource("1_gaag7")
 shader_parameter/texture_albedo = ExtResource("2_gaag7")
-shader_parameter/tile_scale = 0.015625
+shader_parameter/tint = Color(1, 1, 1, 1)
 shader_parameter/blend_sharpness = 4.0
+shader_parameter/metallic = 0.8
+shader_parameter/roughness = 0.0
