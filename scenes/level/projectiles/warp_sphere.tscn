@@ -10,4 +10,3 @@ explode_on_overlap = true
 explode_on_collide = true
 explosion_scene = ExtResource("3_tbm7n")
 despawn_on_explosion = true
-timed_explosion = true

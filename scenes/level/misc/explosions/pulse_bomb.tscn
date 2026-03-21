@@ -1,7 +1,9 @@
-[gd_scene load_steps=32 format=3 uid="uid://bfcofdjjcnss8"]
+[gd_scene load_steps=34 format=3 uid="uid://bfcofdjjcnss8"]
 
 [ext_resource type="PackedScene" uid="uid://2my1jf36g7kt" path="res://scenes/level/misc/explosion.tscn" id="1_mw7uk"]
 [ext_resource type="Shader" uid="uid://l8nd11qkw1dm" path="res://shaders/shockwave.gdshader" id="2_mw85o"]
+[ext_resource type="AudioStream" uid="uid://ct7qqnd8vf3oi" path="res://sounds/level/explosion.wav" id="2_ur8sl"]
+[ext_resource type="AudioStream" uid="uid://6a6vldw3k3nl" path="res://sounds/level/explosion_shockwave.wav" id="3_h6vw8"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mw7uk"]
 radius = 5.0
@@ -203,6 +205,12 @@ _data = {
 
 [node name="CollisionShape3D" parent="Area3D" index="0"]
 shape = SubResource("SphereShape3D_mw7uk")
+
+[node name="ExplosionAudioPlayer" parent="." index="1"]
+stream = ExtResource("2_ur8sl")
+
+[node name="ShockwaveAudioPlayer" parent="." index="2"]
+stream = ExtResource("3_h6vw8")
 
 [node name="ShockwaveParticle" type="GPUParticles3D" parent="." index="4"]
 material_override = SubResource("ShaderMaterial_ur8sl")
