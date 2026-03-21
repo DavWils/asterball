@@ -1,12 +1,14 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://burptjs1hqbkn"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=4 format=3 uid="uid://burptjs1hqbkn"]
 
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="1_ejk0u"]
 [ext_resource type="PackedScene" uid="uid://d1bq2ta8fm2kd" path="res://meshes/items/lightning_rod/lightning_rod.glb" id="1_pncnk"]
+[ext_resource type="Texture2D" uid="uid://dgndgp6pi5b3s" path="res://textures/icons/lightning_rod.png" id="1_trhiy"]
 
 [resource]
 script = ExtResource("1_ejk0u")
 item_name = "Lightning Rod"
 item_cost = 650
+item_icon = ExtResource("1_trhiy")
 mesh_file = ExtResource("1_pncnk")
 can_purchase = true
 item_mass = 2.0
