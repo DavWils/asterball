@@ -3,7 +3,7 @@ Licensed under the SIL Open Font License 1.1.
 
 
 
-[b]Textures received by polyhaven.com[/b]
+[b]Textures received by polyhaven.com under CC0 License:[/b]
 Moon 01 Texture by Dario Barresi, Greg Zaal, Jenelle van Heerden and Rico Cilliers: https://polyhaven.com/a/moon_01
 
 Tarred Gravel by Dimitrios Savva: https://polyhaven.com/a/tarred_gravel
@@ -11,7 +11,7 @@ Tarred Gravel by Dimitrios Savva: https://polyhaven.com/a/tarred_gravel
 Rust Coarse 01 by Dimitrios Savva and Rico Cilliers: https://polyhaven.com/a/rust_coarse_01
 
 
-[b]Godot Shaders from godotshaders.com:[/b]
+[b]Godot Shaders from godotshaders.com under CC0 and MIT Licenses:[/b]
 Distortion bubble shader by thelastflapjack: https://godotshaders.com/shader/distortion-bubble/
 
 Futuristic Jet Thruster by MadSerb and a_kimb0: https://godotshaders.com/shader/updated-futuristic-jet-thruster-advanced-end-edge-fading/
@@ -20,24 +20,32 @@ Spatial Light Shaft by absentSpaghetti: https://godotshaders.com/shader/spatial-
 
 Triplanar Texture Shader (Doom-style) by Soup-o-Stat: https://godotshaders.com/shader/triplanar-texture-shader-doom-style/
 
-post process outline by Merovingen: https://godotshaders.com/shader/post-process-outline/
+[MIT] post process outline by Merovingen: https://godotshaders.com/shader/post-process-outline/
 
 
 [b]Sounds downloaded from freesound.org[/b]
-windloop.wav by warwickallison: https://freesound.org/people/warwickallison/sounds/115759/
+windloop.wav by warwickallison -- https://freesound.org/s/115759/ -- License: Attribution 3.0
 
-body_hit.wav by insanity54: https://freesound.org/people/insanity54/sounds/276600/
+wind.wav by ERH -- https://freesound.org/s/34338/ -- License: Attribution NonCommercial 4.0
 
-Bone_break.wav by abernatchez1: https://freesound.org/people/abernatchez1/sounds/503137/
+body_hit.wav by insanity54 -- https://freesound.org/s/276600/ -- License: Creative Commons 0
 
-quick woosh by florianreichelt: https://freesound.org/people/florianreichelt/sounds/683101/
+Bone_break.wav by abernatchez1 -- https://freesound.org/s/503137/ -- License: Creative Commons 0
 
-book-impact-06.aif by Adrian_Gomar: https://freesound.org/people/Adrian_Gomar/sounds/240994/
+quick woosh by florianreichelt -- https://freesound.org/s/683101/ -- License: Creative Commons 0
 
-Incoming Artillery Strike Cinematic Explosion by EvanBoyerman: https://freesound.org/people/EvanBoyerman/sounds/530886/
+book-impact-06.aif by Adrian_Gomar -- https://freesound.org/s/240994/ -- License: Attribution 3.0
 
-Explosion (Pas).wav by studiomandra...: https://freesound.org/people/studiomandragore/sounds/401628/
+Incoming Artillery Strike Cinematic Explosion by EvanBoyerman -- https://freesound.org/s/530886/ -- License: Attribution 3.0
 
-Cash Register Purchase by Zott820: https://freesound.org/people/Zott820/sounds/209578/
+Explosion (Pas).wav by studiomandragore -- https://freesound.org/s/401628/ -- License: Creative Commons 0
 
-Metal Flick 4 by WasabiWielder: https://freesound.org/people/WasabiWielder/sounds/323374/
+Cash Register Purchase by Zott820 -- https://freesound.org/s/209578/ -- License: Creative Commons 0
+
+Cash Register Fake.wav by CapsLok -- https://freesound.org/s/184438/ -- License: Creative Commons 0
+
+winchester 30-30 lever action EJECT.aif by ceremonialchapstick -- https://freesound.org/s/142895/ -- License: Creative Commons 0
+
+coinbank.wav by UncleSigmund -- https://freesound.org/s/36328/ -- License: Attribution 4.0
+
+Metal Flick 4 by WasabiWielder -- https://freesound.org/s/323374/ -- License: Creative Commons 0
