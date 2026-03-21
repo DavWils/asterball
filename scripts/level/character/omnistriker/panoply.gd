@@ -11,7 +11,7 @@ func _ready():
 	if not self.get_parent().get_parent().is_node_ready(): await self.get_parent().get_parent().ready
 	character.equipped.connect(_on_equipped)
 	character.inventory_component.inventory_changed.connect(_on_inventory_changed)
-
+	reload_attachments()
 
 func _on_inventory_changed() -> void:
 	reload_attachments()
