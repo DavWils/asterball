@@ -125,20 +125,15 @@ func _on_area_body_entered(body: Node3D) -> void:
 
 ## Returns the tackle score of this projectile towards the given character.
 func get_tackle_score(target: Character) -> float:
-	var self_momentum := get_momentum()
-	var target_momentum := target.get_momentum()
+	if linear_velocity.length() <= 1.0: return 0.0
+	var relative_velocity = self.linear_velocity - target.velocity
+	var vel_normal = (target.position - self.position).normalized()
 	
-	var offset := target.position - position
-	if offset.length_squared() == 0:
-		return 0
+	var impact_speed = max(relative_velocity.dot(vel_normal), 0.0)
 	
-	var dir := offset.normalized()
+	var impulse = item_state.get_item_mass() * impact_speed * impact_speed * 0.14
 	
-	var projectile_score := self_momentum.dot(dir)
-	var target_score := -target_momentum.dot(dir)
-	var final_score = projectile_score - target_score - target.get_tackle_resistance()
-	print(item_state.item_resource.item_name, " Projectile Tackle Calculation: ", projectile_score, " - ", target_score, " - ", target.get_tackle_resistance(), " = ", final_score)
-	return final_score
+	return impulse - target.get_tackle_resistance()
 
 func character_overlap(character: Character):
 	print("Score: ", get_tackle_score(character))
