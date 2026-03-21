@@ -32,8 +32,9 @@ func _on_timeout() -> void:
 
 func explode() -> void:
 	print("Exploded with ", $Area3D.get_overlapping_bodies(), " bodies.")
-	$ExplosionAudioPlayer.play()
-	$ShockwaveAudioPlayer.play()
+	for player in [$ExplosionAudioPlayer, $ShockwaveAudioPlayer]:
+		if (player as AudioStreamPlayer3D).has_stream_playback():
+			player.play()
 	if has_node("AnimationPlayer"):
 		$AnimationPlayer.play("explode")
 	$Timer.start()

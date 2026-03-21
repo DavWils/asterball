@@ -1,4 +1,4 @@
-extends Projectile
+extends ProjectileExplosive
 
 func character_overlap(character: Character):
 	# Hit another character, swap places.

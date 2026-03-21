@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://b84vcdx3hoo5g"]
+
+[ext_resource type="PackedScene" uid="uid://2my1jf36g7kt" path="res://scenes/level/misc/explosion.tscn" id="1_17qfb"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mw7uk"]
+radius = 5.0
+
+[sub_resource type="Animation" id="Animation_mw85o"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_mw7uk"]
+resource_name = "explode"
+length = 2.0
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ur8sl"]
+_data = {
+&"RESET": SubResource("Animation_mw85o"),
+&"explode": SubResource("Animation_mw7uk")
+}
+
+[node name="Explosion" instance=ExtResource("1_17qfb")]
+explosion_intensity = 0.0
+
+[node name="CollisionShape3D" parent="Area3D" index="0"]
+shape = SubResource("SphereShape3D_mw7uk")
+
+[node name="ExplosionAudioPlayer" parent="." index="1"]
+stream = null
+
+[node name="ShockwaveAudioPlayer" parent="." index="2"]
+stream = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
+libraries = {
+&"": SubResource("AnimationLibrary_ur8sl")
+}

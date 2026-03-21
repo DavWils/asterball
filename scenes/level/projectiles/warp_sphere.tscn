@@ -1,63 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://bv1nec5keppyt"]
+[gd_scene load_steps=4 format=3 uid="uid://bv1nec5keppyt"]
 
-[ext_resource type="PackedScene" uid="uid://cbk0tx3ba7v5" path="res://scenes/level/baseprojectile.tscn" id="1_0jndu"]
-[ext_resource type="Script" uid="uid://4jvxhkqsvq4u" path="res://scripts/level/projectiles/warp_sphere.gd" id="2_07qh5"]
+[ext_resource type="PackedScene" uid="uid://cs3v6wb6jtx8q" path="res://scenes/level/baseprojectile_explosive.tscn" id="1_07qh5"]
+[ext_resource type="Script" uid="uid://4jvxhkqsvq4u" path="res://scripts/level/projectiles/warp_sphere.gd" id="2_tbm7n"]
+[ext_resource type="PackedScene" uid="uid://b84vcdx3hoo5g" path="res://scenes/level/misc/explosions/warp_sphere.tscn" id="3_tbm7n"]
 
-[sub_resource type="Curve" id="Curve_07qh5"]
-_limits = [-2.0, 2.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_tbm7n"]
-_limits = [-2.0, 2.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_yjha0"]
-_limits = [-2.0, 2.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_nv7ua"]
-curve_x = SubResource("Curve_07qh5")
-curve_y = SubResource("Curve_tbm7n")
-curve_z = SubResource("Curve_yjha0")
-
-[sub_resource type="Curve" id="Curve_nv7ua"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.11728395, 0.5110974), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_yjb33"]
-curve = SubResource("Curve_nv7ua")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_07qh5"]
-emission_shape = 2
-emission_sphere_radius = 0.13
-direction = Vector3(1, 1, 1)
-spread = 180.0
-initial_velocity_min = 0.099999994
-initial_velocity_max = 0.19999999
-orbit_velocity_curve = SubResource("CurveXYZTexture_nv7ua")
-gravity = Vector3(0, 0, 0)
-scale_min = 2.0
-scale_max = 3.0
-scale_curve = SubResource("CurveTexture_yjb33")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbm7n"]
-shading_mode = 0
-albedo_color = Color(0, 0.8833332, 1, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_yjha0"]
-material = SubResource("StandardMaterial3D_tbm7n")
-radius = 0.02
-height = 0.04
-
-[node name="Projectile" instance=ExtResource("1_0jndu")]
-script = ExtResource("2_07qh5")
-despawn_on_overlap = true
-despawn_on_collide = true
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="." index="2"]
-amount = 64
-process_material = SubResource("ParticleProcessMaterial_07qh5")
-draw_pass_1 = SubResource("SphereMesh_yjha0")
+[node name="Projectile" instance=ExtResource("1_07qh5")]
+script = ExtResource("2_tbm7n")
+explode_on_overlap = true
+explode_on_collide = true
+explosion_scene = ExtResource("3_tbm7n")
+despawn_on_explosion = true
+timed_explosion = true
