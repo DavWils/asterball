@@ -28,6 +28,9 @@ class_name ItemResource
 @export var attachment_type: PanoplyAttachment.AttachmentSlotType
 ## The positional offset to apply to this item in a panoply attachment.
 @export var panoply_pos_offset: Vector3 = Vector3.ZERO
+## The rotational offset to apply to this item in a panoply attachment.
+@export var panoply_rot_offset: Vector3 = Vector3.ZERO
+
 
 
 ## Enum for item tiers.
