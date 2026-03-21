@@ -55,13 +55,13 @@ func _ready() -> void:
 			if $CollisionShape3D.shape is BoxShape3D:
 				$CollisionShape3D.shape = mesh_shape.shape
 				$Area3D/CollisionShape3D.shape = mesh_shape.shape
-				$CollisionShape3D.disabled = false
-				$Area3D/CollisionShape3D.disabled = false
+				$CollisionShape3D.set_deferred("disabled", false)
+				$Area3D/CollisionShape3D.set_deferred("disabled", false)
 			else:
 				var new_shape := CollisionShape3D.new()
 				new_shape.shape = mesh_shape.shape
 				self.add_child(new_shape)
-			mesh_shape.disabled = true
+			mesh_shape.set_deferred("disabled", true)
 	
 	var mesh_instance = projectile_mesh.get_child(0)
 	for i in mesh_instance.get_surface_override_material_count():
