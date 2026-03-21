@@ -9,3 +9,4 @@ item_name = "Pulse Bomb"
 item_cost = 125
 mesh_file = ExtResource("1_slaxc")
 can_purchase = true
+attachment_type = 3

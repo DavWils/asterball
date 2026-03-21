@@ -24,7 +24,10 @@ class_name ItemResource
 @export var allegiance_on_pickup: bool = true
 ## Passive effect that this item puts on the player.
 @export var passive_effect: EffectResource
-
+## The type of attachment for this item on the omnistriker.
+@export var attachment_type: PanoplyAttachment.AttachmentSlotType
+## The positional offset to apply to this item in a panoply attachment.
+@export var panoply_pos_offset: Vector3 = Vector3.ZERO
 
 
 ## Enum for item tiers.

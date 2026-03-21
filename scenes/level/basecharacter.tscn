@@ -1,9 +1,8 @@
-[gd_scene load_steps=29 format=3 uid="uid://on8wykmjn5go"]
+[gd_scene load_steps=28 format=3 uid="uid://on8wykmjn5go"]
 
 [ext_resource type="Script" uid="uid://bnbyil81cayt3" path="res://scripts/level/characters/character.gd" id="1_hqcqr"]
 [ext_resource type="Script" uid="uid://755ian66gy8i" path="res://scripts/level/character/character_camera.gd" id="2_5faxe"]
 [ext_resource type="Script" uid="uid://c2kpwj65kiqjv" path="res://scripts/level/character/interact_area.gd" id="3_gd8ut"]
-[ext_resource type="Script" uid="uid://dgo82706uscu8" path="res://scripts/level/character/inventory_carousel.gd" id="4_fwypb"]
 [ext_resource type="Script" uid="uid://bw3vht8dxjwy0" path="res://scripts/level/character/inventory_component.gd" id="5_7da80"]
 [ext_resource type="Script" uid="uid://c2erqjm7tqn42" path="res://scripts/level/character/overlap_area.gd" id="6_7da80"]
 [ext_resource type="Script" uid="uid://d2ggd5dlv4ylb" path="res://scripts/level/character/tackle_component.gd" id="7_tu7bk"]
@@ -123,9 +122,6 @@ script = ExtResource("3_gd8ut")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea3D"]
 shape = SubResource("BoxShape3D_gd8ut")
-
-[node name="InventoryCarousel" type="Node3D" parent="."]
-script = ExtResource("4_fwypb")
 
 [node name="InventoryComponent" type="Node3D" parent="."]
 script = ExtResource("5_7da80")

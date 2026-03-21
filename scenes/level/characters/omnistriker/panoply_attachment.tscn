@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://jmvp13c2pwsc"]
+
+[ext_resource type="Script" uid="uid://vt6boiuwx2hj" path="res://scripts/level/character/omnistriker/panoply_component/panoply_attachment.gd" id="1_miodl"]
+
+[node name="PanoplyAttachment" type="BoneAttachment3D"]
+script = ExtResource("1_miodl")
+offset_position = null
+offset_rotation = null
+
+[node name="OffsetNode" type="Node3D" parent="."]

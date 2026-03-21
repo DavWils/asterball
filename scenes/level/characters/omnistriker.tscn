@@ -79,19 +79,19 @@ shape = SubResource("BoxShape3D_tekpr")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_q4ab7")
 
-[node name="OverlapArea3D" parent="." index="5"]
+[node name="OverlapArea3D" parent="." index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="CollisionShape3D" parent="OverlapArea3D" index="0"]
 shape = SubResource("BoxShape3D_tekpr")
 
-[node name="CharacterMesh" parent="." index="6" instance=ExtResource("3_ubvka")]
-
 [node name="TackleAudioPlayer" parent="TackleComponent" index="0"]
 stream = ExtResource("4_ubvka")
 volume_db = 20.0
 
-[node name="TrajectoryIndicator" parent="." index="9"]
+[node name="CharacterMesh" parent="." index="6" instance=ExtResource("3_ubvka")]
+
+[node name="TrajectoryIndicator" parent="." index="8"]
 multimesh = SubResource("MultiMesh_w5ea2")
 
 [node name="GPUParticles3D" parent="ThrowComponent" index="1"]
