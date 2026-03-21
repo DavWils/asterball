@@ -32,7 +32,6 @@ class_name ItemResource
 @export var panoply_rot_offset: Vector3 = Vector3.ZERO
 
 
-
 ## Enum for item tiers.
 enum ItemCategory {
 	Throwables,

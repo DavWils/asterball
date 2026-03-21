@@ -1,5 +1,3 @@
-@tool
-
 extends Button
 
 @export var item_resource: ItemResource
