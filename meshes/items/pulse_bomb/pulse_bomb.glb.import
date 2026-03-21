@@ -39,9 +39,10 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
-"@MATERIAL:0": {
+"Material": {
 "use_external/enabled": true,
-"use_external/path": "uid://cvpd68o70rs4w"
+"use_external/fallback_path": "res://materials/meshes/items/pulse_bomb.tres",
+"use_external/path": "uid://dxwmacljf02sb"
 }
 }
 }
