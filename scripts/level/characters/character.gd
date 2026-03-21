@@ -252,6 +252,7 @@ func from_reg_dict(data: Dictionary) -> void:
 
 ## Called when self is tackled. Reroutes to tacklecomponent
 func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGenerator = RandomNumberGenerator.new()):
+	if is_tackled(): return
 	# Stop aiming.
 	if network_manager.is_host():
 		end_aim()
