@@ -12,6 +12,6 @@ shader = ExtResource("1_ww40y")
 shader_parameter/albedo_texture = ExtResource("2_ilo3q")
 shader_parameter/primary_texture = ExtResource("3_ww40y")
 shader_parameter/secondary_texture = ExtResource("4_ilo3q")
-shader_parameter/primary_emission = 1.0
+shader_parameter/primary_emission = 5.0
 shader_parameter/primary_color = Color(1, 1, 1, 1)
 shader_parameter/secondary_color = Color(1, 1, 1, 1)
