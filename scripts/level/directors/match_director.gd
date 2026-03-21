@@ -13,7 +13,7 @@ class_name MatchDirector
 var inventory_memory: Dictionary[int, Dictionary]
 
 ## The amount of time to wait before starting the game.
-const PREGAME_DURATION := 5
+const PREGAME_DURATION := 2
 ## The amount of time in the match.
 const MATCH_DURATION := 600
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
@@ -21,7 +21,7 @@ const INTERMISSION_DURATION := 3
 ## The amount of time to wait after a score until the next round begins.
 const CELEBRATION_DURATION := 10
 ## The amount of time spent in the endgame before loading to the next level.
-const ENDGAME_DURATION := 5
+const ENDGAME_DURATION := 35
 ## The number of teams.
 const TEAM_COUNT := 2
 ## The final amount of points a team must get to win the game.
@@ -158,8 +158,7 @@ func end_timer() -> void:
 			next_round()
 		match_state.StateOfMatch.ENDGAME: # End of the game. Players will vote and the most voted map will be transitioned to. This is also the same per gamemode
 			var main_scene: MainScene = get_tree().current_scene
-			var random_level: LevelResource = main_scene.get_all_levels().pick_random()
-			main_scene.load_level(random_level)
+			main_scene.load_level(match_state.get_winning_vote())
 
 ## If there is a team that wins here, return their team id. else, return -1
 func get_winning_team() -> int:
@@ -208,7 +207,7 @@ func spawn_omnistrikers() -> void:
 				var spawn_dict: Dictionary = {"owner_id": player_id}
 				if inventory_memory.has(player_id):
 					spawn_dict["inventory"] = inventory_memory[player_id]["inv"]
-					spawn_dict["equipped_key"] = inventory_memory[player_id]["omni_ek"]
+					#spawn_dict["equipped_key"] = inventory_memory[player_id]["omni_ek"]
 				level.spawn_character(load("res://scenes/level/characters/omnistriker.tscn"), spawn_position, spawn_dict)
 
 ## Cleans up the level, removing old stuff from registry.
