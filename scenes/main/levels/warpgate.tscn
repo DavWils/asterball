@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dqixqy780vbuo"]
+[gd_scene load_steps=16 format=3 uid="uid://dqixqy780vbuo"]
 
 [ext_resource type="PackedScene" uid="uid://u6kaxkr2k4w7" path="res://scenes/main/baselevel.tscn" id="1_g86y2"]
 [ext_resource type="Script" uid="uid://cmlmvkht2rnjk" path="res://scripts/level/zones/spawn_zone.gd" id="2_duo4t"]
@@ -8,6 +8,7 @@
 [ext_resource type="Shader" uid="uid://b3my2swg6b380" path="res://shaders/portal.gdshader" id="8_4qpu5"]
 [ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://shaders/sky/astral_sky.gdshader" id="8_fcqct"]
 [ext_resource type="AudioStream" uid="uid://btxmjdxc4svu" path="res://sounds/music/ambience/starfield_ambience.wav" id="9_dyqur"]
+[ext_resource type="PackedScene" uid="uid://c5oqwiueyi8lj" path="res://scenes/level/warpgate/portal.tscn" id="9_g86y2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e7y16"]
 resource_local_to_scene = true
@@ -146,3 +147,19 @@ skeleton = NodePath("../warpgate_bridge2")
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 7, 137)
 mesh = SubResource("PlaneMesh_duo4t")
 skeleton = NodePath("../warpgate_bridge2")
+
+[node name="LowerPortal1" parent="." index="18" node_paths=PackedStringArray("linked_portal") instance=ExtResource("9_g86y2")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, -18, -83)
+linked_portal = NodePath("../UpperPortal1")
+
+[node name="LowerPortal2" parent="." index="19" node_paths=PackedStringArray("linked_portal") instance=ExtResource("9_g86y2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -18, 83)
+linked_portal = NodePath("../UpperPortal2")
+
+[node name="UpperPortal1" parent="." index="20" node_paths=PackedStringArray("linked_portal") instance=ExtResource("9_g86y2")]
+transform = Transform3D(1, 0, 6.3573026e-08, -1.645391e-08, 0.9659258, 0.25881904, -6.140683e-08, -0.25881904, 0.9659258, 0, 36, -35)
+linked_portal = NodePath("../LowerPortal1")
+
+[node name="UpperPortal2" parent="." index="21" node_paths=PackedStringArray("linked_portal") instance=ExtResource("9_g86y2")]
+transform = Transform3D(-1, 2.2626677e-08, -8.444391e-08, 0, 0.96592575, 0.258819, 8.742278e-08, 0.258819, -0.96592575, 0, 36, 35)
+linked_portal = NodePath("../LowerPortal2")

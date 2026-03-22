@@ -1,0 +1,90 @@
+[gd_scene load_steps=9 format=4 uid="uid://c5oqwiueyi8lj"]
+
+[ext_resource type="Script" uid="uid://h2oou8l86vk3" path="res://scripts/level/warpgate/portal.gd" id="1_oq2h5"]
+[ext_resource type="Shader" uid="uid://b3my2swg6b380" path="res://shaders/portal.gdshader" id="2_06aet"]
+[ext_resource type="Material" uid="uid://dggqxcd7kxc7r" path="res://materials/meshes/basic/metal_gold.tres" id="3_06aet"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_alihp"]
+render_priority = 0
+shader = ExtResource("2_06aet")
+shader_parameter/color_one = Color(0.032199997, 0.37443987, 0.46, 1)
+shader_parameter/color_two = Color(0.6298546, 0.9115017, 0.99999994, 1)
+shader_parameter/color_falloff = 1.0
+shader_parameter/transparency_falloff = 1.0
+shader_parameter/depth_amount = 1.0
+shader_parameter/layers = 8
+shader_parameter/radius = 0.4
+shader_parameter/radius_reduction = 0.1
+shader_parameter/radius_reduction_type = 0
+shader_parameter/vary_radius = true
+shader_parameter/radius_variation = 0.1
+shader_parameter/radius_speed_variation = 1.0
+shader_parameter/radius_variation_offset = 1.0
+shader_parameter/radius_random_offset = true
+shader_parameter/center = Vector2(0.5, 0.5)
+shader_parameter/pixel_size = 10.0
+shader_parameter/resolution = Vector2(512, 512)
+shader_parameter/dither_offset = Vector2(2, 0)
+shader_parameter/bayer_size = 2
+shader_parameter/interpolate = true
+shader_parameter/falloff = 2.5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_at72s"]
+_surfaces = [{
+"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
+"format": 34896613377,
+"index_count": 42,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAwABAAQABAABAAUABQABAAYABgABAAcABwABAAgACAABAAkACQABAAoACgABAAsACwABAAwADAABAA0ADQABAA4ADgABAA8A"),
+"name": "Circle",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("fSUAAH0lAAADTwAAvgkAAL4JAAADTwAAAAAAAP9/AAC+CQAA+7AAAH0lAACB2gAAA08AAED2AAD/fwAA//8AAPuwAABA9gAAgdoAAIHaAABA9gAA+7AAAP//AAD/fwAAQPYAAANPAACB2gAAfSUAAPuwAAC+CQAA/38AAAAAAAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_alihp"]
+_surfaces = [{
+"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
+"attribute_data": PackedByteArray("ghOBN4E3ghMGAIpmBgB0mYITfciBN3zsimb4/3SZ+P99yHzsfOx9yPj/dJn4/4pmfOyBN33IghN0mQYAimYGAA=="),
+"format": 34896613399,
+"index_count": 42,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAwABAAQABAABAAUABQABAAYABgABAAcABwABAAgACAABAAkACQABAAoACgABAAsACwABAAwADAABAA0ADQABAA4ADgABAA8A"),
+"material": SubResource("ShaderMaterial_alihp"),
+"name": "Circle",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("fSUAAH0lY8ADTwAAvgljwL4JAAADT2PAAAAAAP9/Y8C+CQAA+7BjwH0lAACB2mPAA08AAED2Y8D/fwAA//9jwPuwAABA9mPAgdoAAIHaY8BA9gAA+7BjwP//AAD/f2PAQPYAAANPY8CB2gAAfSVjwPuwAAC+CWPA/38AAAAAY8Du6oeK7uqHiu7qh4ru6oeK7uqHiu7qh4ru6oeK7uqHiu7qh4ru6oeK7uqHiu7qh4ru6oeK7uqHiu7qh4ru6oeK")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_at72s")
+
+[sub_resource type="TorusMesh" id="TorusMesh_1k6bd"]
+material = ExtResource("3_06aet")
+inner_radius = 3.0
+outer_radius = 3.5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_06aet"]
+height = 1.0
+radius = 6.0
+
+[node name="Portal" type="Node3D"]
+script = ExtResource("1_oq2h5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(6, 0, 0, 0, -2.6226832e-07, 6, 0, -6, -2.6226832e-07, 0, 0, 0)
+mesh = SubResource("ArrayMesh_alihp")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.33333334, 0, 0, 0, 0.33333334, 0, 0, 0, 0.33333334, 0, 0, 0)
+mesh = SubResource("TorusMesh_1k6bd")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_06aet")

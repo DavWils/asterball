@@ -127,7 +127,7 @@ shape = SubResource("BoxShape3D_gd8ut")
 script = ExtResource("5_7da80")
 
 [node name="OverlapArea3D" type="Area3D" parent="."]
-collision_layer = 8
+collision_layer = 2
 collision_mask = 8
 script = ExtResource("6_7da80")
 
