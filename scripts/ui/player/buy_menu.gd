@@ -59,7 +59,6 @@ func _on_possessed(character: Character) -> void:
 
 func _on_equipped(key: int) -> void:
 	for child in $InventoryPanel/ScrollContainer/VBoxContainer.get_children():
-		print("a")
 		child.set_equip_status(child.inventory_key == key)
 
 func _on_inventory_changed() -> void:
