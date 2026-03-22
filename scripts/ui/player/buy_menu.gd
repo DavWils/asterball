@@ -84,6 +84,7 @@ func set_hovered_item(item: ItemResource) -> void:
 		hover_mesh.queue_free()
 	if item:
 		$SelectedItemDisplay/VBoxContainer/SelectedItemNameLabel.text = item.item_name
+		$SelectedItemDisplay/VBoxContainer/SelectedItemDescriptionLabel.text = item.item_description
 		$SelectedItemDisplay/VBoxContainer/HBoxContainer/SelectedItemCostLabel.text = "Cost: " + str(item.item_cost)
 		$SelectedItemDisplay/VBoxContainer/HBoxContainer/SelectedItemMassLabel.text = str(item.item_mass) + "kg"
 		

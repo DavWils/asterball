@@ -447,7 +447,11 @@ text = "Item"
 horizontal_alignment = 1
 
 [node name="SelectedItemDescriptionLabel" type="Label" parent="PlayerUI/BuyMenu/SelectedItemDisplay/VBoxContainer"]
+custom_minimum_size = Vector2(0, 74.415)
 layout_mode = 2
+autowrap_mode = 2
+clip_text = true
+text_overrun_behavior = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/BuyMenu/SelectedItemDisplay/VBoxContainer"]
 layout_mode = 2

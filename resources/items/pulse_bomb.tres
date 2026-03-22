@@ -1,12 +1,14 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=4 format=3 uid="uid://bh0t2ffbee81j"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=5 format=3 uid="uid://bh0t2ffbee81j"]
 
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="1_d818p"]
 [ext_resource type="PackedScene" uid="uid://cmc4ri13fs8fb" path="res://meshes/items/pulse_bomb/pulse_bomb.glb" id="1_slaxc"]
 [ext_resource type="Texture2D" uid="uid://c2mecbhyj52en" path="res://textures/icons/pulse_bomb.png" id="1_uadum"]
+[ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="1_xsciv"]
 
 [resource]
 script = ExtResource("1_d818p")
 item_name = "Pulse Bomb"
+item_description = "A simple bomb that explodes where it lands."
 item_cost = 125
 item_icon = ExtResource("1_uadum")
 mesh_file = ExtResource("1_slaxc")

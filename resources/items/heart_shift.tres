@@ -10,6 +10,7 @@
 [resource]
 script = ExtResource("3_ov7yu")
 item_name = "Heart Shift"
+item_description = "A risky, volatile device that increases the user's speed."
 item_cost = 650
 item_category = 2
 item_icon = ExtResource("1_60jw7")

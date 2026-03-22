@@ -4,6 +4,8 @@ class_name ItemResource
 
 ## The name of the item.
 @export var item_name: String
+## Brief description of the item.
+@export var item_description: String
 ## The point value of this item.
 @export var item_cost: int = 0
 ## The category of this item.
