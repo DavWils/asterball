@@ -1,0 +1,103 @@
+[gd_scene load_steps=12 format=3 uid="uid://dji28y6l4wq83"]
+
+[ext_resource type="Script" uid="uid://ekrgnxfgs5ue" path="res://scripts/level/equipment/heart_shift/heart_shift_trigger.gd" id="1_36p46"]
+[ext_resource type="PackedScene" uid="uid://cg37ftptyl0i" path="res://scenes/level/misc/explosions/heart_shift.tscn" id="2_vgxmk"]
+[ext_resource type="AudioStream" uid="uid://bqg87pvvfobjr" path="res://sounds/level/equipment/heart_shift/heart_shift_warning.wav" id="3_hup3n"]
+
+[sub_resource type="Animation" id="Animation_hup3n"]
+resource_name = "warning"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OmniLight3D:omni_range")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666668),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [5.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles3D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_h1pdf"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a6r07"]
+_data = {
+&"RESET": SubResource("Animation_h1pdf"),
+&"warning": SubResource("Animation_hup3n")
+}
+
+[sub_resource type="Curve" id="Curve_h1pdf"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.012924194), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_a6r07"]
+curve = SubResource("Curve_h1pdf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_a6r07"]
+particle_flag_align_y = true
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_a6r07")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rntdu"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 15.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8f32u"]
+material = SubResource("StandardMaterial3D_rntdu")
+top_radius = 0.05
+bottom_radius = 0.0
+height = 0.25
+
+[node name="HeartShiftTrigger" type="Node3D"]
+script = ExtResource("1_36p46")
+explosion = ExtResource("2_vgxmk")
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 3.0
+
+[node name="Timer2" type="Timer" parent="."]
+process_callback = 0
+wait_time = 3.0
+
+[node name="WarningAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_hup3n")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0, 0, 1)
+light_energy = 25.0
+omni_range = 0.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_a6r07")
+}
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 12
+lifetime = 0.15000000000000002
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_a6r07")
+draw_pass_1 = SubResource("CylinderMesh_8f32u")

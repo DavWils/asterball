@@ -46,7 +46,6 @@ func explode() -> void:
 				body.apply_central_impulse(get_explosion_force(body.global_position))
 			elif body is Character:
 				var score := get_tackle_score(body, get_explosion_force(body.global_position))
-				print(score)
 				if score >= MIN_TACKLE_SCORE:
 					body.tackle(self, score)
 				else:
@@ -64,7 +63,7 @@ func get_tackle_score(character: Character, impulse: Vector3) -> float:
 	
 	var offset := character.position - global_position
 	if offset.length_squared() == 0:
-		return 0
+		offset = Vector3.UP
 	
 	var dir := offset.normalized()
 	
@@ -79,15 +78,19 @@ func get_tackle_score(character: Character, impulse: Vector3) -> float:
 func get_explosion_force(target_pos: Vector3) -> Vector3:
 	var explosion_pos = global_position
 	var dir = target_pos - explosion_pos
-	var distance = dir.length()
-	
+	var distance = max(dir.length(), 0.1)
 	var radius = $Area3D/CollisionShape3D.shape.radius
 	if distance > radius:
 		return Vector3.ZERO
 	
+	if dir == Vector3.ZERO: dir = Vector3.UP
+	distance = max(distance, 0.001)
+	
 	dir = dir.normalized()
+	
 	
 	var falloff = pow(1.0 - (distance / radius), 2)
 	var force = 1000.0 * explosion_intensity * falloff
+	print(dir, " * ", force)
 	
 	return dir * force

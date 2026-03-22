@@ -29,9 +29,11 @@ func add_item(item: ItemState, key: int = get_next_key(0, false) if inventory_it
 
 ## Removes an item from inventory at the given key.
 func remove_item(key: int) -> void:
-	inventory_items.erase(key)
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_REMOVEITEM, "char_id": character.registry_id, "key": key})
+		for effect in inventory_items[key].item_resource.integral_effects:
+			character.remove_effect(effect)
+	inventory_items.erase(key)
 	inventory_changed.emit()
 
 ## Gets the previous inventory slot from given key if one exists. If with is true, looks for slot WITH an item. Otherwise, look for empty.

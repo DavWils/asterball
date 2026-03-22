@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://daklqruymoce0"]
+
+[ext_resource type="Script" uid="uid://n2kvq5kiwjkq" path="res://scripts/level/misc/active_panoply_attachment.gd" id="1_snuyq"]
+[ext_resource type="PackedScene" uid="uid://dji28y6l4wq83" path="res://scenes/level/character/equipment/heart_shift/heart_shift_trigger.tscn" id="2_f7xvf"]
+[ext_resource type="PackedScene" uid="uid://bxm2fejnkwb7m" path="res://meshes/items/heart_shift/heart_shift.glb" id="2_ij43h"]
+
+[node name="HeartShift" type="Node3D"]
+script = ExtResource("1_snuyq")
+
+[node name="HeartShiftTrigger" parent="." instance=ExtResource("2_f7xvf")]
+
+[node name="heart_shift2" parent="." instance=ExtResource("2_ij43h")]

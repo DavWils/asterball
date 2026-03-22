@@ -1,0 +1,126 @@
+[gd_scene load_steps=19 format=3 uid="uid://cg37ftptyl0i"]
+
+[ext_resource type="PackedScene" uid="uid://2my1jf36g7kt" path="res://scenes/level/misc/explosion.tscn" id="1_3pjum"]
+[ext_resource type="AudioStream" uid="uid://ct7qqnd8vf3oi" path="res://sounds/level/explosion.wav" id="2_gunvx"]
+[ext_resource type="AudioStream" uid="uid://6a6vldw3k3nl" path="res://sounds/level/explosion_shockwave.wav" id="3_rhi3t"]
+[ext_resource type="Shader" uid="uid://l8nd11qkw1dm" path="res://shaders/shockwave.gdshader" id="4_07cr3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mw7uk"]
+radius = 2.0
+
+[sub_resource type="Gradient" id="Gradient_mw7uk"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_mw85o"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_enx55"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_mw85o")
+color_ramp = SubResource("Gradient_mw7uk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ur8sl"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_07cr3")
+shader_parameter/distortionView = 0.0999999977648
+shader_parameter/speedView = 0.5
+shader_parameter/tintColor = Color(1, 0, 0, 1)
+shader_parameter/fesnelAmount = 0.0
+shader_parameter/distortionVertex = 0.03
+shader_parameter/speedVertex = 0.1
+shader_parameter/noiseVertex = SubResource("NoiseTexture2D_enx55")
+
+[sub_resource type="Curve" id="Curve_h6vw8"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.011235952), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_86q4b"]
+curve = SubResource("Curve_h6vw8")
+
+[sub_resource type="Curve" id="Curve_gw1pm"]
+_data = [Vector2(0, 0.011235952), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_u67y5"]
+curve = SubResource("Curve_gw1pm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vrerb"]
+resource_local_to_scene = true
+gravity = Vector3(0, 0, 0)
+scale_min = 20.0
+scale_max = 20.0
+scale_curve = SubResource("CurveTexture_u67y5")
+alpha_curve = SubResource("CurveTexture_86q4b")
+
+[sub_resource type="SphereMesh" id="SphereMesh_bo35e"]
+resource_local_to_scene = true
+radial_segments = 16
+rings = 8
+
+[sub_resource type="Animation" id="Animation_mw85o"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_mw7uk"]
+resource_name = "explode"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShockwaveParticle:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OmniLight3D:omni_range")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.31),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 100.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ur8sl"]
+_data = {
+&"RESET": SubResource("Animation_mw85o"),
+&"explode": SubResource("Animation_mw7uk")
+}
+
+[node name="Explosion" instance=ExtResource("1_3pjum")]
+
+[node name="CollisionShape3D" parent="Area3D" index="0"]
+shape = SubResource("SphereShape3D_mw7uk")
+
+[node name="ExplosionAudioPlayer" parent="." index="1"]
+stream = ExtResource("2_gunvx")
+
+[node name="ShockwaveAudioPlayer" parent="." index="2"]
+stream = ExtResource("3_rhi3t")
+
+[node name="Timer" parent="." index="3"]
+wait_time = 1.0
+
+[node name="ShockwaveParticle" type="GPUParticles3D" parent="." index="4"]
+material_override = SubResource("ShaderMaterial_ur8sl")
+emitting = false
+amount = 1
+lifetime = 0.4
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_vrerb")
+draw_pass_1 = SubResource("SphereMesh_bo35e")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="5"]
+libraries = {
+&"": SubResource("AnimationLibrary_ur8sl")
+}
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="6"]
+light_color = Color(1, 0, 0, 1)
+light_energy = 100.0
+omni_range = 0.0

@@ -26,12 +26,16 @@ class_name ItemResource
 @export var passive_effect: EffectResource
 ## The type of attachment for this item on the omnistriker.
 @export var attachment_type: PanoplyAttachment.AttachmentSlotType
+## The active panoply attachment, if it has one.
+@export var active_panoply_attachment: PackedScene
 ## The positional offset to apply to this item in a panoply attachment.
 @export var panoply_pos_offset: Vector3 = Vector3.ZERO
 ## The rotational offset to apply to this item in a panoply attachment.
 @export var panoply_rot_offset: Vector3 = Vector3.ZERO
 ## Material type of this item, used for things like collision sounds, etc.
 @export var material_type: MaterialType
+## Effects that are removed when the character drops this item, ASIDE from passives.
+@export var integral_effects: Array[EffectResource]
 
 ## Material types.
 enum MaterialType {
@@ -70,3 +74,7 @@ func get_collision_sound() -> Resource:
 		MaterialType.METAL:
 			return load("res://sounds/level/projectile/collide/metal.wav")
 	return 	load("res://sounds/level/projectile/collide/generic.wav")
+
+## Returns true if this item has an active panoply attachment.
+func is_active_panoply_attachment() -> bool:
+	return active_panoply_attachment != null
