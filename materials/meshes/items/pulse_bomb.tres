@@ -11,3 +11,4 @@ shader_parameter/albedo_texture = ExtResource("2_urb5v")
 shader_parameter/emission_texture = ExtResource("3_i50jy")
 shader_parameter/emission_color = Color(0.0666666, 0, 1, 1)
 shader_parameter/emission_strength = 25.0
+shader_parameter/metallic = 0.50000002375
