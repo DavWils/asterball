@@ -260,6 +260,7 @@ func from_reg_dict(data: Dictionary) -> void:
 ## Called when self is tackled. Reroutes to tacklecomponent
 func tackle(tackler: Node3D, tackle_force: float, tackle_seed: RandomNumberGenerator = RandomNumberGenerator.new()):
 	if is_tackled(): return
+	if level.match_state.state_of_match == MatchState.StateOfMatch.ENDGAME: return
 	# Stop aiming.
 	if network_manager.is_host():
 		end_aim()
@@ -520,23 +521,23 @@ func get_body_velocity() -> Vector3:
 ## Kills this character, making them irrelevant to the game.
 func kill() -> void:
 	if not is_alive: return
+	is_alive = false
 	visible = false
 	set_deferred("disabled", true)
-	if is_tackled():
-		recover()
-	if is_aiming():
-		end_aim()
-	if network_manager.is_host(): drop_all_items()
+	aim_end.emit()
+	recovered.emit()
 	ragdoll.start_ragdoll(velocity)
-	is_alive = false
 	level.level_registry.erase(registry_id)
 	if network_manager.is_host():
+		drop_all_items()
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_KILL, "char_id": registry_id})
 	if is_locally_possessed():
 		player_controller.position = $CameraHandle/PlayerCamera.global_position
 		player_controller.rotation = $CameraHandle.global_rotation
 		player_controller.unpossess_character()
 	killed.emit(self)
+	await get_tree().process_frame
+	self.queue_free()
 
 func can_possess() -> bool:
 	if player_controller:

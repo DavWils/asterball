@@ -221,6 +221,11 @@ func clean_level() -> void:
 			omni_inventory["omni_ek"] = registry_obj.equipped_key
 			inventory_memory[registry_obj.owning_player_id] = omni_inventory
 		level.despawn_registry_object(id)
+	
+	## Clean ragdoll scenes as well.
+	for child in level.get_children():
+		if child is Ragdoll:
+			child.queue_free()
 
 ## Adds points to the given player.
 func add_player_points(player_id: int, points: int) -> void:
