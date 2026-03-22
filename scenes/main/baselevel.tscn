@@ -33,7 +33,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ni21y"]
 render_priority = 0
 shader = ExtResource("4_xpiji")
-shader_parameter/thickness = 1.0000000074506001
+shader_parameter/thickness = 1.0000000074506
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/samples = 4
 shader_parameter/sensitivity = 0.00999999977648
@@ -540,7 +540,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="MatchMenu" type="Control" parent="PlayerUI"]
+[node name="MatchMenu" type="Control" parent="PlayerUI" node_paths=PackedStringArray("team_container")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -550,16 +550,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("6_dtma0")
-
-[node name="TeamContainer" type="HBoxContainer" parent="PlayerUI/MatchMenu"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.15
-anchor_top = 0.2
-anchor_right = 0.85
-anchor_bottom = 0.9
-grow_horizontal = 2
-grow_vertical = 2
+team_container = NodePath("MarginContainer/TeamContainer")
 
 [node name="TimerContainer" type="HBoxContainer" parent="PlayerUI/MatchMenu"]
 layout_mode = 1
@@ -576,6 +567,18 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 48
 text = "00:00"
 horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerUI/MatchMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.2
+anchor_right = 0.95
+anchor_bottom = 0.9
+
+[node name="TeamContainer" type="HBoxContainer" parent="PlayerUI/MatchMenu/MarginContainer"]
+layout_mode = 2
+alignment = 1
 
 [node name="ChatMenu" type="Control" parent="PlayerUI" node_paths=PackedStringArray("message_box")]
 layout_mode = 3
