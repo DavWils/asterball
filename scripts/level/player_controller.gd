@@ -182,6 +182,10 @@ func equip_by_key(key: int) -> void:
 	else:
 		network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_EQUIP, "char_id": current_character.registry_id, "inventory_key": key})
 
+func _process(_delta: float) -> void:
+	if $Camera3D.rotation_degrees.z != 0.0:
+		$Camera3D.rotation_degrees.z = 0.0
+
 func _physics_process(delta: float) -> void:
 	# Get input and either use it or send it to host.
 	if current_character:
