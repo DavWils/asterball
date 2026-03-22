@@ -67,7 +67,7 @@ func _on_lobby_match_list(lobbies):
 
 
 ## Hosts a game.
-func host_game(level: LevelResource):
+func host_game(level: LevelResource, session_name := "Asterball Session"):
 	show_load_screen(level)
 	if network_manager.is_steam_initialized:
 		# Create the lobby.
@@ -76,6 +76,7 @@ func host_game(level: LevelResource):
 		set_load_state(0)
 		network_manager.create_lobby()
 		await Steam.lobby_joined
+		Steam.setLobbyData(network_manager.lobby_id, "lobby_name", session_name)
 	# Load into session's level
 	load_level(level)
 	

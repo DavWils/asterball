@@ -1,0 +1,86 @@
+[gd_scene load_steps=6 format=3 uid="uid://duv7wi5myu60x"]
+
+[ext_resource type="Texture2D" uid="uid://dwy1b7035ps4g" path="res://textures/ui/no_icon.png" id="1_1u1ks"]
+[ext_resource type="Script" uid="uid://d1d8jdikf4m38" path="res://scripts/ui/menu/find_game_menu/session_card.gd" id="1_864sl"]
+[ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="2_irdmk"]
+[ext_resource type="PackedScene" uid="uid://clnvfmymfgg5r" path="res://scenes/ui/menu/buttons/menu_button.tscn" id="3_hdsgo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdsgo"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_detail = 5
+
+[node name="SessionCard" type="Control"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_864sl")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hdsgo")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="SessionLevelThumbnailRect" type="TextureRect" parent="Panel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture = ExtResource("1_1u1ks")
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="SessionNameLabel" type="Label" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_irdmk")
+theme_override_font_sizes/font_size = 20
+text = "Asterball Session"
+
+[node name="SessionContextLabel" type="Label" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_irdmk")
+text = "0/0"
+
+[node name="ColorRect" type="ColorRect" parent="Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 0)
+
+[node name="JoinButton" parent="Panel/MarginContainer/HBoxContainer" instance=ExtResource("3_hdsgo")]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "Join Game"
+alignment = 1
+double_fade = true

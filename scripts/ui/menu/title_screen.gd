@@ -20,7 +20,7 @@ func _on_host_button_pressed():
 ## Called when quick match button is pressed.
 func _on_find_game_button_pressed():
 	if main_scene.network_manager.is_on_steam():
-		main_scene.quick_find_game()
+		main_menu.to_find_game()
 	else:
 		main_menu._on_ncb_pressed()
 

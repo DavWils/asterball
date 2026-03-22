@@ -10,20 +10,24 @@ var fail_connect_tween: Tween
 
 ## Transitions to title screen.
 func to_title_screen() -> void:
-	tab_container.current_tab = 0
+	tab_container.current_tab = tab_container.get_tab_idx_from_control($TabContainer/TitleScreenUI)
+
+func to_find_game() -> void:
+	tab_container.current_tab = tab_container.get_tab_idx_from_control($TabContainer/FindGameUI)
+	$TabContainer/FindGameUI.load_sessions()
 
 ## Transitions to options menu.
 func to_options() -> void:
-	tab_container.current_tab = 1
+	tab_container.current_tab = tab_container.get_tab_idx_from_control($TabContainer/OptionsUI)
 
 ## Transitions to credits.
 func to_credits() -> void:
-	tab_container.current_tab = 2
+	tab_container.current_tab = tab_container.get_tab_idx_from_control($TabContainer/CreditsUI)
 
 ## Transition to host.
 func to_host() -> void:
 	$TabContainer/HostUI.set_default_session_name()
-	tab_container.current_tab = 3
+	tab_container.current_tab = tab_container.get_tab_idx_from_control($TabContainer/HostUI)
 
 func _ready() -> void:
 	network_manager.steam_initialized.connect(_on_steam_initialized)

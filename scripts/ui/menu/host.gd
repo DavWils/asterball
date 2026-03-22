@@ -18,7 +18,7 @@ func _ready() -> void:
 	var all_levels = main_scene.get_all_levels()
 	
 	for level in all_levels:
-		var level_button: Button = load("res://scenes/ui/main_menu/level_button.tscn").instantiate()
+		var level_button: Button = load("res://scenes/ui/main_menu/host_menu/level_button.tscn").instantiate()
 		level_button.level = level
 		level_button.host_ui = self
 		$ScrollContainer/GridContainer.add_child(level_button)
@@ -48,7 +48,7 @@ func select_level(level: LevelResource) -> void:
 	$SelectionLabel.text = level.level_name
 
 func _on_start_pressed() -> void:
-	main_scene.host_game(selected_level)
+	main_scene.host_game(selected_level, $SessionNameTextEdit.text)
 
 func _on_return_pressed() -> void:
 	main_menu.to_title_screen()

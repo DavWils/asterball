@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cp685y7pccjuu"]
+[gd_scene load_steps=21 format=3 uid="uid://cp685y7pccjuu"]
 
 [ext_resource type="Script" uid="uid://cy2786m3vidtf" path="res://scripts/main/main_menu/main_menu_3d.gd" id="1_0kd0q"]
 [ext_resource type="Script" uid="uid://3uyqegwbredf" path="res://scripts/ui/menu/title_screen.gd" id="1_2tvpl"]
@@ -12,6 +12,7 @@
 [ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="9_hsu2m"]
 [ext_resource type="AudioStream" uid="uid://dnw8l57rrjpwp" path="res://sounds/music/menu/menu_music.wav" id="10_5fid0"]
 [ext_resource type="Texture2D" uid="uid://c2d1xpaycmm3w" path="res://textures/ui/not_connected.png" id="10_uis6f"]
+[ext_resource type="Script" uid="uid://0d300slfy5nh" path="res://scripts/ui/menu/find_game.gd" id="11_2lqjb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k0ycp"]
 resource_local_to_scene = true
@@ -241,6 +242,39 @@ focus_mode = 1
 theme_override_fonts/font = SubResource("FontVariation_uis6f")
 placeholder_text = "Session Name"
 emoji_menu_enabled = false
+
+[node name="FindGameUI" type="Control" parent="MainMenuUI/TabContainer" node_paths=PackedStringArray("session_box")]
+visible = false
+layout_mode = 2
+script = ExtResource("11_2lqjb")
+session_box = NodePath("Panel/ScrollContainer/MarginContainer/SessionBox")
+metadata/_tab_index = 4
+
+[node name="Panel" type="Panel" parent="MainMenuUI/TabContainer/FindGameUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.25
+anchor_right = 0.9
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainMenuUI/TabContainer/FindGameUI/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenuUI/TabContainer/FindGameUI/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SessionBox" type="VBoxContainer" parent="MainMenuUI/TabContainer/FindGameUI/Panel/ScrollContainer/MarginContainer"]
+layout_mode = 2
 
 [node name="NoConnectionButton" type="Button" parent="MainMenuUI"]
 visible = false
