@@ -23,4 +23,5 @@ unit_size = 50.0
 bus = &"Game"
 
 [node name="Timer" type="Timer" parent="."]
+editor_description = "Explosion will be queue_freed when this timer times out."
 wait_time = 10.0
