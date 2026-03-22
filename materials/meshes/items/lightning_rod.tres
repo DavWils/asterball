@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://pxqv7ifm04kb"]
+
+[ext_resource type="Shader" uid="uid://b5rm7t5vgnec1" path="res://shaders/materials/item.gdshader" id="1_tr8ui"]
+[ext_resource type="Texture2D" uid="uid://c4rgj6sntapnd" path="res://textures/items/lightning_rod/lightning_rod_albedo.png" id="2_tr8ui"]
+[ext_resource type="Texture2D" uid="uid://j6pabgsehpvs" path="res://textures/items/lightning_rod/lightning_rod_emission.png" id="3_g1fsc"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_tr8ui")
+shader_parameter/albedo_texture = ExtResource("2_tr8ui")
+shader_parameter/emission_texture = ExtResource("3_g1fsc")
+shader_parameter/emission_color = Color(0, 1, 0, 1)
+shader_parameter/emission_strength = 5.0
+shader_parameter/metallic = 0.48400002299
