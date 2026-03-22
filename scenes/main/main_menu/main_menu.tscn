@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cp685y7pccjuu"]
+[gd_scene load_steps=22 format=3 uid="uid://cp685y7pccjuu"]
 
 [ext_resource type="Script" uid="uid://cy2786m3vidtf" path="res://scripts/main/main_menu/main_menu_3d.gd" id="1_0kd0q"]
 [ext_resource type="Script" uid="uid://3uyqegwbredf" path="res://scripts/ui/menu/title_screen.gd" id="1_2tvpl"]
@@ -53,6 +53,19 @@ variation_opentype = {
 
 [sub_resource type="FontVariation" id="FontVariation_uis6f"]
 base_font = SubResource("FontVariation_hsu2m")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2lqjb"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.4745098)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 0.3764706)
+corner_detail = 5
 
 [node name="MainMenu" type="Node3D"]
 script = ExtResource("1_0kd0q")
@@ -247,34 +260,104 @@ emoji_menu_enabled = false
 visible = false
 layout_mode = 2
 script = ExtResource("11_2lqjb")
-session_box = NodePath("Panel/ScrollContainer/MarginContainer/SessionBox")
+session_box = NodePath("Panel/MarginContainer/ScrollContainer/MarginContainer/SessionBox")
 metadata/_tab_index = 4
 
 [node name="Panel" type="Panel" parent="MainMenuUI/TabContainer/FindGameUI"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.1
-anchor_top = 0.25
+anchor_top = 0.175
 anchor_right = 0.9
 anchor_bottom = 0.8
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2lqjb")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MainMenuUI/TabContainer/FindGameUI/Panel"]
+[node name="LoadingBar" type="ProgressBar" parent="MainMenuUI/TabContainer/FindGameUI/Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.975
+anchor_right = 1.0
+anchor_bottom = 1.0
+show_percentage = false
+indeterminate = true
+editor_preview_indeterminate = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenuUI/TabContainer/FindGameUI/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainMenuUI/TabContainer/FindGameUI/Panel/MarginContainer"]
+layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="MainMenuUI/TabContainer/FindGameUI/Panel/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenuUI/TabContainer/FindGameUI/Panel/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SessionBox" type="VBoxContainer" parent="MainMenuUI/TabContainer/FindGameUI/Panel/ScrollContainer/MarginContainer"]
+[node name="SessionBox" type="VBoxContainer" parent="MainMenuUI/TabContainer/FindGameUI/Panel/MarginContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
+
+[node name="SessionCountLabel" type="Label" parent="MainMenuUI/TabContainer/FindGameUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.05
+anchor_right = 0.325
+anchor_bottom = 0.175
+theme_override_fonts/font = ExtResource("9_hsu2m")
+theme_override_font_sizes/font_size = 40
+text = "Games: 0/0"
+vertical_alignment = 2
+
+[node name="FilterNameTextEdit" type="LineEdit" parent="MainMenuUI/TabContainer/FindGameUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.325
+anchor_top = 0.125
+anchor_right = 0.725
+anchor_bottom = 0.175
+focus_mode = 1
+theme_override_fonts/font = ExtResource("9_hsu2m")
+placeholder_text = "Enter Name Search"
+
+[node name="RefreshButton" parent="MainMenuUI/TabContainer/FindGameUI" instance=ExtResource("2_y8u07")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.775
+anchor_top = 0.11
+anchor_right = 0.9
+anchor_bottom = 0.16
+text = "Refresh"
+alignment = 1
+double_fade = true
+
+[node name="ReturnButton" parent="MainMenuUI/TabContainer/FindGameUI" instance=ExtResource("2_y8u07")]
+layout_mode = 0
+alt_press = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuUI/TabContainer/FindGameUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.85
+anchor_right = 0.3
+anchor_bottom = 0.925
+
+[node name="ReturnButton" parent="MainMenuUI/TabContainer/FindGameUI/VBoxContainer" instance=ExtResource("2_y8u07")]
+layout_mode = 2
+text = "Return to Menu"
+alt_press = true
 
 [node name="NoConnectionButton" type="Button" parent="MainMenuUI"]
 visible = false
