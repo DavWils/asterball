@@ -74,7 +74,7 @@ transform = Transform3D(-4.1523407e-08, 0.3124178, -0.9499448, 1.3656216e-08, 0.
 [node name="HomeSpawnZone" type="Area3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 113.325)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("2_htkcu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeSpawnZone" index="0"]
@@ -83,7 +83,7 @@ shape = SubResource("BoxShape3D_gs6xa")
 [node name="HomeBuyZone" type="Area3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 113.325)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("3_n6wex")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeBuyZone" index="0"]
@@ -92,7 +92,7 @@ shape = SubResource("BoxShape3D_gs6xa")
 [node name="HomeScoreZone" type="Area3D" parent="." index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 113.325)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("4_u3xwc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeScoreZone" index="0"]
@@ -101,7 +101,7 @@ shape = SubResource("BoxShape3D_gs6xa")
 [node name="AwaySpawnZone" type="Area3D" parent="." index="5"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -113.325)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("2_htkcu")
 owning_team = 1
 
@@ -111,7 +111,7 @@ shape = SubResource("BoxShape3D_gs6xa")
 [node name="AwayBuyZone" type="Area3D" parent="." index="6"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -113.325)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("3_n6wex")
 owning_team = 1
 
@@ -121,7 +121,7 @@ shape = SubResource("BoxShape3D_gs6xa")
 [node name="AwayScoreZone" type="Area3D" parent="." index="7"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -113.325)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("4_u3xwc")
 owning_team = 1
 

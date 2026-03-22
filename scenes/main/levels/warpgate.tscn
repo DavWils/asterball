@@ -84,7 +84,7 @@ stream = ExtResource("9_dyqur")
 [node name="HomeSpawnZone" type="Area3D" parent="." index="10"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 129.5)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("2_duo4t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeSpawnZone" index="0"]
@@ -93,7 +93,7 @@ shape = SubResource("BoxShape3D_0na2d")
 [node name="HomeBuyZone" type="Area3D" parent="." index="11"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 129.5)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("3_iwd2m")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeBuyZone" index="0"]
@@ -102,7 +102,7 @@ shape = SubResource("BoxShape3D_0na2d")
 [node name="HomeScoreZone" type="Area3D" parent="." index="12"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 129.5)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("4_kt5yk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HomeScoreZone" index="0"]
@@ -111,7 +111,7 @@ shape = SubResource("BoxShape3D_0na2d")
 [node name="AwaySpawnZone" type="Area3D" parent="." index="13"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -129.5)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("2_duo4t")
 owning_team = 1
 
@@ -121,7 +121,7 @@ shape = SubResource("BoxShape3D_0na2d")
 [node name="AwayBuyZone" type="Area3D" parent="." index="14"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -129.5)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("3_iwd2m")
 owning_team = 1
 
@@ -131,7 +131,7 @@ shape = SubResource("BoxShape3D_0na2d")
 [node name="AwayScoreZone" type="Area3D" parent="." index="15"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 5, -129.5)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 2
 script = ExtResource("4_kt5yk")
 owning_team = 1
 
