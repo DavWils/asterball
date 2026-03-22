@@ -10,6 +10,8 @@ Tarred Gravel by Dimitrios Savva: https://polyhaven.com/a/tarred_gravel
 
 Rust Coarse 01 by Dimitrios Savva and Rico Cilliers: https://polyhaven.com/a/rust_coarse_01
 
+Japanese Stone Wall by Charlotte Baglioni, Dario Barresi and Rico Cilliers: https://polyhaven.com/a/japanese_stone_wall
+
 
 [b]Godot Shaders from godotshaders.com under CC0 and MIT Licenses:[/b]
 Distortion bubble shader by thelastflapjack: https://godotshaders.com/shader/distortion-bubble/

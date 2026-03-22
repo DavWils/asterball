@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dqixqy780vbuo"]
+[gd_scene load_steps=15 format=3 uid="uid://dqixqy780vbuo"]
 
 [ext_resource type="PackedScene" uid="uid://u6kaxkr2k4w7" path="res://scenes/main/baselevel.tscn" id="1_g86y2"]
 [ext_resource type="Script" uid="uid://cmlmvkht2rnjk" path="res://scripts/level/zones/spawn_zone.gd" id="2_duo4t"]
 [ext_resource type="Script" uid="uid://citpb5m7we5p8" path="res://scripts/level/zones/buy_zone.gd" id="3_iwd2m"]
 [ext_resource type="Script" uid="uid://cxatpiq5agerl" path="res://scripts/level/zones/score_zone.gd" id="4_kt5yk"]
 [ext_resource type="PackedScene" uid="uid://b2fmrfdbu8tk1" path="res://meshes/levels/warpgate/warpgate_bridge.glb" id="7_0na2d"]
+[ext_resource type="Shader" uid="uid://b3my2swg6b380" path="res://shaders/portal.gdshader" id="8_4qpu5"]
 [ext_resource type="Shader" uid="uid://ekefhhfn1uou" path="res://shaders/sky/astral_sky.gdshader" id="8_fcqct"]
 [ext_resource type="AudioStream" uid="uid://btxmjdxc4svu" path="res://sounds/music/ambience/starfield_ambience.wav" id="9_dyqur"]
 
@@ -32,6 +33,35 @@ volumetric_fog_sky_affect = 0.6
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0na2d"]
 size = Vector3(16, 10, 16)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g86y2"]
+render_priority = 0
+shader = ExtResource("8_4qpu5")
+shader_parameter/color_one = Color(0.495, 0.8745001, 0.99, 0)
+shader_parameter/color_two = Color(0.8392157, 0.70980394, 0.40392157, 1)
+shader_parameter/color_falloff = 1.0
+shader_parameter/transparency_falloff = 0.50000002049012
+shader_parameter/depth_amount = 1.0
+shader_parameter/layers = 12
+shader_parameter/radius = 0.4
+shader_parameter/radius_reduction = 0.1
+shader_parameter/radius_reduction_type = 0
+shader_parameter/vary_radius = true
+shader_parameter/radius_variation = 0.1
+shader_parameter/radius_speed_variation = 1.0
+shader_parameter/radius_variation_offset = 1.0
+shader_parameter/radius_random_offset = true
+shader_parameter/center = Vector2(0.5, 0.5)
+shader_parameter/pixel_size = 10.0
+shader_parameter/resolution = Vector2(512, 512)
+shader_parameter/dither_offset = Vector2(2, 0)
+shader_parameter/bayer_size = 2
+shader_parameter/interpolate = true
+shader_parameter/falloff = 2.5
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_duo4t"]
+material = SubResource("ShaderMaterial_g86y2")
+size = Vector2(16, 16)
 
 [node name="Level" instance=ExtResource("1_g86y2")]
 kill_horizontal = Vector2(100, 350)
@@ -106,3 +136,13 @@ owning_team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AwayScoreZone" index="0"]
 shape = SubResource("BoxShape3D_0na2d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="16"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 7, -137)
+mesh = SubResource("PlaneMesh_duo4t")
+skeleton = NodePath("../warpgate_bridge2")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="17"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 7, 137)
+mesh = SubResource("PlaneMesh_duo4t")
+skeleton = NodePath("../warpgate_bridge2")

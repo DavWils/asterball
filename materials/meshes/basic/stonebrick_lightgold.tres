@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://5rb2knabe2kb"]
+
+[ext_resource type="Shader" uid="uid://cqbd8gsmptd5v" path="res://shaders/materials/basic.gdshader" id="1_mxipl"]
+[ext_resource type="Texture2D" uid="uid://786vy4stsn2s" path="res://textures/basic/stonebrick_albedo.png" id="2_vkdj3"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_mxipl")
+shader_parameter/texture_albedo = ExtResource("2_vkdj3")
+shader_parameter/tint = Color(0.97, 0.9085667, 0.776, 1)
+shader_parameter/blend_sharpness = 4.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.7
