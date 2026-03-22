@@ -442,12 +442,14 @@ func get_throw_velocity() -> Vector3:
 
 ## Uses the equipment, simulating a press.
 func use_equipment_start() -> void:
+	print(owning_player_id, " using item")
 	current_equipment.use_start()
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_USE_START, "char_id": registry_id})
 
 ## Use the equipment, simulating a release.
 func use_equipment_finish() -> void:
+	print(owning_player_id, " finished using item")
 	current_equipment.use_finish()
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_USE_FINISH, "char_id": registry_id})

@@ -389,14 +389,12 @@ func read_p2p_packet():
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["char_id"]]
-						if character.owning_player_id == sender_id:
-							character.use_equipment_start()
+						character.use_equipment_start()
 				Message.CHARACTER_USE_FINISH:
 					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["char_id"]]
-						if character.owning_player_id == sender_id:
-							character.use_equipment_finish()
+						character.use_equipment_finish()
 				Message.CLIENT_RECOVERY_PROGRESS:
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")

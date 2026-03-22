@@ -11,6 +11,7 @@ func use_start() -> void:
 		shift_count = wielder.effects_component.current_effects[shift_effect].effect_stacks
 	else:
 		shift_count = 0
+	print("New shift: ", shift_count)
 	var new_pitch = 1.0 + (0.08 * float(shift_count))
 	$AudioStreamPlayer3D.pitch_scale = new_pitch
 	$AudioStreamPlayer3D.stop()

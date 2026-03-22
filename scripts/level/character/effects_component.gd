@@ -25,9 +25,12 @@ func add_effect(effect: EffectState) -> void:
 			if effect_resource == effect.effect_resource:
 				current_effects[effect_resource].combine_effect(effect)
 				effects_combined = true
-	
-	if not effects_combined:
+		if not effects_combined:
+			current_effects[effect.effect_resource] = effect
+
+	else:
 		current_effects[effect.effect_resource] = effect
+	
 	
 	if character.network_manager.is_host():
 		character.network_manager.send_p2p_packet(0, {"m": character.network_manager.Message.CHARACTER_ADD_EFFECT, "char_id": character.registry_id, "effect_state": current_effects[effect.effect_resource].to_dict()})

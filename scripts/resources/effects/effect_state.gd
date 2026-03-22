@@ -41,12 +41,14 @@ func from_dict(data: Dictionary) -> void:
 	effect_resource = load("res://resources/effects/" + data["effect_name"] + ".tres")
 	
 	effect_duration = data["duration"]
+	effect_stacks = data["stacks"]
 
 ## Converts effect state to dictionary.
 func to_dict() -> Dictionary:
 	var data: Dictionary = {}
 	data["effect_name"] = effect_resource.resource_path.get_file().get_basename()
 	data["duration"] = effect_duration
+	data["stacks"] = effect_stacks
 	
 	return data
 
