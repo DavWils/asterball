@@ -1,7 +1,13 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cvpd68o70rs4w"]
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cvpd68o70rs4w"]
 
 [ext_resource type="Shader" uid="uid://b5rm7t5vgnec1" path="res://shaders/materials/item.gdshader" id="1_ni6la"]
+[ext_resource type="Texture2D" uid="uid://bgbh5160wersk" path="res://textures/items/warp_sphere/warp_sphere_albedo.png" id="2_y3sl6"]
+[ext_resource type="Texture2D" uid="uid://dfud1et1xbfiv" path="res://textures/items/warp_sphere/warp_sphere_emissive.png" id="3_m3pfv"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_ni6la")
+shader_parameter/albedo_texture = ExtResource("2_y3sl6")
+shader_parameter/emission_texture = ExtResource("3_m3pfv")
+shader_parameter/emission_color = Color(0.8392157, 0.70980394, 0.40392157, 1)
+shader_parameter/emission_strength = 0.5
