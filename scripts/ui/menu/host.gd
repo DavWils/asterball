@@ -5,6 +5,9 @@ extends Control
 @onready var main_menu: Control = get_parent().get_parent()
 @onready var main_scene: MainScene = get_tree().current_scene
 
+## Box that holds the level buttons.
+@export var button_box: Container
+
 ## The currently selected level.
 var selected_level: LevelResource
 
@@ -18,10 +21,10 @@ func _ready() -> void:
 	var all_levels = main_scene.get_all_levels()
 	
 	for level in all_levels:
-		var level_button: Button = load("res://scenes/ui/main_menu/host_menu/level_button.tscn").instantiate()
+		var level_button: Button = load("res://scenes/ui/main_menu/host_menu/host_level_button.tscn").instantiate()
 		level_button.level = level
 		level_button.host_ui = self
-		$ScrollContainer/GridContainer.add_child(level_button)
+		button_box.add_child(level_button)
 	
 	$SessionNameTextEdit.text = default_session_name
 	
@@ -45,6 +48,7 @@ func _input(event:InputEvent):
 
 func select_level(level: LevelResource) -> void:
 	selected_level = level
+	$SelectionTextureRect.texture = level.thumbnail
 	$SelectionLabel.text = level.level_name
 
 func _on_start_pressed() -> void:

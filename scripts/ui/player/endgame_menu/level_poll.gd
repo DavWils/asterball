@@ -9,6 +9,8 @@ var poll_level: LevelResource
 
 func _ready() -> void:
 	$VBoxContainer/Label.text = poll_level.level_name
+	if poll_level.thumbnail:
+		$VBoxContainer/TextureRect.texture = poll_level.thumbnail
 	pressed.connect(_on_pressed)
 	match_state.player_voted.connect(_on_player_voted)
 

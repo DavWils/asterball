@@ -4,7 +4,8 @@ var level: LevelResource
 var host_ui: Control
 
 func _ready() -> void:
-	self.text = level.level_name
+	$VBoxContainer/Label.text = level.level_name
+	$VBoxContainer/TextureRect.texture = level.thumbnail
 	self.pressed.connect(_on_pressed)
 	
 

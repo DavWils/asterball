@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cpudpw284ft23"]
-
-[ext_resource type="Script" uid="uid://b8c3yl8qhsgmb" path="res://scripts/ui/menu/host_level_button.gd" id="1_8lhe7"]
-
-[node name="LevelButton" type="Button"]
-focus_mode = 0
-script = ExtResource("1_8lhe7")

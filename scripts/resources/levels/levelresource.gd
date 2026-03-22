@@ -4,7 +4,8 @@ class_name LevelResource
 
 ## The name of the level.
 @export var level_name: String
-
+## Thumbnail for this level.
+@export var thumbnail: Texture2D
 ## The homefield team of this level.
 @export var home_team: TeamResource
 
