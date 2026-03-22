@@ -4,6 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://cg37ftptyl0i" path="res://scenes/level/misc/explosions/heart_shift.tscn" id="2_vgxmk"]
 [ext_resource type="AudioStream" uid="uid://bqg87pvvfobjr" path="res://sounds/level/equipment/heart_shift/heart_shift_warning.wav" id="3_hup3n"]
 
+[sub_resource type="Animation" id="Animation_h1pdf"]
+length = 0.001
+
 [sub_resource type="Animation" id="Animation_hup3n"]
 resource_name = "warning"
 tracks/0/type = "value"
@@ -30,9 +33,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
-
-[sub_resource type="Animation" id="Animation_h1pdf"]
-length = 0.001
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a6r07"]
 _data = {
@@ -74,9 +74,9 @@ explosion = ExtResource("2_vgxmk")
 [node name="Timer" type="Timer" parent="."]
 process_callback = 0
 wait_time = 3.0
+one_shot = true
 
 [node name="Timer2" type="Timer" parent="."]
-process_callback = 0
 wait_time = 3.0
 
 [node name="WarningAudioPlayer" type="AudioStreamPlayer3D" parent="."]

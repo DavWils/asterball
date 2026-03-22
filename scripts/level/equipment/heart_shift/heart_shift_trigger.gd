@@ -81,7 +81,12 @@ func _on_fuse_timeout() -> void:
 		explosion_scene.position = character.position + character.velocity.normalized()
 		explosion_scene.explosion_intensity *= float(character.effects_component.current_effects[shift_effect].effect_stacks)
 		get_tree().current_scene.get_node("Level").add_child(explosion_scene)
-
+		await get_tree().process_frame
+		if not character.is_tackled():
+			var inv_items := character.inventory_component.inventory_items
+			for item in inv_items:
+				if inv_items[item].item_resource == load("res://resources/items/heart_shift.tres"):
+					character.drop_item(item)
 
 func _on_warning_timeout() -> void:
 	$WarningAudioPlayer.pitch_scale = 1.75 - (0.75*(fuse_timer.time_left / FUSE_TIME))
@@ -90,3 +95,4 @@ func _on_warning_timeout() -> void:
 	$AnimationPlayer.stop()
 	$AnimationPlayer.play("warning")
 	color = Color.RED
+	
