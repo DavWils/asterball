@@ -9,3 +9,6 @@ bounce = 0.4
 physics_material_override = SubResource("PhysicsMaterial_pxhcf")
 javelin_throw = true
 javelin_forward = Vector3(0, 1, -1)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="3"]
+light_color = Color(0, 1, 0, 1)
