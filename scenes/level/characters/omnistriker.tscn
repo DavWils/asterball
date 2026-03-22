@@ -91,6 +91,9 @@ volume_db = 20.0
 
 [node name="CharacterMesh" parent="." index="6" instance=ExtResource("3_ubvka")]
 
+[node name="MovementComponent" parent="." index="7"]
+base_air_control_acceleration = 5.0
+
 [node name="TrajectoryIndicator" parent="." index="8"]
 multimesh = SubResource("MultiMesh_w5ea2")
 
