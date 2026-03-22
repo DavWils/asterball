@@ -45,9 +45,9 @@ func set_item(item: ItemState) -> void:
 		child.queue_free()
 	
 	if item:
-		var item_mesh = item.item_resource.mesh_file.instantiate()
+		var item_mesh: Node3D = item.item_resource.mesh_file.instantiate()
 		item_mesh.position = item.item_resource.panoply_pos_offset
-		item_mesh.rotation = item.item_resource.panoply_rot_offset
+		item_mesh.rotation_degrees = item.item_resource.panoply_rot_offset
 		for child in item_mesh.get_child(0).get_children():
 			if child is StaticBody3D:
 				(child.get_child(0) as CollisionShape3D).disabled = true

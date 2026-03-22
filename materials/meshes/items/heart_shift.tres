@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dw8rnoxppm2ov"]
+
+[ext_resource type="Shader" uid="uid://b5rm7t5vgnec1" path="res://shaders/materials/item.gdshader" id="1_ax3fh"]
+[ext_resource type="Texture2D" uid="uid://d1aqangym7ijb" path="res://textures/items/heart_shift/heart_shift_albedo.png" id="2_ax3fh"]
+[ext_resource type="Texture2D" uid="uid://w7ksffiiota5" path="res://textures/items/heart_shift/heart_shift_emission.png" id="3_cr7yv"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ax3fh")
+shader_parameter/albedo_texture = ExtResource("2_ax3fh")
+shader_parameter/emission_texture = ExtResource("3_cr7yv")
+shader_parameter/emission_color = Color(0, 0, 0, 1)
+shader_parameter/emission_strength = 2.5
+shader_parameter/metallic = 0.400000019
