@@ -27,6 +27,7 @@ metadata/_custom_type_script = "uid://bwqqhgvduuvrs"
 script = ExtResource("1_blrtw")
 effect_name = "Slowdown"
 effect_description = "The weight of the Asterball slows you down."
+max_stacks = 1
 infinite_duration = true
 modifiers = Array[ExtResource("1_xqpp0")]([SubResource("Resource_xqpp0"), SubResource("Resource_jqnf6"), SubResource("Resource_fomrg")])
 metadata/_custom_type_script = "uid://cgdj7e0yvscrf"
