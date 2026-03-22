@@ -517,22 +517,21 @@ func get_body_velocity() -> Vector3:
 ## Kills this character, making them irrelevant to the game.
 func kill() -> void:
 	if not is_alive: return
-	if is_locally_possessed(): 
-		player_controller.position = $CameraHandle/PlayerCamera.global_position
-		player_controller.rotation = $CameraHandle.global_rotation
-		player_controller.unpossess_character()
 	visible = false
 	set_deferred("disabled", true)
 	if is_tackled():
 		recover()
 	if is_aiming():
 		end_aim()
+	if network_manager.is_host(): drop_all_items()
 	ragdoll.start_ragdoll(velocity)
 	is_alive = false
 	level.level_registry.erase(registry_id)
 	if network_manager.is_host():
 		network_manager.send_p2p_packet(0, {"m": network_manager.Message.CHARACTER_KILL, "char_id": registry_id})
 	if is_locally_possessed():
+		player_controller.position = $CameraHandle/PlayerCamera.global_position
+		player_controller.rotation = $CameraHandle.global_rotation
 		player_controller.unpossess_character()
 	killed.emit(self)
 
