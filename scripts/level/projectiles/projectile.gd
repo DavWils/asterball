@@ -45,6 +45,9 @@ func get_allegiance_team() -> TeamState:
 	return match_state.get_team_state(item_state.current_allegiance)
 
 func _ready() -> void:
+	# Set collide sound to item's basic sound.
+	$CollideAudioPlayer.stream = item_state.item_resource.get_collision_sound()
+	
 	# Spawn item mesh, take the item mesh's collision shape and copy it to our own, disabling the original
 	var item_mesh: Node3D = item_state.item_resource.mesh_file.instantiate()
 	add_child(item_mesh)

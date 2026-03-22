@@ -30,7 +30,15 @@ class_name ItemResource
 @export var panoply_pos_offset: Vector3 = Vector3.ZERO
 ## The rotational offset to apply to this item in a panoply attachment.
 @export var panoply_rot_offset: Vector3 = Vector3.ZERO
+## Material type of this item, used for things like collision sounds, etc.
+@export var material_type: MaterialType
 
+## Material types.
+enum MaterialType {
+	GENERIC,
+	METAL,
+	CRYSTAL
+}
 
 ## Enum for item tiers.
 enum ItemCategory {
@@ -54,3 +62,11 @@ func get_projectile_scene() -> PackedScene:
 		return load(filepath)
 	else:
 		return load("res://scenes/level/baseprojectile.tscn")
+
+func get_collision_sound() -> Resource:
+	match material_type:
+		MaterialType.GENERIC:
+			return load("res://sounds/level/projectile/collide/generic.wav")
+		MaterialType.METAL:
+			return load("res://sounds/level/projectile/collide/metal.wav")
+	return 	load("res://sounds/level/projectile/collide/generic.wav")
