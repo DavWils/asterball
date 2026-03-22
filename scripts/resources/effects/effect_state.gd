@@ -9,7 +9,7 @@ var effect_resource: EffectResource
 ## The duration of this effect (seconds remaining).
 var effect_duration: int
 ## The number of stacks of this effect.
-var effect_stacks: int
+var effect_stacks: int = 1
 
 
 var time_interval: float = 0.0

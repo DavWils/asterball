@@ -343,6 +343,7 @@ func drop_item(key: int, automatic: bool = false, thrown: bool = false):
 		
 		
 		if key == equipped_key:
+			current_equipment.use_finish()
 			stop_throwing()
 			if not automatic:
 				equip_item(-1, true)

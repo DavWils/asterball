@@ -52,9 +52,9 @@ func calculate_post_effects_value(base_value: float, modifier_type: Modifier.Mod
 		for modifier in effect.modifiers:
 			if modifier.modifier_type == modifier_type:
 				if modifier.is_percentage:
-					percentage_sum += modifier.modifier_value
+					percentage_sum += modifier.modifier_value * character.effects_component.current_effects[effect].effect_stacks
 				else:
-					post_value += modifier.modifier_value
+					post_value += modifier.modifier_value * character.effects_component.current_effects[effect].effect_stacks
 	
 	var final_value := post_value * (1.0 + percentage_sum)
 	#print("Final Value for ", modifier_type, " is ", final_value, " with post of ", post_value, " and percentage of ", percentage_sum)

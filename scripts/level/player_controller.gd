@@ -155,12 +155,22 @@ func _unhandled_input(event: InputEvent) -> void:
 						current_character.start_throwing()
 					else:
 						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_THROW_START, "char_id": current_character.registry_id})
+				else:
+					if network_manager.is_host():
+						current_character.use_equipment_start()
+					else:
+						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_USE_START, "char_id": current_character.registry_id})
 			elif event.is_action_released("use_item"):
 				if current_character.is_aiming():
 					if network_manager.is_host():
 						current_character.stop_throwing()
 					else:
 						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_REQUEST_THROW_END, "char_id": current_character.registry_id})
+				else:
+					if network_manager.is_host():
+						current_character.use_equipment_finish()
+					else:
+						network_manager.send_p2p_packet(network_manager.get_host_id(), {"m": network_manager.Message.CLIENT_USE_FINISH, "char_id": current_character.registry_id})
 	if event is InputEventMouseMotion:
 		look_input += event.relative
 

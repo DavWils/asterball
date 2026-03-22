@@ -292,6 +292,18 @@ func read_p2p_packet():
 							var interactable: Node3D = level.level_registry[readable_data["iid"]]
 							if interactable.has_method("interact"):
 								interactable.interact(character)
+				Message.CLIENT_USE_START:
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							character.use_equipment_start()
+				Message.CLIENT_USE_FINISH:
+					if is_host():
+						var level: Level = get_tree().current_scene.get_node("Level")
+						var character: Character = level.level_registry[readable_data["char_id"]]
+						if character.owning_player_id == sender_id:
+							character.use_equipment_finish()
 				Message.CLIENT_DROP: 
 					if is_host():
 						var level: Level = get_tree().current_scene.get_node("Level")
@@ -374,11 +386,13 @@ func read_p2p_packet():
 						if character.owning_player_id == sender_id:
 							character.equip_item(readable_data["inventory_key"])
 				Message.CHARACTER_USE_START:
+					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["char_id"]]
 						if character.owning_player_id == sender_id:
 							character.use_equipment_start()
 				Message.CHARACTER_USE_FINISH:
+					if is_host(sender_id):
 						var level: Level = get_tree().current_scene.get_node("Level")
 						var character: Character = level.level_registry[readable_data["char_id"]]
 						if character.owning_player_id == sender_id:
@@ -523,9 +537,11 @@ enum Message {
 	CHARACTER_AIM_END, ## Character stops aiming.
 	CHARACTER_THROW_START, ## Character starts charging throw.
 	CHARACTER_THROW_END, ## Character finishes throw
-	CHARACTER_KILL,
+	CHARACTER_KILL, ## Character death.
 	CLIENT_INTERACT, ## Client wants to interact with something.
 	CLIENT_DROP, ## Client wants to drop item.
+	CLIENT_USE_START, ## Client wants to use equipment.
+	CLIENT_USE_FINISH, ## Client wants to stop using equipment
 	CHARACTER_ADDITEM, ## Adds an item to a character's inventory.
 	CHARACTER_REMOVEITEM, ## Removes an item from a character's inventory.
 	CHARACTER_USE_START, ## Character uses equipment

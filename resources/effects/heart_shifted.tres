@@ -5,21 +5,21 @@
 
 [sub_resource type="Resource" id="Resource_hon6s"]
 script = ExtResource("1_hon6s")
-modifier_value = 15.0
+modifier_value = 0.15
 is_percentage = true
 metadata/_custom_type_script = "uid://bwqqhgvduuvrs"
 
 [sub_resource type="Resource" id="Resource_apm1t"]
 script = ExtResource("1_hon6s")
 modifier_type = 2
-modifier_value = 60.0
+modifier_value = 0.6
 is_percentage = true
 metadata/_custom_type_script = "uid://bwqqhgvduuvrs"
 
 [sub_resource type="Resource" id="Resource_x3c18"]
 script = ExtResource("1_hon6s")
 modifier_type = 3
-modifier_value = 33.0
+modifier_value = 0.333
 is_percentage = true
 metadata/_custom_type_script = "uid://bwqqhgvduuvrs"
 
