@@ -53,3 +53,5 @@ winchester 30-30 lever action EJECT.aif by ceremonialchapstick -- https://freeso
 coinbank.wav by UncleSigmund -- https://freesound.org/s/36328/ -- License: Attribution 4.0
 
 Metal Flick 4 by WasabiWielder -- https://freesound.org/s/323374/ -- License: Creative Commons 0
+
+Metal Clang1.aif by timgormly -- https://freesound.org/s/170958/ -- License: Attribution 4.0
