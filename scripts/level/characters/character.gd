@@ -119,6 +119,12 @@ func _physics_process(delta: float):
 		if not level.is_in_bounds(position):
 			kill()
 
+## If a equipment is currently held, return true if its in use, else return false. 
+func is_equipment_in_use() -> bool:
+	if current_equipment:
+		return current_equipment.in_use
+	else:
+		return false
 
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary) -> void:
@@ -127,7 +133,7 @@ func use_player_input(input: Dictionary) -> void:
 	var charging: bool
 	if is_unlocked():
 		move_input = input.get("mv", Vector2.ZERO)
-		charging = input.get("ch", false) and (not is_aiming()) and move_input.y < 0
+		charging = input.get("ch", false) and (not is_equipment_in_use() and not is_aiming()) and move_input.y < 0
 	else:
 		move_input = Vector2.ZERO
 		charging = false
@@ -408,7 +414,7 @@ func is_unlocked() -> bool:
 
 ## Starts aiming with the given item.
 func start_aim() -> void:
-	if is_use_locked(): return
+	if current_equipment.in_use: return
 	throw_component.start_aim()
 	if is_aiming(): aim_start.emit()
 
@@ -446,6 +452,8 @@ func get_throw_velocity() -> Vector3:
 
 ## Uses the equipment, simulating a press.
 func use_equipment_start() -> void:
+	if is_charging() or is_aiming(): return
+	if current_equipment.in_use: return
 	print(owning_player_id, " using item")
 	if current_equipment: current_equipment.use_start()
 	if network_manager.is_host():
@@ -453,6 +461,8 @@ func use_equipment_start() -> void:
 
 ## Use the equipment, simulating a release.
 func use_equipment_finish() -> void:
+	if not current_equipment: return
+	if not current_equipment.in_use: return
 	print(owning_player_id, " finished using item")
 	if current_equipment: current_equipment.use_finish()
 	if network_manager.is_host():

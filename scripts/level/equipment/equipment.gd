@@ -17,6 +17,8 @@ var wielder: Character
 @export var lock_camera_offsets: Array[Vector3] = [Vector3.ZERO, Vector3.ZERO]
 ## Whether or not currently in use.
 var is_locked: bool = false
+## Whether or not item is in use (has not finished)
+var in_use: bool = false
 ## Mesh of the equipment.
 var equipment_mesh: Node3D
 ## Lock animation
@@ -47,13 +49,16 @@ func get_item_state():
 
 ## Starts the equipment's use function, simulating a user press
 func use_start() -> void:
+	in_use = true
 	if use_lock:
 		is_locked = true
 
 ## Finish the equipment use function if exists, simulating user release.
 func use_finish() -> void:
+	in_use = false
 	if is_locked:
 		is_locked = false
+
 
 ## Returns the team state of allegiance team.
 func get_allegiance_team() -> TeamState:
