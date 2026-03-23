@@ -82,7 +82,7 @@ func _ready() -> void:
 	# Set gravity scale to coincide with the level.
 	gravity_scale = level.gravity_acceleration / 9.8
 	
-	print("Spawned projectile ", registry_id)
+	print("Spawned projectile ", registry_id, " (", item_state.item_resource.item_name , ")")
 	
 	# If this is a javelin item, start as a javelin throw.
 	if javelin_throw and throwing_character: 

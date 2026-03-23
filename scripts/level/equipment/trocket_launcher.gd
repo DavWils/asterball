@@ -13,8 +13,8 @@ func use_start() -> void:
 	$Timer.start()
 
 func use_finish() -> void:
-	super.use_finish()
-	if $Timer.is_stopped():
+	if $Timer.is_stopped() and in_use:
 		fire_projectile()
 	else:
 		$Timer.stop()
+	super.use_finish()
