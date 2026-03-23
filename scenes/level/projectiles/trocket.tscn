@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://lf02g0ty0r36"]
+[gd_scene load_steps=18 format=3 uid="uid://lf02g0ty0r36"]
 
 [ext_resource type="PackedScene" uid="uid://cs3v6wb6jtx8q" path="res://scenes/level/baseprojectile_explosive.tscn" id="1_hrq2j"]
 [ext_resource type="PackedScene" uid="uid://bvw51i0fyo1yg" path="res://scenes/level/misc/explosions/trocket.tscn" id="2_hrq2j"]
+[ext_resource type="Script" uid="uid://cnf6lj8ki27fn" path="res://scripts/level/projectiles/trocket.gd" id="2_ybcne"]
 
 [sub_resource type="Curve" id="Curve_ybcne"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.012924194), 0.0, 0.0, 0, 0]
@@ -31,7 +32,7 @@ bottom_radius = 0.0
 height = 0.4
 
 [sub_resource type="Gradient" id="Gradient_dliaw"]
-offsets = PackedFloat32Array(0, 0.23931624, 1)
+offsets = PackedFloat32Array(0, 0.08547009, 1)
 colors = PackedColorArray(1, 0.65, 0, 1, 0.15, 0.1386, 0.12150001, 1, 0.07, 0.06454, 0.0574, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_gi4rx"]
@@ -39,7 +40,7 @@ gradient = SubResource("Gradient_dliaw")
 
 [sub_resource type="Curve" id="Curve_5o2iu"]
 _limits = [0.0, 10.0, 0.0, 1.0]
-_data = [Vector2(0, 10), 0.0, 0.0, 0, 0, Vector2(0.16923076, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 10), 0.0, 0.0, 0, 0, Vector2(0.07692308, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_t6wqv"]
@@ -54,7 +55,7 @@ curve = SubResource("Curve_l6iss")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pf84g"]
 direction = Vector3(0, 0, 1)
-spread = 20.0
+spread = 5.0
 initial_velocity_min = 3.0
 initial_velocity_max = 7.5
 gravity = Vector3(0, 1, 0)
@@ -77,6 +78,8 @@ radial_segments = 16
 rings = 8
 
 [node name="Projectile" instance=ExtResource("1_hrq2j")]
+script = ExtResource("2_ybcne")
+rocket_force = 10.0
 explode_on_overlap = true
 explode_on_collide = true
 explosion_scene = ExtResource("2_hrq2j")
@@ -93,7 +96,11 @@ draw_pass_1 = SubResource("CylinderMesh_gi4rx")
 
 [node name="SmokeParticles" type="GPUParticles3D" parent="." index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.34223413)
-amount = 4
-lifetime = 0.4
+amount = 50
 process_material = SubResource("ParticleProcessMaterial_pf84g")
 draw_pass_1 = SubResource("SphereMesh_3h5li")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="6"]
+light_color = Color(1, 1, 0.49, 1)
+light_energy = 5.0
+omni_range = 10.0

@@ -12,4 +12,8 @@ func _ready() -> void:
 		rotation_degrees.x = throwing_character.control_pitch
 
 func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
 	apply_force(rocket_force * delta * -global_transform.basis.z)
+
+func despawn_projectile():
+	super.despawn_projectile()
