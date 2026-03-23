@@ -4,7 +4,9 @@
 [ext_resource type="Script" uid="uid://b6qgnak8x64uu" path="res://scripts/level/equipment/heart_shift.gd" id="2_2soun"]
 [ext_resource type="AudioStream" uid="uid://boong6xdl1w8g" path="res://sounds/level/equipment/heart_shift/heart_shift_use.wav" id="3_2soun"]
 [ext_resource type="PackedScene" uid="uid://dji28y6l4wq83" path="res://scenes/level/character/equipment/heart_shift/heart_shift_trigger.tscn" id="4_eoq84"]
-[ext_resource type="Script" uid="uid://ekrgnxfgs5ue" path="res://scripts/level/equipment/heart_shift/heart_shift_trigger.gd" id="4_ryleg"]
+
+[sub_resource type="Animation" id="Animation_eoq84"]
+length = 0.001
 
 [sub_resource type="Animation" id="Animation_ryleg"]
 resource_name = "shift"
@@ -32,9 +34,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
-
-[sub_resource type="Animation" id="Animation_eoq84"]
-length = 0.001
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_61mb5"]
 _data = {
@@ -84,8 +83,13 @@ height = 0.2
 _data = [Vector2(0, 0.012924194), 0.0, 0.0, 0, 0, Vector2(0.5307692, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
+[sub_resource type="Curve" id="Curve_ryleg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="CurveXYZTexture" id="CurveXYZTexture_ryleg"]
 curve_x = SubResource("Curve_2soun")
+curve_y = SubResource("Curve_ryleg")
 curve_z = SubResource("Curve_2soun")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7llja"]
@@ -136,4 +140,3 @@ process_material = SubResource("ParticleProcessMaterial_7llja")
 draw_pass_1 = SubResource("TorusMesh_irds7")
 
 [node name="HeartShiftTrigger" parent="." index="4" instance=ExtResource("4_eoq84")]
-script = ExtResource("4_ryleg")

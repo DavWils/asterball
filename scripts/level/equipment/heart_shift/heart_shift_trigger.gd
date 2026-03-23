@@ -7,6 +7,7 @@ var character: Character
 @onready var fuse_timer: Timer = $Timer
 @onready var warning_timer: Timer = $Timer2
 
+## The item to launch.
 
 @export var explosion: PackedScene
 

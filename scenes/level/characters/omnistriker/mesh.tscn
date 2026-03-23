@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=4 uid="uid://dum6laalon7cq"]
+[gd_scene load_steps=35 format=4 uid="uid://dum6laalon7cq"]
 
 [ext_resource type="PackedScene" uid="uid://dtburs7dpxgxy" path="res://meshes/characters/omnistriker/omnistriker.glb" id="1_yfdhx"]
 [ext_resource type="Script" uid="uid://cql7lecmsjdeq" path="res://scripts/level/character/omnistriker/character_mesh.gd" id="2_owm0j"]
@@ -127,10 +127,18 @@ animation = &"throw_idle"
 filter_enabled = true
 filters = ["Armature/Skeleton3D:forearm.L", "Armature/Skeleton3D:forearm.R", "Armature/Skeleton3D:hand.L", "Armature/Skeleton3D:hand.R", "Armature/Skeleton3D:spine.001", "Armature/Skeleton3D:spine.002", "Armature/Skeleton3D:spine.003", "Armature/Skeleton3D:spine.004", "Armature/Skeleton3D:upper_arm.L", "Armature/Skeleton3D:upper_arm.R"]
 
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_054bl"]
+filter_enabled = true
+filters = ["Armature/Skeleton3D:forearm.L", "Armature/Skeleton3D:forearm.R", "Armature/Skeleton3D:hand.L", "Armature/Skeleton3D:hand.R", "Armature/Skeleton3D:spine.001", "Armature/Skeleton3D:spine.002", "Armature/Skeleton3D:spine.003", "Armature/Skeleton3D:spine.004", "Armature/Skeleton3D:upper_arm.L", "Armature/Skeleton3D:upper_arm.R"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_odaxh"]
+animation = &"aim_trocket"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1r7lb"]
 animation = &"idle"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ckpng"]
+graph_offset = Vector2(-209.3226, 61.443344)
 nodes/output/position = Vector2(1460, 120)
 nodes/Fall/node = SubResource("AnimationNodeAnimation_ubvka")
 nodes/Fall/position = Vector2(-660, 600)
@@ -145,9 +153,9 @@ nodes/RunBlendSpace2D/position = Vector2(-680, 360)
 nodes/Charge/node = SubResource("AnimationNodeAnimation_pfe7s")
 nodes/Charge/position = Vector2(-136.42117, 559.26306)
 nodes/ThrowAimBlend/node = SubResource("AnimationNodeBlend2_odaxh")
-nodes/ThrowAimBlend/position = Vector2(840, 140)
+nodes/ThrowAimBlend/position = Vector2(580, 120)
 nodes/ThrowIdleAnimation/node = SubResource("AnimationNodeAnimation_jomd3")
-nodes/ThrowIdleAnimation/position = Vector2(500, 340)
+nodes/ThrowIdleAnimation/position = Vector2(340, 360)
 nodes/ThrowOneShot/node = SubResource("AnimationNodeOneShot_f7l4a")
 nodes/ThrowOneShot/position = Vector2(1040, 100)
 nodes/ThrowEndAnimation/node = SubResource("AnimationNodeAnimation_tejfy")
@@ -156,31 +164,35 @@ nodes/EquipOneShot/node = SubResource("AnimationNodeOneShot_odaxh")
 nodes/EquipOneShot/position = Vector2(1280, 100)
 nodes/EquipAnimation/node = SubResource("AnimationNodeAnimation_tkofe")
 nodes/EquipAnimation/position = Vector2(1260, 380)
-node_connections = [&"output", 0, &"EquipOneShot", &"RunTimeScale", 0, &"Charge", &"MovementTransition", 0, &"idle", &"MovementTransition", 1, &"RunBlendSpace2D", &"MovementTransition", 2, &"Fall", &"MovementTransition", 3, &"RunTimeScale", &"ThrowAimBlend", 0, &"MovementTransition", &"ThrowAimBlend", 1, &"ThrowIdleAnimation", &"ThrowOneShot", 0, &"ThrowAimBlend", &"ThrowOneShot", 1, &"ThrowEndAnimation", &"EquipOneShot", 0, &"ThrowOneShot", &"EquipOneShot", 1, &"EquipAnimation"]
+nodes/UseLockAimBlend/node = SubResource("AnimationNodeBlend2_054bl")
+nodes/UseLockAimBlend/position = Vector2(800, 100)
+nodes/UseLockAnimation/node = SubResource("AnimationNodeAnimation_odaxh")
+nodes/UseLockAnimation/position = Vector2(580, 420)
+node_connections = [&"output", 0, &"EquipOneShot", &"RunTimeScale", 0, &"Charge", &"MovementTransition", 0, &"idle", &"MovementTransition", 1, &"RunBlendSpace2D", &"MovementTransition", 2, &"Fall", &"MovementTransition", 3, &"RunTimeScale", &"ThrowAimBlend", 0, &"MovementTransition", &"ThrowAimBlend", 1, &"ThrowIdleAnimation", &"ThrowOneShot", 0, &"UseLockAimBlend", &"ThrowOneShot", 1, &"ThrowEndAnimation", &"EquipOneShot", 0, &"ThrowOneShot", &"EquipOneShot", 1, &"EquipAnimation", &"UseLockAimBlend", 0, &"ThrowAimBlend", &"UseLockAimBlend", 1, &"UseLockAnimation"]
 
 [node name="Mesh" node_paths=PackedStringArray("equipment_attachment") instance=ExtResource("1_yfdhx")]
 script = ExtResource("2_owm0j")
 equipment_attachment = NodePath("Armature/Skeleton3D/EquipmentAttachment/EquipmentNode")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(8.306223e-09, 0.9800297, 0.05520001)
+bones/0/position = Vector3(8.33497e-09, 0.97841746, 0.05520001)
 bones/0/rotation = Quaternion(0.03783466, 0.9461379, -0.11999632, 0.298316)
 bones/1/rotation = Quaternion(-0.054632973, 0.08368986, -0.02828861, 0.9945909)
-bones/2/rotation = Quaternion(0.00094003463, 0.2152245, -0.020952968, 0.9763394)
+bones/2/rotation = Quaternion(0.0036415556, 0.21516575, -0.021548416, 0.9763331)
 bones/3/position = Vector3(1.3151845e-09, 0.31357813, -2.237962e-08)
 bones/3/rotation = Quaternion(0.06408965, 1.1036568e-08, -1.3804135e-08, 0.99794424)
 bones/4/rotation = Quaternion(-0.14214674, -1.876833e-08, -2.695224e-09, 0.9898456)
-bones/5/rotation = Quaternion(0.08419506, -0.11805177, 0.97577876, -0.16380103)
+bones/5/rotation = Quaternion(0.08345085, -0.118210375, 0.9762586, -0.16118777)
 bones/6/rotation = Quaternion(0.36941957, -0.014853992, -0.061895005, 0.92708015)
 bones/7/rotation = Quaternion(0.00535938, -0.0082770595, -0.001420923, 0.99995047)
-bones/8/rotation = Quaternion(-0.043222502, -0.11015941, 0.9770486, 0.17712383)
+bones/8/rotation = Quaternion(-0.04249943, -0.11020044, 0.97754705, 0.17450361)
 bones/9/rotation = Quaternion(0.37682906, 0.021947974, 0.044638302, 0.9249463)
 bones/10/rotation = Quaternion(0.005359394, 0.008276966, 0.0014209457, 0.9999504)
-bones/11/rotation = Quaternion(0.9130473, 0.024631752, -0.29928145, 0.2759868)
-bones/12/rotation = Quaternion(0.20892514, 0.0007503, -0.022399666, 0.9776749)
+bones/11/rotation = Quaternion(0.91208637, 0.02536185, -0.29909012, 0.27928546)
+bones/12/rotation = Quaternion(0.21612622, 0.00075061875, -0.02321432, 0.97608924)
 bones/13/rotation = Quaternion(-0.5273639, -4.7321205e-08, 2.7319098e-08, 0.84963953)
-bones/15/rotation = Quaternion(0.92698044, -0.061168615, 0.27016634, 0.25293455)
-bones/16/rotation = Quaternion(0.19090073, 0.0018458413, -0.064324744, 0.9794978)
+bones/15/rotation = Quaternion(0.92603064, -0.06317815, 0.27023703, 0.2558278)
+bones/16/rotation = Quaternion(0.19806124, 0.0018421432, -0.06669457, 0.9779163)
 bones/17/rotation = Quaternion(-0.5273639, -4.736555e-08, 2.5702414e-08, 0.84963953)
 bones/19/position = Vector3(-0.098, 0.0852, -0.18024626)
 bones/19/rotation = Quaternion(0, 0.7071068, 0.7071068, 0)
@@ -191,7 +203,7 @@ bones/20/rotation = Quaternion(0, 0.7071068, 0.7071068, 0)
 mesh = SubResource("ArrayMesh_r4jgs")
 
 [node name="EquipmentAttachment" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.9633033, 0.26085415, -0.06325826, 0.26407027, -0.8787858, 0.3974935, 0.04809742, -0.39961204, -0.9154215, 0.39128822, 1.0709176, -0.018973768)
+transform = Transform3D(0.9647499, 0.25598046, -0.061088264, 0.25900367, -0.88241225, 0.39276522, 0.04663525, -0.39474273, -0.91760725, 0.38862032, 1.0683029, -0.01763311)
 bone_name = "hand.R"
 bone_idx = 10
 
@@ -213,6 +225,7 @@ parameters/ThrowOneShot/request = 0
 parameters/EquipOneShot/active = false
 parameters/EquipOneShot/internal_active = false
 parameters/EquipOneShot/request = 0
+parameters/UseLockAimBlend/blend_amount = 0.0
 
 [node name="FootstepSoundPlayer" type="AudioStreamPlayer3D" parent="." index="3"]
 stream = ExtResource("3_ckpng")
@@ -234,7 +247,7 @@ script = ExtResource("6_r4jgs")
 script = ExtResource("8_054bl")
 
 [node name="PanoplyAttachment" parent="Panoply" index="0" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-1.0000001, -7.262759e-08, -4.199391e-07, -2.154112e-08, 0.9999844, 0.005533904, 4.0825302e-07, 0.005534053, -0.9999848, 0.029399944, 1.7464219, -0.08494131)
+transform = Transform3D(-1.0000001, -6.7675174e-08, -5.096753e-07, -1.7865023e-08, 0.9999997, -8.940697e-08, 4.978412e-07, 2.9802322e-08, -1, 0.02939994, 1.7443451, -0.087337844)
 bone_name = "spine.004"
 bone_idx = 4
 use_external_skeleton = true
@@ -242,7 +255,7 @@ external_skeleton = NodePath("../../Armature/Skeleton3D")
 offset_position = Vector3(0, 0.255, -0.025)
 
 [node name="PanoplyAttachment2" parent="Panoply" index="1" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-1.0000001, -1.06403604e-07, -4.172325e-07, 1.1175871e-08, 0.98855174, -0.15088016, 4.172325e-07, -0.1508801, -0.98855215, 0.029400004, 1.3131359, -0.0022104606)
+transform = Transform3D(-1.0000001, -1.1554221e-07, -5.066395e-07, 1.4901161e-08, 0.98770165, -0.15634845, 5.066395e-07, -0.1563484, -0.9877021, 0.029400004, 1.3115236, -0.0022104606)
 bone_name = "spine.002"
 bone_idx = 2
 use_external_skeleton = true
@@ -251,7 +264,7 @@ attachment_type = 1
 offset_position = Vector3(0, 0.2, 0.14)
 
 [node name="PanoplyAttachment3" parent="Panoply" index="2" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-1.0000001, -1.06403604e-07, -4.172325e-07, 1.1175871e-08, 0.98855174, -0.15088016, 4.172325e-07, -0.1508801, -0.98855215, 0.029400004, 1.3131359, -0.0022104606)
+transform = Transform3D(-1.0000001, -1.1554221e-07, -5.066395e-07, 1.4901161e-08, 0.98770165, -0.15634845, 5.066395e-07, -0.1563484, -0.9877021, 0.029400004, 1.3115236, -0.0022104606)
 bone_name = "spine.002"
 bone_idx = 2
 use_external_skeleton = true
@@ -261,7 +274,7 @@ offset_position = Vector3(0, 0.18, -0.185)
 offset_rotation = Vector3(0, 0, 0.695)
 
 [node name="PanoplyAttachment4" parent="Panoply" index="3" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-1.0000001, -1.06403604e-07, -4.172325e-07, 1.1175871e-08, 0.98855174, -0.15088016, 4.172325e-07, -0.1508801, -0.98855215, 0.029400004, 1.3131359, -0.0022104606)
+transform = Transform3D(-1.0000001, -1.1554221e-07, -5.066395e-07, 1.4901161e-08, 0.98770165, -0.15634845, 5.066395e-07, -0.1563484, -0.9877021, 0.029400004, 1.3115236, -0.0022104606)
 bone_name = "spine.002"
 bone_idx = 2
 use_external_skeleton = true
@@ -271,7 +284,7 @@ offset_position = Vector3(0, 0.18, -0.185)
 offset_rotation = Vector3(0, 0, -0.695)
 
 [node name="PanoplyAttachment5" parent="Panoply" index="4" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-1.0000001, -1.06403604e-07, -4.172325e-07, 1.1175871e-08, 0.98855174, -0.15088016, 4.172325e-07, -0.1508801, -0.98855215, 0.029400004, 1.3131359, -0.0022104606)
+transform = Transform3D(-1.0000001, -1.1554221e-07, -5.066395e-07, 1.4901161e-08, 0.98770165, -0.15634845, 5.066395e-07, -0.1563484, -0.9877021, 0.029400004, 1.3115236, -0.0022104606)
 bone_name = "spine.002"
 bone_idx = 2
 use_external_skeleton = true
@@ -281,7 +294,7 @@ offset_position = Vector3(0, 0.18, -0.185)
 offset_rotation = Vector3(0, 0, 1.571)
 
 [node name="PanoplyAttachment6" parent="Panoply" index="5" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-0.81915236, 0.14318724, 0.5554161, -2.9802322e-08, 0.9683386, -0.24963951, -0.5735763, -0.20449275, -0.793217, 8.306223e-09, 0.9800297, 0.05520001)
+transform = Transform3D(-0.81915236, 0.14318724, 0.5554161, -2.9802322e-08, 0.9683386, -0.24963951, -0.5735763, -0.20449275, -0.793217, 8.33497e-09, 0.97841746, 0.05520001)
 bone_name = "spine"
 bone_idx = 0
 use_external_skeleton = true
@@ -290,7 +303,7 @@ attachment_type = 3
 offset_position = Vector3(0.2, 0.095, 0)
 
 [node name="PanoplyAttachment7" parent="Panoply" index="6" instance=ExtResource("9_4d0eo")]
-transform = Transform3D(-0.81915236, 0.14318724, 0.5554161, -2.9802322e-08, 0.9683386, -0.24963951, -0.5735763, -0.20449275, -0.793217, 8.306223e-09, 0.9800297, 0.05520001)
+transform = Transform3D(-0.81915236, 0.14318724, 0.5554161, -2.9802322e-08, 0.9683386, -0.24963951, -0.5735763, -0.20449275, -0.793217, 8.33497e-09, 0.97841746, 0.05520001)
 bone_name = "spine"
 bone_idx = 0
 use_external_skeleton = true

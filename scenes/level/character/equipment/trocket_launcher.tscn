@@ -1,0 +1,204 @@
+[gd_scene load_steps=23 format=3 uid="uid://dun07y4j51ak3"]
+
+[ext_resource type="PackedScene" uid="uid://c5qlnu5gbdax1" path="res://scenes/level/character/baseequipment_launcher.tscn" id="1_5kbg5"]
+[ext_resource type="Resource" uid="uid://bh0t2ffbee81j" path="res://resources/items/pulse_bomb.tres" id="2_6bens"]
+[ext_resource type="Script" uid="uid://ca845qfken1lh" path="res://scripts/level/equipment/trocket_launcher.gd" id="2_p8phe"]
+[ext_resource type="AudioStream" uid="uid://cb1t0ffoa5pht" path="res://sounds/level/equipment/trocket_launcher/trocket_launcher_fire.wav" id="3_bqu13"]
+[ext_resource type="AudioStream" uid="uid://boong6xdl1w8g" path="res://sounds/level/equipment/heart_shift/heart_shift_use.wav" id="5_we5ul"]
+
+[sub_resource type="Curve" id="Curve_bqu13"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.012924194), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_p8phe"]
+curve = SubResource("Curve_bqu13")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_we5ul"]
+particle_flag_align_y = true
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 5.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_p8phe")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_suyfv"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 5.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bvl8l"]
+material = SubResource("StandardMaterial3D_suyfv")
+top_radius = 0.025
+bottom_radius = 0.0
+height = 0.3
+
+[sub_resource type="Gradient" id="Gradient_bqu13"]
+offsets = PackedFloat32Array(0, 0.23931624, 1)
+colors = PackedColorArray(1, 0.65, 0, 1, 0.15, 0.1386, 0.12150001, 1, 0.07, 0.06454, 0.0574, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_p8phe"]
+gradient = SubResource("Gradient_bqu13")
+
+[sub_resource type="Curve" id="Curve_we5ul"]
+_limits = [0.0, 10.0, 0.0, 1.0]
+_data = [Vector2(0, 10), 0.0, 0.0, 0, 0, Vector2(0.16923076, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_suyfv"]
+curve = SubResource("Curve_we5ul")
+
+[sub_resource type="Curve" id="Curve_bvl8l"]
+_data = [Vector2(1e-05, 0.18093705), 0.0, 0.0, 0, 0, Vector2(0.19999999, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0befh"]
+curve = SubResource("Curve_bvl8l")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bqu13"]
+direction = Vector3(0, -1, 0)
+spread = 20.0
+initial_velocity_min = 3.0
+initial_velocity_max = 7.5
+gravity = Vector3(0, 1, 0)
+scale_min = 0.75
+scale_max = 1.25
+scale_curve = SubResource("CurveTexture_0befh")
+color_ramp = SubResource("GradientTexture1D_p8phe")
+emission_curve = SubResource("CurveTexture_suyfv")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8mrry"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.96862745)
+
+[sub_resource type="SphereMesh" id="SphereMesh_p8phe"]
+material = SubResource("StandardMaterial3D_8mrry")
+radius = 0.25
+height = 0.5
+radial_segments = 16
+rings = 8
+
+[sub_resource type="Animation" id="Animation_p8phe"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_bqu13"]
+resource_name = "fire"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FireParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SmokeParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OmniLight3D:omni_range")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [5.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("OmniLight3D:light_color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0.46666667, 0, 1), Color(1, 1, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_we5ul"]
+_data = {
+&"RESET": SubResource("Animation_p8phe"),
+&"fire": SubResource("Animation_bqu13")
+}
+
+[node name="Equipment" instance=ExtResource("1_5kbg5")]
+script = ExtResource("2_p8phe")
+launcher_projectile = ExtResource("2_6bens")
+launch_velocity = 50.0
+fire_on_start = false
+use_lock = true
+lock_camera_offsets = Array[Vector3]([Vector3(0, 2.2, 0), Vector3(1.3, 0, 1.5)])
+lock_animation = &"aim_trocket"
+
+[node name="FireParticles" type="GPUParticles3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.672, 0.134)
+emitting = false
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_we5ul")
+draw_pass_1 = SubResource("CylinderMesh_bvl8l")
+
+[node name="ReadyParticles" type="GPUParticles3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.672, 0.134)
+emitting = false
+amount = 32
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_we5ul")
+draw_pass_1 = SubResource("CylinderMesh_bvl8l")
+
+[node name="SmokeParticles" type="GPUParticles3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.672, 0.134)
+emitting = false
+amount = 20
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_bqu13")
+draw_pass_1 = SubResource("SphereMesh_p8phe")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
+libraries = {
+&"": SubResource("AnimationLibrary_we5ul")
+}
+
+[node name="FireAudioPlayer" type="AudioStreamPlayer3D" parent="." index="4"]
+stream = ExtResource("3_bqu13")
+
+[node name="ReadyAudioPlayer" type="AudioStreamPlayer3D" parent="." index="5"]
+stream = ExtResource("5_we5ul")
+pitch_scale = 0.4
+bus = &"Game"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.672, 0.134)
+light_color = Color(1, 0.46666667, 0, 1)
+omni_range = 0.0
+
+[node name="Timer" type="Timer" parent="." index="7"]
+process_callback = 0
+wait_time = 3.0
+one_shot = true

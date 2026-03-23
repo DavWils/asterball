@@ -22,7 +22,8 @@ func _ready() -> void:
 	mesh_mat.set_shader_parameter("secondary_color", character.get_player_team_state().team_resource.secondary_color)
 	(character.ragdoll.get_node("Armature/Skeleton3D/omnistriker").mesh as ArrayMesh).surface_set_material(0, mesh_mat)
 	character.equipped.connect(_on_equipped)
-	
+
+
 func _physics_process(_delta: float) -> void:
 	if is_node_ready() and animation_player:
 		update_animation()
@@ -63,6 +64,32 @@ func update_animation():
 			var new_blend = lerpf(current_blend, 1.0, .1)
 			animation_tree.set("parameters/ThrowAimBlend/blend_amount", new_blend)
 		# Rotate spine based on control pitch.
+		spine_to_pitch()
+	elif character.is_use_locked():
+		animation_tree.set("animation", character.current_equipment.lock_animation)
+		print(animation_tree.get("parameters/UseLockAnimation/animation"))
+		var current_blend: float = animation_tree.get("parameters/UseLockAimBlend/blend_amount")
+		var new_blend = lerpf(current_blend, 1.0, .1)
+		animation_tree.set("parameters/UseLockAimBlend/blend_amount", new_blend)
+		spine_to_pitch()
+	else:
+		skeleton.clear_bones_global_pose_override()
+		var current_blend: float = animation_tree.get("parameters/ThrowAimBlend/blend_amount")
+		if current_blend >= 0.88 and not character.current_equipment:
+			animation_tree.set("parameters/ThrowAimBlend/blend_amount", 0.0)
+			animation_tree.set("parameters/ThrowOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		else:
+			animation_tree.set("parameters/ThrowAimBlend/blend_amount", lerpf(current_blend, 0.0, .1))
+		var current_lock_blend: float = animation_tree.get("parameters/UseLockAimBlend/blend_amount")
+		if current_lock_blend > 0.0:
+			animation_tree.set("parameters/UseLockAimBlend/blend_amount", lerp(current_lock_blend, 0.0, .1))
+
+func _on_equipped(key: int) -> void:
+	if key >= 0 and animation_tree.get("parameters/ThrowAimBlend/blend_amount") < 0.9:
+		animation_tree.set("parameters/EquipOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		$EquipSoundPlayer.play_equip_sound()
+
+func spine_to_pitch() -> void:
 		skeleton.clear_bones_global_pose_override()
 		var spine_idx: int = skeleton.find_bone("spine.001")
 		var spine_pose: Transform3D = skeleton.get_bone_global_pose(spine_idx)
@@ -80,16 +107,3 @@ func update_animation():
 		
 		
 		skeleton.set_bone_global_pose_override(spine_idx, spine_pose, 1.0, true)
-	else:
-		skeleton.clear_bones_global_pose_override()
-		var current_blend: float = animation_tree.get("parameters/ThrowAimBlend/blend_amount")
-		if current_blend >= 0.88 and not character.current_equipment:
-			animation_tree.set("parameters/ThrowAimBlend/blend_amount", 0.0)
-			animation_tree.set("parameters/ThrowOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-		else:
-			animation_tree.set("parameters/ThrowAimBlend/blend_amount", lerpf(current_blend, 0.0, .1))
-
-func _on_equipped(key: int) -> void:
-	if key >= 0 and animation_tree.get("parameters/ThrowAimBlend/blend_amount") < 0.9:
-		animation_tree.set("parameters/EquipOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-		$EquipSoundPlayer.play_equip_sound()

@@ -38,6 +38,9 @@ func get_camera_offset() -> Array[Vector3]:
 	if character.is_aiming():
 		handle_offset = Vector3(0, AIM_HEIGHT, 0)
 		cam_offset = Vector3(AIM_OFFSET, 0, AIM_LENGTH)
+	elif character.is_use_locked():
+		handle_offset = character.current_equipment.lock_camera_offsets[0]
+		cam_offset = character.current_equipment.lock_camera_offsets[1]
 	else:
 		handle_offset = Vector3(0, BASE_HEIGHT, 0)
 		cam_offset = Vector3(0, 0, BASE_LENGTH)

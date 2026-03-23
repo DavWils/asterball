@@ -408,6 +408,7 @@ func is_unlocked() -> bool:
 
 ## Starts aiming with the given item.
 func start_aim() -> void:
+	if is_use_locked(): return
 	throw_component.start_aim()
 	if is_aiming(): aim_start.emit()
 
@@ -549,3 +550,9 @@ func can_possess() -> bool:
 
 func get_tackle_resistance() -> float:
 	return tackle_component.get_tackle_resistance()
+
+func is_use_locked() -> bool:
+	if current_equipment:
+		return current_equipment.is_locked
+	else:
+		return false
