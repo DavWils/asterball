@@ -12,9 +12,13 @@ var character: Character
 
 var item_mesh: MeshInstance3D
 
-const FUSE_TIME: float = 2.0
+const FUSE_TIME: float = 6.0
 
 var color: Color = Color.BLACK
+
+const SPECIAL_KEY: String = "heart_shift_trigger_time"
+
+var time_loaded: bool = false
 
 func _ready() -> void:
 	fuse_timer.wait_time = FUSE_TIME
@@ -32,7 +36,6 @@ func _ready() -> void:
 		if child.get_child_count() > 0 and child.get_child(0) is MeshInstance3D:
 			item_mesh = child.get_child(0)
 			break
-	
 
 
 func _process(delta: float) -> void:
@@ -52,14 +55,20 @@ func _process(delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	if character:
 		var current_vel: float = character.velocity.length()
-		#print("Trigger tracks: ", current_vel)
 		if current_vel < get_minimum_velocity():
-			#print("DANGER")
 			warning_timer.wait_time = (fuse_timer.time_left + 0.0001) * (1.0/8.0)
 			if fuse_timer.is_stopped():
-				fuse_timer.start()
+				if character.special_data.has(SPECIAL_KEY) and not time_loaded:
+					print(" >   Loading time as: ", character.special_data[SPECIAL_KEY])
+					fuse_timer.start(character.special_data[SPECIAL_KEY])
+					time_loaded = true
+				else:
+					fuse_timer.start()
 				warning_timer.start()
+			character.special_data[SPECIAL_KEY] = fuse_timer.time_left
 		else:
+			if character.special_data.has(SPECIAL_KEY):
+				character.special_data.erase(SPECIAL_KEY)
 			if not fuse_timer.is_stopped():
 				fuse_timer.stop()
 				warning_timer.stop()

@@ -59,6 +59,8 @@ var is_alive: bool = true
 ## Amount of friction force to apply to the ragdoll if it's sliding.
 const RAGDOLL_FRICTION_MULTIPLIER: float = 0.9
 
+## Special data that must be saved here.
+var special_data: Dictionary = {}
 
 func _ready() -> void:
 	if network_manager.is_in_lobby(): print("Spawned character ", registry_id, " owned by ", owning_player_id)
