@@ -67,7 +67,6 @@ func update_animation():
 		spine_to_pitch()
 	elif character.is_use_locked():
 		animation_tree.set("animation", character.current_equipment.lock_animation)
-		print(animation_tree.get("parameters/UseLockAnimation/animation"))
 		var current_blend: float = animation_tree.get("parameters/UseLockAimBlend/blend_amount")
 		var new_blend = lerpf(current_blend, 1.0, .1)
 		animation_tree.set("parameters/UseLockAimBlend/blend_amount", new_blend)

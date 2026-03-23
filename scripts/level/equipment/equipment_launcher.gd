@@ -18,7 +18,7 @@ func fire_projectile() -> void:
 	new_item_state.item_resource = launcher_projectile
 	var start_position = wielder.position + Vector3.UP*2.0 + -wielder.transform.basis.z
 	var launched_projectile: Projectile = level.spawn_projectile(launcher_projectile.get_projectile_scene(), start_position, {"item_state": new_item_state.to_dict(), "thrower_id": wielder.registry_id})
-	launched_projectile.linear_velocity = launch_velocity * -wielder.transform.basis.z
+	launched_projectile.linear_velocity = launch_velocity * (wielder.get_look_forward_vector())
 	if has_node("AnimationPlayer"):
 		for child in get_children():
 			if child is GPUParticles3D:

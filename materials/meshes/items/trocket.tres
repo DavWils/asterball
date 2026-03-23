@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://k0yqcamiwi6s"]
+
+[ext_resource type="Shader" uid="uid://b5rm7t5vgnec1" path="res://shaders/materials/item.gdshader" id="1_0l1wk"]
+[ext_resource type="Texture2D" uid="uid://cw81cb037spht" path="res://textures/items/trocket_launcher/trocket_launcher_albedo.png" id="2_1vjhc"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_0l1wk")
+shader_parameter/albedo_texture = ExtResource("2_1vjhc")
+shader_parameter/emission_color = Color(0, 0, 0, 1)
+shader_parameter/emission_strength = 1.0
+shader_parameter/metallic = 0.400000019
