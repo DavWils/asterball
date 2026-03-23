@@ -47,11 +47,13 @@ func get_item_state():
 
 ## Starts the equipment's use function, simulating a user press
 func use_start() -> void:
-	is_locked = true
+	if use_lock:
+		is_locked = true
 
 ## Finish the equipment use function if exists, simulating user release.
 func use_finish() -> void:
-	is_locked = false
+	if is_locked:
+		is_locked = false
 
 ## Returns the team state of allegiance team.
 func get_allegiance_team() -> TeamState:
