@@ -215,8 +215,10 @@ process_material = SubResource("ParticleProcessMaterial_q1d0b")
 draw_pass_1 = SubResource("SphereMesh_ccchl")
 
 [node name="MaxThrowParticles" type="GPUParticles3D" parent="ThrowComponent"]
+emitting = false
 amount = 1
 lifetime = 0.8
+one_shot = true
 explosiveness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_ys7i3")
