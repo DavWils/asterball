@@ -26,6 +26,8 @@ Triplanar Texture Shader (Doom-style) by Soup-o-Stat: https://godotshaders.com/s
 
 Dither Portals by nojoule: https://godotshaders.com/shader/dither-portals/
 
+[2D] Sparkling star effect by xcv145336: https://godotshaders.com/shader/?orderby=relevance&order=DESC&q=spark
+
 
 [b]Sounds downloaded from freesound.org[/b]
 windloop.wav by warwickallison -- https://freesound.org/s/115759/ -- License: Attribution 3.0

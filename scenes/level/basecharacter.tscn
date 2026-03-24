@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://on8wykmjn5go"]
+[gd_scene load_steps=35 format=3 uid="uid://on8wykmjn5go"]
 
 [ext_resource type="Script" uid="uid://bnbyil81cayt3" path="res://scripts/level/characters/character.gd" id="1_hqcqr"]
 [ext_resource type="Script" uid="uid://755ian66gy8i" path="res://scripts/level/character/character_camera.gd" id="2_5faxe"]
@@ -10,7 +10,9 @@
 [ext_resource type="Script" uid="uid://b7h7scddkfgqr" path="res://scripts/level/character/trajectory_indicator.gd" id="9_gx15w"]
 [ext_resource type="Script" uid="uid://dnqoeteq07upg" path="res://scripts/level/character/effects_component.gd" id="10_cmg63"]
 [ext_resource type="Script" uid="uid://cxhnyeuq2l8yn" path="res://scripts/level/character/throw_component.gd" id="11_3xhtn"]
+[ext_resource type="AudioStream" uid="uid://cysvrkt1w1oef" path="res://sounds/level/character/max_throw.wav" id="12_q1d0b"]
 [ext_resource type="AudioStream" uid="uid://bik4golxaua2" path="res://sounds/level/character/throw.wav" id="12_q47tg"]
+[ext_resource type="Shader" uid="uid://c3q4odaw0sxhc" path="res://shaders/particles/max_throw_sparkle.gdshader" id="12_u24d6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5faxe"]
 size = Vector3(0, 0, 0)
@@ -103,6 +105,34 @@ height = 0.002
 radial_segments = 4
 rings = 2
 
+[sub_resource type="Curve" id="Curve_3xhtn"]
+_data = [Vector2(0, 0.012924194), 0.0, 0.0, 0, 0, Vector2(0.13846153, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_d3ms2"]
+curve = SubResource("Curve_3xhtn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ys7i3"]
+angular_velocity_min = 179.99998
+angular_velocity_max = 179.99998
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_d3ms2")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q47tg"]
+render_priority = 0
+shader = ExtResource("12_u24d6")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/alpha = 2.0
+shader_parameter/shney_disperse = 1.0
+shader_parameter/shney_speed = 0.5
+shader_parameter/twist_speed = 1.0
+shader_parameter/rota_speed = 1.0
+shader_parameter/curve_ci = 0.3
+
+[sub_resource type="QuadMesh" id="QuadMesh_l5jw8"]
+material = SubResource("ShaderMaterial_q47tg")
+size = Vector2(5, 5)
+
 [node name="Character" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 3
@@ -158,6 +188,10 @@ script = ExtResource("11_3xhtn")
 stream = ExtResource("12_q47tg")
 bus = &"Game"
 
+[node name="MaxAudioPlayer" type="AudioStreamPlayer3D" parent="ThrowComponent"]
+stream = ExtResource("12_q1d0b")
+bus = &"Game"
+
 [node name="GPUParticles3D" type="GPUParticles3D" parent="ThrowComponent"]
 top_level = true
 emitting = false
@@ -179,3 +213,11 @@ emitting = false
 amount = 100
 process_material = SubResource("ParticleProcessMaterial_q1d0b")
 draw_pass_1 = SubResource("SphereMesh_ccchl")
+
+[node name="MaxThrowParticles" type="GPUParticles3D" parent="ThrowComponent"]
+amount = 1
+lifetime = 0.8
+explosiveness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_ys7i3")
+draw_pass_1 = SubResource("QuadMesh_l5jw8")

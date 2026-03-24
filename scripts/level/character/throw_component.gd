@@ -26,6 +26,10 @@ var is_throwing := false
 ## The current amount of force charged to throw.
 var throw_force := 0.0
 
+## Whether or not max throw force has already been reached.
+var max_force_reached: bool = false
+
+
 ## The max percentage of throw force that is too small to actually throw.
 const MINIMUM_THROW_FORCE := 0.05
 
@@ -40,6 +44,12 @@ func _physics_process(delta: float) -> void:
 	# If throwing, accumulate force.
 	if is_throwing:
 		throw_force = clampf(throw_force + (get_throw_speed() * delta), 0, get_max_throw_force())
+		if throw_force == get_max_throw_force():
+			if not max_force_reached:
+				max_force_reached = true
+				$MaxAudioPlayer.play()
+				$MaxThrowParticles.global_position = character.current_equipment.global_position + character.get_look_forward_vector()
+				$MaxThrowParticles.restart()
 
 func _process(_delta: float) -> void:
 	if throw_particles.emitting:
@@ -60,6 +70,7 @@ func end_aim() -> void:
 	if is_aiming:
 		print("Stopping aim.")
 		is_aiming = false
+		max_force_reached = false
 		if is_throwing:
 			throw_force = 0.0
 		if network_manager.is_host():
