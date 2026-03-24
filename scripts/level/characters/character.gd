@@ -414,7 +414,7 @@ func is_unlocked() -> bool:
 
 ## Starts aiming with the given item.
 func start_aim() -> void:
-	if current_equipment.in_use: return
+	if is_equipment_in_use(): return
 	throw_component.start_aim()
 	if is_aiming(): aim_start.emit()
 
@@ -453,7 +453,7 @@ func get_throw_velocity() -> Vector3:
 ## Uses the equipment, simulating a press.
 func use_equipment_start() -> void:
 	if is_charging() or is_aiming(): return
-	if current_equipment.in_use: return
+	if is_equipment_in_use(): return
 	print(owning_player_id, " using item")
 	if current_equipment: current_equipment.use_start()
 	if network_manager.is_host():
@@ -462,7 +462,7 @@ func use_equipment_start() -> void:
 ## Use the equipment, simulating a release.
 func use_equipment_finish() -> void:
 	if not current_equipment: return
-	if not current_equipment.in_use: return
+	if not is_equipment_in_use(): return
 	print(owning_player_id, " finished using item")
 	if current_equipment: current_equipment.use_finish()
 	if network_manager.is_host():
