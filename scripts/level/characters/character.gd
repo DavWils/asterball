@@ -126,6 +126,14 @@ func is_equipment_in_use() -> bool:
 	else:
 		return false
 
+## If the currently held equipment uses equip lock, return true. Return false if no current equipment.. 
+func is_equipment_use_lock() -> bool:
+	if current_equipment:
+		return current_equipment.use_lock
+	else:
+		return false
+
+
 # Makes the character move based on player input.
 func use_player_input(input: Dictionary) -> void:
 	# Movement input.
@@ -133,7 +141,7 @@ func use_player_input(input: Dictionary) -> void:
 	var charging: bool
 	if is_unlocked():
 		move_input = input.get("mv", Vector2.ZERO)
-		charging = input.get("ch", false) and (not is_equipment_in_use() and not is_aiming()) and move_input.y < 0
+		charging = input.get("ch", false) and (not is_use_locked() and not is_aiming()) and move_input.y < 0
 	else:
 		move_input = Vector2.ZERO
 		charging = false
@@ -452,7 +460,7 @@ func get_throw_velocity() -> Vector3:
 
 ## Uses the equipment, simulating a press.
 func use_equipment_start() -> void:
-	if is_charging() or is_aiming(): return
+	if (is_charging() or is_aiming()) and is_equipment_use_lock(): return
 	if is_equipment_in_use(): return
 	print(owning_player_id, " using item")
 	if current_equipment: current_equipment.use_start()
