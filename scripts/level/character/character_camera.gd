@@ -118,6 +118,7 @@ func _process(_delta: float) -> void:
 
 ## Shakes the camera based on the given force.
 func camera_shake(force: float):
-	shake_strength = force * 0.1
-	shake_duration = clamp(log(force) * 0.2, 0.1, 0.6)
+	var shake_force = force * (get_tree().current_scene as MainScene).options_node.loaded_options["display"]["camera_shake"]
+	shake_strength = shake_force * 0.1
+	shake_duration = clamp(log(shake_force) * 0.2, 0.1, 0.6)
 	shake_time = 0.0

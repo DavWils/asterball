@@ -10,6 +10,8 @@ class_name MainScene
 
 @onready var asset_loader: AssetLoader = $AssetLoader
 
+@onready var options_node: OptionsNode = $Options
+
 var found_lobbies: Array
 
 ## Filepath to the options file
@@ -154,6 +156,7 @@ func apply_options(options: Dictionary) -> void:
 	for key in options:
 		for sub_key in options[key]:
 			options_file.set_value(key, sub_key, options[key][sub_key])
+			print("Applied Option: ", key, ": ", sub_key, " = ", options[key][sub_key])
 
 	var save_status := options_file.save(OPTIONS_FILE_PATH)
 	if save_status == OK:
@@ -165,14 +168,30 @@ func apply_options(options: Dictionary) -> void:
 
 
 func load_options() -> void:
+	options_node.loaded_options.clear()
+	
 	var options_file := ConfigFile.new()
 	var load_status = options_file.load(OPTIONS_FILE_PATH)
 	if load_status == OK:
 		print("Options Config loaded successfully!")
 	else:
 		print("Failed to find options config.")
+		
+		var temp_options = load("res://scenes/ui/menu/options_menu.tscn").instantiate()
+		temp_options.visible = false
+		add_child(temp_options)
+		temp_options._on_apply_pressed()
+		temp_options.queue_free()
+		
 		return
 	
 	
 	for bus in options_file.get_section_keys("audio"):
 		AudioServer.set_bus_volume_linear(bus.to_int(), options_file.get_value("audio", bus))
+	
+	# Load Display Settings
+	options_node.loaded_options["display"] = {}
+	if options_file.has_section("display"):
+		options_node.loaded_options["display"]["camera_shake"] = options_file.get_value("display", "camera_shake")
+	else:
+		options_node.loaded_options["display"]["camera_shake"] = 1.0

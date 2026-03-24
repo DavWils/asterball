@@ -24,9 +24,13 @@ func _on_apply_pressed() -> void:
 	# Save audio settings
 	save_dict["audio"] = {}
 	for bus in AudioServer.bus_count:
+		print("Options UI saving bus ", bus)
 		var linear_vol: float = volume_slider_box.get_child(bus).get_linear_vol()
 		save_dict["audio"][str(bus)] = linear_vol
 	
+	# Display settings.
+	save_dict["display"] = {}
+	save_dict["display"]["camera_shake"] = $DisplayPanel/ScrollContainer/MarginContainer/DisplayOptionsContaienr/CameraShakeBox/MarginContainer/CameraShakeSlider.value
 	# Send dict to main.
 	main_scene.apply_options(save_dict)
 
