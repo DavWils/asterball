@@ -13,19 +13,19 @@ class_name MatchDirector
 var inventory_memory: Dictionary[int, Dictionary]
 
 ## The amount of time to wait before starting the game.
-const PREGAME_DURATION := 2
+const PREGAME_DURATION := 30
 ## The amount of time in the match.
 const MATCH_DURATION := 600
 ## The amount of time before the round actually starts, allowing players some time to shop and buy items.
-const INTERMISSION_DURATION := 3
+const INTERMISSION_DURATION := 10
 ## The amount of time to wait after a score until the next round begins.
 const CELEBRATION_DURATION := 10
 ## The amount of time spent in the endgame before loading to the next level.
-const ENDGAME_DURATION := 35
+const ENDGAME_DURATION := 30
 ## The number of teams.
 const TEAM_COUNT := 2
 ## The final amount of points a team must get to win the game.
-const WINNING_SCORE := 3
+const WINNING_SCORE := 7
 ## The amount of points given to all players when a new round begins.
 const NEW_ROUND_POINTS := 600
 ## The amount of points given to a player when their team wins a score.
