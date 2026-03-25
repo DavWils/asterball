@@ -112,6 +112,12 @@ open_chat={
 3d_physics/layer_4="Zone"
 3d_physics/layer_5="Ragdoll"
 
+[physics]
+
+3d/physics_engine="Jolt Physics"
+jolt_physics_3d/simulation/velocity_steps=60
+jolt_physics_3d/simulation/position_steps=40
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
