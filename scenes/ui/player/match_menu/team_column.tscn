@@ -26,7 +26,7 @@ expand_mode = 2
 [node name="TeamNameText" type="Label" parent="HeaderRow"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_v5l6g")
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 36
 text = "Team"
 
 [node name="Spacer" type="Control" parent="HeaderRow"]
@@ -37,7 +37,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_v5l6g")
 theme_override_font_sizes/font_size = 48
-text = "Team"
+text = "."
 
 [node name="PlayerColumn" type="VBoxContainer" parent="."]
 layout_mode = 2

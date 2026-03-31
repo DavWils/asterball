@@ -39,7 +39,7 @@ func add_player_row(player_id: int) -> void:
 
 ## Called when team score is changed, updating here.
 func _on_score_changed(new_score: int) -> void:
-	$HeaderRow/TeamScoreText.text = str(new_score)
+	$HeaderRow/TeamScoreText.text = str(new_score) + "/" + str(match_state.match_director.WINNING_SCORE)
 
 func _on_player_state_added(_player_id: int):
 	load_player_column()
