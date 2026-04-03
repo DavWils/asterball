@@ -13,8 +13,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e7y16"]
 resource_local_to_scene = true
 shader = ExtResource("8_fcqct")
-shader_parameter/skyColor = Color(0.495, 0.8745001, 0.99, 1)
-shader_parameter/horizonColor = Color(0.07100002, 0.6034999, 0.71, 1)
+shader_parameter/skyColor = Color(0.11796123, 0.23777725, 0.27359852, 1)
+shader_parameter/horizonColor = Color(0.0048844316, 0.15254731, 0.18589817, 1)
 shader_parameter/fade_stars = true
 
 [sub_resource type="Sky" id="Sky_e7y16"]
@@ -38,7 +38,7 @@ size = Vector3(16, 10, 16)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g86y2"]
 render_priority = 0
 shader = ExtResource("8_4qpu5")
-shader_parameter/color_one = Color(0.495, 0.8745001, 0.99, 0)
+shader_parameter/color_one = Color(0.109104544, 0.22278528, 0.25677228, 0)
 shader_parameter/color_two = Color(0.8392157, 0.70980394, 0.40392157, 1)
 shader_parameter/color_falloff = 1.0
 shader_parameter/transparency_falloff = 0.50000002049012
