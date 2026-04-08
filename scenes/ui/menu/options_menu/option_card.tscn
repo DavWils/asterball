@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bh5bcblb2umrm"]
+[gd_scene load_steps=4 format=3 uid="uid://bh5bcblb2umrm"]
 
 [ext_resource type="Script" uid="uid://v3se06dujugn" path="res://scripts/ui/menu/options_menu/option_card.gd" id="1_4ypbe"]
 [ext_resource type="FontFile" uid="uid://d0tuw6p087c62" path="res://fonts/maven-pro/MavenPro-VariableFont_wght.ttf" id="2_ar4fh"]
+[ext_resource type="Script" uid="uid://dx2birv71su4d" path="res://scripts/ui/menu/options_menu/option_card_button.gd" id="3_cdwp2"]
 
 [node name="OptionCard" type="Control"]
 custom_minimum_size = Vector2(350, 55)
@@ -39,3 +40,4 @@ theme_override_fonts/font = ExtResource("2_ar4fh")
 theme_override_font_sizes/font_size = 32
 text = "none"
 text_overrun_behavior = 3
+script = ExtResource("3_cdwp2")

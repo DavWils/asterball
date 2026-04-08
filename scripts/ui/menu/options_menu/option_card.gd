@@ -10,6 +10,7 @@ var action_name: StringName
 @onready var key_button: Button = $MarginContainer/HBoxContainer/KeyButton
 
 func _ready() -> void:
+	key_button.action_name = action_name
 	# Set the namelabel to the correct text.
 	var input_name := action_name
 	# Capitalize first letter.
@@ -24,6 +25,8 @@ func _ready() -> void:
 	var input_map := InputMap.action_get_events(action_name)[0]
 	if input_map is InputEventKey:
 		key_button.text = input_map.as_text_physical_keycode()
+		key_button.original_string = input_map.as_text_physical_keycode()
 	else:
 		key_button.text = input_map.as_text()
+		key_button.original_string = input_map.as_text()
 	key_button.tooltip_text = name_label.text + ": " + key_button.text
