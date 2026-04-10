@@ -12,6 +12,7 @@ extends Control
 func _ready() -> void:
 	$VBoxContainer/ApplyButton.pressed.connect(_on_apply_pressed)
 	$VBoxContainer/ReturnButton.pressed.connect(_on_return_pressed)
+	$ControlsPanel/ResetControlsButton.pressed.connect(_on_reset_controls_pressed)
 	
 	# Load the volume slider box.
 	var slider_ui := load("res://scenes/ui/menu/options_menu/volume_slider.tscn")
@@ -66,3 +67,8 @@ func _on_return_pressed() -> void:
 	elif main_menu_ui:
 		main_menu_ui.to_title_screen()
 	load_controls_box()
+
+func _on_reset_controls_pressed() -> void:
+	InputMap.load_from_project_settings()
+	load_controls_box()
+	_on_apply_pressed()

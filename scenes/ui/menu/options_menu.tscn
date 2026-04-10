@@ -172,3 +172,12 @@ size_flags_horizontal = 3
 
 [node name="ControlsBox" type="VBoxContainer" parent="ControlsPanel/ScrollContainer/MarginContainer"]
 layout_mode = 2
+
+[node name="ResetControlsButton" type="Button" parent="ControlsPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.75
+anchor_top = 0.01
+anchor_right = 0.95
+anchor_bottom = 0.05
+text = "RESET"
