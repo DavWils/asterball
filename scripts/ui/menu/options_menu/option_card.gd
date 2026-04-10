@@ -8,9 +8,12 @@ var action_name: StringName
 
 ## The button displaying the key, pressing allows changing key.
 @onready var key_button: Button = $MarginContainer/HBoxContainer/KeyButton
+## Currently selected keybind to apply.
+var new_key: InputEvent
 
 func _ready() -> void:
 	key_button.action_name = action_name
+	key_button.option_card = self
 	# Set the namelabel to the correct text.
 	var input_name := action_name
 	# Capitalize first letter.
@@ -23,6 +26,7 @@ func _ready() -> void:
 			input_name = input_name.substr(0, i) + " " + next_char.capitalize() + input_name.substr(i+2)
 	name_label.text = input_name
 	var input_map := InputMap.action_get_events(action_name)[0]
+	new_key = input_map
 	if input_map is InputEventKey:
 		key_button.text = input_map.as_text_physical_keycode()
 		key_button.original_string = input_map.as_text_physical_keycode()

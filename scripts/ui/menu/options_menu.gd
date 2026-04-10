@@ -50,6 +50,12 @@ func _on_apply_pressed() -> void:
 	# Display settings.
 	save_dict["display"] = {}
 	save_dict["display"]["camera_shake"] = $DisplayPanel/ScrollContainer/MarginContainer/DisplayOptionsContaienr/CameraShakeBox/MarginContainer/CameraShakeSlider.value
+	
+	# Keybind settings
+	save_dict["keybinds"] = {}
+	for card in controls_box.get_children():
+		save_dict["keybinds"][card.action_name] = card.new_key
+	
 	# Send dict to main.
 	main_scene.apply_options(save_dict)
 	_on_return_pressed()

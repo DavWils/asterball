@@ -1,4 +1,6 @@
 extends Button
+## Option card parent of this node.
+var option_card: Control
 
 var action_name: StringName
 
@@ -13,6 +15,7 @@ func _gui_input(event: InputEvent) -> void:
 		is_changing = true
 		return
 	# When the button is pressed, accept it and release.
+	option_card.new_key = event
 	if event is InputEventKey:
 		set_new_text(event.as_text_physical_keycode())
 	elif event is InputEventMouseButton:

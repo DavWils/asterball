@@ -185,9 +185,9 @@ func load_options() -> void:
 		
 		return
 	
-	
-	for bus in options_file.get_section_keys("audio"):
-		AudioServer.set_bus_volume_linear(bus.to_int(), options_file.get_value("audio", bus))
+	if options_file.has_section("audio"):
+		for bus in options_file.get_section_keys("audio"):
+			AudioServer.set_bus_volume_linear(bus.to_int(), options_file.get_value("audio", bus))
 	
 	# Load Display Settings
 	options_node.loaded_options["display"] = {}
@@ -195,3 +195,9 @@ func load_options() -> void:
 		options_node.loaded_options["display"]["camera_shake"] = options_file.get_value("display", "camera_shake")
 	else:
 		options_node.loaded_options["display"]["camera_shake"] = 1.0
+	
+	# Load keybinds
+	if options_file.has_section("keybinds"):
+		for keybind in options_file.get_section_keys("keybinds"):
+			InputMap.action_erase_events(keybind)
+			InputMap.action_add_event(keybind, options_file.get_value("keybinds", keybind))
