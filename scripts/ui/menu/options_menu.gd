@@ -19,7 +19,9 @@ func _ready() -> void:
 		var current_slider: Control = slider_ui.instantiate()
 		current_slider.idx = bus
 		volume_slider_box.add_child(current_slider)
-		
+	load_controls_box()
+
+func load_controls_box() -> void:
 	# Load the controls box
 	## The ui for each input mapping
 	var option_card := load("res://scenes/ui/menu/options_menu/option_card.tscn")
@@ -50,10 +52,11 @@ func _on_apply_pressed() -> void:
 	save_dict["display"]["camera_shake"] = $DisplayPanel/ScrollContainer/MarginContainer/DisplayOptionsContaienr/CameraShakeBox/MarginContainer/CameraShakeSlider.value
 	# Send dict to main.
 	main_scene.apply_options(save_dict)
-
+	_on_return_pressed()
 
 func _on_return_pressed() -> void:
 	if player_ui:
 		player_ui.pause_menu.return_to_pause_home()
 	elif main_menu_ui:
 		main_menu_ui.to_title_screen()
+	load_controls_box()
