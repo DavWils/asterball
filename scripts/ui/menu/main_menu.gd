@@ -7,6 +7,8 @@ class_name MainMenuUI
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 
 var fail_connect_tween: Tween
+## Button to display when not connected to steam.
+@export var no_connection_button: Button
 
 ## Transitions to title screen.
 func to_title_screen() -> void:
@@ -34,16 +36,16 @@ func _ready() -> void:
 	_on_steam_initialized(not network_manager.is_on_steam())
 	await get_tree().process_frame
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	$NoConnectionButton.pressed.connect(_on_ncb_pressed)
+	no_connection_button.pressed.connect(_on_ncb_pressed)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouse and Input.get_mouse_mode() != Input.MOUSE_MODE_VISIBLE:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _on_ncb_pressed() -> void:
-	if $NoConnectionButton.disabled: return
-	$NoConnectionButton.disabled = true
-	$NoConnectionButton/ConnectingProgressBar.visible = true
+	if no_connection_button.disabled: return
+	no_connection_button.disabled = true
+	no_connection_button.get_node("ConnectingProgressBar").visible = true
 	network_manager.connect_to_steam()
 	
 
@@ -55,25 +57,25 @@ func _on_steam_initialized(status: int) -> void:
 
 ## Play visual effect for when connection succeeds.
 func ncb_success() -> void:
-	if $NoConnectionButton.visible:
-		$NoConnectionButton.visible = false
+	if no_connection_button.visible:
+		no_connection_button.visible = false
 		get_tree().current_scene.get_node("UIAudioPlayer").play_pressed()
-	$NoConnectionButton.disabled = false
-	$NoConnectionButton/ConnectingProgressBar.visible = false
+	no_connection_button.disabled = false
+	no_connection_button.get_node("ConnectingProgressBar").visible = false
 
 
 ## Play visual effect for when connection fails.
 func ncb_fail() -> void:
-	if not $NoConnectionButton.visible:
-		$NoConnectionButton.visible = true
+	if not no_connection_button.visible:
+		no_connection_button.visible = true
 	get_tree().current_scene.get_node("UIAudioPlayer").play_fail_purchased()
 	if fail_connect_tween:
 		fail_connect_tween.kill()
 	fail_connect_tween = create_tween()
-	$NoConnectionButton.modulate = Color.RED
-	fail_connect_tween.tween_property($NoConnectionButton, "modulate", Color.WHITE, 0.5)
-	$NoConnectionButton.disabled = false
-	$NoConnectionButton/ConnectingProgressBar.visible = false
+	no_connection_button.modulate = Color.RED
+	fail_connect_tween.tween_property(no_connection_button, "modulate", Color.WHITE, 0.5)
+	no_connection_button.disabled = false
+	no_connection_button.get_node("ConnectingProgressBar").visible = false
 
 
 

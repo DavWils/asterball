@@ -82,7 +82,7 @@ environment = SubResource("Environment_svxau")
 transform = Transform3D(0.71135646, 0.6431652, -0.28339177, 0.62259465, -0.3895607, 0.67868894, 0.32611072, -0.6592277, -0.6775475, 0, 0, 0)
 light_color = Color(0.7295897, 0.5741453, 0.9999984, 1)
 
-[node name="MainMenuUI" type="Control" parent="."]
+[node name="MainMenuUI" type="Control" parent="." node_paths=PackedStringArray("no_connection_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -90,6 +90,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_svxau")
+no_connection_button = NodePath("TabContainer/TitleScreenUI/NoConnectionButton")
 
 [node name="TabContainer" type="TabContainer" parent="MainMenuUI"]
 layout_mode = 1
@@ -148,6 +149,36 @@ anchor_bottom = 0.4
 grow_horizontal = 2
 texture = ExtResource("4_k0ycp")
 stretch_mode = 3
+
+[node name="NoConnectionButton" type="Button" parent="MainMenuUI/TabContainer/TitleScreenUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.919
+anchor_top = 0.876
+anchor_right = 0.975
+anchor_bottom = 0.975
+tooltip_text = "Not connected to Steam."
+focus_mode = 0
+
+[node name="ConnectingProgressBar" type="ProgressBar" parent="MainMenuUI/TabContainer/TitleScreenUI/NoConnectionButton"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+indeterminate = true
+editor_preview_indeterminate = true
+
+[node name="NoConnectionTexture" type="TextureRect" parent="MainMenuUI/TabContainer/TitleScreenUI/NoConnectionButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_uis6f")
 
 [node name="OptionsUI" parent="MainMenuUI/TabContainer" node_paths=PackedStringArray("main_menu_ui") instance=ExtResource("7_xgdw1")]
 visible = false
@@ -383,37 +414,6 @@ anchor_bottom = 0.925
 layout_mode = 2
 text = "Return to Menu"
 alt_press = true
-
-[node name="NoConnectionButton" type="Button" parent="MainMenuUI"]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.919
-anchor_top = 0.876
-anchor_right = 0.975
-anchor_bottom = 0.975
-tooltip_text = "Not connected to Steam."
-focus_mode = 0
-
-[node name="ConnectingProgressBar" type="ProgressBar" parent="MainMenuUI/NoConnectionButton"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-indeterminate = true
-editor_preview_indeterminate = true
-
-[node name="NoConnectionTexture" type="TextureRect" parent="MainMenuUI/NoConnectionButton"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("10_uis6f")
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_5fid0")
