@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="1_yuqym"]
 [ext_resource type="PackedScene" uid="uid://k5r1gtwybg02" path="res://meshes/items/trocket_launcher/trocket_launcher.glb" id="2_8koo5"]
-[ext_resource type="Texture2D" uid="uid://bmbpmftlsue2w" path="res://textures/icons/trocket_launcher.png" id="2_yuqym"]
+[ext_resource type="Texture2D" uid="uid://bmbpmftlsue2w" path="res://textures/icons/item/trocket_launcher.png" id="2_yuqym"]
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="4_k4rua"]
 
 [resource]

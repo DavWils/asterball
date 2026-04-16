@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="1_d818p"]
 [ext_resource type="PackedScene" uid="uid://cmc4ri13fs8fb" path="res://meshes/items/pulse_bomb/pulse_bomb.glb" id="1_slaxc"]
-[ext_resource type="Texture2D" uid="uid://c2mecbhyj52en" path="res://textures/icons/pulse_bomb.png" id="1_uadum"]
+[ext_resource type="Texture2D" uid="uid://c2mecbhyj52en" path="res://textures/icons/item/pulse_bomb.png" id="1_uadum"]
 [ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="1_xsciv"]
 
 [resource]

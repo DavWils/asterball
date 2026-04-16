@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crqlnw2hruu0x"
-path="res://.godot/imported/trocket.png-ace837992b02cd49a5e4ae05262423c8.ctex"
+uid="uid://c2mecbhyj52en"
+path="res://.godot/imported/pulse_bomb.png-0805268905c95ba9bb914f5e2fe15a49.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/icons/trocket.png"
-dest_files=["res://.godot/imported/trocket.png-ace837992b02cd49a5e4ae05262423c8.ctex"]
+source_file="res://textures/icons/item/pulse_bomb.png"
+dest_files=["res://.godot/imported/pulse_bomb.png-0805268905c95ba9bb914f5e2fe15a49.ctex"]
 
 [params]
 

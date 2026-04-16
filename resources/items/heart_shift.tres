@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemResource" load_steps=7 format=3 uid="uid://d0bflx5gnvx07"]
 
 [ext_resource type="PackedScene" uid="uid://daklqruymoce0" path="res://scenes/level/misc/active_panoply_attachments/heart_shift.tscn" id="1_26ddo"]
-[ext_resource type="Texture2D" uid="uid://chg7ovu5aubtw" path="res://textures/icons/heart_shift.png" id="1_60jw7"]
+[ext_resource type="Texture2D" uid="uid://chg7ovu5aubtw" path="res://textures/icons/item/heart_shift.png" id="1_60jw7"]
 [ext_resource type="PackedScene" uid="uid://bxm2fejnkwb7m" path="res://meshes/items/heart_shift/heart_shift.glb" id="2_26ddo"]
 [ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="2_fcyqp"]
 [ext_resource type="Resource" uid="uid://b7se6i0i0hsj8" path="res://resources/effects/heart_shifted.tres" id="3_oomca"]

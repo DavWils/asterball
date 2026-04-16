@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mex2hta5m3qn"
-path="res://.godot/imported/warp_sphere.png-2c8bdb134b68c468ac8602aaf6e1d628.ctex"
+uid="uid://cfnaf68q0d7gx"
+path="res://.godot/imported/ball.png-94a7b0748fc48e87ac34cc7045f0a3e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/icons/warp_sphere.png"
-dest_files=["res://.godot/imported/warp_sphere.png-2c8bdb134b68c468ac8602aaf6e1d628.ctex"]
+source_file="res://textures/icons/item/ball.png"
+dest_files=["res://.godot/imported/ball.png-94a7b0748fc48e87ac34cc7045f0a3e4.ctex"]
 
 [params]
 

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemResource" load_steps=5 format=3 uid="uid://cbykjcg4j7mxj"]
 
 [ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="1_dvdpy"]
-[ext_resource type="Texture2D" uid="uid://crqlnw2hruu0x" path="res://textures/icons/trocket.png" id="2_dvdpy"]
+[ext_resource type="Texture2D" uid="uid://crqlnw2hruu0x" path="res://textures/icons/item/trocket.png" id="2_dvdpy"]
 [ext_resource type="PackedScene" uid="uid://dyffw0gsabx1m" path="res://meshes/items/trocket/trocket.glb" id="3_dvdpy"]
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="4_61dkf"]
 

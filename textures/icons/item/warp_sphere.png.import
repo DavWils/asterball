@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgndgp6pi5b3s"
-path="res://.godot/imported/lightning_rod.png-adfc0b1f990e87b0f4504546311e7a4a.ctex"
+uid="uid://mex2hta5m3qn"
+path="res://.godot/imported/warp_sphere.png-fc1aa1667da358b26319b2ddfc819bca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/icons/lightning_rod.png"
-dest_files=["res://.godot/imported/lightning_rod.png-adfc0b1f990e87b0f4504546311e7a4a.ctex"]
+source_file="res://textures/icons/item/warp_sphere.png"
+dest_files=["res://.godot/imported/warp_sphere.png-fc1aa1667da358b26319b2ddfc819bca.ctex"]
 
 [params]
 

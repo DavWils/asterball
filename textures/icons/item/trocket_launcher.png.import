@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chg7ovu5aubtw"
-path="res://.godot/imported/heart_shift.png-b2d7b4a059e757385f695b298eaa75b4.ctex"
+uid="uid://bmbpmftlsue2w"
+path="res://.godot/imported/trocket_launcher.png-82db42cbf89e2d78e8be836b174a2fb9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/icons/heart_shift.png"
-dest_files=["res://.godot/imported/heart_shift.png-b2d7b4a059e757385f695b298eaa75b4.ctex"]
+source_file="res://textures/icons/item/trocket_launcher.png"
+dest_files=["res://.godot/imported/trocket_launcher.png-82db42cbf89e2d78e8be836b174a2fb9.ctex"]
 
 [params]
 

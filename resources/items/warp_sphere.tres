@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="1_1y147"]
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="1_7x21j"]
-[ext_resource type="Texture2D" uid="uid://mex2hta5m3qn" path="res://textures/icons/warp_sphere.png" id="1_opcwm"]
+[ext_resource type="Texture2D" uid="uid://mex2hta5m3qn" path="res://textures/icons/item/warp_sphere.png" id="1_opcwm"]
 [ext_resource type="PackedScene" uid="uid://blbnhbjrty2i8" path="res://meshes/items/warp_sphere/warp_sphere.glb" id="2_opcwm"]
 
 [resource]

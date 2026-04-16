@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2mecbhyj52en"
-path="res://.godot/imported/pulse_bomb.png-17372e31eb976034e24414e6f403e109.ctex"
+uid="uid://dgndgp6pi5b3s"
+path="res://.godot/imported/lightning_rod.png-37bab5a1aff4ef9cb221b206cc663d47.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/icons/pulse_bomb.png"
-dest_files=["res://.godot/imported/pulse_bomb.png-17372e31eb976034e24414e6f403e109.ctex"]
+source_file="res://textures/icons/item/lightning_rod.png"
+dest_files=["res://.godot/imported/lightning_rod.png-37bab5a1aff4ef9cb221b206cc663d47.ctex"]
 
 [params]
 
