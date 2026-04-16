@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch42546afpbof"]
+
+[ext_resource type="PackedScene" uid="uid://cs3v6wb6jtx8q" path="res://scenes/level/baseprojectile_explosive.tscn" id="1_w0hd2"]
+[ext_resource type="PackedScene" uid="uid://cwsf3h7gu6p54" path="res://scenes/level/misc/explosions/dark_bomb.tscn" id="2_w0hd2"]
+
+[node name="Projectile" instance=ExtResource("1_w0hd2")]
+explosion_scene = ExtResource("2_w0hd2")
+despawn_on_explosion = true
+timed_explosion = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="3"]
+light_color = Color(0.05490196, 0, 0.81960785, 1)
+
+[node name="FuseTimer" parent="." index="4"]
+wait_time = 4.0

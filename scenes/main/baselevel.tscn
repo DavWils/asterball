@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://u6kaxkr2k4w7"]
+[gd_scene load_steps=56 format=3 uid="uid://u6kaxkr2k4w7"]
 
 [ext_resource type="Script" uid="uid://dfob3jy8fgj15" path="res://scripts/main/level.gd" id="1_lwlui"]
 [ext_resource type="Script" uid="uid://xihxune7ghk5" path="res://scripts/level/match_state.gd" id="2_3nq80"]
@@ -29,6 +29,8 @@
 [ext_resource type="PackedScene" uid="uid://bnpwasarl8m4v" path="res://scenes/ui/player/endgame_menu/team_stats_display.tscn" id="18_33xg6"]
 [ext_resource type="Script" uid="uid://7uus16ub7s4t" path="res://scripts/ui/player/endgame_menu/mvp_display.gd" id="19_wa7ku"]
 [ext_resource type="Shader" uid="uid://b3skqhm6m20b6" path="res://shaders/post_process/dithering.gdshader" id="28_l383a"]
+[ext_resource type="Shader" uid="uid://twpj7bk3vvw5" path="res://shaders/post_process/dark_bomb_screen.gdshader" id="30_ni21y"]
+[ext_resource type="Script" uid="uid://7gps8apvq1a" path="res://scripts/ui/dark_overlay.gd" id="31_hugus"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ni21y"]
 render_priority = 0
@@ -175,6 +177,22 @@ ssao_enabled = true
 shader = ExtResource("28_l383a")
 shader_parameter/viewport_size = Vector2(1152, 648)
 shader_parameter/virtual_resolution = Vector2(320, 240)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ni21y"]
+noise_type = 5
+domain_warp_enabled = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_hugus"]
+noise = SubResource("FastNoiseLite_ni21y")
+seamless = true
+invert = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hugus"]
+shader = ExtResource("30_ni21y")
+shader_parameter/intensity = 1.0
+shader_parameter/smoke_color = Vector4(0.02, 0.02, 0.02, 1)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_hugus")
+shader_parameter/noise_speed = 0.1
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_lwlui")
@@ -981,3 +999,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="DarkRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_hugus")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("31_hugus")

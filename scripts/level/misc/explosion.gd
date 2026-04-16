@@ -1,5 +1,7 @@
 extends Node3D
 
+class_name Explosion
+
 ## Reference to the game's network manager.
 @onready var network_manager: NetworkManager = get_tree().current_scene.get_node("NetworkManager")
 ## Reference to player controller.
