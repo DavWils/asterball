@@ -37,7 +37,7 @@ func start_ragdoll(force: Vector3):
 	simulator.physical_bones_start_simulation()
 	for child in $Armature/Skeleton3D/PhysicalBoneSimulator3D.get_children():
 		if child is PhysicalBone3D:
-			child.apply_central_impulse(force/3.0)
+			child.apply_central_impulse(force/10.0)
 
 func stop_ragdoll():
 	simulator.physical_bones_stop_simulation()
