@@ -14,6 +14,9 @@ func _ready() -> void:
 	# Set up header.
 	var team_state: TeamState = match_state.get_team_state(team_id)
 	$HeaderRow/TeamNameText.text = team_state.team_resource.team_name
+	if team_state.team_resource.team_icon:
+		$HeaderRow/TeamIcon.texture = team_state.team_resource.team_icon
+		$HeaderRow/TeamIcon.self_modulate = team_state.team_resource.primary_color
 	team_state.score_changed.connect(_on_score_changed)
 	_on_score_changed(team_state.score)
 	load_player_column()

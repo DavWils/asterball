@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="TeamResource" load_steps=2 format=3 uid="uid://3mddvsnh4u0p"]
+[gd_resource type="Resource" script_class="TeamResource" load_steps=3 format=3 uid="uid://3mddvsnh4u0p"]
 
 [ext_resource type="Script" uid="uid://ia8108m4vmxa" path="res://scripts/resources/teams/teamresource.gd" id="1_pbsgi"]
+[ext_resource type="Texture2D" uid="uid://bqs0lhsd1j7t" path="res://textures/icons/team/boneravers.png" id="2_dkepw"]
 
 [resource]
 script = ExtResource("1_pbsgi")
 team_name = "Boneravers"
 primary_color = Color(1, 0, 0, 1)
 secondary_color = Color(0.8433688, 0.7954824, 0.7076802, 1)
+team_icon = ExtResource("2_dkepw")

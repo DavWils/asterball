@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="TeamResource" load_steps=2 format=3 uid="uid://owssamj57xjd"]
+[gd_resource type="Resource" script_class="TeamResource" load_steps=3 format=3 uid="uid://owssamj57xjd"]
 
 [ext_resource type="Script" uid="uid://ia8108m4vmxa" path="res://scripts/resources/teams/teamresource.gd" id="1_1a4kg"]
+[ext_resource type="Texture2D" uid="uid://dknbsyghyafqm" path="res://textures/icons/team/warpions.png" id="2_vau1v"]
 
 [resource]
 script = ExtResource("1_1a4kg")
 team_name = "Warpions"
 primary_color = Color(0, 0.88235295, 1, 1)
 secondary_color = Color(0.84, 0.70895994, 0.4032, 1)
+team_icon = ExtResource("2_vau1v")

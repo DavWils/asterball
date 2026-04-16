@@ -10,3 +10,6 @@ class_name TeamResource
 
 ## Secondary color of the team. Will usually be the more dull color, more prominent on armor.
 @export var secondary_color: Color
+
+## Icon for the team.
+@export var team_icon: Texture2D

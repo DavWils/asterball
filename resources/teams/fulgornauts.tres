@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="TeamResource" load_steps=2 format=3 uid="uid://lbxuxl008hio"]
+[gd_resource type="Resource" script_class="TeamResource" load_steps=3 format=3 uid="uid://lbxuxl008hio"]
 
 [ext_resource type="Script" uid="uid://ia8108m4vmxa" path="res://scripts/resources/teams/teamresource.gd" id="1_jpb33"]
+[ext_resource type="Texture2D" uid="uid://dppi1u75c8xg" path="res://textures/icons/team/fulgornauts.png" id="2_wgf0q"]
 
 [resource]
 script = ExtResource("1_jpb33")
 team_name = "Fulgornauts"
 primary_color = Color(0.34524503, 0.87, 0.20010002, 1)
 secondary_color = Color(0.59906214, 0.41342884, 0.23610556, 1)
+team_icon = ExtResource("2_wgf0q")

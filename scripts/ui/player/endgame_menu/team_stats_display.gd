@@ -17,6 +17,9 @@ func set_team_info(placement: int, team_state: TeamState) -> void:
 	$MarginContainer/HBoxContainer/WinningTeamName.modulate = team_state.team_resource.primary_color
 	$MarginContainer/HBoxContainer/WinningTeamScore.modulate = team_state.team_resource.primary_color
 	$MarginContainer/HBoxContainer/WinningTeamPlacement.modulate = team_state.team_resource.primary_color
+	if team_state.team_resource.team_icon:
+		$MarginContainer/HBoxContainer/WinningTeamTexture.texture = team_state.team_resource.team_icon
+		$MarginContainer/HBoxContainer/WinningTeamTexture.self_modulate = team_state.team_resource.primary_color
 
 func get_ordinal(placement: int) -> String:
 	if placement % 100 >= 11 and placement % 100 <= 13:

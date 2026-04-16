@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="TeamResource" load_steps=2 format=3 uid="uid://b2jga85tfncwa"]
+[gd_resource type="Resource" script_class="TeamResource" load_steps=3 format=3 uid="uid://b2jga85tfncwa"]
 
 [ext_resource type="Script" uid="uid://ia8108m4vmxa" path="res://scripts/resources/teams/teamresource.gd" id="1_0rgh1"]
+[ext_resource type="Texture2D" uid="uid://cmikmo04fb0ov" path="res://textures/icons/team/starstriders.png" id="2_vhxqs"]
 
 [resource]
 script = ExtResource("1_0rgh1")
 team_name = "Starstriders"
 primary_color = Color(0.4000001, 0, 1, 1)
 secondary_color = Color(0.106271006, 0.000102013124, 0.31888443, 1)
+team_icon = ExtResource("2_vhxqs")
