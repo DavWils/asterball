@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://drp3ix8cn67b2"]
+[gd_scene load_steps=3 format=3 uid="uid://drp3ix8cn67b2"]
 
 [ext_resource type="PackedScene" uid="uid://d00rxwj1hofxg" path="res://scenes/level/character/baseequipment.tscn" id="1_cyi4g"]
+[ext_resource type="Script" uid="uid://de5nm6cuvrqfs" path="res://scripts/level/equipment/equipment.gd" id="2_cyi4g"]
 
 [node name="Equipment" instance=ExtResource("1_cyi4g")]
+script = ExtResource("2_cyi4g")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." index="0"]
 light_color = Color(0, 1, 0, 1)

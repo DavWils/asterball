@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://di8ectre2doqv"]
+[gd_scene load_steps=8 format=3 uid="uid://di8ectre2doqv"]
 
 [ext_resource type="PackedScene" uid="uid://d00rxwj1hofxg" path="res://scenes/level/character/baseequipment.tscn" id="1_goqxd"]
+[ext_resource type="Script" uid="uid://de5nm6cuvrqfs" path="res://scripts/level/equipment/equipment.gd" id="2_goqxd"]
 
 [sub_resource type="Curve" id="Curve_mkiqc"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -34,6 +35,7 @@ bottom_radius = 0.01
 height = 0.2
 
 [node name="Equipment" instance=ExtResource("1_goqxd")]
+script = ExtResource("2_goqxd")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." index="0"]
 process_material = SubResource("ParticleProcessMaterial_mx7hm")
