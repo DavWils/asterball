@@ -50,18 +50,16 @@ func _ready() -> void:
 	asset_loader.asset_started.connect(_on_asset_started)
 	load_options()
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
+	await get_tree().process_frame
 	asset_loader.load_assets()
-	if not asset_loader.assets_loaded: await asset_loader.load_complete
-	add_child(load("res://scenes/main/main_menu/main_menu.tscn").instantiate())
-	
-	
 
 func _on_load_complete() -> void:
-	pass
+	$InitialLoadUI.queue_free()
+	add_child(load("res://scenes/main/main_menu/main_menu.tscn").instantiate())
 
 func _on_asset_started(asset_name: String) -> void:
 	print("Loading ", asset_name)
-
+	$InitialLoadUI/AssetLabel.text = "Loading " + asset_name.get_file()
 
 ## Update known lobby list.
 func _on_lobby_match_list(lobbies):

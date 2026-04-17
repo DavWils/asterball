@@ -1,3 +1,5 @@
+@tool
+
 ## Node for preloading all frequently spawned scenes.
 
 extends Node
@@ -21,28 +23,39 @@ const directories: Dictionary[String, String] = {
 	"explosions": "res://scenes/level/misc/explosions/",
 }
 
+## Files to be loaded.
+@export var files: Array[String]
+
+func _ready() -> void:
+	if Engine.is_editor_hint():
+		files.clear()
+		for dir in directories:
+			var dir_string: String = directories[dir]
+			var cur_dir = DirAccess.open(dir_string)
+			if not cur_dir: 
+				print("Could not find directory: ", dir_string)
+				continue
+			cur_dir.list_dir_begin()
+			
+			var current_filename := cur_dir.get_next()
+			
+			while current_filename != "":
+				if not cur_dir.current_is_dir():
+					if current_filename.ends_with(".tscn"):
+						files.append(dir_string + "/" + current_filename)
+						print("Appended ", dir_string + "/" + current_filename)
+				current_filename = cur_dir.get_next()
+	else:
+		get_parent().get_node("InitialLoadUI").get_node("AssetLabel").text = "Awaiting " + str(files.size()) + " files."
+
 func load_assets() -> void:
 	assets_loaded = false
 	assets.clear()
 	
-	for dir in directories:
-		var dir_string: String = directories[dir]
-		var cur_dir = DirAccess.open(dir_string)
-		if not cur_dir: 
-			print("Could not find directory: ", dir_string)
-			continue
-		cur_dir.list_dir_begin()
+	for file in files:
+		asset_started.emit(file)
+		var cur_scene := load(file)
+		assets[file.get_basename()] = cur_scene
 		
-		var current_filename := cur_dir.get_next()
-		
-		while current_filename != "":
-			if not cur_dir.current_is_dir():
-				if current_filename.ends_with(".tscn"):
-					asset_started.emit(dir + "/" + current_filename)
-					var scene_path: String = dir_string + current_filename
-					var cur_scene := load(scene_path)
-					assets[dir + "_" + current_filename.get_basename()]  = cur_scene
-			current_filename = cur_dir.get_next()
-	
 	assets_loaded = true
 	load_complete.emit()
