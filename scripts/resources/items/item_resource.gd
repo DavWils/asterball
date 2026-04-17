@@ -14,8 +14,6 @@ class_name ItemResource
 @export var item_icon: Texture2D
 ## The file of the mesh.
 @export var mesh_file: PackedScene
-## Whether or not this item can be bought in the store.
-@export var can_purchase: bool = item_cost>0
 ## Whether or not the character can hold this item in innventory without equippint it.
 @export var equip_lock: bool = false
 ## Mass of the item, higher mass being harder to throw and more heavy on the players.

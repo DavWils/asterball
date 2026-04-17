@@ -21,19 +21,9 @@ var hover_mesh: Node3D = null
 
 func _ready() -> void:
 	# Iterate over all items and add them to menu.
-	var res_dir = DirAccess.open("res://resources/items/")
-	res_dir.list_dir_begin()
-	
-	var current_filename := res_dir.get_next()
-	
-	while current_filename != "":
-		if not res_dir.current_is_dir():
-			if current_filename.ends_with(".tres"):
-				var loaded_resource = load("res://resources/items/"+current_filename)
-				if loaded_resource is ItemResource:
-					if loaded_resource.can_purchase:
-						$MenuTabContainer.get_child(loaded_resource.item_category).menu_items.append(loaded_resource)
-		current_filename = res_dir.get_next()
+	if not level.is_node_ready(): await level.ready
+	for item in level.match_director.buyable_items:
+		$MenuTabContainer.get_child(item.item_category).menu_items.append(item)
 	
 	for child in $MenuTabContainer.get_children():
 		child.load_menu_grid()

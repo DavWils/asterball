@@ -9,6 +9,11 @@ class_name MatchDirector
 @onready var match_state: MatchState = level.get_node("MatchState")
 @onready var match_timer: Timer = $MatchTimer
 
+## Array of all buyable items.
+@export var buyable_items: Array[ItemResource]
+## Array of all ingame teams.
+@export var teams: Array[TeamResource]
+
 ## The temporary memory of the inventory of player omnistrikers whewn level is cleared.
 var inventory_memory: Dictionary[int, Dictionary]
 
@@ -275,19 +280,6 @@ func is_unlocked_state() -> bool:
 
 ## Returns all team resources.
 func get_all_teams(avoid_home: bool = false) -> Array[TeamResource]:
-	var teams: Array[TeamResource] = []
-	var res_dir = DirAccess.open("res://resources/teams/")
-	res_dir.list_dir_begin()
-	
-	var current_filename := res_dir.get_next()
-	
-	while current_filename != "":
-		if not res_dir.current_is_dir():
-			if current_filename.ends_with(".tres"):
-				var loaded_resource = load("res://resources/teams/"+current_filename)
-				if loaded_resource is TeamResource:
-					if not (avoid_home and loaded_resource == level.get_level_resource().home_team): 
-						teams.append(loaded_resource)
-		current_filename = res_dir.get_next()
-	
-	return teams
+	var all_teams = teams
+	if avoid_home: all_teams.erase(level.get_level_resource().home_team)
+	return all_teams

@@ -12,6 +12,8 @@ class_name MainScene
 
 @onready var options_node: OptionsNode = $Options
 
+@export var playable_levels: Array[LevelResource]
+
 var found_lobbies: Array
 
 ## Filepath to the options file
@@ -132,21 +134,7 @@ func set_load_state(state: int) -> void:
 
 ## Returns every level resource.
 func get_all_levels() -> Array[LevelResource]:
-	var levels: Array[LevelResource] = []
-	# Iterate over all items and add them to menu.
-	var res_dir = DirAccess.open("res://resources/levels/")
-	res_dir.list_dir_begin()
-	
-	var current_filename := res_dir.get_next()
-	
-	while current_filename != "":
-		if not res_dir.current_is_dir():
-			if current_filename.ends_with(".tres"):
-				var loaded_resource = load("res://resources/levels/"+current_filename)
-				if loaded_resource is LevelResource:
-					levels.append(loaded_resource)
-		current_filename = res_dir.get_next()
-	return levels
+	return playable_levels
 
 func apply_options(options: Dictionary) -> void:
 	var options_file = ConfigFile.new()
