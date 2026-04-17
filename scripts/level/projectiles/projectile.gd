@@ -44,6 +44,9 @@ func get_allegiance_team() -> TeamState:
 	var match_state: MatchState = level.match_state
 	return match_state.get_team_state(item_state.current_allegiance)
 
+## Particles to make visible only if thrown.
+@export var throw_particles: GPUParticles3D
+
 func _ready() -> void:
 	print("Script: ", get_script().resource_path)
 	# Set collide sound to item's basic sound.
@@ -92,6 +95,12 @@ func _ready() -> void:
 	
 	$Area3D.body_entered.connect(_on_area_body_entered)
 	body_entered.connect(_on_body_entered)
+
+	if throw_particles:
+		if throwing_character:
+			throw_particles.visible = true
+		else:
+			throw_particles.visible = false
 
 
 func _physics_process(_delta: float) -> void:

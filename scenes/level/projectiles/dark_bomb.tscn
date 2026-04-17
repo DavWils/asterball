@@ -28,14 +28,14 @@ albedo_color = Color(0, 0, 0, 1)
 material = SubResource("StandardMaterial3D_88rsu")
 size = Vector3(0.1, 0.1, 0.1)
 
-[node name="Projectile" instance=ExtResource("1_w0hd2")]
+[node name="Projectile" node_paths=PackedStringArray("throw_particles") instance=ExtResource("1_w0hd2")]
 script = ExtResource("2_w0hd2")
 explosion_scene = ExtResource("3_88rsu")
 despawn_on_explosion = true
 timed_explosion = true
+throw_particles = NodePath("GPUParticles3D")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." index="3"]
-light_color = Color(0.05490196, 0, 0.81960785, 1)
 
 [node name="FuseTimer" parent="." index="4"]
 wait_time = 4.0
