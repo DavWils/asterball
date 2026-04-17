@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://ch42546afpbof"]
+[gd_scene load_steps=9 format=3 uid="uid://ch42546afpbof"]
 
 [ext_resource type="PackedScene" uid="uid://cs3v6wb6jtx8q" path="res://scenes/level/baseprojectile_explosive.tscn" id="1_w0hd2"]
-[ext_resource type="PackedScene" uid="uid://cwsf3h7gu6p54" path="res://scenes/level/misc/explosions/dark_bomb.tscn" id="2_w0hd2"]
+[ext_resource type="Script" uid="uid://dqj7weypbiufa" path="res://scripts/level/projectiles/projectile_explosive.gd" id="2_w0hd2"]
+[ext_resource type="PackedScene" uid="uid://cwsf3h7gu6p54" path="res://scenes/level/misc/explosions/dark_bomb.tscn" id="3_88rsu"]
 
 [sub_resource type="Curve" id="Curve_xr6fw"]
 _data = [Vector2(1e-05, 0.012924194), 0.0, 0.0, 0, 0, Vector2(0.23461539, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.012924194), 0.0, 0.0, 0, 0]
@@ -28,7 +29,8 @@ material = SubResource("StandardMaterial3D_88rsu")
 size = Vector3(0.1, 0.1, 0.1)
 
 [node name="Projectile" instance=ExtResource("1_w0hd2")]
-explosion_scene = ExtResource("2_w0hd2")
+script = ExtResource("2_w0hd2")
+explosion_scene = ExtResource("3_88rsu")
 despawn_on_explosion = true
 timed_explosion = true
 

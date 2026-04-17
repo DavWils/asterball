@@ -355,7 +355,7 @@ func drop_item(key: int, automatic: bool = false, thrown: bool = false):
 		pickup_dict["item_state"] = pickup_item_state.to_dict()
 		if thrown: pickup_dict["thrower_id"] = registry_id
 		
-		var pickup: RigidBody3D = level.spawn_projectile(inventory_component.get_item_state(key).item_resource.get_projectile_scene(), get_throw_start(), pickup_dict)
+		var pickup = level.spawn_projectile(inventory_component.get_item_state(key).item_resource.get_projectile_scene(), get_throw_start(), pickup_dict)
 		pickup.linear_velocity = (get_look_forward_vector() * 3) + velocity
 		
 		

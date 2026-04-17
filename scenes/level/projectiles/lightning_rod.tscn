@@ -1,14 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bsdg8yln6wwhf"]
+[gd_scene load_steps=4 format=3 uid="uid://bsdg8yln6wwhf"]
 
 [ext_resource type="PackedScene" uid="uid://cbk0tx3ba7v5" path="res://scenes/level/baseprojectile.tscn" id="1_vvtwp"]
+[ext_resource type="Script" uid="uid://cweuveduxjef" path="res://scripts/level/projectiles/projectile.gd" id="2_2sck6"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pxhcf"]
 bounce = 0.4
 
 [node name="Projectile" instance=ExtResource("1_vvtwp")]
 physics_material_override = SubResource("PhysicsMaterial_pxhcf")
-javelin_throw = true
-javelin_forward = Vector3(0, 1, -1)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." index="3"]
 light_color = Color(0, 1, 0, 1)
+script = ExtResource("2_2sck6")

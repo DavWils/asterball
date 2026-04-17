@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgpd0vug8fn0o"]
+[gd_scene load_steps=9 format=3 uid="uid://cgpd0vug8fn0o"]
 
 [ext_resource type="PackedScene" uid="uid://cs3v6wb6jtx8q" path="res://scenes/level/baseprojectile_explosive.tscn" id="1_w78fx"]
-[ext_resource type="PackedScene" uid="uid://bfcofdjjcnss8" path="res://scenes/level/misc/explosions/pulse_bomb.tscn" id="2_mkiqc"]
+[ext_resource type="Script" uid="uid://dqj7weypbiufa" path="res://scripts/level/projectiles/projectile_explosive.gd" id="2_mkiqc"]
+[ext_resource type="PackedScene" uid="uid://bfcofdjjcnss8" path="res://scenes/level/misc/explosions/pulse_bomb.tscn" id="3_5x1du"]
 
 [sub_resource type="Curve" id="Curve_mkiqc"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -33,9 +34,10 @@ bottom_radius = 0.01
 height = 0.2
 
 [node name="Projectile" instance=ExtResource("1_w78fx")]
+script = ExtResource("2_mkiqc")
 explode_on_overlap = true
 explode_on_collide = true
-explosion_scene = ExtResource("2_mkiqc")
+explosion_scene = ExtResource("3_5x1du")
 despawn_on_explosion = true
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." index="3"]

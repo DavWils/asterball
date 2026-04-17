@@ -32,9 +32,13 @@ func character_overlap(character: Character):
 	super.character_overlap(character)
 
 func surface_collide(body: Node3D) -> void:
+	print("Starting surface collide.")
 	if network_manager.is_host():
+		print("Is host, proceed")
 		if explode_on_collide and throwing_character:
+			print("Explode true, throw character true")
 			if explosion_scene:
+				print("So explode.")
 				spawn_explosion()
 	super.surface_collide(body)
 

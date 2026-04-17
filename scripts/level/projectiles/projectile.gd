@@ -45,6 +45,7 @@ func get_allegiance_team() -> TeamState:
 	return match_state.get_team_state(item_state.current_allegiance)
 
 func _ready() -> void:
+	print("Script: ", get_script().resource_path)
 	# Set collide sound to item's basic sound.
 	$CollideAudioPlayer.stream = item_state.item_resource.get_collision_sound()
 	
