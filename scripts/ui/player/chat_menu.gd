@@ -42,6 +42,7 @@ func _on_gui_input(event: InputEvent) -> void:
 			var new_message: String = $ChatTextEdit.text
 			if new_message == "": 
 				get_viewport().set_input_as_handled()
+				close_chat()
 				return
 			send_message(network_manager.player_id, new_message, current_channel)
 			close_chat()
