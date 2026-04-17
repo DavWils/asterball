@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cwsf3h7gu6p54"]
+[gd_scene load_steps=15 format=3 uid="uid://cwsf3h7gu6p54"]
 
 [ext_resource type="PackedScene" uid="uid://2my1jf36g7kt" path="res://scenes/level/misc/explosion.tscn" id="1_m6gmx"]
 [ext_resource type="Script" uid="uid://ce5a8n2huj80k" path="res://scripts/level/misc/dark_explosion.gd" id="2_m6gmx"]
@@ -19,11 +19,18 @@ gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_7lixq")
 color = Color(0, 0, 0, 1)
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cjr43"]
+noise_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_m6gmx"]
+noise = SubResource("FastNoiseLite_cjr43")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7vd7c"]
 transparency = 1
 shading_mode = 0
 vertex_color_use_as_albedo = true
-albedo_color = Color(0, 0, 0, 1)
+albedo_color = Color(0.099985994, 0.099985994, 0.099985994, 1)
+albedo_texture = SubResource("NoiseTexture2D_m6gmx")
 
 [sub_resource type="SphereMesh" id="SphereMesh_bcydt"]
 material = SubResource("StandardMaterial3D_7vd7c")
