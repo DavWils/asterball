@@ -85,6 +85,7 @@ amount = 1
 lifetime = 30.0
 one_shot = true
 explosiveness = 1.0
+visibility_aabb = AABB(-30, -30.000313, -30, 60, 60, 60)
 process_material = SubResource("ParticleProcessMaterial_pkqdc")
 draw_pass_1 = SubResource("SphereMesh_bcydt")
 
