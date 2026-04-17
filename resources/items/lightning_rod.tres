@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=5 format=3 uid="uid://burptjs1hqbkn"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=7 format=3 uid="uid://burptjs1hqbkn"]
 
+[ext_resource type="PackedScene" uid="uid://drp3ix8cn67b2" path="res://scenes/level/character/equipment/lightning_rod.tscn" id="1_35jah"]
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="1_ejk0u"]
 [ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="1_hsibi"]
 [ext_resource type="PackedScene" uid="uid://d1bq2ta8fm2kd" path="res://meshes/items/lightning_rod/lightning_rod.glb" id="1_pncnk"]
 [ext_resource type="Texture2D" uid="uid://dgndgp6pi5b3s" path="res://textures/icons/item/lightning_rod.png" id="1_trhiy"]
+[ext_resource type="PackedScene" uid="uid://bsdg8yln6wwhf" path="res://scenes/level/projectiles/lightning_rod.tscn" id="5_8pfuc"]
 
 [resource]
 script = ExtResource("1_ejk0u")
@@ -12,8 +14,9 @@ item_cost = 650
 item_category = 1
 item_icon = ExtResource("1_trhiy")
 mesh_file = ExtResource("1_pncnk")
-can_purchase = false
 item_mass = 2.0
 attachment_type = 2
 panoply_pos_offset = Vector3(0, -0.5, 0)
 material_type = 1
+equipment_file = ExtResource("1_35jah")
+projectile_file = ExtResource("5_8pfuc")

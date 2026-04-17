@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=5 format=3 uid="uid://bbgc6les6icun"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=7 format=3 uid="uid://bbgc6les6icun"]
 
 [ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="1_huqol"]
+[ext_resource type="PackedScene" uid="uid://cm85as74jhlve" path="res://scenes/level/character/equipment/dark_bomb.tscn" id="1_kf80v"]
 [ext_resource type="Texture2D" uid="uid://c4taddqe156bs" path="res://textures/icons/item/dark_bomb.png" id="2_huqol"]
 [ext_resource type="PackedScene" uid="uid://sbuhqdkcxsyi" path="res://meshes/items/dark_bomb/dark_bomb.glb" id="3_huqol"]
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="4_bdybm"]
+[ext_resource type="PackedScene" uid="uid://ch42546afpbof" path="res://scenes/level/projectiles/dark_bomb.tscn" id="5_bdybm"]
 
 [resource]
 script = ExtResource("4_bdybm")
@@ -12,5 +14,6 @@ item_description = "A throwable bomb that creates a smoke of darkness."
 item_cost = 130
 item_icon = ExtResource("2_huqol")
 mesh_file = ExtResource("3_huqol")
-can_purchase = true
 attachment_type = 3
+equipment_file = ExtResource("1_kf80v")
+projectile_file = ExtResource("5_bdybm")

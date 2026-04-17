@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=5 format=3 uid="uid://c1sufdn74e8ie"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=7 format=3 uid="uid://c1sufdn74e8ie"]
 
+[ext_resource type="PackedScene" uid="uid://dun07y4j51ak3" path="res://scenes/level/character/equipment/trocket_launcher.tscn" id="1_ubddi"]
 [ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="1_yuqym"]
 [ext_resource type="PackedScene" uid="uid://k5r1gtwybg02" path="res://meshes/items/trocket_launcher/trocket_launcher.glb" id="2_8koo5"]
 [ext_resource type="Texture2D" uid="uid://bmbpmftlsue2w" path="res://textures/icons/item/trocket_launcher.png" id="2_yuqym"]
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="4_k4rua"]
+[ext_resource type="PackedScene" uid="uid://ct727jb0ugbjc" path="res://scenes/level/projectiles/trocket_launcher.tscn" id="5_k4rua"]
 
 [resource]
 script = ExtResource("4_k4rua")
@@ -13,8 +15,9 @@ item_cost = 2500
 item_category = 1
 item_icon = ExtResource("2_yuqym")
 mesh_file = ExtResource("2_8koo5")
-can_purchase = true
 item_mass = 2.0
 attachment_type = 2
 panoply_pos_offset = Vector3(0, -0.5, 0)
 material_type = 1
+equipment_file = ExtResource("1_ubddi")
+projectile_file = ExtResource("5_k4rua")

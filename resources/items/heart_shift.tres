@@ -1,11 +1,13 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=7 format=3 uid="uid://d0bflx5gnvx07"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=9 format=3 uid="uid://d0bflx5gnvx07"]
 
 [ext_resource type="PackedScene" uid="uid://daklqruymoce0" path="res://scenes/level/misc/active_panoply_attachments/heart_shift.tscn" id="1_26ddo"]
 [ext_resource type="Texture2D" uid="uid://chg7ovu5aubtw" path="res://textures/icons/item/heart_shift.png" id="1_60jw7"]
 [ext_resource type="PackedScene" uid="uid://bxm2fejnkwb7m" path="res://meshes/items/heart_shift/heart_shift.glb" id="2_26ddo"]
 [ext_resource type="Script" uid="uid://cgdj7e0yvscrf" path="res://scripts/resources/effects/effect_resource.gd" id="2_fcyqp"]
+[ext_resource type="PackedScene" uid="uid://bt4ju56fq4grh" path="res://scenes/level/character/equipment/heart_shift.tscn" id="2_hl6ao"]
 [ext_resource type="Resource" uid="uid://b7se6i0i0hsj8" path="res://resources/effects/heart_shifted.tres" id="3_oomca"]
 [ext_resource type="Script" uid="uid://bpxmx831tlhc1" path="res://scripts/resources/items/item_resource.gd" id="3_ov7yu"]
+[ext_resource type="PackedScene" uid="uid://bfdi4p2egr1pm" path="res://scenes/level/projectiles/heart_shift.tscn" id="7_qlnq6"]
 
 [resource]
 script = ExtResource("3_ov7yu")
@@ -15,9 +17,10 @@ item_cost = 650
 item_category = 2
 item_icon = ExtResource("1_60jw7")
 mesh_file = ExtResource("2_26ddo")
-can_purchase = true
 item_mass = 6.0
 attachment_type = 1
 active_panoply_attachment = ExtResource("1_26ddo")
 panoply_rot_offset = Vector3(70, 0, 0)
 integral_effects = Array[ExtResource("2_fcyqp")]([ExtResource("3_oomca")])
+equipment_file = ExtResource("2_hl6ao")
+projectile_file = ExtResource("7_qlnq6")

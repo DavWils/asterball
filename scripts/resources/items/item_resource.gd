@@ -36,6 +36,10 @@ class_name ItemResource
 @export var material_type: MaterialType
 ## Effects that are removed when the character drops this item, ASIDE from passives.
 @export var integral_effects: Array[EffectResource]
+## The equipment scene file.
+@export var equipment_file: PackedScene
+## The projectile scene file.
+@export var projectile_file: PackedScene
 
 ## Material types.
 enum MaterialType {
@@ -53,19 +57,21 @@ enum ItemCategory {
 
 ## Returns the loaded equipment scene resource if one exists, otherwise returning the basic equipment scene.
 func get_equipment_scene() -> PackedScene:
-	var filepath: String = "res://scenes/level/character/equipment/%s.tscn" % resource_path.get_file().get_basename()
-	if FileAccess.file_exists(filepath):
-		return load(filepath)
-	else:
-		return load("res://scenes/level/character/baseequipment.tscn")
+	return equipment_file
+#	var filepath: String = "res://scenes/level/character/equipment/%s.tscn" % resource_path.get_file().get_basename()
+#	if FileAccess.file_exists(filepath):
+#		return load(filepath)
+#	else:
+#		return load("res://scenes/level/character/baseequipment.tscn")
 
 ## Returns projectile scene if one exists. If not, a pickup should be used instead.
 func get_projectile_scene() -> PackedScene:
-	var filepath: String = "res://scenes/level/projectiles/%s.tscn" % resource_path.get_file().get_basename()
-	if FileAccess.file_exists(filepath):
-		return load(filepath)
-	else:
-		return load("res://scenes/level/baseprojectile.tscn")
+	return projectile_file
+#	var filepath: String = "res://scenes/level/projectiles/%s.tscn" % resource_path.get_file().get_basename()
+#	if FileAccess.file_exists(filepath):
+#		return load(filepath)
+#	else:
+#		return load("res://scenes/level/baseprojectile.tscn")
 
 func get_collision_sound() -> Resource:
 	match material_type:
