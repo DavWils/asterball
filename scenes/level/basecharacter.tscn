@@ -1,6 +1,5 @@
-[gd_scene load_steps=35 format=3 uid="uid://on8wykmjn5go"]
+[gd_scene load_steps=34 format=3 uid="uid://on8wykmjn5go"]
 
-[ext_resource type="Script" uid="uid://bnbyil81cayt3" path="res://scripts/level/characters/character.gd" id="1_hqcqr"]
 [ext_resource type="Script" uid="uid://755ian66gy8i" path="res://scripts/level/character/character_camera.gd" id="2_5faxe"]
 [ext_resource type="Script" uid="uid://c2kpwj65kiqjv" path="res://scripts/level/character/interact_area.gd" id="3_gd8ut"]
 [ext_resource type="Script" uid="uid://bw3vht8dxjwy0" path="res://scripts/level/character/inventory_component.gd" id="5_7da80"]
@@ -136,7 +135,6 @@ size = Vector2(5, 5)
 [node name="Character" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("1_hqcqr")
 
 [node name="CameraHandle" type="Node3D" parent="."]
 script = ExtResource("2_5faxe")
