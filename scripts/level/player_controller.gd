@@ -91,7 +91,7 @@ func get_local_omnistriker() -> Omnistriker:
 	for id in level.level_registry:
 		var registry_node := level.level_registry[id]
 		if registry_node is Omnistriker:
-			if registry_node.can_possess():
+			if registry_node.owning_player_id == network_manager.player_id:
 				return registry_node
 
 
